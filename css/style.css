@@ -5532,7 +5532,7 @@ pre,
   padding: 15px 10px;
   overflow: auto;
   font-size: 13px;
-  color: #4d4d4c;
+  color: #000000;
   line-height: 1.5;
 }
 
@@ -5542,13 +5542,13 @@ pre,
 }
 
 code {
-  text-shadow: 0 1px #fff;
+  text-shadow: 0 0px #fff;
   padding: 0.2em 0.4em;
   margin: 0 0.3em;
-  color: #555;
-  background: #eee;
+  color: #ffffff;
+  background: #333333;
   border-radius: 3px;
-  font-size: 85%;
+  font-size: 100%;
 }
 
 pre code {
