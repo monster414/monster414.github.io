@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>SWPUCTF -- Crypto | You Only Live Once</title>
+  <meta name="description" content="Web狗做不来Misc所以把Crypto给AK了 happy一开始题目上错附件浪费快两个小时，有点无语 1234(&#39;c&#x3D;&#39;, &#39;0x7a7e031f14f6b6c3292d11a41161d2491ce8bcdc67ef1baa9eL&#39;)(&#39;e&#x3D;&#39;, &#39;0x872a335&#39;)#q + q*p^3 &#x3D;128">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SWPUCTF -- Crypto">
+<meta property="og:url" content="https://yoloyolo.top/2021/01/14/SWPUCTF-Crypto/index.html">
+<meta property="og:site_name" content="Transmutation">
+<meta property="og:description" content="Web狗做不来Misc所以把Crypto给AK了 happy一开始题目上错附件浪费快两个小时，有点无语 1234(&#39;c&#x3D;&#39;, &#39;0x7a7e031f14f6b6c3292d11a41161d2491ce8bcdc67ef1baa9eL&#39;)(&#39;e&#x3D;&#39;, &#39;0x872a335&#39;)#q + q*p^3 &#x3D;128">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2019/11/17/1WCZ5ySaBd2qfn3.png">
+<meta property="article:published_time" content="2021-01-14T13:17:44.000Z">
+<meta property="article:modified_time" content="2021-01-14T13:21:07.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Crypto">
+<meta property="article:tag" content="RSA">
+<meta property="article:tag" content="CBC">
+<meta property="article:tag" content="ECB">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/11/17/1WCZ5ySaBd2qfn3.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://yoloyolo.top/2021/01/14/SWPUCTF-Crypto/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Transmutation" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/logo_icon.svg" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/monster414" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">xXxYOLOxXx</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">yolo-yolo@qq.com</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Xiamen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/monster414" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>Welcom to xXxYOLOxXx's Blog</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Study/">Study</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Talk/">Talk</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WriteUp/">WriteUp</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/AWD/" style="font-size: 13px;">AWD</a> <a href="/tags/CBC/" style="font-size: 13px;">CBC</a> <a href="/tags/CSRF/" style="font-size: 13px;">CSRF</a> <a href="/tags/CVE/" style="font-size: 13px;">CVE</a> <a href="/tags/Crypto/" style="font-size: 13.5px;">Crypto</a> <a href="/tags/ECB/" style="font-size: 13px;">ECB</a> <a href="/tags/FTP/" style="font-size: 13px;">FTP</a> <a href="/tags/File-Upload/" style="font-size: 13px;">File Upload</a> <a href="/tags/PHP/" style="font-size: 14px;">PHP</a> <a href="/tags/RCE/" style="font-size: 14px;">RCE</a> <a href="/tags/RSA/" style="font-size: 13.5px;">RSA</a> <a href="/tags/Reflection/" style="font-size: 13px;">Reflection</a> <a href="/tags/SQL-Injection/" style="font-size: 13px;">SQL Injection</a> <a href="/tags/SSRF/" style="font-size: 13px;">SSRF</a> <a href="/tags/Talk/" style="font-size: 13px;">Talk</a> <a href="/tags/Unserialize/" style="font-size: 13px;">Unserialize</a> <a href="/tags/WEB/" style="font-size: 13px;">WEB</a> <a href="/tags/Web/" style="font-size: 13px;">Web</a> <a href="/tags/XSS/" style="font-size: 13px;">XSS</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/WriteUp/">WriteUp</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/01/14/SWPUCTF-Web3/" class="title">SWPUCTF -- Web3</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-14T13:25:50.000Z" itemprop="datePublished">2021-01-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/WriteUp/">WriteUp</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/01/14/SWPUCTF-Crypto/" class="title">SWPUCTF -- Crypto</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-14T13:17:44.000Z" itemprop="datePublished">2021-01-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Study/">Study</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/01/14/Crypto-RSA/" class="title">Crypto -- RSA</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-14T13:07:07.000Z" itemprop="datePublished">2021-01-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/WriteUp/">WriteUp</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/01/14/CTF-Sloves/" class="title">CTF题解&amp;杂记</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-14T12:42:49.000Z" itemprop="datePublished">2021-01-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Study/">Study</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/01/14/PHP-RCE-Without-Parameters/" class="title">PHP无参数RCE</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-14T12:27:25.000Z" itemprop="datePublished">2021-01-14</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-SWPUCTF-Crypto" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SWPUCTF -- Crypto
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/01/14/SWPUCTF-Crypto/" class="article-date">
+	  <time datetime="2021-01-14T13:17:44.000Z" itemprop="datePublished">2021-01-14</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/WriteUp/">WriteUp</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/CBC/" rel="tag">CBC</a>, <a class="article-tag-link-link" href="/tags/Crypto/" rel="tag">Crypto</a>, <a class="article-tag-link-link" href="/tags/ECB/" rel="tag">ECB</a>, <a class="article-tag-link-link" href="/tags/RSA/" rel="tag">RSA</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/01/14/SWPUCTF-Crypto/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>Web狗做不来Misc所以把Crypto给AK了</p>
+<h1 id="happy"><a href="#happy" class="headerlink" title="happy"></a>happy</h1><p>一开始题目上错附件浪费快两个小时，有点无语</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(&#39;c&#x3D;&#39;, &#39;0x7a7e031f14f6b6c3292d11a41161d2491ce8bcdc67ef1baa9eL&#39;)</span><br><span class="line">(&#39;e&#x3D;&#39;, &#39;0x872a335&#39;)</span><br><span class="line">#q + q*p^3 &#x3D;1285367317452089980789441829580397855321901891350429414413655782431779727560841427444135440068248152908241981758331600586</span><br><span class="line">#qp + q *p^2 &#x3D; 1109691832903289208389283296592510864729403914873734836011311325874120780079555500202475594</span><br></pre></td></tr></table></figure>
+<p>$a = q+q<em>p^3$<br>$b = q</em>p+q<em>p^2$<br>$x = gcd(a,b)$<br>$\frac{a}{b} = \frac{q+q</em>p^3}{q<em>p+q</em>p^2} = \frac{1+p^3}{p+p^2} = \frac{a/x}{b/x}$<br>因式分解<br>$\frac{1+p^3}{p+p^2} = \frac{(1+p)<em>(p^2-p+1)}{p</em>(1+p)} = \frac{p^2-p+1}{p}$<br>这里b/x的值为素数，尝试作为p进行解密</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">import gmpy2</span><br><span class="line">from Crypto.Util.number import *</span><br><span class="line">c&#x3D;0x7a7e031f14f6b6c3292d11a41161d2491ce8bcdc67ef1baa9e</span><br><span class="line">e&#x3D;0x872a335</span><br><span class="line">#q + q*p^3 &#x3D;1285367317452089980789441829580397855321901891350429414413655782431779727560841427444135440068248152908241981758331600586</span><br><span class="line">#qp + q *p^2 &#x3D; 1109691832903289208389283296592510864729403914873734836011311325874120780079555500202475594</span><br><span class="line">a &#x3D; 1285367317452089980789441829580397855321901891350429414413655782431779727560841427444135440068248152908241981758331600586</span><br><span class="line">b &#x3D; 1109691832903289208389283296592510864729403914873734836011311325874120780079555500202475594</span><br><span class="line">x &#x3D; gmpy2.gcd(a,b)</span><br><span class="line">print(a%x)</span><br><span class="line">print(b%x)</span><br><span class="line">print(x)</span><br><span class="line">print(a&#x2F;&#x2F;x)</span><br><span class="line">print(b&#x2F;&#x2F;x)</span><br><span class="line">p &#x3D; b&#x2F;&#x2F;x</span><br><span class="line">q &#x3D; b&#x2F;&#x2F;(p+p**2)</span><br><span class="line">n &#x3D; p*q</span><br><span class="line">phi &#x3D; (p-1)*(q-1)</span><br><span class="line">d &#x3D; gmpy2.invert(e, phi)</span><br><span class="line">m &#x3D; pow(c,d,n)</span><br><span class="line">print(long_to_bytes(m))</span><br></pre></td></tr></table></figure>
+<h1 id="Yusa的密码学课堂-CBC第一课"><a href="#Yusa的密码学课堂-CBC第一课" class="headerlink" title="Yusa的密码学课堂 CBC第一课"></a>Yusa的密码学课堂 CBC第一课</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">from Crypto.Cipher import AES</span><br><span class="line">import os</span><br><span class="line">flag&#x3D;&#39;flag&#123;********************************&#125;&#39;</span><br><span class="line">BLOCKSIZE &#x3D; 16</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def pad(data):</span><br><span class="line">        pad_len &#x3D; BLOCKSIZE - (len(data) % BLOCKSIZE) if  len(data) % BLOCKSIZE !&#x3D; 0 else 0</span><br><span class="line">        return data + &quot;&#x3D;&quot; * pad_len</span><br><span class="line"></span><br><span class="line">def unpad(data):</span><br><span class="line">        return data.replace(&quot;&#x3D;&quot;,&quot;&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def enc(data,key,iv):</span><br><span class="line">    cipher &#x3D; AES.new(key,AES.MODE_CBC,iv)</span><br><span class="line">    encrypt &#x3D; cipher.encrypt(pad(data))</span><br><span class="line">    return encrypt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def dec(data,key,iv):</span><br><span class="line">    try:</span><br><span class="line">        cipher &#x3D; AES.new(key,AES.MODE_CBC,iv)</span><br><span class="line">        encrypt &#x3D; cipher.decrypt(data)</span><br><span class="line">        return unpad(encrypt)</span><br><span class="line">    except:</span><br><span class="line">        exit()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def task():</span><br><span class="line">        try:</span><br><span class="line">                key &#x3D; os.urandom(16)</span><br><span class="line">                iv &#x3D; os.urandom(16)</span><br><span class="line">                pre &#x3D; &quot;yusa&quot;*4</span><br><span class="line">                for _ in range(3):</span><br><span class="line">                        choice &#x3D; raw_input(menu)</span><br><span class="line">                        if choice &#x3D;&#x3D; &#39;1&#39;:</span><br><span class="line">                                name &#x3D; raw_input(&quot;What&#39;s your name?&quot;)</span><br><span class="line">                                if name &#x3D;&#x3D; &#39;admin&#39;:</span><br><span class="line">                                        exit()</span><br><span class="line">                                token &#x3D; enc(pre+name,key,iv)</span><br><span class="line">                                print &quot;Here is your token(in hex): &quot;+iv.encode(&#39;hex&#39;)+token.encode(&#39;hex&#39;)</span><br><span class="line">                                continue</span><br><span class="line">                        elif choice &#x3D;&#x3D; &#39;2&#39;:</span><br><span class="line">                                token &#x3D; raw_input(&quot;Your token(in hex): &quot;).decode(&#39;hex&#39;)</span><br><span class="line">                                iv &#x3D; token[:16]</span><br><span class="line">                                name &#x3D; dec(token[16:],key,iv)</span><br><span class="line">                                print iv.encode(&#39;hex&#39;)+name.encode(&#39;hex&#39;)</span><br><span class="line">                                if name[:16] &#x3D;&#x3D; &quot;yusa&quot;*4:</span><br><span class="line">                                        print &quot;Hello, &quot;+name[16:]</span><br><span class="line">                                        if name[16:] &#x3D;&#x3D; &#39;admin&#39;:</span><br><span class="line">                                                print flag</span><br><span class="line">                                                exit()</span><br><span class="line">                        else:</span><br><span class="line">                                continue</span><br><span class="line">        except:</span><br><span class="line">                exit()</span><br><span class="line">menu&#x3D;&#39;&#39;&#39;</span><br><span class="line">1. register</span><br><span class="line">2. login</span><br><span class="line">3. exit</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line">if __name__ &#x3D;&#x3D; &quot;__main__&quot;:</span><br><span class="line">        task()</span><br></pre></td></tr></table></figure>
+<h2 id="CBC-Byte-Flip"><a href="#CBC-Byte-Flip" class="headerlink" title="CBC Byte Flip"></a>CBC Byte Flip</h2><p><img src="https://i.loli.net/2019/11/17/1WCZ5ySaBd2qfn3.png" alt="00.png"></p>
+<p>如图所示<br>我们要把plain2中的某一字节翻转为另一字节<br>由于C1来自于cipher2进行Block Cipher Decryption之后的结果<br>而且key未知，就不能直接得知C1的值<br>但是字节翻转的妙处在于通过修改上一组的密文来翻转下一组的明文，从而可以完全忽视这一点</p>
+<p>由异或运算可以推导<br>B1 = A1 xor C1<br>那么也有C1 = A1 xor B1<br>B1’ = A1’ xor C1<br>(A1’是修改之后的密文字节，B1’是翻转之后的明文字节)<br>而如果我们能够修改cipher1，那么就能够修改A1的值<br>即A1’ = A1 xor B1 xor B1’<br>A1’ xor C1 = A1 xor B1 xor B1’ xor C1 = C1 xor B1’ xor C1 = B1’</p>
+<p>用三条算式来表述上面的话就是</p>
+<p>B = A xor C<br>B’ = A’ xor C<br>A’ = A xor B xor B’<br>字节翻转的要求也就显而易见了</p>
+<p>对于A完全可控<br>已知B的值<br>到这里也只完成了一半<br>由于修改了A1<br>cipher1在进行BCD的时候会得出错误的结果<br>再与IV相异或则会导致plain1出错</p>
+<p>如果能够得到修改A1之后产生的错误的plain1的值<br>而且IV可以完全控制的话<br>那么就能够把刚才的把戏再玩一遍</p>
+<p>B2 = A2 xor C2<br>B2’ = A2’ xor C2<br>A2’ = A2 xor B2 xor B2’<br>A2为原IV<br>B2是错误的plain1<br>B2’是正确的plain1</p>
+<p>BTW:每一组Cipher的长度为16Byte</p>
+<p>以上大概介绍了CBC字节翻转的攻击方式<br>需要密文以及IV可控来改写明文</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line">import binascii</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">p &#x3D; remote(&#39;das.wetolink.com&#39;,42888) # 连接</span><br><span class="line">p.recvline()</span><br><span class="line">p.recvline()</span><br><span class="line">p.recvline()</span><br><span class="line">p.recvline()</span><br><span class="line">p.sendline(&#39;1&#39;) # 注册</span><br><span class="line">p.recv()</span><br><span class="line">p.sendline(&#39;Admin&#39;) # 用户名为Admin，方便之后修改</span><br><span class="line">data0 &#x3D; p.recvline().decode()</span><br><span class="line">data0 &#x3D; data0[28:124] # 提取返回数据部分</span><br><span class="line">iv0 &#x3D; data0[:32] #返回的IV</span><br><span class="line">cipher00 &#x3D; data0[32:64] #&#39;yusayusayusayusa&#39;的加密结果</span><br><span class="line">cipher01 &#x3D; data0[64:96] #&#39;Admin&#39;的加密结果</span><br><span class="line">replacement0 &#x3D; str(hex(int(cipher00[:2],16)^ord(&#39;A&#39;)^ord(&#39;a&#39;)))[2:] # 计算替换密文的值</span><br><span class="line">payload0 &#x3D; iv0+replacement0+cipher00[2:]+cipher01 # 发送替换密文</span><br><span class="line">print(&#39;data0: &#39;,data0)</span><br><span class="line">print(&#39;payload0: &#39;,payload0)</span><br><span class="line">p.recvline()</span><br><span class="line">p.recvline()</span><br><span class="line">p.recvline()</span><br><span class="line">p.recvline()</span><br><span class="line">p.sendline(&#39;2&#39;) # 登入</span><br><span class="line">p.recv()</span><br><span class="line">p.sendline(payload0) # 发送Payload0</span><br><span class="line">data1 &#x3D; p.recvline()[:64+len(&#39;Admin&#39;)*2] # 得到返回的数据</span><br><span class="line">data1 &#x3D; data1.decode()</span><br><span class="line">plain1 &#x3D; data1[32:64] # &#39;yusayusayusayusa&#39;由于密文被替换，解出来的明文是错误的，之后可以进行异或修改</span><br><span class="line">print(&#39;data1: &#39;,data1)</span><br><span class="line">print(&#39;plain1: &#39;,plain1)</span><br><span class="line">iv1 &#x3D; str(hex(int(binascii.hexlify(&#39;yusa&#39;.encode()).decode()*4,16)^int(plain1,16)^int(iv0,16)))[2:] # 计算IV，用于修改错误的明文</span><br><span class="line">print(&#39;iv1: &#39;,iv1)</span><br><span class="line">payload1 &#x3D; iv1+replacement0+cipher00[2:]+cipher01</span><br><span class="line">print(&#39;payload1: &#39;,payload1)</span><br><span class="line">p.recvline()</span><br><span class="line">p.recvline()</span><br><span class="line">p.recvline()</span><br><span class="line">p.recvline()</span><br><span class="line">p.sendline(&#39;2&#39;) # 登入</span><br><span class="line">p.recv()</span><br><span class="line">p.sendline(payload1) # 发送Payload1</span><br><span class="line">p.recvline()</span><br><span class="line">p.recvline()</span><br><span class="line">print(p.recvline()) # 得到flag</span><br></pre></td></tr></table></figure>
+<h1 id="Yusa的密码学课堂-ECB"><a href="#Yusa的密码学课堂-ECB" class="headerlink" title="Yusa的密码学课堂 ECB"></a>Yusa的密码学课堂 ECB</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">from Crypto.Cipher import AES</span><br><span class="line">import os</span><br><span class="line">BLOCKSIZE &#x3D; 16</span><br><span class="line">flag&#x3D;&#39;flag&#123;********************************&#125;&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def pad(data):</span><br><span class="line">        pad_len &#x3D; BLOCKSIZE - (len(data) % BLOCKSIZE) if  len(data) % BLOCKSIZE !&#x3D; 0 else 0</span><br><span class="line">        return data + chr(pad_len) * pad_len</span><br><span class="line"></span><br><span class="line">def unpad(data):</span><br><span class="line">        num &#x3D; ord(data[-1])</span><br><span class="line">        return data[:-num]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def enc(data,key):</span><br><span class="line">    cipher &#x3D; AES.new(key,AES.MODE_ECB)</span><br><span class="line">    encrypt &#x3D; cipher.encrypt(pad(data))</span><br><span class="line">    return encrypt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def dec(data,key):</span><br><span class="line">    try:</span><br><span class="line">        cipher &#x3D; AES.new(key,AES.MODE_ECB)</span><br><span class="line">        encrypt &#x3D; cipher.decrypt(data)</span><br><span class="line">        return unpad(encrypt)</span><br><span class="line">    except:</span><br><span class="line">        exit()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def task():</span><br><span class="line">        try:</span><br><span class="line">                key &#x3D; os.urandom(16)</span><br><span class="line">                while True:</span><br><span class="line">                        plaintext &#x3D; raw_input(&quot;Amazing function: &quot;).decode(&#39;hex&#39;)</span><br><span class="line">                        yusa &#x3D; plaintext+flag</span><br><span class="line">                        print enc(yusa,key).encode(&#39;hex&#39;)</span><br><span class="line">        except Exception as e:</span><br><span class="line">                print str(e)</span><br><span class="line">                exit()</span><br><span class="line">if __name__ &#x3D;&#x3D; &quot;__main__&quot;:</span><br><span class="line">        task()</span><br></pre></td></tr></table></figure>
+<p>这里的加密的明文为”输入的hex转字符”+”flag”+Padding<br>如果发送的明文为<br><code>aaaaaaaaaaaa</code><br>那么加密的明文为<br><code>aaaaaaaaaaaaflag&#123;XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX&#125;</code><br>分组Padding之后的结果为<br><code>aaaaaaaaaaaaflag &#123;XXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX X&#125;+Padding</code><br>分析pad函数我们可以知道Padding的值<br>而ECB的加密方式就是分组明文密文之间没有关联<br>那么我们就可以构造 “?}+Padding”的明文去加密，?作为掩码，flag内容长度为32字节，目测是md5，所以字符集目测是”0123456789abcdef”<br>然后我们在字符集里去爆破一位掩码，将得到的结果与加密结果的最后一个分组进行比较，若相同则我们得到了flag最后一位的字节</p>
+<p>理解了上述内容之后就可以写一个循环来逐位爆破flag，每次初始填充的a多一位<br>a在变长的过程中需要注意明文长度会多出几个分组，从而导致密文也多出几个分组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line">import binascii</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">plain &#x3D; &quot;flag&#123;********************************&#125;&quot;</span><br><span class="line">flag &#x3D; &quot;&#125;&quot;</span><br><span class="line">BLOCKSIZE &#x3D; 16</span><br><span class="line">char &#x3D; &#39;0123456789abcdef&#39;</span><br><span class="line">p &#x3D; remote(&#39;das.wetolink.com&#39;,42887)</span><br><span class="line">text &#x3D; p.recv()</span><br><span class="line">for pad1 in range(12, 46):</span><br><span class="line">    #print(&#39;61&#39;*pad1)</span><br><span class="line">    p.sendline(&#39;61&#39;*pad1)</span><br><span class="line">    text &#x3D; p.recvline()</span><br><span class="line">    print(len(text))</span><br><span class="line">    if len(text) &lt;&#x3D; 147:</span><br><span class="line">        res &#x3D; text.decode()[-33:-1]</span><br><span class="line">    elif len(text) &lt;&#x3D; 179:</span><br><span class="line">        res &#x3D; text.decode()[-33-32:-1-32]</span><br><span class="line">    else:</span><br><span class="line">        res &#x3D; text.decode()[-33-64:-1-64]</span><br><span class="line">    #print(res)</span><br><span class="line">    pad2 &#x3D; (26-pad1)%16</span><br><span class="line">    #print(pad1)</span><br><span class="line">    for j in char:</span><br><span class="line">        time.sleep(0.1)</span><br><span class="line">        payload &#x3D; str(hex(ord(j)))[2:]+binascii.hexlify(flag.encode()).decode()+(&#39;0&#39;+str(hex(pad2)[2:]))*pad2</span><br><span class="line">        #print(payload)</span><br><span class="line">        p.sendline(payload)</span><br><span class="line">        text &#x3D; p.recvline().decode()</span><br><span class="line">        #print(text)</span><br><span class="line">        if res &#x3D;&#x3D; text[18:18+32]:</span><br><span class="line">            flag &#x3D; j + flag</span><br><span class="line">            print(flag)</span><br><span class="line">            break</span><br><span class="line">flag &#x3D; &quot;flag&#123;&quot; + flag</span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://yoloyolo.top/2021/01/14/SWPUCTF-Crypto/" title="SWPUCTF -- Crypto" target="_blank" rel="external">https://yoloyolo.top/2021/01/14/SWPUCTF-Crypto/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/monster414" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/monster414" target="_blank"><span class="text-dark">xXxYOLOxXx</span><small class="ml-1x">yolo-yolo@qq.com</small></a></h3>
+        <div>Explorer for unknown.</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2021/01/14/SWPUCTF-Web3/" title="SWPUCTF -- Web3"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2021/01/14/Crypto-RSA/" title="Crypto -- RSA"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/monster414" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

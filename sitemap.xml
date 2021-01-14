@@ -2,6 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yoloyolo.top/2021/01/14/CTF-Sloves/</loc>
+    
+    <lastmod>2021-01-14</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/2021/01/14/SWPUCTF-Web3/</loc>
+    
+    <lastmod>2021-01-14</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/2021/01/14/SWPUCTF-Crypto/</loc>
+    
+    <lastmod>2021-01-14</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/2021/01/14/Crypto-RSA/</loc>
+    
+    <lastmod>2021-01-14</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/2021/01/14/PHP-RCE-Without-Parameters/</loc>
+    
+    <lastmod>2021-01-14</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/2021/01/14/Reflection-For-Quanzhou-Race/</loc>
+    
+    <lastmod>2021-01-14</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/2021/01/10/Rebuild-Project/</loc>
+    
+    <lastmod>2021-01-14</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yoloyolo.top/2021/01/14/EZ-Analysis-For-CVE-2015-3306/</loc>
     
     <lastmod>2021-01-14</lastmod>
@@ -10,13 +59,6 @@
   
   <url>
     <loc>https://yoloyolo.top/2021/01/14/PHP-Unserialize-String-Escape/</loc>
-    
-    <lastmod>2021-01-14</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yoloyolo.top/2021/01/10/Rebuild-Project/</loc>
     
     <lastmod>2021-01-14</lastmod>
     
@@ -59,17 +101,136 @@
     <priority>0.6</priority>
   </url>
   
-
-  
   <url>
-    <loc>https://yoloyolo.top/categories/%E9%97%B2%E8%B0%88/</loc>
+    <loc>https://yoloyolo.top/tags/WEB/</loc>
     <lastmod>2021-01-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
+    <loc>https://yoloyolo.top/tags/SQL-Injection/</loc>
+    <lastmod>2021-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/tags/RCE/</loc>
+    <lastmod>2021-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/tags/File-Upload/</loc>
+    <lastmod>2021-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/tags/Crypto/</loc>
+    <lastmod>2021-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/tags/RSA/</loc>
+    <lastmod>2021-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/tags/FTP/</loc>
+    <lastmod>2021-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/tags/CVE/</loc>
+    <lastmod>2021-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/tags/Reflection/</loc>
+    <lastmod>2021-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/tags/AWD/</loc>
+    <lastmod>2021-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/tags/CBC/</loc>
+    <lastmod>2021-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/tags/ECB/</loc>
+    <lastmod>2021-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/tags/Web/</loc>
+    <lastmod>2021-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/tags/XSS/</loc>
+    <lastmod>2021-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/tags/CSRF/</loc>
+    <lastmod>2021-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/tags/SSRF/</loc>
+    <lastmod>2021-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+
+  
+  <url>
     <loc>https://yoloyolo.top/categories/Study/</loc>
+    <lastmod>2021-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/categories/WriteUp/</loc>
+    <lastmod>2021-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/categories/Talk/</loc>
     <lastmod>2021-01-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
