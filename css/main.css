@@ -196,7 +196,7 @@ template {
 }
 ::selection {
   background: #262a30;
-  color: #eee;
+  color: #fdf6e3;
 }
 html,
 body {
@@ -430,7 +430,7 @@ code {
   word-wrap: break-word;
 }
 .highlight *::selection {
-  background: #eee8d5;
+  background: #ababab;
 }
 .highlight pre {
   border: 0;
