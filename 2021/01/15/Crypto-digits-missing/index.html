@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="1234567891011121314151617181920212223242526272829303132333435363738from gmpy2 import *from Crypto.Util.number import *from random import getrandbitsimport uuid flag &#x3D; &#39;flag&amp;#123;&#39; + str(u">
+<meta property="og:type" content="article">
+<meta property="og:title" content="纵横杯 -- digits_missing">
+<meta property="og:url" content="https://yoloyolo.top/2021/01/15/Crypto-digits-missing/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="1234567891011121314151617181920212223242526272829303132333435363738from gmpy2 import *from Crypto.Util.number import *from random import getrandbitsimport uuid flag &#x3D; &#39;flag&amp;#123;&#39; + str(u">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-01-15T13:03:36.000Z">
+<meta property="article:modified_time" content="2021-01-15T13:10:30.284Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Crypto">
+<meta property="article:tag" content="RSA">
+<meta property="article:tag" content="Coppersmith">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yoloyolo.top/2021/01/15/Crypto-digits-missing/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>纵横杯 -- digits_missing | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2021/01/15/Crypto-digits-missing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="The quiter you become, the more you hear.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          纵横杯 -- digits_missing
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-01-15 08:03:36 / Modified: 08:10:30" itemprop="dateCreated datePublished" datetime="2021-01-15T08:03:36-05:00">2021-01-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WriteUp/" itemprop="url" rel="index"><span itemprop="name">WriteUp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">from gmpy2 import *</span><br><span class="line">from Crypto.Util.number import *</span><br><span class="line">from random import getrandbits</span><br><span class="line">import uuid</span><br><span class="line"> </span><br><span class="line">flag &#x3D; &#39;flag&#123;&#39; + str(uuid.uuid4()) + &#39;&#125;&#39;</span><br><span class="line">flag &#x3D; flag.encode().strip(b&#39;flag&#123;&#39;).strip(b&#39;&#125;&#39;).split(b&#39;-&#39;)</span><br><span class="line">padding &#x3D; long_to_bytes(getrandbits(512))</span><br><span class="line"> </span><br><span class="line">m &#x3D; bytes_to_long(flag[0] + padding + b&#39;&#39;.join([_ for _ in flag[1:]]))</span><br><span class="line"> </span><br><span class="line">def leak(a, b, c):</span><br><span class="line">    e1, e2 &#x3D; a &gt;&gt; 32, a &amp; 2 ** 32 - 1</span><br><span class="line">    m1, m2 &#x3D; b &gt;&gt; 256, b &amp; 2 ** 256 - 1</span><br><span class="line">    p, q &#x3D; getPrime(512), getPrime(512)</span><br><span class="line">    e &#x3D; getPrime(32)</span><br><span class="line">    n &#x3D; p * q</span><br><span class="line">    d &#x3D; invert(e, (p - 1) * (q - 1))</span><br><span class="line">    c1 &#x3D; pow(b, e, n)</span><br><span class="line">    c2 &#x3D; pow((m1 + m2), (e1 + e2), n)</span><br><span class="line">    c3 &#x3D; pow(a, a, n)</span><br><span class="line">    c4 &#x3D; pow(c, 0x10001, n)</span><br><span class="line"> </span><br><span class="line">    return (p, q, d % (p-1), d % (q-1), c1, c2, c3, c4)</span><br><span class="line"> </span><br><span class="line">def enc(m):</span><br><span class="line">    p &#x3D; getPrime(512)</span><br><span class="line">    q &#x3D; getPrime(512)</span><br><span class="line">    e &#x3D; 5</span><br><span class="line">    n &#x3D; p * q</span><br><span class="line">    c &#x3D; pow(m, e, n)</span><br><span class="line">    return (c, n)</span><br><span class="line"> </span><br><span class="line">l &#x3D; leak(bytes_to_long(flag[0]), bytes_to_long(padding), bytes_to_long(flag[1] + flag[2]))</span><br><span class="line">c, n &#x3D; enc(m)</span><br><span class="line">print(l)</span><br><span class="line">print(n)</span><br><span class="line">print(c)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">p &#x3D; 8652390958861741435444627047576503554063739935043923776101303146382894597047179400211376204501335462644199685775560596374016398617315983998885273252232383</span><br><span class="line">q &#x3D; 11398271496284943396462023942239673376393494680988625153067750611899511451472208462647358820098737289431021205366418955146690406049973272066743297095335701</span><br><span class="line">dp &#x3D; 8227609008398873022400100032341316575069340356351334917468390748158625965488292971381161571649777894379178019250723450517822383161853535988801155974245829</span><br><span class="line">dq &#x3D; 617211540838331845453037224433458963099456992985736058430698238900631773989787292432368601561591831465287703203840756371539826467039309120629989472610731</span><br><span class="line">n &#x3D; 117748526248625603136351142766702204100236020660530366220791523773556022688543102946994917484678907692740314580746055286084348066502206905265752560353316613182375867778005737716910384438378102771898539357644605407585140993539708961209892736485222242671952840176226813623119643604701373240666050114195876590147</span><br><span class="line">c &#x3D; 11808273710504985443774404922628957257282747551484241545715693957153834727214995382868148041169819735282602593341730142167762213843046458242397247585755571045197205530638559439590698610690145211653032525642896154923181980344419031242307181446338164880957117881613097177678720633802107664174510977184795898949</span><br><span class="line">c1 &#x3D; 47136490736007026558241813301582050934441405175571329460613503012332065445341605765747908505286660131226561805265807633529290854688982152443879376327826248561833249864461425952747897175255546352471407983593816589373742238086560879516048675503364687914498582870324744857141831219402137460273880044886984405452</span><br><span class="line">c2 &#x3D; 56409941327407928550531590953236316964802997285515886345082618240072551829663483576336544664403443682438280485868042844696756568731554243773790500024504963753053241086872006291605136092928526547169334420024477141471212559780737725850766070778466019859345735742281733141983853509548060639633435609434590536531</span><br><span class="line">c3 &#x3D; 65058860021739531727088022149052143280404687999094594643616981645096271253997738526846930648540908395636973922952920134720525905860923697049859869913222811090573640409885098897352875692221136178538186740234898374169996494317972403060810936762924806513049343486713829518722226110983873658650785406820898700651</span><br><span class="line">c4 &#x3D; 32982466289233591258768165759927834475634992737248170434422994518702136286193176584067227438086450612500847996564720817106569494236142428184048889837042556370038553603123311299352611462708505050577773451291827498889210800170157619474074829930128950482157454573988753054631832302454833608646278214673705352226</span><br><span class="line"> </span><br><span class="line">import gmpy2</span><br><span class="line">from Crypto.Util.number import *</span><br><span class="line"> </span><br><span class="line">#flag[1]+flag[2]，根据p,q,e来算出d</span><br><span class="line">n1 &#x3D; p * q</span><br><span class="line">phi &#x3D; (p - 1) * (q - 1)</span><br><span class="line">d &#x3D; gmpy2.invert(0x10001, phi)</span><br><span class="line">flag12 &#x3D; pow(c4, d, n1)</span><br><span class="line">print(&quot;flag12 : &#123;&#125;&quot;.format(long_to_bytes(flag12)))</span><br><span class="line"> </span><br><span class="line">#padding，dp,dq求m</span><br><span class="line">mp &#x3D; Integer(pow(c1, dp, p))</span><br><span class="line">mq &#x3D; Integer(pow(c1, dq, q))</span><br><span class="line">p_ &#x3D; gmpy2.invert(p, q)</span><br><span class="line">padding &#x3D; ((((mq - mp) * p_) % q) * p + mp) % n1</span><br><span class="line">print(&quot;padding : &#123;&#125;&quot;.format(padding))</span><br><span class="line"> </span><br><span class="line">#flag[0]，两种解法</span><br><span class="line">m1m2 &#x3D; (padding &gt;&gt; 256) + (padding &amp; 2 ** 256 - 1)</span><br><span class="line">charset &#x3D; &#39;abcdef0123456789&#39;</span><br><span class="line"> </span><br><span class="line">##中间相遇，将加密过程理解为((m ** e2) * (m ** e1)) % n1</span><br><span class="line">mid &#x3D; &#123;&#125;</span><br><span class="line">for i in charset:</span><br><span class="line">	for j in charset:</span><br><span class="line">		for k in charset:</span><br><span class="line">			for l in charset:</span><br><span class="line">				e1 &#x3D; bytes_to_long((i+j+k+l).encode())</span><br><span class="line">				e1_ &#x3D; gmpy2.invert(gmpy2.mpz(pow(m1m2, e1, n1)), n1)</span><br><span class="line">				tmp &#x3D; ((c2 * e1_) % n1)</span><br><span class="line">				mid[tmp] &#x3D; e1</span><br><span class="line">for i in charset:</span><br><span class="line">	for j in charset:</span><br><span class="line">		for k in charset:</span><br><span class="line">			for l in charset:</span><br><span class="line">				e2 &#x3D; bytes_to_long((i+j+k+l).encode())</span><br><span class="line">				tmp &#x3D; pow(m1m2, e2, n1)</span><br><span class="line">				if tmp in mid:</span><br><span class="line">					e1 &#x3D; mid[tmp]</span><br><span class="line">					a &#x3D; (e1 &lt;&lt; 32) + e2</span><br><span class="line">					if pow(a, a, n1) &#x3D;&#x3D; c3:</span><br><span class="line">						flag0 &#x3D; a</span><br><span class="line">print(&quot;flag0 : &#123;&#125;&quot;.format(long_to_bytes(flag0)))</span><br><span class="line"> </span><br><span class="line">##BSGS(sage)，算出e1+e2再单独爆破e2即可得到e1</span><br><span class="line">F &#x3D; IntegerModRing(p*q)</span><br><span class="line">mm &#x3D; F(m1m2)</span><br><span class="line">c2 &#x3D; F(c2)</span><br><span class="line">e12 &#x3D; bsgs(mm, c2, (0, 2**32))</span><br><span class="line">for i in charset:</span><br><span class="line">	for j in charset:</span><br><span class="line">		for k in charset:</span><br><span class="line">			for l in charset:</span><br><span class="line">				e2 &#x3D; bytes_to_long((i+j+k+l).encode())</span><br><span class="line">				e1 &#x3D; (e12 - e2) &lt;&lt; 32</span><br><span class="line">				a &#x3D; e1 + e2</span><br><span class="line">				if pow(a,a,n1) &#x3D;&#x3D; c3:</span><br><span class="line">					flag0 &#x3D; a</span><br><span class="line">print(&quot;flag0 : &#123;&#125;&quot;.format(long_to_bytes(flag0)))</span><br><span class="line"> </span><br><span class="line">#flag，coppersmith m已知高位</span><br><span class="line">m_high &#x3D; bytes_to_long(b&#39;9aa74d6f&#39; + long_to_bytes(padding) + b&#39;bb6b431b&#39;)</span><br><span class="line">e &#x3D; 5</span><br><span class="line">F.&lt;x&gt; &#x3D; PolynomialRing(Zmod(n))</span><br><span class="line">f &#x3D; (m_high * (2**128) + x) ** e - c</span><br><span class="line">roots &#x3D; f.small_roots(epsilon&#x3D;1&#x2F;25)[0]</span><br><span class="line">m &#x3D; long_to_bytes(m_high * (2**128) + roots)</span><br><span class="line">print(b&#39;flag&#123;&#39; + m[:8] + b&#39;-&#39; + m[-24:-20] + b&#39;-&#39; + m[-20:-16] + b&#39;-&#39; + m[-16:-12] + b&#39;-&#39; + m[-12:] + b&#39;&#125;&#39;)</span><br><span class="line">######</span><br><span class="line">kbits &#x3D; 14 * 8</span><br><span class="line">for i in charset:</span><br><span class="line">	for j in charset:</span><br><span class="line">		tmp &#x3D; bytes_to_long(b&#39;9aa74d6f&#39; + long_to_bytes(padding) + b&#39;bb6b431b&#39; + i.encode() + j.encode())</span><br><span class="line">		f &#x3D; (tmp * (2**kbits) + x) ** e - c</span><br><span class="line">		roots &#x3D; f.small_roots(X&#x3D;2**kbits, beta&#x3D;1)</span><br><span class="line">		if roots:</span><br><span class="line">			x0 &#x3D; roots[0]</span><br><span class="line">			m &#x3D; long_to_bytes(tmp * (2**kbits) + x0)</span><br><span class="line">			print(b&#39;flag&#123;&#39; + m[:8] + b&#39;-&#39; + m[-24:-20] + b&#39;-&#39; + m[-20:-16] + b&#39;-&#39; + m[-16:-12] + b&#39;-&#39; + m[-12:] + b&#39;&#125;&#39;)</span><br></pre></td></tr></table></figure>
+<p>最后coppersmith部分的求根代码还没有完全理解<br />
+第一种方法是直接设置参数epsilon就可以直接求解<br />
+第二种方法设置beta，但是需要再爆破两位明文</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Crypto/" rel="tag"># Crypto</a>
+              <a href="/tags/RSA/" rel="tag"># RSA</a>
+              <a href="/tags/Coppersmith/" rel="tag"># Coppersmith</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/14/SWPUCTF-Web3/" rel="prev" title="SWPUCTF -- Web3">
+      <i class="fa fa-chevron-left"></i> SWPUCTF -- Web3
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">The quiter you become, the more you hear.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
