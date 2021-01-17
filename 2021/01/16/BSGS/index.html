@@ -30,7 +30,7 @@
 <meta property="og:description" content="Baby Step Giant Step – 小步大步算法">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-01-16T16:17:37.000Z">
-<meta property="article:modified_time" content="2021-01-16T16:40:24.956Z">
+<meta property="article:modified_time" content="2021-01-17T05:08:39.521Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Crypto">
 <meta name="twitter:card" content="summary">
@@ -198,10 +198,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2021-01-16 11:17:37 / Modified: 11:40:24" itemprop="dateCreated datePublished" datetime="2021-01-16T11:17:37-05:00">2021-01-16</time>
+              <time title="Created: 2021-01-16 11:17:37" itemprop="dateCreated datePublished" datetime="2021-01-16T11:17:37-05:00">2021-01-16</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-01-17 00:08:39" itemprop="dateModified" datetime="2021-01-17T00:08:39-05:00">2021-01-17</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -251,6 +257,16 @@ s-65,47,-65,47z M834 80H400000v40H845z'/></svg></span></span></span><span class=
 <p>例如：[网鼎杯2020青龙组] you_raise_me_up<br />
 m, c, n已知来求flag</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">n = <span class="number">2</span> ** <span class="number">512</span></span><br><span class="line">m = random.randint(<span class="number">2</span>, n-<span class="number">1</span>) | <span class="number">1</span></span><br><span class="line">c = <span class="built_in">pow</span>(m, bytes_to_long(flag), n)</span><br><span class="line"><span class="built_in">print</span> <span class="string">&#x27;m = &#x27;</span> + <span class="built_in">str</span>(m)</span><br><span class="line"><span class="built_in">print</span> <span class="string">&#x27;c = &#x27;</span> + <span class="built_in">str</span>(c)</span><br><span class="line"></span><br><span class="line"><span class="comment"># m = 391190709124527428959489662565274039318305952172936859403855079581402770986890308469084735451207885386318986881041563704825943945069343345307381099559075</span></span><br><span class="line"><span class="comment"># c = 6665851394203214245856789450723658632520816791621796775909766895233000234023642878786025644953797995373211308485605397024123180085924117610802485972584499</span></span><br></pre></td></tr></table></figure>
+<p>sage中可使用的离散对数求解函数：</p>
+<ul>
+<li>discrete_log</li>
+<li>discrete_log_rho</li>
+<li>discrete_log_lambda</li>
+<li>bsgs<br />
+但是这里使用bsgs会直接时python执行进程退出，只能使用discrete_log<br />
+具体原因尚未分析</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="number">2</span> ** <span class="number">512</span></span><br><span class="line">m = <span class="number">391190709124527428959489662565274039318305952172936859403855079581402770986890308469084735451207885386318986881041563704825943945069343345307381099559075</span></span><br><span class="line">c = <span class="number">6665851394203214245856789450723658632520816791621796775909766895233000234023642878786025644953797995373211308485605397024123180085924117610802485972584499</span></span><br><span class="line">flag = discrete_log(c, mod(m,n))</span><br><span class="line">print(long_to_bytes(flag))</span><br></pre></td></tr></table></figure>
 <p>另外也有扩展BSGS的情况(<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>g</mi><mi>c</mi><mi>d</mi><mo stretchy="false">(</mo><mi>a</mi><mo separator="true">,</mo><mi>n</mi><mo stretchy="false">)</mo><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">gcd(a, n) &gt; 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">c</span><span class="mord mathdefault">d</span><span class="mopen">(</span><span class="mord mathdefault">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>)</p>
 
     </div>
