@@ -30,7 +30,7 @@
 <meta property="og:description" content="RSA101 p, q为大素数 n&#x3D;p∗qn &#x3D; p*qn&#x3D;p∗q phi&#x3D;(p−1)∗(q−1)phi &#x3D; (p-1)*(q-1)phi&#x3D;(p−1)∗(q−1) e为小于phi的素数 e∗d≡1mod  phie*d ≡ 1 \mod phie∗d≡1modphi e, n为公钥; d, n为私钥 c&#x3D;memod  nc &#x3D; m^e \mod nc&#x3D;memodn m&#x3D;cdmod  nm &#x3D; c">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-01-14T13:07:07.000Z">
-<meta property="article:modified_time" content="2021-01-20T13:34:44.747Z">
+<meta property="article:modified_time" content="2021-01-21T05:54:12.132Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Crypto">
 <meta property="article:tag" content="RSA">
@@ -207,7 +207,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-01-20 08:34:44" itemprop="dateModified" datetime="2021-01-20T08:34:44-05:00">2021-01-20</time>
+                <time title="Modified: 2021-01-21 00:54:12" itemprop="dateModified" datetime="2021-01-21T00:54:12-05:00">2021-01-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -374,10 +374,7 @@ s-65,47,-65,47z M834 80H400000v40H845z'/></svg></span></span></span><span class=
 s-235,486,-235,486c-2.7,4.7,-9,7,-19,7c-6,0,-10,-1,-12,-3s-194,-422,-194,-422
 s-65,47,-65,47z M834 80H400000v40H845z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.14944500000000005em;"><span></span></span></span></span></span></span></span></span><br />
 枚举k即可解出明文</p>
-<p>for i in range(0,100):<br />
-k = gmpy2.iroot(i*n+c,e)<br />
-if k[1] == True:<br />
-m = k[0]</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">100</span>):</span><br><span class="line">    k = gmpy2.iroot(i*n+c,e)</span><br><span class="line">    <span class="keyword">if</span> k[<span class="number">1</span>] == <span class="literal">True</span>:</span><br><span class="line">        m = k[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
 <hr />
 <h1 id="低解密指数-wiener"><a class="markdownIt-Anchor" href="#低解密指数-wiener"></a> 低解密指数 – wiener</h1>
 <p>理论推导部分省略<br />
