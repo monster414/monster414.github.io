@@ -31,7 +31,7 @@
 <meta property="og:description" content="前两天刚打的ShadowCTF，遇到了一些内存取证的题目，这里做一些记录 Pwn题出得太棒了">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-01-28T12:04:23.000Z">
-<meta property="article:modified_time" content="2021-01-28T13:04:13.799Z">
+<meta property="article:modified_time" content="2021-01-28T13:05:20.701Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Misc">
 <meta property="article:tag" content="Memory Forensics">
@@ -202,7 +202,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-01-28 07:04:23 / Modified: 08:04:13" itemprop="dateCreated datePublished" datetime="2021-01-28T07:04:23-05:00">2021-01-28</time>
+              <time title="Created: 2021-01-28 07:04:23 / Modified: 08:05:20" itemprop="dateCreated datePublished" datetime="2021-01-28T07:04:23-05:00">2021-01-28</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -272,7 +272,7 @@
 <h1 id="anarchy-riddle"><a class="markdownIt-Anchor" href="#anarchy-riddle"></a> Anarchy Riddle</h1>
 <p>Look into the suspicious executable. What is the riddler trying to do?<br />
 这里问进程在干嘛<br />
-<sub>首先用排除法，肯定不是在挖矿</sub><br />
+<del>首先用排除法，肯定不是在挖矿</del><br />
 先看看有哪些文件，然后再去看用户和注册表啥的，大概是这个思路</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">volatility -f shadow.raw --profile&#x3D;Win7SP1x64 filescan | grep batman</span><br><span class="line"> </span><br><span class="line">0x0000000031729380     16      0 R--rwd \Device\HarddiskVolume1\Users\batman\Desktop\meta_dense.png</span><br></pre></td></tr></table></figure>
 <p>这里看到了桌面上有个图片，可以导出看看</p>
