@@ -31,7 +31,7 @@
 <meta property="og:description" content="前两天刚打的ShadowCTF，遇到了一些内存取证的题目，这里做一些记录 Pwn题出得太棒了">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-01-28T12:04:23.000Z">
-<meta property="article:modified_time" content="2021-01-28T13:03:23.094Z">
+<meta property="article:modified_time" content="2021-01-28T13:04:13.799Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Misc">
 <meta property="article:tag" content="Memory Forensics">
@@ -202,7 +202,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-01-28 07:04:23 / Modified: 08:03:23" itemprop="dateCreated datePublished" datetime="2021-01-28T07:04:23-05:00">2021-01-28</time>
+              <time title="Created: 2021-01-28 07:04:23 / Modified: 08:04:13" itemprop="dateCreated datePublished" datetime="2021-01-28T07:04:23-05:00">2021-01-28</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -226,7 +226,7 @@
 
       
         <p>前两天刚打的ShadowCTF，遇到了一些内存取证的题目，这里做一些记录<br />
-<sub>Pwn题出得太棒了</sub></p>
+<del>Pwn题出得太棒了</del></p>
 <a id="more"></a>
 <p>首先是一个系列的内存取证</p>
 <h1 id="suspicious-riddle"><a class="markdownIt-Anchor" href="#suspicious-riddle"></a> Suspicious Riddle</h1>
@@ -248,9 +248,9 @@
 这里要求我们找出可疑程序的md5值<br />
 那么就需要把程序导出，再计算md5值</p>
 <h2 id="错误解法"><a class="markdownIt-Anchor" href="#错误解法"></a> 错误解法</h2>
-<p><sub>看我filescan找出可执行文件再导出就完事了</sub></p>
+<p><del>看我filescan找出可执行文件再导出就完事了</del></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">volatility -f shadow.raw --profile&#x3D;Win7SP1x64 filescan | grep riddle.exe</span><br><span class="line"> </span><br><span class="line">0x0000000030e18dc0      2      0 R--r-d \Device\HarddiskVolume1\Users\batman\Desktop\riddle.exe</span><br><span class="line">0x0000000030e44f20     15      0 R--r-d \Device\HarddiskVolume1\Users\batman\Desktop\riddle.exe</span><br><span class="line">0x000000003315aa90     16      0 R--rwd \Device\HarddiskVolume1\Users\batman\Desktop\riddle.exe</span><br></pre></td></tr></table></figure>
-<p><sub>wc？怎么有三个？不管了，直接dumpfiles，一个个算md5交flag就完事了</sub></p>
+<p><del>wc？怎么有三个？不管了，直接dumpfiles，一个个算md5交flag就完事了</del></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">volatility -f shadow.raw --profile&#x3D;Win7SP1x64 dumpfiles -Q 0x0000000030e18dc0 -D ~&#x2F;test&#x2F;</span><br><span class="line">volatility -f shadow.raw --profile&#x3D;Win7SP1x64 dumpfiles -Q 0x0000000030e44f20 -D ~&#x2F;test&#x2F;</span><br><span class="line">volatility -f shadow.raw --profile&#x3D;Win7SP1x64 dumpfiles -Q 0x000000003315aa90 -D ~&#x2F;test&#x2F;</span><br><span class="line">md5sum ~&#x2F;test&#x2F;*</span><br><span class="line"> </span><br><span class="line">b05e889e8436ed89157a2aa0cb8cdaa6  file.None.0xfffffa8000b5b2b0.dat</span><br><span class="line">b8e7f5ac3579fba5a59d3eebfda80194  file.None.0xfffffa8002869280.img</span><br><span class="line">c699187e1f235cb919c3bd602e99a452  file.None.0xfffffa8002c07bd0.dat</span><br></pre></td></tr></table></figure>
 <ol>
 <li>ShadowCTF{b05e889e8436ed89157a2aa0cb8cdaa6} 错误</li>
