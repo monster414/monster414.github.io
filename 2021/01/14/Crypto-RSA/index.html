@@ -32,8 +32,8 @@
 <meta property="og:site_name" content="xXxYOLOxXx">
 <meta property="og:description" content="RSA101 ppp, qqq为大素数 n&#x3D;p∗qn &#x3D; p*qn&#x3D;p∗q phi&#x3D;(p−1)∗(q−1)phi &#x3D; (p-1)*(q-1)phi&#x3D;(p−1)∗(q−1) eee为小于phiphiphi的素数 e∗d≡1mod  phie*d ≡ 1 \mod phie∗d≡1modphi eee, nnn为公钥; ddd, nnn为私钥 c&#x3D;memod  nc &#x3D; m^e \mod nc&#x3D;me">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-01-14T13:07:07.000Z">
-<meta property="article:modified_time" content="2021-02-25T15:31:18.054Z">
+<meta property="article:published_time" content="2021-01-14T00:07:07.000Z">
+<meta property="article:modified_time" content="2021-02-25T15:31:42.138Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Crypto">
 <meta property="article:tag" content="RSA">
@@ -203,14 +203,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2021-01-14 08:07:07" itemprop="dateCreated datePublished" datetime="2021-01-14T08:07:07-05:00">2021-01-14</time>
+              <time title="Created: 2021-01-14 08:07:07" itemprop="dateCreated datePublished" datetime="2021-01-14T08:07:07+08:00">2021-01-14</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-02-25 10:31:18" itemprop="dateModified" datetime="2021-02-25T10:31:18-05:00">2021-02-25</time>
+                <time title="Modified: 2021-02-25 23:31:42" itemprop="dateModified" datetime="2021-02-25T23:31:42+08:00">2021-02-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -569,7 +569,7 @@ m_{4} = q*k_{p}*c_{2} + p*k_{q}*c_{4} \mod n
 <p>得到<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>e</mi></mrow><annotation encoding="application/x-tex">e</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">e</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span></p>
 <hr />
 <h1 id="flagenc"><a class="markdownIt-Anchor" href="#flagenc"></a> flag.enc</h1>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.PublicKey im_port RSA</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher im_port PKCS1_OAEP</span><br><span class="line">key_info = RSA.construct((n, e, d, p, q))</span><br><span class="line">key = RSA.im_portKey(key_info.exportKey())</span><br><span class="line">key = PKCS1_OAEP.new(key)</span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;flag.enc&#x27;</span>, <span class="string">&#x27;r&#x27;</span>).read()</span><br><span class="line">c = base64.b64decode(f)</span><br><span class="line">m = key.decrypt(c)</span><br><span class="line"><span class="comment">##################</span></span><br><span class="line">im_port rsa</span><br><span class="line">key = rsa.PrivateKey(n,e,<span class="built_in">int</span>(d),p,q)</span><br><span class="line">c = <span class="built_in">open</span>(<span class="string">&#x27;flag.enc&#x27;</span>,<span class="string">&#x27;rb&#x27;</span>).read()</span><br><span class="line">print(rsa.decrypt(c,key))</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.PublicKey <span class="keyword">import</span> RSA</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> PKCS1_OAEP</span><br><span class="line">key_info = RSA.construct((n, e, d, p, q))</span><br><span class="line">key = RSA.importKey(key_info.exportKey())</span><br><span class="line">key = PKCS1_OAEP.new(key)</span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;flag.enc&#x27;</span>, <span class="string">&#x27;r&#x27;</span>).read()</span><br><span class="line">c = base64.b64decode(f)</span><br><span class="line">m = key.decrypt(c)</span><br><span class="line"><span class="comment">##################</span></span><br><span class="line"><span class="keyword">import</span> rsa</span><br><span class="line">key = rsa.PrivateKey(n,e,<span class="built_in">int</span>(d),p,q)</span><br><span class="line">c = <span class="built_in">open</span>(<span class="string">&#x27;flag.enc&#x27;</span>,<span class="string">&#x27;rb&#x27;</span>).read()</span><br><span class="line">print(rsa.decrypt(c,key))</span><br></pre></td></tr></table></figure>
 <hr />
 <h1 id="coppersmith-101"><a class="markdownIt-Anchor" href="#coppersmith-101"></a> coppersmith 101</h1>
 <p>首先有一个首一的多项式<br />
@@ -625,12 +625,12 @@ The End, The Start.</p>
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/01/14/CTF-Sloves/" rel="prev" title="CTF题解&杂记">
-      <i class="fa fa-chevron-left"></i> CTF题解&杂记
+    <a href="/2021/01/10/Rebuild-Project/" rel="prev" title="Rebuild Project">
+      <i class="fa fa-chevron-left"></i> Rebuild Project
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/01/14/SWPUCTF-Crypto/" rel="next" title="SWPUCTF -- Crypto">
-      SWPUCTF -- Crypto <i class="fa fa-chevron-right"></i>
+    <a href="/2021/01/14/PHP-Unserialize-String-Escape/" rel="next" title="PHP反序列化字符串逃逸">
+      PHP反序列化字符串逃逸 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
