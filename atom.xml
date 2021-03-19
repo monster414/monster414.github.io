@@ -6,7 +6,7 @@
   <link href="https://yoloyolo.top/atom.xml" rel="self"/>
   
   <link href="https://yoloyolo.top/"/>
-  <updated>2021-03-19T12:01:29.076Z</updated>
+  <updated>2021-03-19T12:07:44.436Z</updated>
   <id>https://yoloyolo.top/</id>
   
   <author>
@@ -21,17 +21,12 @@
     <link href="https://yoloyolo.top/2021/03/19/HTTP-Smuggling/"/>
     <id>https://yoloyolo.top/2021/03/19/HTTP-Smuggling/</id>
     <published>2021-03-19T11:59:31.000Z</published>
-    <updated>2021-03-19T12:01:29.076Z</updated>
+    <updated>2021-03-19T12:07:44.436Z</updated>
     
-    <content type="html"><![CDATA[<a id="more"></a><h1 id="http走私"><a class="markdownIt-Anchor" href="#http走私"></a> HTTP走私</h1><h2 id="cl-te"><a class="markdownIt-Anchor" href="#cl-te"></a> CL-TE</h2><p>前端服务器处理Content-Length，后端服务器处理Transfer-Encoding</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">POST &#x2F; HTTP&#x2F;1.1</span><br><span class="line">Host: ac811f9b1e60860c80d927b4001f00d3.web-security-academy.net</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Content-Type: application&#x2F;x-www-form-urlencoded</span><br><span class="line">Content-Length: 6</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">G</span><br></pre></td></tr></table></figure><ul><li>前端服务器忽视<code>Transfer-Encoding</code>，处理<code>Content-Length: 6</code>，内容为&quot;0\r\n\r\nG&quot;</li><li>后端服务器忽视<code>Content-Length</code>，处理<code>Transfer-Encoding: chunked</code>，认为收到了一个大小为0的数据块，从而忽视了最后的<code>G</code></li></ul><p>这个<code>G</code>则留在缓冲区内，当下一次HTTP请求发出时，会加在HTTP请求之前<br />如果将这个数据包重新发一次，就能得到<code>GPOST / HTTP/1.1</code></p><hr /><p>TBC</p>]]></content>
+    <content type="html"><![CDATA[<p>前后端服务器对于HTTP请求处理的差异造成的HTTP走私</p><a id="more"></a><h1 id="http走私"><a class="markdownIt-Anchor" href="#http走私"></a> HTTP走私</h1><h2 id="cl-te"><a class="markdownIt-Anchor" href="#cl-te"></a> CL-TE</h2><p>前端服务器优先处理Content-Length，后端服务器优先处理Transfer-Encoding</p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>ac811f9b1e60860c80d927b4001f00d3.web-security-academy.net</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>keep-alive</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/x-www-form-urlencoded</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>6</span><br><span class="line"><span class="attribute">Transfer-Encoding</span><span class="punctuation">: </span>chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">G</span><br></pre></td></tr></table></figure><ul><li>前端服务器优先处理<code>Content-Length: 6</code>，内容为&quot;0\r\n\r\nG&quot;</li><li>后端服务器优先处理<code>Transfer-Encoding: chunked</code>，认为收到了一个大小为0的数据块，从而忽视了最后的<code>G</code></li></ul><p>这个<code>G</code>则留在缓冲区内，当下一次HTTP请求发出时，会加在HTTP请求之前<br />如果将这个数据包重新发一次，就能得到<code>GPOST / HTTP/1.1</code></p><hr /><p>TBC</p>]]></content>
     
     
-      
-      
-    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h1 id=&quot;http走私&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#http走私&quot;&gt;&lt;/a&gt; HTTP走私&lt;/h1&gt;
-&lt;h2 id=&quot;cl-te&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; h</summary>
-      
+    <summary type="html">&lt;p&gt;前后端服务器对于HTTP请求处理的差异造成的HTTP走私&lt;/p&gt;</summary>
     
     
     
