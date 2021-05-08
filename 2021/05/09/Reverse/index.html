@@ -33,7 +33,7 @@
 <meta property="og:description" content="想写点什么却又不知改写什么，就写写BUUOJ的逆向题解记录吧">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-05-08T17:34:11.000Z">
-<meta property="article:modified_time" content="2021-05-08T18:08:42.970Z">
+<meta property="article:modified_time" content="2021-05-08T19:03:53.688Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Reverse">
 <meta name="twitter:card" content="summary">
@@ -203,7 +203,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-05-09 01:34:11 / Modified: 02:08:42" itemprop="dateCreated datePublished" datetime="2021-05-09T01:34:11+08:00">2021-05-09</time>
+              <time title="Created: 2021-05-09 01:34:11 / Modified: 03:03:53" itemprop="dateCreated datePublished" datetime="2021-05-09T01:34:11+08:00">2021-05-09</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -243,7 +243,7 @@
 <p>Windows 64位程序</p>
 <p>IDA中<strong>sub_1400118C0</strong>函数反汇编结果如下</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">__int64 <span class="title">sub_1400118C0</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> *v0; <span class="comment">// rdi</span></span><br><span class="line">	<span class="keyword">signed</span> __int64 i; <span class="comment">// rcx</span></span><br><span class="line">	<span class="keyword">size_t</span> v2; <span class="comment">// rax</span></span><br><span class="line">	<span class="keyword">size_t</span> v3; <span class="comment">// rax</span></span><br><span class="line">	<span class="keyword">char</span> v5; <span class="comment">// [rsp+0h] [rbp-20h]</span></span><br><span class="line">	<span class="keyword">int</span> j; <span class="comment">// [rsp+24h] [rbp+4h]</span></span><br><span class="line">	<span class="keyword">char</span> Str1; <span class="comment">// [rsp+48h] [rbp+28h]</span></span><br><span class="line">	<span class="keyword">unsigned</span> __int64 v8; <span class="comment">// [rsp+128h] [rbp+108h]</span></span><br><span class="line"></span><br><span class="line">	v0 = &amp;v5;</span><br><span class="line">	<span class="keyword">for</span> ( i = <span class="number">82</span>i64; i; --i )</span><br><span class="line">	&#123;</span><br><span class="line">		*(_DWORD *)v0 = <span class="number">0xCCCCCCCC</span>;</span><br><span class="line">		v0 += <span class="number">4</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> ( j = <span class="number">0</span>; ; ++j )</span><br><span class="line">	&#123;</span><br><span class="line">		v8 = j;</span><br><span class="line">		v2 = j_strlen(Str2);</span><br><span class="line">		<span class="keyword">if</span> ( v8 &gt; v2 )</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">if</span> ( Str2[j] == <span class="number">111</span> )</span><br><span class="line">			Str2[j] = <span class="number">48</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	sub_1400111D1((__int64)<span class="string">&quot;input the flag:&quot;</span>);</span><br><span class="line">	sub_14001128F(<span class="string">&quot;%20s&quot;</span>, &amp;Str1);</span><br><span class="line">	v3 = j_strlen(Str2);</span><br><span class="line">	<span class="keyword">if</span> ( !<span class="built_in">strncmp</span>(&amp;Str1, Str2, v3) )</span><br><span class="line">		sub_1400111D1((__int64)<span class="string">&quot;this is the right flag!\n&quot;</span>);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		sub_1400111D1((__int64)<span class="string">&quot;wrong flag\n&quot;</span>);</span><br><span class="line">	sub_14001113B(&amp;v5, &amp;unk_140019D00);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>i64;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其中Str2=&quot;{hello_world}&quot;,而函数在遍历Str2时，会把’o’(111)替换为’0’(49),最后将用户的输入与Str2进行比较</p>
+<p>其中<code>Str2=&quot;&#123;hello_world&#125;&quot;</code>,而函数在遍历Str2时，会把<code>'o'(111)</code>替换为<code>'0'(49)</code>,最后将用户的输入(Str1)与Str2进行比较</p>
 <blockquote>
 <p><strong>flag{hell0_w0rld}</strong></p>
 </blockquote>
@@ -271,25 +271,6 @@
   </li>
 </ul>
 </div>
-
-        
-
-  <div class="followme">
-    <p>Welcome to my other publishing channels</p>
-
-    <div class="social-list">
-
-        <div class="social-item">
-          <a target="_blank" class="social-link" href="/atom.xml">
-            <span class="icon">
-              <i class="fa fa-rss"></i>
-            </span>
-
-            <span class="label">RSS</span>
-          </a>
-        </div>
-    </div>
-  </div>
 
 
       <footer class="post-footer">
