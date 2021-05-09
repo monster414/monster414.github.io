@@ -33,7 +33,7 @@
 <meta property="og:description" content="想写点什么却又不知改写什么, 就写写BUUOJ的逆向题解记录吧">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-05-08T17:34:11.000Z">
-<meta property="article:modified_time" content="2021-05-09T17:39:18.266Z">
+<meta property="article:modified_time" content="2021-05-09T17:40:04.490Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Reverse">
 <meta name="twitter:card" content="summary">
@@ -209,7 +209,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-05-10 01:39:18" itemprop="dateModified" datetime="2021-05-10T01:39:18+08:00">2021-05-10</time>
+                <time title="Modified: 2021-05-10 01:40:04" itemprop="dateModified" datetime="2021-05-10T01:40:04+08:00">2021-05-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -316,7 +316,7 @@
 <p><code>Str2=&quot;e3nifIH9b_C@n@dH&quot;</code></p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line">cipher=<span class="string">&quot;e3nifIH9b_C@n@dH&quot;</span></span><br><span class="line">string = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(cipher)):</span><br><span class="line">	string += <span class="built_in">chr</span>(<span class="built_in">ord</span>(cipher[i])-i)</span><br><span class="line">print(string)</span><br></pre></td></tr></table></figure>
 <p>解密得到字符串<code>&quot;e2lfbDB2ZV95b3V9&quot;</code></p>
-<p>在观察函数可以看到用户输入的字符串经过了函数sub_4110BE()的处理<br />
+<p>在观察函数可以看到用户输入的字符串经过了函数<code>sub_4110BE</code>的处理<br />
 跟进函数可以看到一个字符串</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aAbcdefghijklmn=<span class="string">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=&quot;</span></span><br></pre></td></tr></table></figure>
 <p>可以判断内容为Base64字符集, 即函数功能为Base64编码</p>
