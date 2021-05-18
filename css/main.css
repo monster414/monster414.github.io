@@ -1,8 +1,8 @@
 :root {
-  --body-bg-color: #ffffff;
+  --body-bg-color: #fff;
   --content-bg-color: #f5f5f5;
   --card-bg-color: #f5f5f5;
-  --text-color: #000000;
+  --text-color: #555;
   --blockquote-color: #666;
   --link-color: #555;
   --link-hover-color: #222;
@@ -422,9 +422,9 @@ code {
   font-family: consolas, Menlo, monospace, "PingFang SC", "Microsoft YaHei";
 }
 code {
-  background: #424242;
+  background: #eee;
   border-radius: 3px;
-  color: #ffffff;
+  color: #555;
   padding: 2px 4px;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -1192,10 +1192,13 @@ pre .javascript .function {
   margin-bottom: 10px;
   margin-right: 10px;
   vertical-align: middle;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #162dff;
+  background: #98ff9d;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -1876,7 +1879,7 @@ pre .javascript .function {
 .post-nav-item a {
   border-bottom: none;
   display: block;
-  font-size: 1.2em;
+  font-size: 0.875em;
   line-height: 1.6;
   position: relative;
 }
