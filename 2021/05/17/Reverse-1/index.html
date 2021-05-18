@@ -33,7 +33,7 @@
 <meta property="og:description" content="虽然闲着但是不想让自己闲着, 先刷完BUUOJ的第一页逆向吧">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-05-17T13:46:26.000Z">
-<meta property="article:modified_time" content="2021-05-18T15:24:46.667Z">
+<meta property="article:modified_time" content="2021-05-18T15:41:00.959Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Reverse">
 <meta name="twitter:card" content="summary">
@@ -209,7 +209,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-05-18 23:24:46" itemprop="dateModified" datetime="2021-05-18T23:24:46+08:00">2021-05-18</time>
+                <time title="Modified: 2021-05-18 23:41:00" itemprop="dateModified" datetime="2021-05-18T23:41:00+08:00">2021-05-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -386,6 +386,17 @@
 <p><strong>flag{ThisisthreadofwindowshahaIsESE}</strong></p>
 </blockquote>
 <hr />
+<h1 id="flareon4login"><a class="markdownIt-Anchor" href="#flareon4login"></a> [FlareOn4]login</h1>
+<p>链接: <a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#%5BFlareOn4%5Dlogin">https://buuoj.cn/challenges#[FlareOn4]login</a></p>
+<p>Javascript</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.getElementById(<span class="string">&quot;prompt&quot;</span>).onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> flag = <span class="built_in">document</span>.getElementById(<span class="string">&quot;flag&quot;</span>).value;</span><br><span class="line">  <span class="keyword">var</span> rotFlag = flag.replace(<span class="regexp">/[a-zA-Z]/g</span>, <span class="function"><span class="keyword">function</span>(<span class="params">c</span>)</span>&#123;<span class="keyword">return</span> <span class="built_in">String</span>.fromCharCode((c &lt;= <span class="string">&quot;Z&quot;</span> ? <span class="number">90</span> : <span class="number">122</span>) &gt;= (c = c.charCodeAt(<span class="number">0</span>) + <span class="number">13</span>) ? c : c - <span class="number">26</span>);&#125;);</span><br><span class="line">  <span class="keyword">if</span> (<span class="string">&quot;PyvragFvqrYbtvafNerRnfl@syner-ba.pbz&quot;</span> == rotFlag) &#123;</span><br><span class="line">    alert(<span class="string">&quot;Correct flag!&quot;</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    alert(<span class="string">&quot;Incorrect flag, rot again&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于不熟悉JS, 只能通过在浏览器Console中运行JS来判断加密方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">flag = <span class="string">&quot;abcdefghjklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`~!@#$%^&amp;*()_+-=&quot;</span></span><br><span class="line"><span class="string">&quot;abcdefghjklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`~!@#$%^&amp;*()_+-=&quot;</span></span><br><span class="line">flag.replace(<span class="regexp">/[a-zA-Z]/g</span>, <span class="function"><span class="keyword">function</span>(<span class="params">c</span>)</span>&#123;<span class="keyword">return</span> <span class="built_in">String</span>.fromCharCode((c &lt;= <span class="string">&quot;Z&quot;</span> ? <span class="number">90</span> : <span class="number">122</span>) &gt;= (c = c.charCodeAt(<span class="number">0</span>) + <span class="number">13</span>) ? c : c - <span class="number">26</span>);&#125;);</span><br><span class="line"><span class="string">&quot;nopqrstuwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM`~!@#$%^&amp;*()_+-=&quot;</span></span><br></pre></td></tr></table></figure>
+<p>rot13</p>
+<blockquote>
+<p><strong>flag{ClientSideLoginsAreEasy@flare-on.com}</strong></p>
+</blockquote>
+<hr />
 <p>TBC</p>
 
     </div>
@@ -484,7 +495,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#bjdctf2020justre"><span class="nav-number">1.</span> <span class="nav-text"> [BJDCTF2020]JustRE</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#rsa"><span class="nav-number">2.</span> <span class="nav-text"> rsa</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#crackrtf"><span class="nav-number">3.</span> <span class="nav-text"> CrackRTF</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#actf%E6%96%B0%E7%94%9F%E8%B5%9B2020easyre"><span class="nav-number">4.</span> <span class="nav-text"> [ACTF新生赛2020]easyre</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2019%E7%BA%A2%E5%B8%BD%E6%9D%AFeasyre"><span class="nav-number">5.</span> <span class="nav-text"> [2019红帽杯]easyRE</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#actf%E6%96%B0%E7%94%9F%E8%B5%9B2020rome"><span class="nav-number">6.</span> <span class="nav-text"> [ACTF新生赛2020]rome</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#youngter-drive"><span class="nav-number">7.</span> <span class="nav-text"> Youngter-drive</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#bjdctf2020justre"><span class="nav-number">1.</span> <span class="nav-text"> [BJDCTF2020]JustRE</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#rsa"><span class="nav-number">2.</span> <span class="nav-text"> rsa</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#crackrtf"><span class="nav-number">3.</span> <span class="nav-text"> CrackRTF</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#actf%E6%96%B0%E7%94%9F%E8%B5%9B2020easyre"><span class="nav-number">4.</span> <span class="nav-text"> [ACTF新生赛2020]easyre</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2019%E7%BA%A2%E5%B8%BD%E6%9D%AFeasyre"><span class="nav-number">5.</span> <span class="nav-text"> [2019红帽杯]easyRE</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#actf%E6%96%B0%E7%94%9F%E8%B5%9B2020rome"><span class="nav-number">6.</span> <span class="nav-text"> [ACTF新生赛2020]rome</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#youngter-drive"><span class="nav-number">7.</span> <span class="nav-text"> Youngter-drive</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#flareon4login"><span class="nav-number">8.</span> <span class="nav-text"> [FlareOn4]login</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
