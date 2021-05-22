@@ -33,7 +33,7 @@
 <meta property="og:description" content="虽然闲着但是不想让自己闲着, 先刷完BUUOJ的第一页逆向吧">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-05-17T13:46:26.000Z">
-<meta property="article:modified_time" content="2021-05-22T11:06:27.748Z">
+<meta property="article:modified_time" content="2021-05-22T11:14:32.753Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Reverse">
 <meta name="twitter:card" content="summary">
@@ -209,7 +209,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-05-22 19:06:27" itemprop="dateModified" datetime="2021-05-22T19:06:27+08:00">2021-05-22</time>
+                <time title="Modified: 2021-05-22 19:14:32" itemprop="dateModified" datetime="2021-05-22T19:14:32+08:00">2021-05-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -255,14 +255,14 @@
 <p>使用openssl从公钥文件中提取e, n</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">openssl rsa -pubin -modulus -text -<span class="keyword">in</span> pub.key </span><br><span class="line">RSA Public-Key: (256 bit)</span><br><span class="line">Modulus:</span><br><span class="line">    00:c0:33:2c:5c:64:ae:47:18:2f:6c:1c:87:6d:42:</span><br><span class="line">    33:69:10:54:5a:58:f7:ee:fe:<span class="built_in">fc</span>:0b:ca:af:5a:f3:</span><br><span class="line">    41:cc:dd</span><br><span class="line">Exponent: 65537 (0x10001)</span><br><span class="line">Modulus=C0332C5C64AE47182F6C1C876D42336910545A58F7EEFEFC0BCAAF5AF341CCDD</span><br><span class="line">writing RSA key</span><br></pre></td></tr></table></figure>
 <ul>
-<li>e = 0x10001</li>
-<li>n = 0xC0332C5C64AE47182F6C1C876D42336910545A58F7EEFEFC0BCAAF5AF341CCDD</li>
+<li><code>e = 0x10001</code></li>
+<li><code>n = 0xC0332C5C64AE47182F6C1C876D42336910545A58F7EEFEFC0BCAAF5AF341CCDD</code></li>
 </ul>
 <p><a target="_blank" rel="noopener" href="http://www.factordb.com/index.php">http://www.factordb.com/index.php</a></p>
 <p>在这个网站分解n得到两个素数</p>
 <ul>
-<li>p = 285960468890451637935629440372639283459</li>
-<li>q = 304008741604601924494328155975272418463</li>
+<li><code>p = 285960468890451637935629440372639283459</code></li>
+<li><code>q = 304008741604601924494328155975272418463</code></li>
 </ul>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line">p = <span class="number">285960468890451637935629440372639283459</span></span><br><span class="line">q = <span class="number">304008741604601924494328155975272418463</span></span><br><span class="line">e = <span class="number">65537</span></span><br><span class="line">n = p * q</span><br><span class="line">phi = (p - <span class="number">1</span>)*(q - <span class="number">1</span>)</span><br><span class="line">d = inverse(e, phi)</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> rsa</span><br><span class="line">key = rsa.PrivateKey(n,e,d,p,q)</span><br><span class="line">c = <span class="built_in">open</span>(<span class="string">&#x27;flag.enc&#x27;</span>,<span class="string">&#x27;rb&#x27;</span>).read()</span><br><span class="line">print(rsa.decrypt(c,key))</span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -485,7 +485,9 @@
 <p><code>v6</code>为输入的值, 即flag</p>
 <p>先将flag字符串打乱顺序, 再进行异或处理</p>
 <p>这里值得注意的一点为</p>
-<p>dword_40F040[32]为<code>0x00000000</code></p>
+<ul>
+<li><code>dword_40F040[32] = 0x00000000</code></li>
+</ul>
 <p>由于后续还有三个连续的<code>0x00000000</code>, 可能会误以为dword_40F040的长度只有31</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line">_40F040 = [</span><br><span class="line"><span class="number">0x09</span>, <span class="number">0x0A</span>, <span class="number">0x0F</span>, <span class="number">0x17</span>, <span class="number">0x07</span>, <span class="number">0x18</span>, <span class="number">0x0C</span>, <span class="number">0x06</span>, </span><br><span class="line"><span class="number">0x01</span>, <span class="number">0x10</span>, <span class="number">0x03</span>, <span class="number">0x11</span>, <span class="number">0x20</span>, <span class="number">0x1D</span>, <span class="number">0x0B</span>, <span class="number">0x1E</span>, </span><br><span class="line"><span class="number">0x1B</span>, <span class="number">0x16</span>, <span class="number">0x04</span>, <span class="number">0x0D</span>, <span class="number">0x13</span>, <span class="number">0x14</span>, <span class="number">0x15</span>, <span class="number">0x02</span>, </span><br><span class="line"><span class="number">0x19</span>, <span class="number">0x05</span>, <span class="number">0x1F</span>, <span class="number">0x08</span>, <span class="number">0x12</span>, <span class="number">0x1A</span>, <span class="number">0x1C</span>, <span class="number">0x0E</span>,</span><br><span class="line"><span class="number">0x00</span>]</span><br><span class="line">cipher = [</span><br><span class="line"><span class="number">0x67</span>, <span class="number">0x79</span>, <span class="number">0x7B</span>, <span class="number">0x7F</span>, <span class="number">0x75</span>, <span class="number">0x2B</span>, <span class="number">0x3C</span>, <span class="number">0x52</span>, </span><br><span class="line"><span class="number">0x53</span>, <span class="number">0x79</span>, <span class="number">0x57</span>, <span class="number">0x5E</span>, <span class="number">0x5D</span>, <span class="number">0x42</span>, <span class="number">0x7B</span>, <span class="number">0x2D</span>, </span><br><span class="line"><span class="number">0x2A</span>, <span class="number">0x66</span>, <span class="number">0x42</span>, <span class="number">0x7E</span>, <span class="number">0x4C</span>, <span class="number">0x57</span>, <span class="number">0x79</span>, <span class="number">0x41</span>, </span><br><span class="line"><span class="number">0x6B</span>, <span class="number">0x7E</span>, <span class="number">0x65</span>, <span class="number">0x3C</span>, <span class="number">0x5C</span>, <span class="number">0x45</span>, <span class="number">0x6F</span>, <span class="number">0x62</span>, </span><br><span class="line"><span class="number">0x4D</span>]</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(cipher)):</span><br><span class="line">  cipher[_] = cipher[_]^_40F040[_]</span><br><span class="line">plain = [<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">33</span>)]</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(plain)):</span><br><span class="line">  plain[_40F040[_]] = <span class="built_in">chr</span>(cipher[_])</span><br><span class="line">flag = <span class="string">&#x27;&#x27;</span>.join(plain)</span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
 <blockquote>
