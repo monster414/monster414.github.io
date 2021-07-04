@@ -6,7 +6,7 @@
   <link href="https://yoloyolo.top/atom.xml" rel="self"/>
   
   <link href="https://yoloyolo.top/"/>
-  <updated>2021-07-04T08:59:28.199Z</updated>
+  <updated>2021-07-04T09:00:38.815Z</updated>
   <id>https://yoloyolo.top/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://yoloyolo.top/2021/07/04/CISCN-SE-Semifinal/"/>
     <id>https://yoloyolo.top/2021/07/04/CISCN-SE-Semifinal/</id>
     <published>2021-07-04T08:21:31.000Z</published>
-    <updated>2021-07-04T08:59:28.199Z</updated>
+    <updated>2021-07-04T09:00:38.815Z</updated>
     
-    <content type="html"><![CDATA[<p>25/60 三等奖(<s>二等奖守门员</s>)</p><a id="more"></a><ul><li>人手不足（3/4）</li><li>第二天的比赛时间提前导致状态不佳</li><li>…</li></ul><p>由于各种各样的原因，拿到了这个名次，遗憾也不能说一点都没有<br />但也足够了</p><p>首先聊下这个比赛的得分机制</p><ul><li>被Getflag会被扣100分，由攻击队伍平摊</li><li>被Check会被扣100分，由服务正常的队伍平摊</li></ul><p>先不说DOS搅屎了，同时被Getflag和被Check的情况是要尽量避免的，实在看不到怎么被打的就删站拉倒<br />当然，能保证服务运行也是件好事，因为比赛中后期出现了一大半宕机的情况，即使被打了，只要保证服务的正常反而可以上分</p><p>其次，PWN机我们不会打也不会修，但是不妨碍我们拿别人的Payload打别人（pwntools重放流量就完事了）<br />由于自己的疏忽，没在第一时间注意到服务器上的流量备份，错失了几千分<br />另外，由于PWN的Getflag是给出一个sh来执行<code>cat /flag</code>，而不是自动执行<code>cat /flag</code>，所以完全可以留住这个sh，后面再继续Getflag（别人的思路，太骚了）<br />如果碰巧别人删掉了程序放弃运维，就可以双倍扣分</p><p>Web的就好说了，看看自己服务器上有哪些马，然后批量上马，然后从流量里面翻别人的Payload<br />由于没有做网络隔离（赛前nmap了下，能通其他队的服务器和选手机器），所以完全可以在别人的服务器上传一个Meterpreter的反弹Shell马<br />从防守方来讲，程序马的运行权限是www-data，运维的权限是ctf，所以完全可以自己写一个后门来获得www-data权限，然后就可以用system函数来kill掉程序马<br />这个思路同样可以用来运维其他的情况</p><p>这次比赛Ban了不死马<br />所以，理想化的AWD流程，其实还是应该按CTF的思路来</p><ul><li>A负责源码审计以及修复</li><li>B负责监管流量来查看服务器上的后门以及其他队伍的Payload</li><li>C负责脚本编写以及运维</li><li>D负责脚本编写真空期的手动提交flag以及其他工作（例如PWN题的sh保留）</li></ul><p>A挖到漏洞就赶紧让C写Getflag脚本，同时D可以手动Getflag<br />B看到Payload就可以让A进行修复，并让C编写Getflag脚本，同时D可以手动Getflag</p>]]></content>
+    <content type="html"><![CDATA[<p>25/60 三等奖(<s>二等奖守门员</s>)</p><a id="more"></a><ul><li>人手不足（3/4）</li><li>第二天的比赛时间提前导致状态不佳</li><li>…</li></ul><p>由于各种各样的原因，拿到了这个名次，遗憾也不能说一点都没有<br />但也足够了</p><p>首先聊下这个比赛的得分机制</p><ul><li>被Getflag会被扣100分，由攻击队伍平摊</li><li>被Check会被扣100分，由服务正常的队伍平摊</li></ul><p>先不说DOS搅屎了，同时被Getflag和被Check的情况是要尽量避免的，实在看不到怎么被打的就删站拉倒<br />当然，能保证服务运行也是件好事，因为比赛中后期出现了一大半宕机的情况，即使被打了，只要保证服务的正常反而可以上分</p><p>其次，PWN机我们不会打也不会修，但是不妨碍我们拿别人的Payload打别人（pwntools重放流量就完事了）<br />由于自己的疏忽，没在第一时间注意到服务器上的流量备份，错失了几千分<br />另外，由于PWN的Getflag是给出一个sh来执行<code>cat /flag</code>，而不是自动执行<code>cat /flag</code>，所以完全可以留住这个sh，后面再继续Getflag（别人的思路，太骚了）<br />如果碰巧别人删掉了程序放弃运维，就可以双倍扣分</p><p>Web的就好说了，看看自己服务器上有哪些马，然后批量上马，然后从流量里面翻别人的Payload<br />由于没有做网络隔离（赛前nmap了下，能通其他队的服务器和选手机器），所以完全可以在别人的服务器上传一个Meterpreter的反弹Shell马<br />从防守方来讲，程序马的运行权限是www-data，运维的权限是ctf，所以完全可以自己写一个后门来获得www-data权限，然后就可以用system函数来kill掉程序马<br />这个思路同样可以用来运维其他的情况</p><p>这次比赛Ban了不死马<br />所以，理想化的AWD流程，其实还是应该按CTF的思路来</p><ul><li>A负责源码审计以及修复</li><li>B负责监管流量来查看服务器上的后门以及其他队伍的Payload</li><li>C负责脚本编写以及运维</li><li>D负责脚本编写真空期的手动提交flag以及其他工作（例如PWN题的sh保留）</li></ul><p>A挖到漏洞就让C写Getflag脚本，同时D可以手动Getflag<br />B看到Payload就可以让A进行修复，并让C编写Getflag脚本，同时D可以手动Getflag</p><p>学到了很多，希望以后能用得上这些经验</p>]]></content>
     
     
     <summary type="html">&lt;p&gt;25/60 三等奖(&lt;s&gt;二等奖守门员&lt;/s&gt;)&lt;/p&gt;</summary>
