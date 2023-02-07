@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="https:&#x2F;&#x2F;buuoj.cn&#x2F;challenges#crackMe 关于这道题目的反调试知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Reverse_PEB">
+<meta property="og:url" content="https://yoloyolo.top/2021/05/24/Reverse-PEB/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="https:&#x2F;&#x2F;buuoj.cn&#x2F;challenges#crackMe 关于这道题目的反调试知识">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-05-24T23:13:45.000Z">
+<meta property="article:modified_time" content="2021-05-24T12:40:53.000Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Reverse">
+<meta property="article:tag" content="PEB">
+<meta property="article:tag" content="Anti-Debug">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yoloyolo.top/2021/05/24/Reverse-PEB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Reverse_PEB | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2021/05/24/Reverse-PEB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Reverse_PEB
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-05-24 19:13:45 / Modified: 08:40:53" itemprop="dateCreated datePublished" datetime="2021-05-24T19:13:45-04:00">2021-05-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#crackMe">https://buuoj.cn/challenges#crackMe</a></p>
+<p>关于这道题目的反调试知识</p>
+<a id="more"></a>
+<p>PEB结构体</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">+0x000 InheritedAddressSpace : UChar</span><br><span class="line">+0x001 ReadImageFileExecOptions : UChar</span><br><span class="line">+0x002 BeingDebugged    : UChar</span><br><span class="line">+0x003 SpareBool        : UChar</span><br><span class="line">+0x004 Mutant           : Ptr32 Void</span><br><span class="line">+0x008 ImageBaseAddress : Ptr32 Void</span><br><span class="line">+0x00c Ldr              : Ptr32 _PEB_LDR_DATA</span><br><span class="line">+0x010 ProcessParameters : Ptr32 _RTL_USER_PROCESS_PARAMETERS</span><br><span class="line">+0x014 SubSystemData    : Ptr32 Void</span><br><span class="line">+0x018 ProcessHeap      : Ptr32 Void</span><br><span class="line">+0x01c FastPebLock      : Ptr32 _RTL_CRITICAL_SECTION</span><br><span class="line">+0x020 FastPebLockRoutine : Ptr32 Void</span><br><span class="line">+0x024 FastPebUnlockRoutine : Ptr32 Void</span><br><span class="line">+0x028 EnvironmentUpdateCount : Uint4B</span><br><span class="line">+0x02c KernelCallbackTable : Ptr32 Void</span><br><span class="line">+0x030 SystemReserved   : [1] Uint4B</span><br><span class="line">+0x034 AtlThunkSListPtr32 : Uint4B</span><br><span class="line">+0x038 FreeList         : Ptr32 _PEB_FREE_BLOCK</span><br><span class="line">+0x03c TlsExpansionCounter : Uint4B</span><br><span class="line">+0x040 TlsBitmap        : Ptr32 Void</span><br><span class="line">+0x044 TlsBitmapBits    : [2] Uint4B</span><br><span class="line">+0x04c ReadOnlySharedMemoryBase : Ptr32 Void</span><br><span class="line">+0x050 ReadOnlySharedMemoryHeap : Ptr32 Void</span><br><span class="line">+0x054 ReadOnlyStaticServerData : Ptr32 Ptr32 Void</span><br><span class="line">+0x058 AnsiCodePageData : Ptr32 Void</span><br><span class="line">+0x05c OemCodePageData  : Ptr32 Void</span><br><span class="line">+0x060 UnicodeCaseTableData : Ptr32 Void</span><br><span class="line">+0x064 NumberOfProcessors : Uint4B</span><br><span class="line">+0x068 NtGlobalFlag     : Uint4B</span><br><span class="line">+0x070 CriticalSectionTimeout : _LARGE_INTEGER</span><br><span class="line">+0x078 HeapSegmentReserve : Uint4B</span><br><span class="line">+0x07c HeapSegmentCommit : Uint4B</span><br><span class="line">+0x080 HeapDeCommitTotalFreeThreshold : Uint4B</span><br><span class="line">+0x084 HeapDeCommitFreeBlockThreshold : Uint4B</span><br><span class="line">+0x088 NumberOfHeaps    : Uint4B</span><br><span class="line">+0x08c MaximumNumberOfHeaps : Uint4B</span><br><span class="line">+0x090 ProcessHeaps     : Ptr32 Ptr32 Void</span><br><span class="line">+0x094 GdiSharedHandleTable : Ptr32 Void</span><br><span class="line">+0x098 ProcessStarterHelper : Ptr32 Void</span><br><span class="line">+0x09c GdiDCAttributeList : Uint4B</span><br><span class="line">+0x0a0 LoaderLock       : Ptr32 Void</span><br><span class="line">+0x0a4 OSMajorVersion   : Uint4B</span><br><span class="line">+0x0a8 OSMinorVersion   : Uint4B</span><br><span class="line">+0x0ac OSBuildNumber    : Uint2B</span><br><span class="line">+0x0ae OSCSDVersion     : Uint2B</span><br><span class="line">+0x0b0 OSPlatformId     : Uint4B</span><br><span class="line">+0x0b4 ImageSubsystem   : Uint4B</span><br><span class="line">+0x0b8 ImageSubsystemMajorVersion : Uint4B</span><br><span class="line">+0x0bc ImageSubsystemMinorVersion : Uint4B</span><br><span class="line">+0x0c0 ImageProcessAffinityMask : Uint4B</span><br><span class="line">+0x0c4 GdiHandleBuffer  : [34] Uint4B</span><br><span class="line">+0x14c PostProcessInitRoutine : Ptr32     void </span><br><span class="line">+0x150 TlsExpansionBitmap : Ptr32 Void</span><br><span class="line">+0x154 TlsExpansionBitmapBits : [32] Uint4B</span><br><span class="line">+0x1d4 SessionId        : Uint4B</span><br><span class="line">+0x1d8 AppCompatFlags   : _ULARGE_INTEGER</span><br><span class="line">+0x1e0 AppCompatFlagsUser : _ULARGE_INTEGER_ULARGE_INTEGER</span><br><span class="line">+0x1e8 pShimData        : Ptr32 Void</span><br><span class="line">+0x1ec AppCompatInfo    : Ptr32 Void</span><br><span class="line">+0x1f0 CSDVersion       : _UNICODE_STRING</span><br><span class="line">+0x1f8 ActivationContextData : Ptr32 Void</span><br><span class="line">+0x1fc ProcessAssemblyStorageMap : Ptr32 Void</span><br><span class="line">+0x200 SystemDefaultActivationContextData : Ptr32 Void</span><br><span class="line">+0x204 SystemAssemblyStorageMap : Ptr32 Void</span><br><span class="line">+0x208 MinimumStackCommit : Uint4B</span><br></pre></td></tr></table></figure>
+<p>IDA中反编译的结果以及对于PEB结构体的定义描述与真实情况有些出入, 需要以汇编代码为准</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( *((_DWORD *)NtCurrentPeb()-&gt;ProcessHeap + <span class="number">0x0C</span>) != <span class="number">2</span> )</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.text:004015D4                 mov     eax, large fs:30h</span><br><span class="line">.text:004015DA                 mov     eax, [eax+18h]</span><br><span class="line">.text:004015DD                 mov     eax, [eax+0Ch]</span><br><span class="line">.text:004015E0                 cmp     eax, 2</span><br><span class="line">.text:004015E3                 jz      short loc_401628</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( *((_DWORD *)NtCurrentPeb()-&gt;ProcessHeap + <span class="number">0x0C</span>) != <span class="number">2</span> )</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.text:00401985                 mov     eax, large fs:30h</span><br><span class="line">.text:0040198B                 mov     eax, [eax+18h]</span><br><span class="line">.text:0040198E                 mov     eax, [eax+0Ch]</span><br><span class="line">.text:00401991                 cmp     eax, 2</span><br><span class="line">.text:00401994                 jz      short loc_4019A2</span><br></pre></td></tr></table></figure>
+<p>HEAP结构体</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+0×000 Entry	:_HEAP_ENTRY</span><br><span class="line">+0×008 Signature	:Uint4B</span><br><span class="line">+0×00c Flags	:Uint4B</span><br><span class="line">+0×010 ForceFlags	:Uint4B</span><br><span class="line">+0×014 VirtualMemoryThreshold 	:Uint4B</span><br><span class="line">+0×018 SegmentReserve	:Uint4B</span><br><span class="line">+0×01c SegmentCommit	:Uint4B</span><br><span class="line">+0×020 DeCommitFreeBlockThreshold	 :Uint4B</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( ((<span class="keyword">int</span>)NtCurrentPeb()-&gt;NtGlobalFlag &amp; <span class="number">0x70</span>) != <span class="number">0</span> )</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.text:00401ADA                 mov     eax, large fs:30h</span><br><span class="line">.text:00401AE0                 mov     eax, [eax+68h]</span><br><span class="line">.text:00401AE3                 and     eax, 70h</span><br><span class="line">.text:00401AE6                 test    eax, eax</span><br><span class="line">.text:00401AE8                 jz      short loc_401B00</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( (<span class="keyword">unsigned</span> __int8)*(_DWORD *)&amp;NtCurrentPeb()-&gt;BeingDebugged )</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.text:00401B4D                 mov     eax, large fs:30h</span><br><span class="line">.text:00401B53                 inc     eax</span><br><span class="line">.text:00401B54                 inc     eax</span><br><span class="line">.text:00401B55                 mov     eax, [eax]</span><br><span class="line">.text:00401B57                 and     eax, 0FFh</span><br><span class="line">.text:00401B5C                 test    eax, eax</span><br><span class="line">.text:00401B5E                 jz      short loc_401B6E</span><br></pre></td></tr></table></figure>
+<p>当程序被调试时, 以上if语句均<strong>可能</strong>成立, 从而对程序的流程产生影响</p>
+<p><s>所以基本看到PEB出现NOP就完事了</s></p>
+<blockquote>
+<p>《逆向工程核心原理》 Page.529</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2021/05/24/Reverse-PEB/" title="Reverse_PEB">https://yoloyolo.top/2021/05/24/Reverse-PEB/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Reverse/" rel="tag"># Reverse</a>
+              <a href="/tags/PEB/" rel="tag"># PEB</a>
+              <a href="/tags/Anti-Debug/" rel="tag"># Anti-Debug</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/21/Reverse-2/" rel="prev" title="Reverse_2">
+      <i class="fa fa-chevron-left"></i> Reverse_2
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/05/31/Reverse-3/" rel="next" title="Reverse_3">
+      Reverse_3 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=302397927" title="CloudMisuc → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;302397927" rel="noopener" target="_blank"><i class=" fa-fw"></i>CloudMisuc</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

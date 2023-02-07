@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Web狗做不来Misc所以把Crypto给AK了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SWPUCTF -- Crypto">
+<meta property="og:url" content="https://yoloyolo.top/2021/01/13/SWPUCTF-Crypto/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="Web狗做不来Misc所以把Crypto给AK了">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2019/11/17/1WCZ5ySaBd2qfn3.png">
+<meta property="article:published_time" content="2021-01-14T00:17:44.000Z">
+<meta property="article:modified_time" content="2022-06-27T18:22:59.068Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Crypto">
+<meta property="article:tag" content="RSA">
+<meta property="article:tag" content="CBC">
+<meta property="article:tag" content="ECB">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/11/17/1WCZ5ySaBd2qfn3.png">
+
+<link rel="canonical" href="https://yoloyolo.top/2021/01/13/SWPUCTF-Crypto/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>SWPUCTF -- Crypto | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2021/01/13/SWPUCTF-Crypto/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SWPUCTF -- Crypto
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-01-13 19:17:44" itemprop="dateCreated datePublished" datetime="2021-01-13T19:17:44-05:00">2021-01-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-06-27 14:22:59" itemprop="dateModified" datetime="2022-06-27T14:22:59-04:00">2022-06-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WriteUp/" itemprop="url" rel="index"><span itemprop="name">WriteUp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><s>Web狗做不来Misc所以把Crypto给AK了</s></p>
+<a id="more"></a>
+<h1 id="happy"><a class="markdownIt-Anchor" href="#happy"></a> happy</h1>
+<p>一开始题目上错附件浪费快两个小时，有点无语</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="string">&#x27;c=&#x27;</span>, <span class="string">&#x27;0x7a7e031f14f6b6c3292d11a41161d2491ce8bcdc67ef1baa9eL&#x27;</span>)</span><br><span class="line">(<span class="string">&#x27;e=&#x27;</span>, <span class="string">&#x27;0x872a335&#x27;</span>)</span><br><span class="line"><span class="comment">#q + q*p^3 = 1285367317452089980789441829580397855321901891350429414413655782431779727560841427444135440068248152908241981758331600586</span></span><br><span class="line"><span class="comment">#qp + q *p^2 = 1109691832903289208389283296592510864729403914873734836011311325874120780079555500202475594</span></span><br></pre></td></tr></table></figure>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mo>=</mo><mi>q</mi><mo>+</mo><mi>q</mi><mo>∗</mo><msup><mi>p</mi><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">a = q+q*p^3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7777700000000001em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.6597200000000001em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.008548em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span></span></span></span><br />
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>b</mi><mo>=</mo><mi>q</mi><mo>∗</mo><mi>p</mi><mo>+</mo><mi>q</mi><mo>∗</mo><msup><mi>p</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">b = q*p+q*p^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.6597200000000001em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.7777700000000001em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">p</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.6597200000000001em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.008548em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><br />
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi><mo>=</mo><mi>g</mi><mi>c</mi><mi>d</mi><mo stretchy="false">(</mo><mi>a</mi><mo separator="true">,</mo><mi>b</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">x = gcd(a,b)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">c</span><span class="mord mathdefault">d</span><span class="mopen">(</span><span class="mord mathdefault">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">b</span><span class="mclose">)</span></span></span></span><br />
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mfrac><mi>a</mi><mi>b</mi></mfrac><mo>=</mo><mfrac><mrow><mi>q</mi><mo>+</mo><mi>q</mi><mo>∗</mo><msup><mi>p</mi><mn>3</mn></msup></mrow><mrow><mi>q</mi><mo>∗</mo><mi>p</mi><mo>+</mo><mi>q</mi><mo>∗</mo><msup><mi>p</mi><mn>2</mn></msup></mrow></mfrac><mo>=</mo><mfrac><mrow><mn>1</mn><mo>+</mo><msup><mi>p</mi><mn>3</mn></msup></mrow><mrow><mi>p</mi><mo>+</mo><msup><mi>p</mi><mn>2</mn></msup></mrow></mfrac><mo>=</mo><mfrac><mrow><mi>a</mi><mi mathvariant="normal">/</mi><mi>x</mi></mrow><mrow><mi>b</mi><mi mathvariant="normal">/</mi><mi>x</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{a}{b} = \frac{q+q*p^3}{q*p+q*p^2} = \frac{1+p^3}{p+p^2} = \frac{a/x}{b/x}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.040392em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.695392em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">b</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">a</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.551136em;vertical-align:-0.481108em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.070028em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">q</span><span class="mbin mtight">∗</span><span class="mord mathdefault mtight">p</span><span class="mbin mtight">+</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">q</span><span class="mbin mtight">∗</span><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463142857142857em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.446108em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">q</span><span class="mbin mtight">+</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">q</span><span class="mbin mtight">∗</span><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913142857142857em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.481108em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.551136em;vertical-align:-0.481108em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.070028em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="mbin mtight">+</span><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463142857142857em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.446108em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mbin mtight">+</span><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913142857142857em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.481108em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.53em;vertical-align:-0.52em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">b</span><span class="mord mtight">/</span><span class="mord mathdefault mtight">x</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">a</span><span class="mord mtight">/</span><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span><br />
+因式分解<br />
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mfrac><mrow><mn>1</mn><mo>+</mo><msup><mi>p</mi><mn>3</mn></msup></mrow><mrow><mi>p</mi><mo>+</mo><msup><mi>p</mi><mn>2</mn></msup></mrow></mfrac><mo>=</mo><mfrac><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>+</mo><mi>p</mi><mo stretchy="false">)</mo><mo>∗</mo><mo stretchy="false">(</mo><msup><mi>p</mi><mn>2</mn></msup><mo>−</mo><mi>p</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><mrow><mi>p</mi><mo>∗</mo><mo stretchy="false">(</mo><mn>1</mn><mo>+</mo><mi>p</mi><mo stretchy="false">)</mo></mrow></mfrac><mo>=</mo><mfrac><mrow><msup><mi>p</mi><mn>2</mn></msup><mo>−</mo><mi>p</mi><mo>+</mo><mn>1</mn></mrow><mi>p</mi></mfrac></mrow><annotation encoding="application/x-tex">\frac{1+p^3}{p+p^2} = \frac{(1+p)*(p^2-p+1)}{p*(1+p)} = \frac{p^2-p+1}{p}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.551136em;vertical-align:-0.481108em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.070028em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="mbin mtight">+</span><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463142857142857em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.446108em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mbin mtight">+</span><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913142857142857em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.481108em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.62892em;vertical-align:-0.52em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.10892em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="mbin mtight">∗</span><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mbin mtight">+</span><span class="mord mathdefault mtight">p</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mbin mtight">+</span><span class="mord mathdefault mtight">p</span><span class="mclose mtight">)</span><span class="mbin mtight">∗</span><span class="mopen mtight">(</span><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913142857142857em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mbin mtight">−</span><span class="mord mathdefault mtight">p</span><span class="mbin mtight">+</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.551136em;vertical-align:-0.481108em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.070028em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">p</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.446108em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913142857142857em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mbin mtight">−</span><span class="mord mathdefault mtight">p</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.481108em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span><br />
+这里b/x的值为素数，尝试作为p进行解密</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line">c = <span class="number">0x7a7e031f14f6b6c3292d11a41161d2491ce8bcdc67ef1baa9e</span></span><br><span class="line">e = <span class="number">0x872a335</span></span><br><span class="line"><span class="comment">#q + q*p^3 = 1285367317452089980789441829580397855321901891350429414413655782431779727560841427444135440068248152908241981758331600586</span></span><br><span class="line"><span class="comment">#qp + q *p^2 = 1109691832903289208389283296592510864729403914873734836011311325874120780079555500202475594</span></span><br><span class="line">a = <span class="number">1285367317452089980789441829580397855321901891350429414413655782431779727560841427444135440068248152908241981758331600586</span></span><br><span class="line">b = <span class="number">1109691832903289208389283296592510864729403914873734836011311325874120780079555500202475594</span></span><br><span class="line">x = gmpy2.gcd(a, b)</span><br><span class="line">p = b // x</span><br><span class="line">q = b // (p + p ** <span class="number">2</span>)</span><br><span class="line">n = p * q</span><br><span class="line">phi = (p - <span class="number">1</span>) * (q - <span class="number">1</span>)</span><br><span class="line">d = gmpy2.invert(e, phi)</span><br><span class="line">m = <span class="built_in">pow</span>(c, d, n)</span><br><span class="line">print(long_to_bytes(m))</span><br></pre></td></tr></table></figure>
+<h1 id="yusa的密码学课堂-cbc第一课"><a class="markdownIt-Anchor" href="#yusa的密码学课堂-cbc第一课"></a> Yusa的密码学课堂 CBC第一课</h1>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">flag=<span class="string">&#x27;flag&#123;********************************&#125;&#x27;</span></span><br><span class="line">BLOCKSIZE = <span class="number">16</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pad</span>(<span class="params">data</span>):</span></span><br><span class="line">        pad_len = BLOCKSIZE - (<span class="built_in">len</span>(data) % BLOCKSIZE) <span class="keyword">if</span>  <span class="built_in">len</span>(data) % BLOCKSIZE != <span class="number">0</span> <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> data + <span class="string">&quot;=&quot;</span> * pad_len</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">unpad</span>(<span class="params">data</span>):</span></span><br><span class="line">        <span class="keyword">return</span> data.replace(<span class="string">&quot;=&quot;</span>,<span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">enc</span>(<span class="params">data,key,iv</span>):</span></span><br><span class="line">    cipher = AES.new(key, AES.MODE_CBC, iv)</span><br><span class="line">    encrypt = cipher.encrypt(pad(data))</span><br><span class="line">    <span class="keyword">return</span> encrypt</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dec</span>(<span class="params">data,key,iv</span>):</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        cipher = AES.new(key, AES.MODE_CBC, iv)</span><br><span class="line">        encrypt = cipher.decrypt(data)</span><br><span class="line">        <span class="keyword">return</span> unpad(encrypt)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        exit()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">task</span>():</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">                key = os.urandom(<span class="number">16</span>)</span><br><span class="line">                iv = os.urandom(<span class="number">16</span>)</span><br><span class="line">                pre = <span class="string">&quot;yusa&quot;</span>*<span class="number">4</span></span><br><span class="line">                <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">                        choice = raw_input(menu)</span><br><span class="line">                        <span class="keyword">if</span> choice == <span class="string">&#x27;1&#x27;</span>:</span><br><span class="line">                                name = raw_input(<span class="string">&quot;What&#x27;s your name?&quot;</span>)</span><br><span class="line">                                <span class="keyword">if</span> name == <span class="string">&#x27;admin&#x27;</span>:</span><br><span class="line">                                        exit()</span><br><span class="line">                                token = enc(pre+name,key,iv)</span><br><span class="line">                                <span class="built_in">print</span> <span class="string">&quot;Here is your token(in hex): &quot;</span> + iv.encode(<span class="string">&#x27;hex&#x27;</span>) + token.encode(<span class="string">&#x27;hex&#x27;</span>)</span><br><span class="line">                                <span class="keyword">continue</span></span><br><span class="line">                        <span class="keyword">elif</span> choice == <span class="string">&#x27;2&#x27;</span>:</span><br><span class="line">                                token = raw_input(<span class="string">&quot;Your token(in hex): &quot;</span>).decode(<span class="string">&#x27;hex&#x27;</span>)</span><br><span class="line">                                iv = token[:<span class="number">16</span>]</span><br><span class="line">                                name = dec(token[<span class="number">16</span>:],key,iv)</span><br><span class="line">                                <span class="built_in">print</span> iv.encode(<span class="string">&#x27;hex&#x27;</span>) + name.encode(<span class="string">&#x27;hex&#x27;</span>)</span><br><span class="line">                                <span class="keyword">if</span> name[:<span class="number">16</span>] == <span class="string">&quot;yusa&quot;</span>*<span class="number">4</span>:</span><br><span class="line">                                        <span class="built_in">print</span> <span class="string">&quot;Hello, &quot;</span> + name[<span class="number">16</span>:]</span><br><span class="line">                                        <span class="keyword">if</span> name[<span class="number">16</span>:] == <span class="string">&#x27;admin&#x27;</span>:</span><br><span class="line">                                                <span class="built_in">print</span> flag</span><br><span class="line">                                                exit()</span><br><span class="line">                        <span class="keyword">else</span>:</span><br><span class="line">                                <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">                exit()</span><br><span class="line">menu=<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">1. register</span></span><br><span class="line"><span class="string">2. login</span></span><br><span class="line"><span class="string">3. exit</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">        task()</span><br></pre></td></tr></table></figure>
+<h2 id="cbc-byte-flip"><a class="markdownIt-Anchor" href="#cbc-byte-flip"></a> CBC Byte Flip</h2>
+<p><img src="https://i.loli.net/2019/11/17/1WCZ5ySaBd2qfn3.png" alt="00.png" /></p>
+<p>如图所示<br />
+我们要把plain2中的某一字节翻转为另一字节<br />
+由于C1来自于cipher2进行Block Cipher Decryption之后的结果<br />
+而且key未知，就不能直接得知C1的值<br />
+但是字节翻转的妙处在于通过修改上一组的密文来翻转下一组的明文，从而可以完全忽视这一点</p>
+<p>由异或运算可以推导<br />
+B1 = A1 xor C1<br />
+那么也有C1 = A1 xor B1<br />
+B1’ = A1’ xor C1<br />
+(A1’是修改之后的密文字节，B1’是翻转之后的明文字节)<br />
+而如果我们能够修改cipher1，那么就能够修改A1的值<br />
+即A1’ = A1 xor B1 xor B1’<br />
+A1’ xor C1 = A1 xor B1 xor B1’ xor C1 = C1 xor B1’ xor C1 = B1’</p>
+<p>用三条算式来表述上面的话就是</p>
+<p>B = A xor C<br />
+B’ = A’ xor C<br />
+A’ = A xor B xor B’<br />
+字节翻转的要求也就显而易见了</p>
+<p>对于A完全可控<br />
+已知B的值<br />
+到这里也只完成了一半<br />
+由于修改了A1<br />
+cipher1在进行BCD的时候会得出错误的结果<br />
+再与IV相异或则会导致plain1出错</p>
+<p>如果能够得到修改A1之后产生的错误的plain1的值<br />
+而且IV可以完全控制的话<br />
+那么就能够把刚才的把戏再玩一遍</p>
+<p>B2 = A2 xor C2<br />
+B2’ = A2’ xor C2<br />
+A2’ = A2 xor B2 xor B2’<br />
+A2为原IV<br />
+B2是错误的plain1<br />
+B2’是正确的plain1</p>
+<p>BTW:每一组Cipher的长度为16Byte</p>
+<p>以上大概介绍了CBC字节翻转的攻击方式<br />
+需要密文以及IV可控来改写明文</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">p = remote(<span class="string">&#x27;das.wetolink.com&#x27;</span>,<span class="number">42888</span>) <span class="comment"># 连接</span></span><br><span class="line">p.recvuntil(<span class="string">b&quot;3. exit\n&quot;</span>)</span><br><span class="line"></span><br><span class="line">p.sendline(<span class="string">b&quot;1&quot;</span>) <span class="comment"># 注册</span></span><br><span class="line">p.recv()</span><br><span class="line">p.sendline(<span class="string">b&quot;Admin&quot;</span>) <span class="comment"># 用户名为Admin，方便之后修改</span></span><br><span class="line">data0 = p.recvline().decode()</span><br><span class="line">data0 = data0[<span class="number">28</span>:<span class="number">124</span>] <span class="comment"># 提取返回数据部分</span></span><br><span class="line">iv0 = data0[:<span class="number">32</span>] <span class="comment">#返回的IV</span></span><br><span class="line">cipher00 = data0[<span class="number">32</span>:<span class="number">64</span>] <span class="comment">#&quot;yusayusayusayusa&quot;的加密结果</span></span><br><span class="line">cipher01 = data0[<span class="number">64</span>:<span class="number">96</span>] <span class="comment">#&quot;Admin&quot;的加密结果</span></span><br><span class="line">replacement = <span class="built_in">str</span>(<span class="built_in">hex</span>(<span class="built_in">int</span>(cipher00[:<span class="number">2</span>], <span class="number">16</span>) ^ <span class="built_in">ord</span>(<span class="string">&quot;A&quot;</span>) ^ <span class="built_in">ord</span>(<span class="string">&quot;a&quot;</span>)))[<span class="number">2</span>:] <span class="comment"># 计算替换密文的值</span></span><br><span class="line">payload0 = iv0 + replacement + cipher00[<span class="number">2</span>:] + cipher01 <span class="comment"># 发送替换密文</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#print(&quot;data0: &quot; + data0)</span></span><br><span class="line"><span class="comment">#print(&quot;payload0: &quot; + payload0)</span></span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">b&quot;3. exit\n&quot;</span>)</span><br><span class="line">p.sendline(<span class="string">b&quot;2&quot;</span>) <span class="comment"># 登入</span></span><br><span class="line">p.recv()</span><br><span class="line">p.sendline(payload0.encode()) <span class="comment"># 发送Payload0</span></span><br><span class="line">data1 = p.recvline()[:-<span class="number">1</span>].decode() <span class="comment"># 得到返回的数据</span></span><br><span class="line"></span><br><span class="line">plain1 = data1[<span class="number">32</span>:<span class="number">64</span>] <span class="comment"># &quot;yusayusayusayusa&quot;由于密文被替换，解出来的明文是错误的，之后可以进行异或修改</span></span><br><span class="line"><span class="comment">#print(&quot;data1: &quot; + data1)</span></span><br><span class="line"><span class="comment">#print(&quot;plain1: &quot; + plain1)</span></span><br><span class="line">iv1 = <span class="built_in">str</span>(<span class="built_in">hex</span>(<span class="built_in">int</span>(binascii.hexlify(<span class="string">&quot;yusa&quot;</span>.encode()).decode() * <span class="number">4</span>,<span class="number">16</span>) ^ <span class="built_in">int</span>(plain1, <span class="number">16</span>) ^ <span class="built_in">int</span>(iv0, <span class="number">16</span>)))[<span class="number">2</span>:] <span class="comment"># 计算IV，用于修改错误的明文</span></span><br><span class="line"><span class="comment">#print(&quot;iv1: &quot;,iv1)</span></span><br><span class="line">payload1 = iv1 + replacement + cipher00[<span class="number">2</span>:] + cipher01</span><br><span class="line"><span class="comment">#print(&quot;payload1: &quot; + payload1)</span></span><br><span class="line">p.recvuntil(<span class="string">b&quot;3. exit\n&quot;</span>)</span><br><span class="line">p.sendline(<span class="string">b&quot;2&quot;</span>) <span class="comment"># 登入</span></span><br><span class="line">p.recv()</span><br><span class="line">p.sendline(payload1.encode()) <span class="comment"># 发送Payload1</span></span><br><span class="line">p.recvuntil(<span class="string">b&quot;admin\n&quot;</span>)</span><br><span class="line">print(p.recvline()) <span class="comment"># 得到flag</span></span><br></pre></td></tr></table></figure>
+<h1 id="yusa的密码学课堂-ecb"><a class="markdownIt-Anchor" href="#yusa的密码学课堂-ecb"></a> Yusa的密码学课堂 ECB</h1>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">BLOCKSIZE = <span class="number">16</span></span><br><span class="line">flag=<span class="string">&#x27;flag&#123;********************************&#125;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pad</span>(<span class="params">data</span>):</span></span><br><span class="line">        pad_len = BLOCKSIZE - (<span class="built_in">len</span>(data) % BLOCKSIZE) <span class="keyword">if</span>  <span class="built_in">len</span>(data) % BLOCKSIZE != <span class="number">0</span> <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> data + <span class="built_in">chr</span>(pad_len) * pad_len</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">unpad</span>(<span class="params">data</span>):</span></span><br><span class="line">        num = <span class="built_in">ord</span>(data[-<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">return</span> data[:-num]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">enc</span>(<span class="params">data,key</span>):</span></span><br><span class="line">    cipher = AES.new(key, AES.MODE_ECB)</span><br><span class="line">    encrypt = cipher.encrypt(pad(data))</span><br><span class="line">    <span class="keyword">return</span> encrypt</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dec</span>(<span class="params">data,key</span>):</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        cipher = AES.new(key, AES.MODE_ECB)</span><br><span class="line">        encrypt = cipher.decrypt(data)</span><br><span class="line">        <span class="keyword">return</span> unpad(encrypt)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        exit()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">task</span>():</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">                key = os.urandom(<span class="number">16</span>)</span><br><span class="line">                <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">                        plaintext = raw_input(<span class="string">&quot;Amazing function: &quot;</span>).decode(<span class="string">&#x27;hex&#x27;</span>)</span><br><span class="line">                        yusa = plaintext + flag</span><br><span class="line">                        <span class="built_in">print</span> enc(yusa,key).encode(<span class="string">&#x27;hex&#x27;</span>)</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">                <span class="built_in">print</span> <span class="built_in">str</span>(e)</span><br><span class="line">                exit()</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">        task()</span><br></pre></td></tr></table></figure>
+<p>这里的加密的明文为&quot;输入的hex转字符&quot;+“flag”+Padding<br />
+如果发送的明文为<br />
+<code>aaaaaaaaaaaa</code><br />
+那么加密的明文为<br />
+<code>aaaaaaaaaaaaflag&#123;XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX&#125;</code><br />
+分组Padding之后的结果为<br />
+<code>aaaaaaaaaaaaflag &#123;XXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX X&#125;+Padding</code><br />
+分析pad函数我们可以知道Padding的值<br />
+而ECB的加密方式就是分组明文密文之间没有关联<br />
+那么我们就可以构造 “?}+Padding&quot;的明文去加密，?作为掩码，flag内容长度为32字节，目测是md5，所以字符集目测是&quot;0123456789abcdef”<br />
+然后我们在字符集里去爆破一位掩码，将得到的结果与加密结果的最后一个分组进行比较，若相同则我们得到了flag最后一位的字节</p>
+<p>理解了上述内容之后就可以写一个循环来逐位爆破flag，每次初始填充的a多一位<br />
+a在变长的过程中需要注意明文长度会多出几个分组，从而导致密文也多出几个分组</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">plain = <span class="string">&quot;flag&#123;********************************&#125;&quot;</span></span><br><span class="line">flag = <span class="string">&quot;&#125;&quot;</span></span><br><span class="line">BLOCKSIZE = <span class="number">16</span></span><br><span class="line">char = <span class="string">&#x27;0123456789abcdef&#x27;</span></span><br><span class="line">p = remote(<span class="string">&#x27;das.wetolink.com&#x27;</span>,<span class="number">42887</span>)</span><br><span class="line">text = p.recv()</span><br><span class="line"><span class="keyword">for</span> pad1 <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">12</span>, <span class="number">46</span>):</span><br><span class="line">    <span class="comment">#print(&#x27;61&#x27;*pad1)</span></span><br><span class="line">    p.sendline(<span class="string">&#x27;61&#x27;</span>*pad1)</span><br><span class="line">    text = p.recvline()</span><br><span class="line">    print(<span class="built_in">len</span>(text))</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(text) &lt;= <span class="number">147</span>:</span><br><span class="line">        res = text.decode()[-<span class="number">33</span>:-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">elif</span> <span class="built_in">len</span>(text) &lt;= <span class="number">179</span>:</span><br><span class="line">        res = text.decode()[-<span class="number">33</span>-<span class="number">32</span>:-<span class="number">1</span>-<span class="number">32</span>]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        res = text.decode()[-<span class="number">33</span>-<span class="number">64</span>:-<span class="number">1</span>-<span class="number">64</span>]</span><br><span class="line">    <span class="comment">#print(res)</span></span><br><span class="line">    pad2 = (<span class="number">26</span>-pad1)%<span class="number">16</span></span><br><span class="line">    <span class="comment">#print(pad1)</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> char:</span><br><span class="line">        time.sleep(<span class="number">0.1</span>)</span><br><span class="line">        payload = <span class="built_in">str</span>(<span class="built_in">hex</span>(<span class="built_in">ord</span>(j)))[<span class="number">2</span>:]+binascii.hexlify(flag.encode()).decode()+(<span class="string">&#x27;0&#x27;</span>+<span class="built_in">str</span>(<span class="built_in">hex</span>(pad2)[<span class="number">2</span>:]))*pad2</span><br><span class="line">        <span class="comment">#print(payload)</span></span><br><span class="line">        p.sendline(payload)</span><br><span class="line">        text = p.recvline().decode()</span><br><span class="line">        <span class="comment">#print(text)</span></span><br><span class="line">        <span class="keyword">if</span> res == text[<span class="number">18</span>:<span class="number">18</span>+<span class="number">32</span>]:</span><br><span class="line">            flag = j + flag</span><br><span class="line">            print(flag)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">flag = <span class="string">&quot;flag&#123;&quot;</span> + flag</span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2021/01/13/SWPUCTF-Crypto/" title="SWPUCTF -- Crypto">https://yoloyolo.top/2021/01/13/SWPUCTF-Crypto/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Crypto/" rel="tag"># Crypto</a>
+              <a href="/tags/RSA/" rel="tag"># RSA</a>
+              <a href="/tags/CBC/" rel="tag"># CBC</a>
+              <a href="/tags/ECB/" rel="tag"># ECB</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/13/Crypto-RSA/" rel="prev" title="Crypto -- RSA">
+      <i class="fa fa-chevron-left"></i> Crypto -- RSA
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/01/13/SWPUCTF-Web3/" rel="next" title="SWPUCTF -- Web3">
+      SWPUCTF -- Web3 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#happy"><span class="nav-number">1.</span> <span class="nav-text"> happy</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#yusa%E7%9A%84%E5%AF%86%E7%A0%81%E5%AD%A6%E8%AF%BE%E5%A0%82-cbc%E7%AC%AC%E4%B8%80%E8%AF%BE"><span class="nav-number">2.</span> <span class="nav-text"> Yusa的密码学课堂 CBC第一课</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cbc-byte-flip"><span class="nav-number">2.1.</span> <span class="nav-text"> CBC Byte Flip</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#yusa%E7%9A%84%E5%AF%86%E7%A0%81%E5%AD%A6%E8%AF%BE%E5%A0%82-ecb"><span class="nav-number">3.</span> <span class="nav-text"> Yusa的密码学课堂 ECB</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=302397927" title="CloudMisuc → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;302397927" rel="noopener" target="_blank"><i class=" fa-fw"></i>CloudMisuc</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css">
+
+
+  
+
+</body>
+</html>

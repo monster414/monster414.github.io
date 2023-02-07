@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="有意思的一题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CISCN-imageencrypt">
+<meta property="og:url" content="https://yoloyolo.top/2021/05/16/CISCN-imageencrypt/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="有意思的一题">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-05-17T02:42:13.000Z">
+<meta property="article:modified_time" content="2021-07-04T08:22:47.000Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Crypto">
+<meta property="article:tag" content="CISCN">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yoloyolo.top/2021/05/16/CISCN-imageencrypt/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>CISCN-imageencrypt | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2021/05/16/CISCN-imageencrypt/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CISCN-imageencrypt
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-05-16 22:42:13" itemprop="dateCreated datePublished" datetime="2021-05-16T22:42:13-04:00">2021-05-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-07-04 04:22:47" itemprop="dateModified" datetime="2021-07-04T04:22:47-04:00">2021-07-04</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WriteUp/" itemprop="url" rel="index"><span itemprop="name">WriteUp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>有意思的一题</p>
+<a id="more"></a>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> flag <span class="keyword">import</span> flag,image,r,key1,key2</span><br><span class="line"><span class="keyword">import</span> md5</span><br><span class="line"></span><br><span class="line"><span class="keyword">assert</span>(flag[:<span class="number">5</span>]==<span class="string">&#x27;CISCN&#x27;</span>)</span><br><span class="line"><span class="keyword">assert</span>(<span class="built_in">len</span>(<span class="built_in">str</span>(r))==<span class="number">3</span>) <span class="comment"># 1.2 </span></span><br><span class="line">data = <span class="string">&#x27;&#x27;</span>.join(<span class="built_in">map</span>(<span class="built_in">chr</span>,image))</span><br><span class="line"><span class="keyword">assert</span>(flag[<span class="number">6</span>:-<span class="number">1</span>] == md5.new(data).hexdigest())</span><br><span class="line"><span class="keyword">assert</span>(key1&lt;<span class="number">256</span>)</span><br><span class="line"><span class="keyword">assert</span>(key2&lt;<span class="number">256</span>)</span><br><span class="line"></span><br><span class="line">x0 = <span class="built_in">round</span>(random.random(),<span class="number">6</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">round</span>(r*x*(<span class="number">3</span>-x),<span class="number">6</span>) <span class="comment"># r &lt; 1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span>(<span class="params">pixel,key1,key2,x0,m,n</span>):</span></span><br><span class="line">    num = m*n/<span class="number">8</span>    </span><br><span class="line">    seqs = []</span><br><span class="line">    x = x0</span><br><span class="line">    bins = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    tmp = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num):</span><br><span class="line">        x = generate(x)</span><br><span class="line">        tmp.append(x)</span><br><span class="line">        seqs.append(<span class="built_in">int</span>(x*<span class="number">22000</span>))</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> seqs:</span><br><span class="line">        bin_x  = <span class="built_in">bin</span>(x)[<span class="number">2</span>:]</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(bin_x) &lt; <span class="number">16</span>:</span><br><span class="line">            bin_x = <span class="string">&#x27;0&#x27;</span>*(<span class="number">16</span>-<span class="built_in">len</span>(bin_x))+bin_x</span><br><span class="line">        bins += bin_x</span><br><span class="line">    <span class="keyword">assert</span>(<span class="built_in">len</span>(pixel) == m*n)</span><br><span class="line">    cipher = [ <span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(m) <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n)]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(m):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            index = n*i+j</span><br><span class="line">            ch = <span class="built_in">int</span>(bins[<span class="number">2</span>*index:<span class="number">2</span>*index+<span class="number">2</span>],<span class="number">2</span>)</span><br><span class="line">            pix = pixel[index]</span><br><span class="line">            <span class="keyword">if</span> ch == <span class="number">0</span>:</span><br><span class="line">                pix = (pix^key1)&amp;<span class="number">0xff</span></span><br><span class="line">            <span class="keyword">if</span> ch == <span class="number">1</span>:</span><br><span class="line">                pix = (~pix^key1)&amp;<span class="number">0xff</span></span><br><span class="line">            <span class="keyword">if</span> ch == <span class="number">2</span>:</span><br><span class="line">                pix = (pix^key2)&amp;<span class="number">0xff</span></span><br><span class="line">            <span class="keyword">if</span> ch == <span class="number">3</span>:</span><br><span class="line">                pix = (~pix^key2)&amp;<span class="number">0xff</span></span><br><span class="line">            cipher[index] = pix </span><br><span class="line">    <span class="keyword">return</span> cipher</span><br><span class="line"></span><br><span class="line">flagimage = image</span><br><span class="line">testimage = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">16</span>*<span class="number">16</span>):</span><br><span class="line">    testimage.append(random.randint(<span class="number">0</span>,<span class="number">255</span>))</span><br><span class="line"><span class="built_in">print</span> testimage</span><br><span class="line"><span class="built_in">print</span> encrypt(testimage,key1,key2,x0,<span class="number">16</span>,<span class="number">16</span>)</span><br><span class="line"><span class="built_in">print</span> encrypt(flagimage,key1,key2,x0,<span class="number">24</span>,<span class="number">16</span>)</span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">[205, 237, 6, 158, 24, 119, 213, 32, 74, 151, 142, 186, 57, 28, 113, 62, 165, 20, 190, 37, 159, 137, 196, 44, 97, 37, 7, 222, 220, 95, 4, 66, 0, 28, 199, 142, 95, 105, 119, 232, 250, 215, 60, 162, 91, 211, 63, 30, 91, 108, 217, 206, 80, 193, 230, 42, 221, 71, 136, 115, 22, 176, 91, 57, 61, 3, 87, 73, 250, 121, 51, 72, 83, 120, 77, 199, 236, 190, 249, 116, 45, 6, 134, 110, 149, 94, 214, 232, 153, 213, 119, 98, 81, 203, 240, 114, 240, 29, 122, 188, 156, 53, 128, 185, 40, 147, 245, 204, 47, 101, 80, 229, 41, 150, 28, 195, 25, 235, 119, 6, 192, 8, 73, 255, 159, 172, 77, 94, 254, 104, 236, 219, 141, 91, 195, 162, 97, 56, 252, 173, 163, 43, 167, 214, 50, 73, 115, 190, 254, 53, 61, 77, 138, 192, 15, 4, 190, 27, 37, 108, 101, 135, 90, 215, 106, 243, 112, 111, 106, 89, 143, 150, 185, 142, 192, 176, 48, 138, 164, 185, 61, 77, 72, 0, 17, 203, 210, 71, 186, 49, 162, 250, 218, 219, 195, 63, 248, 220, 155, 180, 219, 132, 219, 94, 144, 247, 211, 95, 70, 227, 222, 31, 69, 24, 13, 216, 185, 108, 137, 57, 186, 211, 55, 27, 158, 241, 223, 21, 134, 106, 152, 127, 187, 245, 246, 131, 176, 177, 228, 100, 112, 11, 84, 61, 193, 42, 41, 69, 229, 145, 254, 138, 3, 153, 123, 31]</span></span><br><span class="line"><span class="string">[131, 92, 72, 47, 177, 57, 131, 118, 4, 38, 192, 19, 119, 82, 63, 143, 235, 165, 15, 140, 209, 223, 117, 133, 47, 148, 81, 144, 138, 246, 173, 235, 177, 181, 110, 39, 9, 192, 57, 166, 180, 153, 141, 19, 234, 157, 142, 80, 234, 197, 151, 152, 249, 143, 176, 155, 147, 17, 57, 194, 191, 254, 13, 144, 140, 85, 25, 248, 172, 208, 154, 249, 5, 201, 27, 137, 69, 23, 175, 34, 156, 72, 208, 32, 195, 16, 127, 65, 207, 131, 57, 203, 7, 98, 89, 36, 65, 75, 211, 21, 45, 132, 214, 239, 102, 58, 68, 130, 97, 204, 225, 76, 152, 216, 74, 149, 79, 165, 198, 72, 150, 94, 7, 177, 46, 226, 252, 247, 79, 62, 69, 106, 60, 21, 106, 236, 47, 145, 170, 28, 18, 101, 14, 152, 131, 7, 37, 15, 168, 99, 115, 27, 220, 150, 89, 82, 232, 170, 107, 221, 212, 46, 235, 129, 36, 66, 217, 222, 36, 15, 217, 192, 247, 192, 113, 230, 129, 196, 13, 247, 148, 228, 225, 86, 71, 133, 132, 238, 236, 127, 11, 83, 107, 141, 114, 150, 182, 146, 213, 250, 141, 53, 114, 16, 198, 70, 133, 17, 247, 173, 136, 73, 236, 78, 188, 150, 239, 58, 199, 136, 11, 122, 134, 77, 47, 167, 137, 188, 55, 195, 41, 49, 245, 92, 160, 213, 254, 0, 85, 205, 193, 69, 2, 140, 143, 155, 127, 236, 179, 199, 168, 35, 85, 40, 45, 174]</span></span><br><span class="line"><span class="string">[198, 143, 247, 3, 152, 139, 131, 84, 181, 180, 252, 177, 192, 25, 217, 179, 136, 107, 190, 62, 4, 6, 90, 53, 105, 238, 117, 44, 5, 116, 132, 195, 214, 171, 113, 209, 18, 31, 194, 174, 228, 212, 196, 14, 27, 41, 211, 56, 139, 135, 225, 214, 89, 122, 178, 212, 185, 231, 204, 150, 204, 212, 160, 142, 213, 173, 186, 166, 65, 238, 5, 32, 45, 31, 25, 189, 148, 38, 78, 79, 33, 56, 227, 48, 103, 163, 31, 189, 37, 124, 106, 249, 86, 188, 86, 233, 41, 250, 89, 7, 212, 234, 111, 104, 245, 102, 227, 96, 160, 67, 181, 13, 26, 192, 214, 210, 188, 84, 216, 215, 243, 72, 233, 2, 122, 166, 107, 251, 70, 128, 94, 190, 185, 210, 34, 85, 77, 29, 182, 77, 115, 208, 228, 252, 73, 198, 151, 70, 10, 97, 138, 235, 21, 117, 239, 102, 129, 2, 253, 80, 53, 61, 184, 220, 41, 82, 37, 140, 23, 143, 179, 53, 153, 113, 213, 211, 111, 197, 248, 65, 60, 69, 1, 81, 48, 254, 251, 89, 195, 8, 93, 190, 66, 174, 97, 175, 210, 191, 66, 112, 123, 128, 33, 230, 237, 104, 16, 192, 239, 173, 44, 10, 120, 231, 114, 151, 140, 63, 103, 44, 243, 222, 242, 73, 51, 46, 98, 137, 163, 152, 147, 95, 223, 3, 15, 112, 85, 215, 133, 131, 240, 239, 224, 195, 140, 124, 70, 156, 221, 241, 37, 245, 1, 99, 9, 157, 99, 150, 47, 118, 225, 16, 13, 141, 135, 99, 18, 119, 63, 160, 6, 247, 27, 68, 45, 199, 86, 193, 252, 21, 135, 32, 42, 103, 114, 241, 49, 249, 182, 52, 18, 155, 157, 61, 4, 246, 158, 52, 118, 242, 195, 54, 139, 232, 100, 31, 11, 233, 58, 100, 101, 137, 83, 145, 209, 7, 241, 96, 57, 148, 207, 29, 237, 124, 177, 166, 161, 20, 116, 122, 61, 71, 46, 82, 18, 157, 253, 130, 112, 66, 94, 57, 221, 243, 222, 192, 147, 5, 130, 201, 174, 26, 160, 16, 188, 103, 187, 11, 238, 182, 144, 4, 137, 33, 84, 100, 7, 239, 219, 83, 112, 189, 166, 58, 93, 141, 30, 198, 220, 196, 118, 172, 5, 45]</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+<p>大概流程如下<br />
+x0作为初始值, 通过<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>x</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>t</mi><mo>∗</mo><msub><mi>x</mi><mi>i</mi></msub><mo>∗</mo><mo stretchy="false">(</mo><mn>3</mn><mo>−</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">x_{i+1} = t*x_{i}*(3-x_{i})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.638891em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.61528em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>来产生序列, 其中t为系数<br />
+产生的序列作为密钥, 密钥用于加密列表, 但是密钥的每2bit组合决定使用哪个key进行加密<br />
+虽然代码中写的是<code>pix = (~pix^key1)&amp;0xff</code><br />
+但是<code>(~pix^key1) == (pix^~key1)</code>, 那么可以理解为有两组key</p>
+<ul>
+<li>key1 &amp; ~key1</li>
+<li>key2 &amp; ~key2</li>
+</ul>
+<p>用于测试的列表相异或即可得到两组key</p>
+<ul>
+<li>78 &amp; 177</li>
+<li>86 &amp; 169</li>
+</ul>
+<p>现在我们需要知道这两组key如何对应key1, key2, ~key1, ~key2</p>
+<p>一共存在<strong>8种</strong>情况<br />
+对于每种情况都进行测试, 还原出8种密钥, 再通过这8种密钥还原出8种序列<br />
+由于序列的产生满足<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>x</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>t</mi><mo>∗</mo><msub><mi>x</mi><mi>i</mi></msub><mo>∗</mo><mo stretchy="false">(</mo><mn>3</mn><mo>−</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">x_{i+1} = t*x_{i}*(3-x_{i})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.638891em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.61528em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>的规律<br />
+那么<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mfrac><msub><mi>x</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>∗</mo><mo stretchy="false">(</mo><mn>3</mn><mo>−</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="false">)</mo></mrow></mfrac><mo>=</mo><mi>t</mi></mrow><annotation encoding="application/x-tex">\frac{x_{i+1}}{x_{i}*(3-x_{i})} = t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.273157em;vertical-align:-0.52em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7531570000000001em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mbin mtight">∗</span><span class="mopen mtight">(</span><span class="mord mtight">3</span><span class="mbin mtight">−</span><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.451765em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32808571428571426em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.20252142857142857em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathdefault">t</span></span></span></span>是成立的</p>
+<p>那么可以通过使用每个序列来计算每次计算过程的系数t, 当t的值稳定在某一值附近时, 则可以确定t的值, 同时可以确定key1&amp;key2以及正确的序列<br />
+经过计算得到</p>
+<ul>
+<li>key1 = 169</li>
+<li>key2 = 78</li>
+<li>t = 1.2</li>
+</ul>
+<p>那么还剩下一个x0<br />
+对于x0的计算, 我们完全可以爆破一个六位的小数, 使其迭代结果与正确的序列相匹配<br />
+(这里有一个小坑: 正确的序列使用乘以22000之后的值)<br />
+爆破结果为<strong>0.840264</strong></p>
+<p>那么通过这些条件, 再调用一次encrypt函数就可以获得flag</p>
+<p>EOF</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2021/05/16/CISCN-imageencrypt/" title="CISCN-imageencrypt">https://yoloyolo.top/2021/05/16/CISCN-imageencrypt/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Crypto/" rel="tag"># Crypto</a>
+              <a href="/tags/CISCN/" rel="tag"># CISCN</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/09/Reverse-0/" rel="prev" title="Reverse_0">
+      <i class="fa fa-chevron-left"></i> Reverse_0
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/05/17/Reverse-1/" rel="next" title="Reverse_1">
+      Reverse_1 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=302397927" title="CloudMisuc → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;302397927" rel="noopener" target="_blank"><i class=" fa-fw"></i>CloudMisuc</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

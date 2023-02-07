@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文用于讨论弹子挂锁攻击方式，请勿用于违法用途 Is key necessary to unlock? Absolutely not.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅析弹子挂锁的攻击方式">
+<meta property="og:url" content="https://yoloyolo.top/2021/07/11/pin-tumbler-lock/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="本文用于讨论弹子挂锁攻击方式，请勿用于违法用途 Is key necessary to unlock? Absolutely not.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://yoloyolo.top/images/pin_tunbler_lock/01.png">
+<meta property="og:image" content="https://yoloyolo.top/images/pin_tunbler_lock/02.png">
+<meta property="og:image" content="https://yoloyolo.top/images/pin_tunbler_lock/03.png">
+<meta property="og:image" content="https://yoloyolo.top/images/pin_tunbler_lock/04.png">
+<meta property="og:image" content="https://yoloyolo.top/images/pin_tunbler_lock/05.png">
+<meta property="og:image" content="https://yoloyolo.top/images/pin_tunbler_lock/06.png">
+<meta property="og:image" content="https://yoloyolo.top/images/pin_tunbler_lock/07.png">
+<meta property="article:published_time" content="2021-07-12T01:24:29.000Z">
+<meta property="article:modified_time" content="2022-05-14T16:04:44.000Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Lock_Picking">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yoloyolo.top/images/pin_tunbler_lock/01.png">
+
+<link rel="canonical" href="https://yoloyolo.top/2021/07/11/pin-tumbler-lock/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>浅析弹子挂锁的攻击方式 | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2021/07/11/pin-tumbler-lock/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          浅析弹子挂锁的攻击方式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-07-11 21:24:29" itemprop="dateCreated datePublished" datetime="2021-07-11T21:24:29-04:00">2021-07-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-05-14 12:04:44" itemprop="dateModified" datetime="2022-05-14T12:04:44-04:00">2022-05-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Talk/" itemprop="url" rel="index"><span itemprop="name">Talk</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>本文用于讨论弹子挂锁攻击方式，请勿用于违法用途</strong></p>
+<p>Is key necessary to unlock?</p>
+<p>Absolutely not.</p>
+<a id="more"></a>
+<h1 id="一些废话"><a class="markdownIt-Anchor" href="#一些废话"></a> 一些废话</h1>
+<p>开锁这一技能在初中的时候跟一些不良同学学过</p>
+<p>高中时开始熟练运用，如</p>
+<ul>
+<li>开空教室的门拿椅子</li>
+<li>体育课开器材室的门</li>
+<li>处理一些私人恩怨</li>
+<li>etc.</li>
+</ul>
+<p>但是从来都没有具体的了解过锁具的结构，就像大一时的我空知道web安全的漏洞，但是从来都没有去具体研究相关的函数或代码，自然而然地就对自己的学习产生了瓶颈</p>
+<p>锁具的安全与网络安全有些类似，都应当默认外界的输入是不安全的，或许这就是安全的通性</p>
+<p>网上搜了下“传授开锁技能触犯传授犯罪方法罪”的内容，所以写这篇文章的时候内心还是有些忐忑与疑惑的</p>
+<h2 id="忐忑"><a class="markdownIt-Anchor" href="#忐忑"></a> 忐忑</h2>
+<blockquote>
+<p>犯罪行为需要同时满足主观条件与客观条件</p>
+</blockquote>
+<ul>
+<li>主观上：本文仅在讨论弹簧锁的攻击方式</li>
+<li>客观上：本文仅在讨论弹簧锁的攻击方式</li>
+</ul>
+<h2 id="疑惑"><a class="markdownIt-Anchor" href="#疑惑"></a> 疑惑</h2>
+<p>开锁与Hacking有些类似，都是一种对于公共安全具有潜在威胁的行为，但是个人感觉后者的门槛与复杂程度还是比前者高一些</p>
+<p>某些情况下传授开锁技能会触犯传授犯罪方法罪，那么传授网络安全技能呢？</p>
+<p>貌似也会，因为听说过老师教学生两手之后学生端了学校的网站最后老师被请喝茶的事</p>
+<p><s>如果这篇文章真的涉嫌触犯传授犯罪方法罪，那公布EXP跟写漏洞分析文章的是不是都得该挨个抓</s></p>
+<h1 id="弹簧锁结构概述"><a class="markdownIt-Anchor" href="#弹簧锁结构概述"></a> 弹簧锁结构概述</h1>
+<p>图绘制过程没有对锁具进行具体的测量，比例可能存在较大的误差</p>
+<p>（弹子组部分为了方便所以把弹子画得平齐，现实中锁的弹子肯定是不齐的，而且是与钥匙的形状对应的）</p>
+<p><img src="/images/pin_tunbler_lock/01.png" alt="LOCKED" /></p>
+<p><img src="/images/pin_tunbler_lock/02.png" alt="UNLOCKED" /></p>
+<p><img src="/images/pin_tunbler_lock/03.png" alt="Pin Tumbler" /></p>
+<h2 id="解锁步骤"><a class="markdownIt-Anchor" href="#解锁步骤"></a> 解锁步骤</h2>
+<ol>
+<li>钥匙插入锁芯，钥匙销与驱动销的空隙正好处于锁身与锁芯之间的截线，此时锁芯可以顺时针转动</li>
+<li>锁芯顺时针转动时，锁芯上方的拨爪拨动锁舌的拨爪，向右压缩弹簧B，使锁舌向右移动</li>
+<li>锁舌移动一定距离之后，锁舌解除了对于锁梁左侧的限制，在弹簧A的作用下弹出锁梁</li>
+</ol>
+<p>至此，解锁完毕</p>
+<h1 id="method-0"><a class="markdownIt-Anchor" href="#method-0"></a> Method 0</h1>
+<p><strong>模拟锁芯转动</strong></p>
+<p><img src="/images/pin_tunbler_lock/04.png" alt="METHOD0" /></p>
+<p>使用韧性强的铁丝（推荐伞的细伞骨）制成如图形状<br />
+利用杠杆原理拨动锁舌上的拨爪，压缩弹簧B，使锁舌向右移动，从而开锁</p>
+<h2 id="特殊情况"><a class="markdownIt-Anchor" href="#特殊情况"></a> 特殊情况</h2>
+<p>以上只是最普通的状况，个人手上的锁具不多，凭借自己的思考与观察得出以下两种特殊状况</p>
+<h3 id="防拨盖片"><a class="markdownIt-Anchor" href="#防拨盖片"></a> 防拨盖片</h3>
+<p><img src="/images/pin_tunbler_lock/05.png" alt="BUG0" /></p>
+<p>锁芯与锁舌的之间个人感觉可以用防拨盖片挡住<br />
+一般来说，钥匙不会插入到这种深度的位置</p>
+<h3 id="双向锁舌"><a class="markdownIt-Anchor" href="#双向锁舌"></a> 双向锁舌</h3>
+<p>这个情况是基于手头上的一个锁具，纵向分布两组拨爪，分别对应两侧的锁舌</p>
+<p>使用钥匙开锁时，顺时针转动锁芯带动两组拨爪，使两个锁舌对向移动，从而解锁</p>
+<p><img src="/images/pin_tunbler_lock/06.png" alt="BUG1" /></p>
+<p>如果是这种情况的话，单纯地将锁舌向右撬只会卡住锁梁的右边</p>
+<p><strong>破解方法</strong></p>
+<p>由于有两组拨爪，需要先撬动右边的锁舌，锁梁会在弹簧A的作用下向上移动，此时锁梁右侧不受锁舌限制，但锁梁左边会被限制，之后的步骤就不必多言</p>
+<p>由于开锁类似于黑盒测试，无法看到锁的内部结构，所以只能收集一些信息来推断是否为双向锁舌<br />
+如果在尝试向右撬动锁舌后不能开锁，则需要考虑双向锁舌的情况<br />
+向左撬动锁舌，右侧锁梁会向上稍微移动一些距离，摁下后有清脆的金属撞击声，则为双向锁舌</p>
+<h1 id="method-1"><a class="markdownIt-Anchor" href="#method-1"></a> Method 1</h1>
+<p><strong>模拟钥匙</strong></p>
+<p><img src="/images/pin_tunbler_lock/07.png" alt="BUG1" /></p>
+<p>这个基本是通用的方法，也是最靠技术的方法，先用挑勾将截线对齐，然后用铁片转动锁芯</p>
+<p>其难度与弹子数成正相关</p>
+<h1 id="method-2"><a class="markdownIt-Anchor" href="#method-2"></a> Method 2</h1>
+<p><strong>推进锁舌</strong></p>
+<p>参考以下视频</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=BEOWb68YumY">https://www.youtube.com/watch?v=BEOWb68YumY</a></p>
+</blockquote>
+<h1 id="method-3"><a class="markdownIt-Anchor" href="#method-3"></a> Method 3</h1>
+<p><strong>强制破坏</strong></p>
+<p>使用两个扳手插入锁梁，使用杠杆原理来破坏锁体</p>
+<hr />
+<p>写到最后发现这些东西跟Web安全在某些角度是相通的<br />
+先拆卸掉锁，然后观察结构，再去分析开锁的方法，就与白盒对应<br />
+直接开锁就像黑盒<br />
+我想，或许这种安全的共通性值得我花一生的时间去追求与探索</p>
+<hr />
+<p>参考</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://www.chaojilock.com/skill/2017-11-29/828.html">挂锁的结构是怎样的 普通挂锁结构图详细科普</a><br />
+<a target="_blank" rel="noopener" href="http://gearkr.com/?p=87287">教你如何打开一把弹子锁</a><br />
+<a target="_blank" rel="noopener" href="https://kknews.cc/home/9xaomll.html">用了这么多年挂锁，你知道锁是怎么运转的吗？</a><br />
+<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%BD%88%E5%AD%90%E9%8E%96">维基百科</a><br />
+<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=BEOWb68YumY">Open Lock with Soda Can</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2021/07/11/pin-tumbler-lock/" title="浅析弹子挂锁的攻击方式">https://yoloyolo.top/2021/07/11/pin-tumbler-lock/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Lock-Picking/" rel="tag"># Lock_Picking</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/04/HTB-Windows-Set-1/" rel="prev" title="HTB_Windows_Set_1">
+      <i class="fa fa-chevron-left"></i> HTB_Windows_Set_1
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/01/Summary-For-Android-APP-Test/" rel="next" title="某APP测试项目小结">
+      某APP测试项目小结 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%BA%9F%E8%AF%9D"><span class="nav-number">1.</span> <span class="nav-text"> 一些废话</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%90%E5%BF%91"><span class="nav-number">1.1.</span> <span class="nav-text"> 忐忑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%96%91%E6%83%91"><span class="nav-number">1.2.</span> <span class="nav-text"> 疑惑</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%B9%E7%B0%A7%E9%94%81%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text"> 弹簧锁结构概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%94%81%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.1.</span> <span class="nav-text"> 解锁步骤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#method-0"><span class="nav-number">3.</span> <span class="nav-text"> Method 0</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E6%83%85%E5%86%B5"><span class="nav-number">3.1.</span> <span class="nav-text"> 特殊情况</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E6%8B%A8%E7%9B%96%E7%89%87"><span class="nav-number">3.1.1.</span> <span class="nav-text"> 防拨盖片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8C%E5%90%91%E9%94%81%E8%88%8C"><span class="nav-number">3.1.2.</span> <span class="nav-text"> 双向锁舌</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#method-1"><span class="nav-number">4.</span> <span class="nav-text"> Method 1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#method-2"><span class="nav-number">5.</span> <span class="nav-text"> Method 2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#method-3"><span class="nav-number">6.</span> <span class="nav-text"> Method 3</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=302397927" title="CloudMisuc → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;302397927" rel="noopener" target="_blank"><i class=" fa-fw"></i>CloudMisuc</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

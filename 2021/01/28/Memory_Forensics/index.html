@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="前两天刚打的ShadowCTF，遇到了一些内存取证的题目，这里做一些记录 Pwn题出得太棒了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内存取证">
+<meta property="og:url" content="https://yoloyolo.top/2021/01/28/Memory_Forensics/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="前两天刚打的ShadowCTF，遇到了一些内存取证的题目，这里做一些记录 Pwn题出得太棒了">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-01-28T12:04:23.000Z">
+<meta property="article:modified_time" content="2022-06-27T18:42:38.000Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Misc">
+<meta property="article:tag" content="Memory_Forensics">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yoloyolo.top/2021/01/28/Memory_Forensics/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>内存取证 | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2021/01/28/Memory_Forensics/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          内存取证
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-01-28 07:04:23" itemprop="dateCreated datePublished" datetime="2021-01-28T07:04:23-05:00">2021-01-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-06-27 14:42:38" itemprop="dateModified" datetime="2022-06-27T14:42:38-04:00">2022-06-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WriteUp/" itemprop="url" rel="index"><span itemprop="name">WriteUp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>前两天刚打的ShadowCTF，遇到了一些内存取证的题目，这里做一些记录<br />
+<del>Pwn题出得太棒了</del></p>
+<a id="more"></a>
+<p>首先是一个系列的内存取证</p>
+<h1 id="suspicious-riddle"><a class="markdownIt-Anchor" href="#suspicious-riddle"></a> Suspicious Riddle</h1>
+<p>The Riddler has infected batman’s PC with some suspicious programs. Find the PID of the suspicious program.<br />
+要求找到可疑进程的PID</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">volatility -f shadow.raw imageinfo</span><br></pre></td></tr></table></figure>
+<p>查看内存镜像的信息，这里会给出可能的操作系统版本，这个对于后续的工作是很重要的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Volatility Foundation Volatility Framework 2.6</span><br><span class="line">INFO    : volatility.debug    : Determining profile based on KDBG search...</span><br><span class="line">          Suggested Profile(s) : Win7SP1x64, Win7SP0x64, Win2008R2SP0x64, Win2008R2SP1x64_24000, Win2008R2SP1x64_23418, Win2008R2SP1x64, Win7SP1x64_24000, Win7SP1x64_23418</span><br><span class="line">                     AS Layer1 : WindowsAMD64PagedMemory (Kernel AS)</span><br><span class="line">                     AS Layer2 : FileAddressSpace (&#x2F;root&#x2F;shadow.raw)</span><br><span class="line">                      PAE type : No PAE</span><br><span class="line">                           DTB : 0x187000L</span><br><span class="line">                          KDBG : 0xf80002a050a0L</span><br><span class="line">          Number of Processors : 1</span><br><span class="line">     Image Type (Service Pack) : 1</span><br><span class="line">                KPCR for CPU 0 : 0xfffff80002a06d00L</span><br><span class="line">             KUSER_SHARED_DATA : 0xfffff78000000000L</span><br><span class="line">           Image date and time : 2021-01-20 21:08:55 UTC+0000</span><br><span class="line">     Image local date and time : 2021-01-21 01:08:55 +0400</span><br></pre></td></tr></table></figure>
+<p>可以看到可能的操作系统有很多，一个一个地尝试，接下来查看当时正在运行的进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">volatility -f shadow.raw --profile&#x3D;Win7SP1x64 psscan</span><br></pre></td></tr></table></figure>
+<p>这里指定的系统版本为<code>Win7SP1x64</code>，可以看到psscan的扫描结果，就说明操作系统基本就是<code>Win7SP1x64</code>了<br />
+如果指定的系统版本出入很大的话，psscan是没有扫描结果的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x0000000033147630 riddle.exe         2816   1764 0x00000000178ee000 2021-01-20 21:08:24 UTC+0000</span><br></pre></td></tr></table></figure>
+<p>这里可以看到一个<code>riddle.exe</code>，PID为2816<br />
+那么就解出了第一个题<br />
+<strong>ShadowCTF{2816}</strong></p>
+<h1 id="hash-riddle"><a class="markdownIt-Anchor" href="#hash-riddle"></a> Hash Riddle</h1>
+<p>Batman needs to identify what the executable is doing. Find the md5 hash of the suspicious program. Use the same raw image as Suspicious Riddle Challenge<br />
+这里要求我们找出可疑程序的md5值<br />
+那么就需要把程序导出，再计算md5值</p>
+<h2 id="错误解法"><a class="markdownIt-Anchor" href="#错误解法"></a> 错误解法</h2>
+<p><del>看我filescan找出可执行文件再导出就完事了</del></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">volatility -f shadow.raw --profile&#x3D;Win7SP1x64 filescan | grep riddle.exe</span><br><span class="line"> </span><br><span class="line">0x0000000030e18dc0      2      0 R--r-d \Device\HarddiskVolume1\Users\batman\Desktop\riddle.exe</span><br><span class="line">0x0000000030e44f20     15      0 R--r-d \Device\HarddiskVolume1\Users\batman\Desktop\riddle.exe</span><br><span class="line">0x000000003315aa90     16      0 R--rwd \Device\HarddiskVolume1\Users\batman\Desktop\riddle.exe</span><br></pre></td></tr></table></figure>
+<p><del>wc？怎么有三个？不管了，直接dumpfiles，一个个算md5交flag就完事了</del></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">volatility -f shadow.raw --profile&#x3D;Win7SP1x64 dumpfiles -Q 0x0000000030e18dc0 -D ~&#x2F;test&#x2F;</span><br><span class="line">volatility -f shadow.raw --profile&#x3D;Win7SP1x64 dumpfiles -Q 0x0000000030e44f20 -D ~&#x2F;test&#x2F;</span><br><span class="line">volatility -f shadow.raw --profile&#x3D;Win7SP1x64 dumpfiles -Q 0x000000003315aa90 -D ~&#x2F;test&#x2F;</span><br><span class="line">md5sum ~&#x2F;test&#x2F;*</span><br><span class="line"> </span><br><span class="line">b05e889e8436ed89157a2aa0cb8cdaa6  file.None.0xfffffa8000b5b2b0.dat</span><br><span class="line">b8e7f5ac3579fba5a59d3eebfda80194  file.None.0xfffffa8002869280.img</span><br><span class="line">c699187e1f235cb919c3bd602e99a452  file.None.0xfffffa8002c07bd0.dat</span><br></pre></td></tr></table></figure>
+<ol>
+<li>ShadowCTF{b05e889e8436ed89157a2aa0cb8cdaa6} 错误</li>
+<li>ShadowCTF{b8e7f5ac3579fba5a59d3eebfda80194} 错误</li>
+<li>ShadowCTF{c699187e1f235cb919c3bd602e99a452} 错误</li>
+</ol>
+<p>到这里人都懵了，尝试过对文件使用foremost，但是解出的exe文件还是错误的</p>
+<h2 id="正确解法"><a class="markdownIt-Anchor" href="#正确解法"></a> 正确解法</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">volatility -f shadow.raw --profile&#x3D;Win7SP1x64 procdump -p 2816 -D ~&#x2F;test&#x2F;</span><br></pre></td></tr></table></figure>
+<p>将进程导出可执行文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">md5sum ~&#x2F;test&#x2F;executable.2816.exe</span><br><span class="line">b4ef3e812db14a363f51efa379729715  &#x2F;root&#x2F;test&#x2F;executable.2816.exe</span><br></pre></td></tr></table></figure>
+<p><strong>ShadowCTF{b4ef3e812db14a363f51efa379729715}</strong></p>
+<h1 id="source-riddle"><a class="markdownIt-Anchor" href="#source-riddle"></a> Source Riddle</h1>
+<p>You found the suspicious executable, but how did it get there? His butler Alfred might have explored some malicious link. Find the source of the malware.<br />
+这里说是浏览某些危险链接下载的程序，找出链接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">volatility -f shadow.raw --profile&#x3D;Win7SP1x64 iehistory</span><br><span class="line"> </span><br><span class="line">Process: 316 iexplore.exe</span><br><span class="line">Cache type &quot;URL &quot; at 0x27c5900</span><br><span class="line">Record length: 0x100</span><br><span class="line">Location: :2021012120210122: batman@:Host: y0u-f0und-th3-s0urc3.herokuapp.com</span><br><span class="line">Last modified: 2021-01-21 01:08:05 UTC+0000</span><br><span class="line">Last accessed: 2021-01-20 21:08:05 UTC+0000</span><br><span class="line">File Offset: 0x100, Data Offset: 0x0, Data Length: 0x0</span><br></pre></td></tr></table></figure>
+<p>找到了这样一条记录</p>
+<p><strong>ShadowCTF{y0u-f0und-th3-s0urc3}</strong></p>
+<h1 id="anarchy-riddle"><a class="markdownIt-Anchor" href="#anarchy-riddle"></a> Anarchy Riddle</h1>
+<p>Look into the suspicious executable. What is the riddler trying to do?<br />
+这里问进程在干嘛<br />
+<del>首先用排除法，肯定不是在挖矿</del><br />
+先看看有哪些文件，然后再去看用户和注册表啥的，大概是这个思路</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">volatility -f shadow.raw --profile&#x3D;Win7SP1x64 filescan | grep batman</span><br><span class="line"> </span><br><span class="line">0x0000000031729380     16      0 R--rwd \Device\HarddiskVolume1\Users\batman\Desktop\meta_dense.png</span><br></pre></td></tr></table></figure>
+<p>这里看到了桌面上有个图片，可以导出看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">volatility -f shadow.raw --profile&#x3D;Win7SP1x64 dumpfiles -Q 0x0000000031729380 -D ~&#x2F;test&#x2F;</span><br></pre></td></tr></table></figure>
+<p>可以看到一个中心被扭曲的图片，上面写着flag，ps一下就能看清楚flag了</p>
+<p><strong>ShadowCTF{P3nult1m4t3_R1ddl3_S0lv3d}</strong></p>
+<p>最后一个给了一个莫名其妙的字符串，basecrack解不出来，懒得做了</p>
+<hr />
+<p>另外还有一个内存取证的题，是Win10X64的系统，Volatility2的一些模块在处理Win10系统时会报错，用Volatility3就行，然后一些模块的用法可能和Vol2有出入<br />
+这个题导出一个只有一半的flag的图片，试了一下常规隐写没有发现，也懒得再慢慢弄了</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2021/01/28/Memory_Forensics/" title="内存取证">https://yoloyolo.top/2021/01/28/Memory_Forensics/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Misc/" rel="tag"># Misc</a>
+              <a href="/tags/Memory-Forensics/" rel="tag"># Memory_Forensics</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/21/RSA-0/" rel="prev" title="RSA题解记录">
+      <i class="fa fa-chevron-left"></i> RSA题解记录
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/11/MysqlSha1/" rel="next" title="MysqlSha1">
+      MysqlSha1 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#suspicious-riddle"><span class="nav-number">1.</span> <span class="nav-text"> Suspicious Riddle</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hash-riddle"><span class="nav-number">2.</span> <span class="nav-text"> Hash Riddle</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E8%A7%A3%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text"> 错误解法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A3%E7%A1%AE%E8%A7%A3%E6%B3%95"><span class="nav-number">2.2.</span> <span class="nav-text"> 正确解法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#source-riddle"><span class="nav-number">3.</span> <span class="nav-text"> Source Riddle</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#anarchy-riddle"><span class="nav-number">4.</span> <span class="nav-text"> Anarchy Riddle</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=302397927" title="CloudMisuc → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;302397927" rel="noopener" target="_blank"><i class=" fa-fw"></i>CloudMisuc</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
