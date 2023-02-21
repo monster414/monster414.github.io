@@ -6,7 +6,7 @@
   <link href="https://yoloyolo.top/atom.xml" rel="self"/>
   
   <link href="https://yoloyolo.top/"/>
-  <updated>2023-02-20T10:47:07.000Z</updated>
+  <updated>2023-02-21T12:06:08.000Z</updated>
   <id>https://yoloyolo.top/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hash_Extend</title>
+    <link href="https://yoloyolo.top/2023/02/21/Hash-Extend/"/>
+    <id>https://yoloyolo.top/2023/02/21/Hash-Extend/</id>
+    <published>2023-02-21T11:21:17.000Z</published>
+    <updated>2023-02-21T12:06:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>日常记录</p><a id="more"></a><blockquote><p>pip install hashpumpy</p></blockquote><p>MD5, SHA1, SHA256每轮加密块大小为64Byte(512Bits)，其中前56Byte(448Bits)用于存储加密数据，后8Byte(64Bits)用于存储数据Bit位数</p><p>SHA512每轮加密块大小为128Byte(1024Bits)，其中前112Byte(896Bits)用于存储加密数据，后16Byte(128Bits)用于存储数据Bit位数</p><p>MD5存储数据长度时使用小端排序，SHA1, SHA256, SHA512则使用大端排序</p><p>SHA384在使用hashpumpy.pump时会报错</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashpumpy.error: unsupported hash size</span><br></pre></td></tr></table></figure><p>以上Hash算法均基于Merkle-Damgård结构，抽象来看，可以类比于对称加密中的OFB模式，即上一轮的加密结果会作为下一轮加密的输入</p><p>以MD5为例</p><p>我们要加密明文admin，此时明文长度小于加密块数据长度，则会被填充<code>\x80\x00\x00\x00...</code></p><p>那么加密块为</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">admin\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x28\x00\x00\x00\x00\x00\x00\x00</span><br></pre></td></tr></table></figure><p>在完成第一轮加密之后我们会得到这一部分的Hash值，如有后续部分，则这部分Hash将作为输入对后一轮加密进行处理</p><p>假设存在一个认证方式，将以下内容作为Cookie<br />username+signature<br />且signature=MD5(secret+username)<br />且在校验方法为<br />MD5(secret+input_username) == signature</p><p>我们以Alice身份登入后得到这个Cookie，即<br />MD5(secret+“Alice”)</p><p>如果secret长度已知，假设为6</p><p>那么可以得到以下加密块，以及其MD5值</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">??????Alice\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x58\x00\x00\x00\x00\x00\x00\x00</span><br></pre></td></tr></table></figure><p>在加密块后续内容追加内容Bob，则可以将上一部分的MD5作为下一轮加密的输入</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">??????Alice\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x58\x00\x00\x00\x00\x00\x00\x00Bob</span><br></pre></td></tr></table></figure><p>即可得到这部分的MD5值</p><p>在进行认证时，可以使用以下用户名以及其相应的MD5</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username&#x3D;&quot;Alice\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x58\x00\x00\x00\x00\x00\x00\x00Bob&quot;</span><br></pre></td></tr></table></figure><p>服务器在验证身份</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MD5(secert+&quot;Alice\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x58\x00\x00\x00\x00\x00\x00\x00Bob&quot;) &#x3D;&#x3D; signature</span><br></pre></td></tr></table></figure><p>即完成了哈希扩展攻击，如果服务器对用户名的验证存在不安全的逻辑，那么就有可能越权漏洞</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;日常记录&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Study" scheme="https://yoloyolo.top/categories/Study/"/>
+    
+    
+    <category term="Crypto" scheme="https://yoloyolo.top/tags/Crypto/"/>
+    
+    <category term="Hash" scheme="https://yoloyolo.top/tags/Hash/"/>
+    
+  </entry>
   
   <entry>
     <title>HackTheBox_Flippin_Bank</title>
@@ -520,29 +543,6 @@
     <category term="Meterpreter" scheme="https://yoloyolo.top/tags/Meterpreter/"/>
     
     <category term="CobaltStrike" scheme="https://yoloyolo.top/tags/CobaltStrike/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>某APP测试项目小结</title>
-    <link href="https://yoloyolo.top/2021/08/01/Summary-For-Android-APP-Test/"/>
-    <id>https://yoloyolo.top/2021/08/01/Summary-For-Android-APP-Test/</id>
-    <published>2021-08-02T02:20:01.000Z</published>
-    <updated>2022-05-14T16:03:47.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>Busy &amp; Lazy</p><a id="more"></a><h1 id="activity劫持"><a class="markdownIt-Anchor" href="#activity劫持"></a> Activity劫持</h1><p>Activity劫持，又称StrandHogg</p><p>具体介绍: <a href="https://www.freebuf.com/company-information/249009.html">https://www.freebuf.com/company-information/249009.html</a></p><p>利用方式与Clickjacking有些相似，都是通过UI欺骗，来引导用户进行恶意操作</p><p>至于防御手段<br />一方面是需要对用户进行安全意识培训与宣传<br />另一方面，APP可以检测自身是否被系统程序覆盖，同时可以检测程序进入后台是否由用户操作造成(Home键，返回键)</p><p>漏洞复现测试</p><blockquote><p><a href="https://www.freebuf.com/sectool/249725.html">https://www.freebuf.com/sectool/249725.html</a></p></blockquote><h1 id="android抓包"><a class="markdownIt-Anchor" href="#android抓包"></a> Android抓包</h1><p>一开始以为跟普通的Burp抓包区别不大，后来发现里面的门道还是挺多的</p><h2 id="用户证书与系统证书"><a class="markdownIt-Anchor" href="#用户证书与系统证书"></a> 用户证书与系统证书</h2><p>直接通过浏览器下载安装的证书为用户证书，一些安全性较高的APP不会信任用户证书</p><p>但是可以通过安装系统证书来绕过（需root）</p><blockquote><p><a href="https://blog.csdn.net/weixin_31702225/article/details/117694829">https://blog.csdn.net/weixin_31702225/article/details/117694829</a></p></blockquote><h2 id="单向验证与双向验证"><a class="markdownIt-Anchor" href="#单向验证与双向验证"></a> 单向验证与双向验证</h2><p>单/双向验证的一些细节就不再赘述<br />单向验证一般是客户端验证服务端<br />双向验证测试两者相互验证</p><p>把APK丢进jadx，搜索&quot;checkclienttrusted&quot;和&quot;checkservertrusted&quot;<br />两者分别对应&quot;验证客户端&quot;和&quot;验证服务端&quot;<br />Frida与Xposed+JustTrustME的方法大概都是去劫持验证过程从而进行Bypass</p><blockquote><p><a href="https://xz.aliyun.com/t/6551#toc-13">https://xz.aliyun.com/t/6551#toc-13</a></p></blockquote><h2 id="burpsuite-fiddler"><a class="markdownIt-Anchor" href="#burpsuite-fiddler"></a> Burpsuite &amp; Fiddler</h2><p>就这次的测试来看<br />Fiddler与Burpsuite都有些各自的毛病<br />比如Fiddler里401的请求到了Burpsuite就200<br />比如Burpsuite相比于Fiddler会少了几个HTTP头<br />但是两者结合来使用效果还是很不错的</p><h2 id="justreverseit"><a class="markdownIt-Anchor" href="#justreverseit"></a> JustReverseIt</h2><p><del>逆向不用管会不会逆向，逆向也不管能不能读懂Java代码，只要会在jadx里Ctrl+F就行</del><br />通过逆向，看到了一些HTTP验证头的计算方法，也看到了AES加密的密钥与加密方法，etc.<br />有了这些信息在进行测试的时候就能够多发现一点可测试的点</p>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;Busy &amp;amp; Lazy&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="Study" scheme="https://yoloyolo.top/categories/Study/"/>
-    
-    
-    <category term="Android" scheme="https://yoloyolo.top/tags/Android/"/>
-    
-    <category term="Application_Test" scheme="https://yoloyolo.top/tags/Application-Test/"/>
     
   </entry>
   
