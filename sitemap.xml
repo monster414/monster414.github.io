@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://yoloyolo.top/2023/03/02/HackTheBox-Precious/</loc>
+    <loc>https://yoloyolo.top/2023/03/02/HackTheBox-MetaTwo/</loc>
     
     <lastmod>2023-03-02</lastmod>
     
@@ -11,7 +11,21 @@
   <url>
     <loc>https://yoloyolo.top/2023/02/08/Drone-Pentest-Handbook/</loc>
     
-    <lastmod>2023-03-01</lastmod>
+    <lastmod>2023-03-02</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/2023/02/08/Vulnhub-Walkthrough-Set/</loc>
+    
+    <lastmod>2023-03-02</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/2023/03/02/HackTheBox-Precious/</loc>
+    
+    <lastmod>2023-03-02</lastmod>
     
   </url>
   
@@ -80,13 +94,6 @@
   
   <url>
     <loc>https://yoloyolo.top/2023/02/08/Pentest-With-Meterpreter/</loc>
-    
-    <lastmod>2023-02-08</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yoloyolo.top/2023/02/08/Vulnhub-Walkthrough-Set/</loc>
     
     <lastmod>2023-02-08</lastmod>
     
@@ -662,13 +669,6 @@
   </url>
   
   <url>
-    <loc>https://yoloyolo.top/tags/Post-Pentest/</loc>
-    <lastmod>2023-03-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://yoloyolo.top/tags/Talk/</loc>
     <lastmod>2023-03-02</lastmod>
     <changefreq>daily</changefreq>
@@ -677,6 +677,13 @@
   
   <url>
     <loc>https://yoloyolo.top/tags/Reflection/</loc>
+    <lastmod>2023-03-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yoloyolo.top/tags/Post-Pentest/</loc>
     <lastmod>2023-03-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
