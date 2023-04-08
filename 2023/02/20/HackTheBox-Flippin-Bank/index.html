@@ -33,11 +33,11 @@
 <meta property="og:description" content="Dramatically solved.">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-02-19T21:33:53.000Z">
-<meta property="article:modified_time" content="2023-02-20T10:47:07.000Z">
+<meta property="article:modified_time" content="2023-04-08T05:25:49.863Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Crypto">
-<meta property="article:tag" content="HackTheBox">
 <meta property="article:tag" content="CBC">
+<meta property="article:tag" content="HackTheBox">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://yoloyolo.top/2023/02/20/HackTheBox-Flippin-Bank/">
@@ -203,10 +203,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2023-02-20 05:33:53 / Modified: 18:47:07" itemprop="dateCreated datePublished" datetime="2023-02-20T05:33:53+08:00">2023-02-20</time>
+              <time title="Created: 2023-02-20 05:33:53" itemprop="dateCreated datePublished" datetime="2023-02-20T05:33:53+08:00">2023-02-20</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-04-08 13:25:49" itemprop="dateModified" datetime="2023-04-08T13:25:49+08:00">2023-04-08</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -258,7 +264,7 @@
 <p>将构造的内容用pwntools发出后没有收到响应</p>
 <p>多次调试后发现问题所在</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">send_msg(s, user +<span class="string">&quot;&#x27;s password: &quot;</span> )</span><br><span class="line">passwd = s.recv(<span class="number">4096</span>).decode().strip()</span><br></pre></td></tr></table></figure>
-<p>本地生成算出Payload Hex形式后转字符串是用<code>ISO-8859-1</code>编码，这个单字节编码在处理<code>\x7a</code>以上的字符时很好用，所以顺手就用这个编码去处理Payload了</p>
+<p>本地生成算出Payload Hex形式后转字符串是用<code>ISO-8859-1</code>编码，这个单字节编码在处理<code>\x7f</code>以上的字符时很好用，所以顺手就用这个编码去处理Payload了</p>
 <p>但是问题随之而来</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UnicodeDecodeError: &#39;utf-8&#39; codec can&#39;t decode byte 0xa6 in position 15: invalid start byte</span><br></pre></td></tr></table></figure>
 <p>也就是意味着我的Payload需要能够被UTF-8编码处理</p>
@@ -321,8 +327,8 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/Crypto/" rel="tag"># Crypto</a>
-              <a href="/tags/HackTheBox/" rel="tag"># HackTheBox</a>
               <a href="/tags/CBC/" rel="tag"># CBC</a>
+              <a href="/tags/HackTheBox/" rel="tag"># HackTheBox</a>
           </div>
 
         
