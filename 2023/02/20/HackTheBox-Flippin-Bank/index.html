@@ -33,7 +33,7 @@
 <meta property="og:description" content="Dramatically solved.">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-02-19T21:33:53.000Z">
-<meta property="article:modified_time" content="2023-04-08T05:25:49.863Z">
+<meta property="article:modified_time" content="2023-06-03T03:50:36.288Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Crypto">
 <meta property="article:tag" content="CBC">
@@ -211,7 +211,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-04-08 13:25:49" itemprop="dateModified" datetime="2023-04-08T13:25:49+08:00">2023-04-08</time>
+                <time title="Modified: 2023-06-03 11:50:36" itemprop="dateModified" datetime="2023-06-03T11:50:36+08:00">2023-06-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -244,7 +244,7 @@
 <h2 id="cbc密码块构造"><a class="markdownIt-Anchor" href="#cbc密码块构造"></a> CBC密码块构造</h2>
 <p>想了一下可以构造伪密码块</p>
 <p>CBC大概加解密流程如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plain_Block -&gt; Xor(Last_Cipher_Block&#x2F;IV) -&gt; Block Cipher Encrypt -&gt; Cipher_Block -&gt; Xor(Last_Cipher_Block&#x2F;IV) -&gt; Plain_Block</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plain_Block -&gt; Xor(Last_Cipher_Block&#x2F;IV) -&gt; Block_Cipher_Encrypt -&gt; Cipher_Block -&gt; Block_Cipher_Decrypt -&gt; Xor(Last_Cipher_Block&#x2F;IV) -&gt; Plain_Block</span><br></pre></td></tr></table></figure>
 <p>题目中的所需密码块如下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">    Plain_Block_0       Plain_Block_1       Plain_Block_2</span><br><span class="line">    logged_username&#x3D;    admin&amp;password&#x3D;g    0ld3n_b0y</span><br><span class="line">IV  Cipher_Block_0      Cipher_Block_1      Cipher_Block_2</span><br></pre></td></tr></table></figure>
 <p><code>Key</code>, <code>IV</code>, <code>Plain_Block_0</code>固定，则<code>Cipher_Block_0</code>固定</p>
