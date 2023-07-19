@@ -33,7 +33,7 @@
 <meta property="og:description" content="给枯燥的工作平添一分不确定性罢了">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-07-18T10:56:49.000Z">
-<meta property="article:modified_time" content="2023-07-18T11:48:33.359Z">
+<meta property="article:modified_time" content="2023-07-19T12:08:25.787Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Malware">
 <meta name="twitter:card" content="summary">
@@ -201,10 +201,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2023-07-18 18:56:49 / Modified: 19:48:33" itemprop="dateCreated datePublished" datetime="2023-07-18T18:56:49+08:00">2023-07-18</time>
+              <time title="Created: 2023-07-18 18:56:49" itemprop="dateCreated datePublished" datetime="2023-07-18T18:56:49+08:00">2023-07-18</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-07-19 20:08:25" itemprop="dateModified" datetime="2023-07-19T20:08:25+08:00">2023-07-19</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -281,7 +287,10 @@ top一看cpu跑到170了都, 基本就是挖矿了</p>
 <code>4045022d9d8a7c30bf9bfeb869316787</code>会对内网进行扫描, <code>dd4b52f33373c57093f1df396a76e058</code>则是挖矿程序<br />
 三个文件都是魔改UPX加壳, 需要手工脱壳, 等什么时候有时间看一下吧</p>
 <hr />
-<p>待续</p>
+<p>IDA上linux远程调试会提示是so文件，需要在附加的进程中进行调试</p>
+<p>用gdbserver调试会走进一个莫名其妙的syscall exit直接把程序退了，解压缩操作愣是没看见</p>
+<p>估计是有反动调了</p>
+<p>看来还是没能力脱这个壳</p>
 
     </div>
 
