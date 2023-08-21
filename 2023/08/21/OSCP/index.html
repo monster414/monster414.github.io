@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=consolas:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="除了写报告有点折磨人其他都挺简单的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OSCP">
+<meta property="og:url" content="https://yoloyolo.top/2023/08/21/OSCP/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="除了写报告有点折磨人其他都挺简单的">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-08-21T11:15:26.000Z">
+<meta property="article:modified_time" content="2023-08-21T11:28:16.890Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="OSCP">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yoloyolo.top/2023/08/21/OSCP/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>OSCP | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2023/08/21/OSCP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OSCP
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-08-21 19:15:26 / Modified: 19:28:16" itemprop="dateCreated datePublished" datetime="2023-08-21T19:15:26+08:00">2023-08-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Talk/" itemprop="url" rel="index"><span itemprop="name">Talk</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>除了写报告有点折磨人其他都挺简单的</p>
+<a id="more"></a>
+<h1 id="前期准备"><a class="markdownIt-Anchor" href="#前期准备"></a> 前期准备</h1>
+<p><a target="_blank" rel="noopener" href="https://www.hackthebox.com/">https://www.hackthebox.com/</a></p>
+<p>HTB没必要开会员，能上个Pro Hacker段差不多可以了</p>
+<p>没思路可以上BreachForum看别人的交流</p>
+<p>虽说BreachForum之前被FBI拿下了，但好像又有个新的出来了</p>
+<p><a target="_blank" rel="noopener" href="https://tryhackme.com/path/outline/pentesting">https://tryhackme.com/path/outline/pentesting</a></p>
+<p>THM那个Offensive Pentesting课程还可以，刷信用卡一个月会员六七十人民币左右，一个月会员的时间正好差不多打完吧</p>
+<p>当然是边工作边打的</p>
+<p>会员记得取消订阅，不然下个月接着扣费，虽然说可以写小作文发邮件退回来</p>
+<p><a target="_blank" rel="noopener" href="https://vulnhub.com/">https://vulnhub.com/</a></p>
+<p>20年那会儿疫情蹲家里的时候打得多，本来打算打个三四十台准备去报名OSCP的</p>
+<p>结果不让办护照，23年放开了能办护照了这才报名的OSCP</p>
+<h1 id="报名"><a class="markdownIt-Anchor" href="#报名"></a> 报名</h1>
+<p>在官方报了</p>
+<p>然后说谷安那边有优惠</p>
+<p>看了一下能便宜2k</p>
+<p>直接把官方的退款了然后在谷安报名</p>
+<h1 id="课程学习"><a class="markdownIt-Anchor" href="#课程学习"></a> 课程学习</h1>
+<p>有上述前期准备的话课程的练习半个月就能弄完</p>
+<p>LAB基本上是一周能打一组，LAB3好像花了两周来着，记得不是很清楚</p>
+<p>剩下一个月订阅个PG（记得取消下一个月的订阅），工作日打PG保持手感，周末重新打模拟考试</p>
+<p>PG优先打Pratice，有的时候能上班打一台，下班回去打一台</p>
+<p>有时候懒得打下班都不想打</p>
+<p>打到最后差不多一个月打了26台好像</p>
+<p>拿10分奖励分能让考试压力小不少，虽说最后也不缺这10分</p>
+<h1 id="考试准备"><a class="markdownIt-Anchor" href="#考试准备"></a> 考试准备</h1>
+<h2 id="摄像头"><a class="markdownIt-Anchor" href="#摄像头"></a> 摄像头</h2>
+<p>摄像头买个十几块720P差不多得了（台式机）</p>
+<p>考试时间前的15分钟会让你出示证件，然后看房间一周，最后看桌子底下</p>
+<h2 id="网络"><a class="markdownIt-Anchor" href="#网络"></a> 网络</h2>
+<p>关于网络，可以事先开一台阿里云的抢占式实例，香港节点，2核2G，带宽拉满，流量计费</p>
+<p>搭IPSEC代理，装个openvpn，然后连考试的VPN，本地虚拟机连上IPSEC代理就能通考试环境的VPN</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/hwdsl2/setup-ipsec-vpn">https://github.com/hwdsl2/setup-ipsec-vpn</a></p>
+<p>实际使用时需要在云主机配一下iptables</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -F</span><br><span class="line">iptables -t nat -A POSTROUTING -s 192.168.42.0&#x2F;24 -j MASQUERADE</span><br></pre></td></tr></table></figure>
+<p>命令应该是这样来着？</p>
+<p>这玩意拿来做LAB挺爽的，传文件跟反弹Shell就不是很方便了</p>
+<p>虽说实际考试的时候网络挺好的</p>
+<p>事先开的阿里云没用上，而且忘了关了，不是写这篇blog我都想不起来自己准备了一台云主机，放了50小时才扣十几块</p>
+<h2 id="食物"><a class="markdownIt-Anchor" href="#食物"></a> 食物</h2>
+<p>随便整点零食小面包就行</p>
+<p>吃了包辣条冲了三次</p>
+<p>给自己上点强度了属于是</p>
+<p>贤哥红烧素鱼片我劝你少吃</p>
+<h1 id="考试过程"><a class="markdownIt-Anchor" href="#考试过程"></a> 考试过程</h1>
+<p>下午三点开始</p>
+<p>域纯白给，两小时拿下</p>
+<p>两台机器GetShell不难，提权有点偏</p>
+<p>也算运气好，自己慢慢找也找出来了</p>
+<p>找到第一个提权的时候已经差不多花了六个小时</p>
+<p>拿下70分就开始写报告了</p>
+<p>写了三个多小时把主要内容写得差不多了</p>
+<p>这时候san值挺低了</p>
+<p>然后开始看第二个机器的提权，强行跳出之前自己掉进去的兔子洞（思路钻牛角尖）之后找到了正确的提权方法</p>
+<p>跟监考说一声就上个厕所洗把脸睡了</p>
+<p>san值低的情况下做的梦很奇怪</p>
+<p>梦到了最后一台机器的GetShell方法，但是自己又有点清醒，知道这个方法是错的</p>
+<p>总之睡得很不好</p>
+<p>定个五个小时闹钟，醒来感觉不太够，继续躺下补40分钟</p>
+<p>起来先把报告弄完</p>
+<p>最后一天机器枚举一个多小时找不到落脚点懒得找了</p>
+<p>但是又有种这台机器的GetShell方法是一种比较怪的方法，然后提权特别容易的感觉</p>
+<p>把报告内容跟平台提交的flag检查一下就交报告了</p>
+<p>分数应该是域控40+两台独立机器40+奖励10</p>
+<h2 id="后记"><a class="markdownIt-Anchor" href="#后记"></a> 后记</h2>
+<p>考试是周日中午结束的，考试结果是周一下午一点收到的</p>
+<p>26个小时的样子，这效率有点挺高的</p>
+<p>OSCP考的核心就是信息收集，收集得明白能找到对应利用方法就能过</p>
+<p>后续该准备那个桌面运维岗位的招聘需求了</p>
+<ul>
+<li>SCCM</li>
+<li>CCNA</li>
+<li>英语口语</li>
+</ul>
+<p>其他一些打算</p>
+<ul>
+<li>CRTO</li>
+<li>CRTO II</li>
+</ul>
+<p>OSEP跟OSWE放CRTO之后再考虑吧</p>
+<p>感觉CRTO作为OSEP前置考挺不错的</p>
+<p>主要是这玩意一个9k确实有点贵了</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2023/08/21/OSCP/" title="OSCP">https://yoloyolo.top/2023/08/21/OSCP/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/OSCP/" rel="tag"># OSCP</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/07/18/ESo1YS-Miner-Analysis/" rel="prev" title="ESo1YS_Miner_Analysis">
+      <i class="fa fa-chevron-left"></i> ESo1YS_Miner_Analysis
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text"> 前期准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%A5%E5%90%8D"><span class="nav-number">2.</span> <span class="nav-text"> 报名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0"><span class="nav-number">3.</span> <span class="nav-text"> 课程学习</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%80%83%E8%AF%95%E5%87%86%E5%A4%87"><span class="nav-number">4.</span> <span class="nav-text"> 考试准备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%84%E5%83%8F%E5%A4%B4"><span class="nav-number">4.1.</span> <span class="nav-text"> 摄像头</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C"><span class="nav-number">4.2.</span> <span class="nav-text"> 网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A3%9F%E7%89%A9"><span class="nav-number">4.3.</span> <span class="nav-text"> 食物</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%80%83%E8%AF%95%E8%BF%87%E7%A8%8B"><span class="nav-number">5.</span> <span class="nav-text"> 考试过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E8%AE%B0"><span class="nav-number">5.1.</span> <span class="nav-text"> 后记</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=302397927" title="CloudMisuc → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;302397927" rel="noopener" target="_blank"><i class=" fa-fw"></i>CloudMisuc</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
