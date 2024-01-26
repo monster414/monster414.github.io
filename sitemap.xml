@@ -417,6 +417,13 @@
   </url>
   
   <url>
+    <loc>https://yoloyolo.top/tags/Pentest/</loc>
+    <lastmod>2024-01-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://yoloyolo.top/tags/AWD/</loc>
     <lastmod>2024-01-26</lastmod>
     <changefreq>daily</changefreq>
@@ -425,13 +432,6 @@
   
   <url>
     <loc>https://yoloyolo.top/tags/CISCN/</loc>
-    <lastmod>2024-01-26</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://yoloyolo.top/tags/Pentest/</loc>
     <lastmod>2024-01-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -641,14 +641,14 @@
   </url>
   
   <url>
-    <loc>https://yoloyolo.top/tags/OSCP/</loc>
+    <loc>https://yoloyolo.top/tags/Mysql/</loc>
     <lastmod>2024-01-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://yoloyolo.top/tags/Mysql/</loc>
+    <loc>https://yoloyolo.top/tags/OSCP/</loc>
     <lastmod>2024-01-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
