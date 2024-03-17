@@ -6,7 +6,7 @@
   <link href="https://yoloyolo.top/atom.xml" rel="self"/>
   
   <link href="https://yoloyolo.top/"/>
-  <updated>2024-02-29T11:49:54.569Z</updated>
+  <updated>2024-03-17T08:02:03.164Z</updated>
   <id>https://yoloyolo.top/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CRTO</title>
+    <link href="https://yoloyolo.top/2024/03/17/CRTO/"/>
+    <id>https://yoloyolo.top/2024/03/17/CRTO/</id>
+    <published>2024-03-17T07:53:12.000Z</published>
+    <updated>2024-03-17T08:02:03.164Z</updated>
+    
+    <content type="html"><![CDATA[<p>六个半小时满分</p><p>比预期的还简单</p><a id="more"></a><h1 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h1><p>基本就是开了Windows Defender之后的练习Lab的难度</p><p>课程教了什么就考什么，挺实在的</p><p>就是最后部分有点&quot;Try Harder&quot;的感觉，但是设计的也挺不错的</p><h1 id="课程学习"><a class="markdownIt-Anchor" href="#课程学习"></a> 课程学习</h1><p>从报名到考试花了两个月时间</p><p>中间学习节奏很慢，加上三天打鱼两天晒网</p><p>LAB开个30天的完全够用</p><p>相比于OSCP，CRTO还是太过于松弛了</p><p>碰到课程里面讲得不太清楚的就要自己另外找资料看看了</p><h1 id="crto-vs-oscp"><a class="markdownIt-Anchor" href="#crto-vs-oscp"></a> CRTO vs OSCP</h1><p>相比于CRTO，OSCP更强调的是信息收集能力</p><p>但是在CRTO里面则是更加着重于Kerberos机制以及一些Windows机制的利用还有CobaltStrike的操作</p><p>当然还是要一些基础的域信息收集</p><p>OPSEC部分也挺不错的，虽然说你不遵循OPSEC操作对你的考试没什么影响</p><p>要通过考试的话拿6个Flag非常简单，剩下两个就要&quot;Try Harder&quot;了</p><h1 id="证书含金量"><a class="markdownIt-Anchor" href="#证书含金量"></a> 证书含金量</h1><p>单独看课程内容的话还是可以的，但是由于考试过于简单，个人感觉证书的含金量并不是很高</p><p>BTW：CRTO关于域的内容好像是比OSEP更多点</p><blockquote><p>Companies don’t seek the CRTO often but if you’re applying to red team jobs they will likely ask you a lot of questions the CRTO will teach you. Honestly it’s a bit of a cheat code for punching above your weight.</p></blockquote><h1 id="不足之处"><a class="markdownIt-Anchor" href="#不足之处"></a> 不足之处</h1><ul><li>只有CobaltStrike以及一些CSharp程序，缺少对于其他工具使用，如Impacket、CrackMapExec、Certipy，但是这门课程就是围绕CobaltStrike设计的，也没办法</li><li>Lab很卡，需要一点时间适应</li><li>有些内容只是粗略得讲一讲，需要自己另外找资料看</li></ul><hr /><p>总的来说还是比较推荐的，但是</p><blockquote><p>Do it for the knowledge and skills you earned. Not for the certification itself.</p></blockquote>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;六个半小时满分&lt;/p&gt;
+&lt;p&gt;比预期的还简单&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Talk" scheme="https://yoloyolo.top/categories/Talk/"/>
+    
+    
+    <category term="Cybersecurity_Certification" scheme="https://yoloyolo.top/tags/Cybersecurity-Certification/"/>
+    
+  </entry>
   
   <entry>
     <title>赛博精神病</title>
@@ -113,7 +135,7 @@
     <link href="https://yoloyolo.top/2023/08/21/OSCP/"/>
     <id>https://yoloyolo.top/2023/08/21/OSCP/</id>
     <published>2023-08-21T11:15:26.000Z</published>
-    <updated>2023-08-23T11:52:12.669Z</updated>
+    <updated>2024-03-17T08:00:37.770Z</updated>
     
     <content type="html"><![CDATA[<p>除了写报告有点折磨人其他都挺简单的</p><a id="more"></a><h1 id="前期准备"><a class="markdownIt-Anchor" href="#前期准备"></a> 前期准备</h1><p><a href="https://www.hackthebox.com/">https://www.hackthebox.com/</a></p><p>HTB没必要开会员，能上个Pro Hacker段差不多可以了</p><p>没思路可以上BreachForum看别人的交流</p><p>虽说BreachForum之前被FBI拿下了，但好像又有个新的出来了</p><p><a href="https://tryhackme.com/path/outline/pentesting">https://tryhackme.com/path/outline/pentesting</a></p><p>THM那个Offensive Pentesting课程还可以，刷信用卡一个月会员六七十人民币左右，一个月会员的时间正好差不多打完吧</p><p>当然是边工作边打的</p><p>会员记得取消订阅，不然下个月接着扣费，虽然说可以写小作文发邮件退回来</p><p><a href="https://vulnhub.com/">https://vulnhub.com/</a></p><p>20年那会儿疫情蹲家里的时候打得多，本来打算打个三四十台准备去报名OSCP的</p><p>结果不让办护照，23年放开了能办护照了这才报名的OSCP</p><h1 id="报名"><a class="markdownIt-Anchor" href="#报名"></a> 报名</h1><p>在官方报了</p><p>然后说谷安那边有优惠</p><p>看了一下能便宜2k</p><p>直接把官方的退款了然后在谷安报名</p><h1 id="课程学习"><a class="markdownIt-Anchor" href="#课程学习"></a> 课程学习</h1><p>有上述前期准备的话课程的练习半个月就能弄完</p><p>LAB基本上是一周能打一组，LAB3好像花了两周来着，记得不是很清楚</p><p>剩下一个月订阅个PG（记得取消下一个月的订阅），工作日打PG保持手感，周末重新打模拟考试</p><p>PG优先打Pratice，有的时候能上班打一台，下班回去打一台</p><p>有时候懒得打下班都不想打</p><p>打到最后差不多一个月打了26台好像</p><p>拿10分奖励分能让考试压力小不少，虽说最后也不缺这10分</p><h1 id="考试准备"><a class="markdownIt-Anchor" href="#考试准备"></a> 考试准备</h1><h2 id="摄像头"><a class="markdownIt-Anchor" href="#摄像头"></a> 摄像头</h2><p>摄像头买个十几块720P差不多得了（台式机）</p><p>考试时间前的15分钟会让你出示证件，然后看房间一周，最后看桌子底下</p><h2 id="网络"><a class="markdownIt-Anchor" href="#网络"></a> 网络</h2><p>关于网络，可以事先开一台阿里云的抢占式实例，香港节点，2核2G，带宽拉满，流量计费</p><p>搭IPSEC代理，装个openvpn，然后连考试的VPN，本地虚拟机连上IPSEC代理就能通考试环境的VPN</p><p><a href="https://github.com/hwdsl2/setup-ipsec-vpn">https://github.com/hwdsl2/setup-ipsec-vpn</a></p><p>实际使用时需要在云主机配一下iptables</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -F</span><br><span class="line">iptables -t nat -A POSTROUTING -s 192.168.42.0&#x2F;24 -j MASQUERADE</span><br></pre></td></tr></table></figure><p>命令应该是这样来着？</p><p>这玩意拿来做LAB挺爽的，传文件跟反弹Shell就不是很方便了</p><p>虽说实际考试的时候网络挺好的</p><p>事先开的阿里云没用上，而且忘了关了，不是写这篇blog我都想不起来自己准备了一台云主机，放了50小时才扣十几块</p><h2 id="食物"><a class="markdownIt-Anchor" href="#食物"></a> 食物</h2><p>随便整点零食小面包就行</p><p>吃了包辣条冲了三次</p><p>给自己上点强度了属于是</p><p>贤哥红烧素鱼片我劝你少吃</p><h1 id="考试过程"><a class="markdownIt-Anchor" href="#考试过程"></a> 考试过程</h1><p>下午三点开始</p><p>域纯白给，两小时拿下</p><p>两台机器GetShell不难，提权有点偏</p><p>也算运气好，自己慢慢找也找出来了</p><p>找到第一个提权的时候已经差不多花了六个小时</p><p>拿下70分就开始写报告了</p><p>写了三个多小时把主要内容写得差不多了</p><p>这时候san值挺低了</p><p>然后开始看第二个机器的提权，强行跳出之前自己掉进去的兔子洞（思路钻牛角尖）之后找到了正确的提权方法</p><p>跟监考说一声就上个厕所洗把脸睡了</p><p>san值低的情况下做的梦很奇怪</p><p>梦到了最后一台机器的GetShell方法，但是自己又有点清醒，知道这个方法是错的</p><p>总之睡得很不好</p><p>定个五个小时闹钟，醒来感觉不太够，继续躺下补40分钟</p><p>起来先把报告弄完</p><p>最后一台机器枚举一个多小时找不到落脚点懒得找了</p><p>但是又有种这台机器的GetShell方法是一种比较怪的方法，然后提权特别容易的感觉</p><p>把报告内容跟平台提交的flag检查一下就交报告了</p><p>分数应该是域控40+两台独立机器40+奖励10</p><h2 id="后记"><a class="markdownIt-Anchor" href="#后记"></a> 后记</h2><p>考试是周日中午结束的，考试结果是周一下午一点收到的</p><p>26个小时的样子，这效率挺高的</p><p>OSCP考的核心就是信息收集，收集得明白能找到对应利用方法就能过</p><p>后续该准备那个桌面运维岗位的招聘需求了</p><ul><li>SCCM</li><li>CCNA</li><li>英语口语</li></ul><p>其他一些打算</p><ul><li>CRTO</li><li>CRTO II</li></ul><p>OSEP跟OSWE放CRTO之后再考虑吧</p><p>感觉CRTO作为OSEP前置考挺不错的</p><p>主要是这玩意一个9k确实有点贵了</p>]]></content>
     
@@ -125,7 +147,7 @@
     <category term="Talk" scheme="https://yoloyolo.top/categories/Talk/"/>
     
     
-    <category term="OSCP" scheme="https://yoloyolo.top/tags/OSCP/"/>
+    <category term="Cybersecurity_Certification" scheme="https://yoloyolo.top/tags/Cybersecurity-Certification/"/>
     
   </entry>
   
@@ -507,37 +529,6 @@
     <category term="POP" scheme="https://yoloyolo.top/tags/POP/"/>
     
     <category term="Unserialize" scheme="https://yoloyolo.top/tags/Unserialize/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>闽盾杯/黑盾杯 2021 WP</title>
-    <link href="https://yoloyolo.top/2021/12/07/MinDunCup-2021/"/>
-    <id>https://yoloyolo.top/2021/12/07/MinDunCup-2021/</id>
-    <published>2021-12-06T19:16:04.000Z</published>
-    <updated>2023-07-16T09:03:29.343Z</updated>
-    
-    <content type="html"><![CDATA[<p>2/13<br />但是还是觉得自己菜得要死<br /><a href="https://shimo.im/docs/Gt8GCcQ6rQ3vJxh6">福建省第二届&quot;闽盾杯&quot;网络空间安全大赛黑盾赛道WP</a></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;2/13&lt;br /&gt;
-但是还是觉得自己菜得要死&lt;br /&gt;
-&lt;a href=&quot;https://shimo.im/docs/Gt8GCcQ6rQ3vJxh6&quot;&gt;福建省第二届&amp;quot;闽盾杯&amp;quot;网络空间安全大赛黑盾赛道WP&lt;/a&gt;&lt;/p&gt;
-</summary>
-      
-    
-    
-    
-    <category term="WriteUp" scheme="https://yoloyolo.top/categories/WriteUp/"/>
-    
-    
-    <category term="Pentest" scheme="https://yoloyolo.top/tags/Pentest/"/>
-    
-    <category term="Windows" scheme="https://yoloyolo.top/tags/Windows/"/>
-    
-    <category term="Cyber_Attribution" scheme="https://yoloyolo.top/tags/Cyber-Attribution/"/>
     
   </entry>
   
