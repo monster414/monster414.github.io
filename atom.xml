@@ -6,7 +6,7 @@
   <link href="https://yoloyolo.top/atom.xml" rel="self"/>
   
   <link href="https://yoloyolo.top/"/>
-  <updated>2024-03-17T08:02:03.164Z</updated>
+  <updated>2024-03-19T11:50:29.827Z</updated>
   <id>https://yoloyolo.top/</id>
   
   <author>
@@ -21,12 +21,12 @@
     <link href="https://yoloyolo.top/2024/03/17/CRTO/"/>
     <id>https://yoloyolo.top/2024/03/17/CRTO/</id>
     <published>2024-03-17T07:53:12.000Z</published>
-    <updated>2024-03-17T08:02:03.164Z</updated>
+    <updated>2024-03-19T11:50:29.827Z</updated>
     
-    <content type="html"><![CDATA[<p>六个半小时满分</p><p>比预期的还简单</p><a id="more"></a><h1 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h1><p>基本就是开了Windows Defender之后的练习Lab的难度</p><p>课程教了什么就考什么，挺实在的</p><p>就是最后部分有点&quot;Try Harder&quot;的感觉，但是设计的也挺不错的</p><h1 id="课程学习"><a class="markdownIt-Anchor" href="#课程学习"></a> 课程学习</h1><p>从报名到考试花了两个月时间</p><p>中间学习节奏很慢，加上三天打鱼两天晒网</p><p>LAB开个30天的完全够用</p><p>相比于OSCP，CRTO还是太过于松弛了</p><p>碰到课程里面讲得不太清楚的就要自己另外找资料看看了</p><h1 id="crto-vs-oscp"><a class="markdownIt-Anchor" href="#crto-vs-oscp"></a> CRTO vs OSCP</h1><p>相比于CRTO，OSCP更强调的是信息收集能力</p><p>但是在CRTO里面则是更加着重于Kerberos机制以及一些Windows机制的利用还有CobaltStrike的操作</p><p>当然还是要一些基础的域信息收集</p><p>OPSEC部分也挺不错的，虽然说你不遵循OPSEC操作对你的考试没什么影响</p><p>要通过考试的话拿6个Flag非常简单，剩下两个就要&quot;Try Harder&quot;了</p><h1 id="证书含金量"><a class="markdownIt-Anchor" href="#证书含金量"></a> 证书含金量</h1><p>单独看课程内容的话还是可以的，但是由于考试过于简单，个人感觉证书的含金量并不是很高</p><p>BTW：CRTO关于域的内容好像是比OSEP更多点</p><blockquote><p>Companies don’t seek the CRTO often but if you’re applying to red team jobs they will likely ask you a lot of questions the CRTO will teach you. Honestly it’s a bit of a cheat code for punching above your weight.</p></blockquote><h1 id="不足之处"><a class="markdownIt-Anchor" href="#不足之处"></a> 不足之处</h1><ul><li>只有CobaltStrike以及一些CSharp程序，缺少对于其他工具使用，如Impacket、CrackMapExec、Certipy，但是这门课程就是围绕CobaltStrike设计的，也没办法</li><li>Lab很卡，需要一点时间适应</li><li>有些内容只是粗略得讲一讲，需要自己另外找资料看</li></ul><hr /><p>总的来说还是比较推荐的，但是</p><blockquote><p>Do it for the knowledge and skills you earned. Not for the certification itself.</p></blockquote>]]></content>
+    <content type="html"><![CDATA[<p>八个小时满分</p><p>比预期的还简单</p><a id="more"></a><h1 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h1><p>基本就是开了Windows Defender之后的练习Lab的难度</p><p>课程教了什么就考什么，挺实在的</p><p>就是最后部分有点&quot;Try Harder&quot;的感觉，但是设计的也挺不错的</p><h1 id="课程学习"><a class="markdownIt-Anchor" href="#课程学习"></a> 课程学习</h1><p>从报名到考试花了两个月时间</p><p>中间学习节奏很慢，加上三天打鱼两天晒网</p><p>LAB开个30天的完全够用</p><p>相比于OSCP，CRTO还是太过于松弛了</p><p>碰到课程里面讲得不太清楚的就要自己另外找资料看看了</p><h1 id="crto-vs-oscp"><a class="markdownIt-Anchor" href="#crto-vs-oscp"></a> CRTO vs OSCP</h1><p>相比于CRTO，OSCP更强调的是信息收集能力</p><p>但是在CRTO里面则是更加着重于Kerberos机制以及一些Windows机制的利用还有CobaltStrike的操作</p><p>当然还是要一些基础的域信息收集</p><p>OPSEC部分也挺不错的，虽然说你不遵循OPSEC操作对你的考试没什么影响</p><p>要通过考试的话拿6个Flag非常简单，剩下两个就要&quot;Try Harder&quot;了</p><h1 id="证书含金量"><a class="markdownIt-Anchor" href="#证书含金量"></a> 证书含金量</h1><p>单独看课程内容的话还是可以的，但是由于考试过于简单，个人感觉证书的含金量并不是很高</p><p>BTW：CRTO关于域的内容好像是比OSEP更多点</p><blockquote><p>Companies don’t seek the CRTO often but if you’re applying to red team jobs they will likely ask you a lot of questions the CRTO will teach you. Honestly it’s a bit of a cheat code for punching above your weight.</p></blockquote><h1 id="不足之处"><a class="markdownIt-Anchor" href="#不足之处"></a> 不足之处</h1><ul><li>只有CobaltStrike以及一些CSharp程序，缺少对于其他工具使用，如Impacket、CrackMapExec、Certipy，但是这门课程就是围绕CobaltStrike设计的，也没办法</li><li>Lab很卡，需要一点时间适应</li><li>有些内容只是粗略得讲一讲，需要自己另外找资料看</li></ul><hr /><p>总的来说还是比较推荐的，但是</p><blockquote><p>Do it for the knowledge and skills you earned. Not for the certification itself.</p></blockquote>]]></content>
     
     
-    <summary type="html">&lt;p&gt;六个半小时满分&lt;/p&gt;
+    <summary type="html">&lt;p&gt;八个小时满分&lt;/p&gt;
 &lt;p&gt;比预期的还简单&lt;/p&gt;</summary>
     
     
