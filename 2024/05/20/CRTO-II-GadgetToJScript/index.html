@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=consolas:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="关于这节课程的一点内容补充">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CRTO II GadgetToJScript">
+<meta property="og:url" content="https://yoloyolo.top/2024/05/20/CRTO-II-GadgetToJScript/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="关于这节课程的一点内容补充">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-05-20T11:05:41.000Z">
+<meta property="article:modified_time" content="2024-05-20T11:19:58.688Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Windows">
+<meta property="article:tag" content="GadgetToJScript">
+<meta property="article:tag" content="Shellcode">
+<meta property="article:tag" content="Macros">
+<meta property="article:tag" content="DotNet">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yoloyolo.top/2024/05/20/CRTO-II-GadgetToJScript/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>CRTO II GadgetToJScript | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2024/05/20/CRTO-II-GadgetToJScript/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CRTO II GadgetToJScript
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2024-05-20 19:05:41 / Modified: 19:19:58" itemprop="dateCreated datePublished" datetime="2024-05-20T19:05:41+08:00">2024-05-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>关于这节课程的一点内容补充</p>
+<a id="more"></a>
+<h1 id="gadgettojscript"><a class="markdownIt-Anchor" href="#gadgettojscript"></a> GadgetToJScript</h1>
+<p>整半天没用明白这个工具，然后搜到了RastaMouse的Blog</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://rastamouse.me/d-invoke-gadgettojscript/">https://rastamouse.me/d-invoke-gadgettojscript/</a><br />
+NOTE: I had some wild issues where creating new *.cs files in the project would just cause the serialised gadget to not execute. Simply moving the classes into a single .cs file made everything work again.</p>
+</blockquote>
+<p>把Win32.cs的内容复制到Class Program里得了</p>
+<p>直接上P/Invoke</p>
+<h1 id="x86-x64"><a class="markdownIt-Anchor" href="#x86-x64"></a> x86 &amp; x64</h1>
+<p>本地的Word能运行宏</p>
+<p>准备丢虚拟机里面测一下ASR绕过的，结果发现不能运行</p>
+<p>调试半天发现虚拟机装的是x86的Office</p>
+<p>想着创建个x64进程应该就能注入x64 Shellcode了，结果不行</p>
+<p>整体测试了一遍</p>
+<p>测试结果如下</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Gadget</th>
+<th style="text-align:center">CSharp_PE</th>
+<th style="text-align:center">Word</th>
+<th style="text-align:center">Process</th>
+<th style="text-align:center">Shellcode</th>
+<th style="text-align:center">Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">TRUE</td>
+</tr>
+<tr>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">FALSE</td>
+</tr>
+<tr>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">FALSE</td>
+</tr>
+<tr>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">FALSE</td>
+</tr>
+<tr>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">FALSE</td>
+</tr>
+<tr>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">FALSE</td>
+</tr>
+<tr>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">FALSE</td>
+</tr>
+<tr>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">TRUE</td>
+</tr>
+<tr>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">FALSE</td>
+</tr>
+<tr>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">FALSE</td>
+</tr>
+<tr>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">FALSE</td>
+</tr>
+<tr>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">FALSE</td>
+</tr>
+<tr>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">TRUE</td>
+</tr>
+<tr>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">FALSE</td>
+</tr>
+<tr>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">FALSE</td>
+</tr>
+</tbody>
+</table>
+<p>测试结论如下</p>
+<ol>
+<li>Gadget和编译的Loader PE架构必须一致，否则不能生成VBA代码</li>
+<li>x86的Office在宏里不能运行x64的二进制序列化PE的反序列化对象</li>
+<li>x64的Office创建x86进程无法执行x86 Shellcode</li>
+</ol>
+<p>感觉还是有点问题，拿CSharp和CPP的Loader再测了以下<br />
+只有以下情况能够执行ShellCode</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">CSharp</th>
+<th style="text-align:center">Process</th>
+<th style="text-align:center">Shellcode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+</tr>
+<tr>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">CPP</th>
+<th style="text-align:center">Process</th>
+<th style="text-align:center">Shellcode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+</tr>
+<tr>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+</tr>
+<tr>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+</tr>
+</tbody>
+</table>
+<p>CPP比CSharp多了一种x64 Loader创建x86进程并注入x86 Shellcode的情况<br />
+估计是语言底层的问题</p>
+<p>也就是说CSharp只有在Loader，创建进程和Shellcode三者的架构一致的情况才能执行ShellCode</p>
+<p>再反推在开始的测试结果</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Gadget</th>
+<th style="text-align:center">CSharp_PE</th>
+<th style="text-align:center">Office</th>
+<th style="text-align:center">Process</th>
+<th style="text-align:center">Shellcode</th>
+<th style="text-align:center">Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x86</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">x64</td>
+<td style="text-align:center">TRUE</td>
+</tr>
+</tbody>
+</table>
+<p>这一条就显得有些令人疑惑<br />
+但是根据结果来反推原因就可以得出以下猜测</p>
+<p>CSharp所编译得到的PE其实也还是IL，并不是机器码，最终的执行在.NET框架的CLR中<br />
+而编译的PE是x86还是x64其实没有本质上的区别，所以x64的Word能够运行x86的二进制序列化PE<br />
+由于自身运行环境是x64，所以只能执行x64的ShellCode</p>
+<p>上述猜测未经验证，给自己一个停止折腾的理由罢了</p>
+<h1 id="arch-identifying"><a class="markdownIt-Anchor" href="#arch-identifying"></a> Arch Identifying</h1>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IntPtr.Size &#x3D;&#x3D; 8</span><br></pre></td></tr></table></figure>
+<p>根据返回结果来分别写x86和x64时的执行语句</p>
+<p>二进制序列化PE用x86的就行了，反正x86跟x64的Word都能用</p>
+<h1 id="file-system-redirector"><a class="markdownIt-Anchor" href="#file-system-redirector"></a> File System Redirector</h1>
+<p>x86进程访问<code>C:\Windows\System32\</code>时会被重定向到<code>C:\Windows\SysWOW64\</code></p>
+<p>需要使用<code>C:\Windows\sysnative</code>才可以访问<code>C:\Windows\System32\</code></p>
+<p>使用函数CreateProcessW()的时候ApplicationName跟CommandLine都填的sysnative，结果CommandLine是system32，调用的程序还是SysWOW64</p>
+<p>只能禁用重定向了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Wow64DisableWow64FsRedirection()</span><br><span class="line">Wow64RevertWow64FsRedirection()</span><br></pre></td></tr></table></figure>
+<p>但是x86进程没办法往x64进程注入x64 ShellCode</p>
+<p>然并卵</p>
+<p>EOF</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2024/05/20/CRTO-II-GadgetToJScript/" title="CRTO II GadgetToJScript">https://yoloyolo.top/2024/05/20/CRTO-II-GadgetToJScript/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Windows/" rel="tag"># Windows</a>
+              <a href="/tags/GadgetToJScript/" rel="tag"># GadgetToJScript</a>
+              <a href="/tags/Shellcode/" rel="tag"># Shellcode</a>
+              <a href="/tags/Macros/" rel="tag"># Macros</a>
+              <a href="/tags/DotNet/" rel="tag"># DotNet</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/05/06/Wormhole-Ransomware/" rel="prev" title="Wormhole Ransomware">
+      <i class="fa fa-chevron-left"></i> Wormhole Ransomware
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#gadgettojscript"><span class="nav-number">1.</span> <span class="nav-text"> GadgetToJScript</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#x86-x64"><span class="nav-number">2.</span> <span class="nav-text"> x86 &amp; x64</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#arch-identifying"><span class="nav-number">3.</span> <span class="nav-text"> Arch Identifying</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#file-system-redirector"><span class="nav-number">4.</span> <span class="nav-text"> File System Redirector</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=302397927" title="CloudMisuc → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;302397927" rel="noopener" target="_blank"><i class=" fa-fw"></i>CloudMisuc</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
