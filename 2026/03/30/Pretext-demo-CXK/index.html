@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=consolas:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="跟风写个玩玩       #cxk-page {     display: flex;     justify-content: center;     align-items: flex-start;     padding: 20px 0;   }    #article-wrap {     position: relative;     width: min(900px, 100%);">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pretext_demo_CXK">
+<meta property="og:url" content="https://yoloyolo.top/2026/03/30/Pretext-demo-CXK/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="跟风写个玩玩       #cxk-page {     display: flex;     justify-content: center;     align-items: flex-start;     padding: 20px 0;   }    #article-wrap {     position: relative;     width: min(900px, 100%);">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-03-30T11:17:34.000Z">
+<meta property="article:modified_time" content="2026-03-30T12:04:28.782Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Vibe_Coding">
+<meta property="article:tag" content="Front_DEV">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yoloyolo.top/2026/03/30/Pretext-demo-CXK/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Pretext_demo_CXK | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2026/03/30/Pretext-demo-CXK/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Pretext_demo_CXK
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2026-03-30 19:17:34 / Modified: 20:04:28" itemprop="dateCreated datePublished" datetime="2026-03-30T19:17:34+08:00">2026-03-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>跟风写个玩玩</p>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+  #cxk-page {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px 0;
+  }
+
+  #article-wrap {
+    position: relative;
+    width: min(900px, 100%);
+    height: 700px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.35);
+    background: #c8c2b0; 
+  }
+
+  #text-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 1;
+  }
+
+  #video-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+</style>
+
+<div id="cxk-page">
+  <div id="article-wrap">
+    <canvas id="text-canvas"></canvas>
+    <canvas id="video-canvas"></canvas>
+    <video
+      id="cxk-video"
+      src="/video/cxk_2.mp4" 
+      style="display: none;"
+      autoplay
+      loop
+      muted
+      playsinline
+      crossorigin="anonymous"
+    ></video>
+  </div>
+</div>
+
+<script type="module">
+  import { prepareWithSegments, layoutNextLine } from 'https://cdn.jsdelivr.net/npm/@chenglou/pretext/+esm';
+
+  // ─── Text ─────────────────────────────────────────────────────────────────────
+  const textContent = [
+    `"Ji Ni Tai Mei" (sometimes written as "Chicken You Are Too Beautiful") is a famous internet meme spanning music, sports, and pop culture. It all started with an introduction video from an idol trainee program that included a fusion of singing, dancing, rapping, and... basketball playing.`,
+    `The dynamic moves, the suspenders, the silver hair—it's become an enduring symbol in internet culture. No matter how many times the internet remixes it, the underlying passion for music and basketball shines through.`,
+    `To witness the master at work is to understand true dedication. Watch as the ball flows like water, the shoulders bounce with rhythm, and the music intertwines seamlessly with the sport.`,
+    `Every crossover, every spin move, every behind-the-back dribble is infused with artistic expression. The court is a canvas, and the basketball is the brush. People may laugh, but legends are forged in the fire of meme culture.`,
+    `Remember the days of the iron chicken? Remember the passion? Two and a half years of practice. That's the foundation of greatness. What you see now is just the tip of the iceberg.`
+  ];
+
+  // ─── DOM Elements ─────────────────────────────────────────────────────────────
+  const textCanvas = document.getElementById('text-canvas');
+  const videoCanvas = document.getElementById('video-canvas');
+  const videoEl = document.getElementById('cxk-video');
+  const wrapEl = document.getElementById('article-wrap');
+
+  // ─── Font ─────────────────────────────────────────────────────────────────────
+  const fontSize   = 18; 
+  const fontFamily = '"Noto Serif", serif';
+  const fontString = `${fontSize}px ${fontFamily}`;
+  const lineHeight = fontSize * 1.5; 
+  let preparedParagraphs = [];
+
+  // ─── Video State ──────────────────────────────────────────────────────────────
+  const TARGET_H = 400; // 调大人物尺寸
+  const videoState = { x: 0, y: 0, w: 0, h: TARGET_H };
+  let offCanvas = null;
+  let offCtx = null;
+  
+  // 核心升级：用于存储每一行(Y坐标)的最左和最右像素位置
+  let rowBounds = null; 
+
+  function updateVideoStyle() {
+    videoCanvas.style.left = videoState.x + 'px';
+    videoCanvas.style.top = videoState.y + 'px';
+    videoCanvas.style.width = videoState.w + 'px';
+    videoCanvas.style.height = videoState.h + 'px';
+  }
+
+  function processVideoFrame() {
+    if (!videoEl || videoEl.paused || videoEl.ended || videoEl.videoWidth === 0) return;
+
+    const vw = videoEl.videoWidth;
+    const vh = videoEl.videoHeight;
+
+    if (videoState.w === 0) {
+      const scale = TARGET_H / vh;
+      videoState.w = Math.round(vw * scale);
+      
+      if (textCanvas) {
+        // 居中放置视频
+        videoState.x = Math.round((textCanvas.width - videoState.w) / 2);
+        videoState.y = Math.round((textCanvas.height - videoState.h) / 2);
+      }
+
+      videoCanvas.width = videoState.w;
+      videoCanvas.height = videoState.h;
+      updateVideoStyle();
+
+      offCanvas = document.createElement('canvas');
+      offCanvas.width = videoState.w;
+      offCanvas.height = videoState.h;
+      offCtx = offCanvas.getContext('2d', { willReadFrequently: true });
+      
+      // 初始化轮廓数组 [minX0, maxX0, minX1, maxX1, ...]
+      rowBounds = new Int16Array(videoState.h * 2); 
+    }
+
+    offCtx.drawImage(videoEl, 0, 0, videoState.w, videoState.h);
+    
+    const imgData = offCtx.getImageData(0, 0, videoState.w, videoState.h);
+    const data = imgData.data;
+
+    // 每次处理前重置行轮廓数据
+    for (let i = 0; i < rowBounds.length; i += 2) {
+      rowBounds[i] = 10000; // 初始极小值
+      rowBounds[i + 1] = -1;  // 初始极大值
+    }
+
+    // 扫描像素，生成像素级轮廓
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i];
+      const g = data[i + 1];
+      const b = data[i + 2];
+      
+      // 绿幕消除
+      if (g > 90 && g > r * 1.1 && g > b * 1.1) {
+        data[i + 3] = 0;
+      } else {
+        if (data[i + 3] > 10) {
+          const x = (i / 4) % videoState.w;
+          const y = Math.floor((i / 4) / videoState.w);
+          
+          // 记录当前行 Y 的最左和最右坐标
+          if (x < rowBounds[y * 2]) rowBounds[y * 2] = x;
+          if (x > rowBounds[y * 2 + 1]) rowBounds[y * 2 + 1] = x;
+        }
+      }
+    }
+
+    offCtx.putImageData(imgData, 0, 0);
+    const ctx = videoCanvas.getContext('2d');
+    ctx.clearRect(0, 0, videoState.w, videoState.h);
+    ctx.drawImage(offCanvas, 0, 0);
+  }
+
+  // ─── Text reflow (Pixel-Perfect Contour Wrapping) ─────────────────────────────
+  function drawText() {
+    if (!textCanvas) return;
+    const ctx = textCanvas.getContext('2d');
+
+    ctx.fillStyle = '#faf7f0';
+    ctx.fillRect(0, 0, textCanvas.width, textCanvas.height);
+
+    if (!preparedParagraphs.length || !rowBounds) return;
+
+    ctx.fillStyle    = '#1a1206';
+    ctx.font         = fontString;
+    ctx.shadowBlur   = 0;
+    ctx.textBaseline = 'top';
+
+    const pad    = 40; 
+    const columnGap = 40; 
+    const columnWidth = (textCanvas.width - 2 * pad - columnGap) / 2;
+    const gap    = 30; // 文字与人物之间的安全距离，可以微调
+    const minW   = 200; // 允许的最小文字碎片宽度
+    
+    let activeColumnX = pad;
+    let activeColumnWidth = columnWidth;
+    let isColumn2 = false;
+    let curY = pad;
+
+    let paragraphIndex = 0;
+
+    while (paragraphIndex < preparedParagraphs.length) {
+      const prep = preparedParagraphs[paragraphIndex];
+      let eofParagraph = false;
+      let cursor = { segmentIndex: 0, graphemeIndex: 0 }; 
+
+      while (!eofParagraph) {
+        const lBot = curY + lineHeight;
+        let consumed = false;
+        
+        // --- 核心升级：检测当前行文字所覆盖区域的真实物理边界 ---
+        let lineMinX = 10000;
+        let lineMaxX = -1;
+        
+        // 计算当前文字行对应视频画布的 Y 轴范围
+        const vTop = Math.floor(Math.max(0, curY - videoState.y));
+        const vBot = Math.ceil(Math.min(videoState.h - 1, lBot - videoState.y));
+        
+        // 只有文字行和视频区域在垂直方向有交集时才去检测
+        if (vTop <= vBot && vBot >= 0 && vTop < videoState.h) {
+          for (let y = vTop; y <= vBot; y++) {
+            if (rowBounds[y * 2 + 1] !== -1) { // 如果这一行有像素
+              if (rowBounds[y * 2] < lineMinX) lineMinX = rowBounds[y * 2];
+              if (rowBounds[y * 2 + 1] > lineMaxX) lineMaxX = rowBounds[y * 2 + 1];
+            }
+          }
+        }
+
+        if (lineMaxX !== -1) {
+          // 当前文字行与人物发生了像素级碰撞！计算避让
+          const oL = videoState.x + lineMinX - gap;
+          const oR = videoState.x + lineMaxX + gap;
+          
+          const sL = oL - activeColumnX;
+          const sR = (activeColumnX + activeColumnWidth) - oR;
+
+          let drawn = false;
+
+          // 画左半边（如果有空间）
+          if (sL >= minW) {
+            const l = layoutNextLine(prep, cursor, sL);
+            if (!l) { eofParagraph = true; }
+            else { consumed = true; drawn = true; if (l.text.trim()) ctx.fillText(l.text, activeColumnX, curY); cursor = l.end; }
+          }
+          // 画右半边（如果有空间）
+          if (!eofParagraph && sR >= minW) {
+            const r = layoutNextLine(prep, cursor, sR);
+            if (!r) { eofParagraph = true; }
+            else { consumed = true; drawn = true; if (r.text.trim()) ctx.fillText(r.text, Math.max(oR, activeColumnX), curY); cursor = r.end; }
+          }
+          
+          // 如果人物占满了当前行的所有空间，强制换行寻找下一处缝隙
+          if (!drawn && !eofParagraph) {
+              consumed = true; 
+          }
+
+        } else {
+          // 当前文字行完全没有碰到人物，直接画满整行
+          const l = layoutNextLine(prep, cursor, activeColumnWidth);
+          if (!l) { eofParagraph = true; }
+          else { consumed = true; if (l.text.trim()) ctx.fillText(l.text, activeColumnX, curY); cursor = l.end; }
+        }
+
+        if (eofParagraph && !consumed) break;
+        curY += lineHeight;
+
+        if (curY > textCanvas.height - pad) {
+          if (!isColumn2) {
+            isColumn2 = true;
+            activeColumnX = pad + columnWidth + columnGap;
+            curY = pad;
+          } else {
+            return; // 触底停止
+          }
+        }
+      }
+
+      paragraphIndex++;
+      curY += lineHeight; 
+      
+      if (curY > textCanvas.height - pad && !isColumn2) {
+        isColumn2 = true;
+        activeColumnX = pad + columnWidth + columnGap;
+        curY = pad;
+      }
+    }
+  }
+
+  // ─── Animation loop ───────────────────────────────────────────────────────────
+  let raf = null;
+
+  function loop() {
+    processVideoFrame();
+    drawText();
+    raf = requestAnimationFrame(loop);
+  }
+
+  // ─── Init ─────────────────────────────────────────────────────────────────────
+  async function init() {
+    const resize = () => {
+      textCanvas.width  = wrapEl.clientWidth;
+      textCanvas.height = wrapEl.clientHeight;
+      if (videoState.w > 0) {
+        videoState.x = Math.round((textCanvas.width - videoState.w) / 2);
+        videoState.y = Math.round((textCanvas.height - videoState.h) / 2);
+        updateVideoStyle();
+      }
+    };
+    window.addEventListener('resize', resize);
+    resize();
+
+    await document.fonts.load(fontString);
+    preparedParagraphs = textContent.map(p =>
+      prepareWithSegments(p, fontString, { whiteSpace: 'pre-wrap' })
+    );
+
+    raf = requestAnimationFrame(loop);
+    
+    if (videoEl) {
+      videoEl.play().catch(e => console.error("Video autoplay prevented:", e));
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+</script>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2026/03/30/Pretext-demo-CXK/" title="Pretext_demo_CXK">https://yoloyolo.top/2026/03/30/Pretext-demo-CXK/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Vibe-Coding/" rel="tag"># Vibe_Coding</a>
+              <a href="/tags/Front-DEV/" rel="tag"># Front_DEV</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/09/28/XXTEA/" rel="prev" title="XXTEA">
+      <i class="fa fa-chevron-left"></i> XXTEA
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">61</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
