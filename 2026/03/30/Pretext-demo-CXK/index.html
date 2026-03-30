@@ -33,7 +33,7 @@
 <meta property="og:description" content="跟风写个玩玩       #cxk-page {     display: flex;     justify-content: center;     align-items: flex-start;     padding: 20px 0;   }    #article-wrap {     position: relative;     width: min(900px, 100%);">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2026-03-30T11:17:34.000Z">
-<meta property="article:modified_time" content="2026-03-30T12:04:28.782Z">
+<meta property="article:modified_time" content="2026-03-30T12:15:41.703Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Vibe_Coding">
 <meta property="article:tag" content="Front_DEV">
@@ -204,7 +204,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2026-03-30 19:17:34 / Modified: 20:04:28" itemprop="dateCreated datePublished" datetime="2026-03-30T19:17:34+08:00">2026-03-30</time>
+              <time title="Created: 2026-03-30 19:17:34 / Modified: 20:15:41" itemprop="dateCreated datePublished" datetime="2026-03-30T19:17:34+08:00">2026-03-30</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -541,6 +541,23 @@
       videoEl.play().catch(e => console.error("Video autoplay prevented:", e));
     }
   }
+
+  // ─── 页面可见性恢复 & 缓存唤醒 (解决返回后视频卡死) ─────────────────────────
+  
+  // 1. 监听标签页切换 (切到别的标签再切回来)
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && videoEl && videoEl.paused) {
+      videoEl.play().catch(e => console.error("唤醒视频失败:", e));
+    }
+  });
+
+  // 2. 监听浏览器的前进/后退按钮 (从 bfcache 恢复)
+  window.addEventListener('pageshow', (event) => {
+    // event.persisted 为 true 表示页面是从缓存中恢复的
+    if (event.persisted && videoEl && videoEl.paused) {
+      videoEl.play().catch(e => console.error("返回页面唤醒视频失败:", e));
+    }
+  });
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
