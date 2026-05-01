@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=consolas:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="运维与参禅 乍一看可能会觉得两者毫无关系，但是最近两年的工作下来愈发让我觉得两者是密不可分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Operations_&amp;_Zen_Meditation">
+<meta property="og:url" content="https://yoloyolo.top/2026/05/01/Operations-Zen-Meditation/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="运维与参禅 乍一看可能会觉得两者毫无关系，但是最近两年的工作下来愈发让我觉得两者是密不可分">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://yoloyolo.top/images/01_waf.gif">
+<meta property="og:image" content="https://yoloyolo.top/images/02_dk.jpg">
+<meta property="article:published_time" content="2026-05-01T13:55:27.000Z">
+<meta property="article:modified_time" content="2026-05-01T13:58:28.878Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Infomation Security">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yoloyolo.top/images/01_waf.gif">
+
+<link rel="canonical" href="https://yoloyolo.top/2026/05/01/Operations-Zen-Meditation/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Operations_&_Zen_Meditation | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2026/05/01/Operations-Zen-Meditation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Operations_&_Zen_Meditation
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2026-05-01 21:55:27 / Modified: 21:58:28" itemprop="dateCreated datePublished" datetime="2026-05-01T21:55:27+08:00">2026-05-01</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>运维与参禅</p>
+<p>乍一看可能会觉得两者毫无关系，但是最近两年的工作下来愈发让我觉得两者是密不可分</p>
+<a id="more"></a>
+<h1 id="安全与底线"><a class="markdownIt-Anchor" href="#安全与底线"></a> 安全与底线</h1>
+<p>老实说跳槽之后的工作内容与安全的关联并不多，更像是闲暇之余的副职，没人关具体的安全实施还有风险控制</p>
+<p>规划、执行、运营、管理，一切都丢到我自己手上</p>
+<p>这样也不错吧，至少自己想干啥就能干啥</p>
+<p>开头的日子往往是最困难的，困难到服务器都没一台，只能靠着同事的100块钱一年的阿里云服务器来部署官网</p>
+<p>到后来别人资助了一台信创CPU的服务器，找了运营商拉了一根互联网专线直接接服务器上配了个静态IP</p>
+<p>这台服务器就此启航了</p>
+<p>装linux系统，配置yum源，lnm的架构烂熟于心，起docker服务顺便搭了个dify</p>
+<p>至于安全？除了我之外没人在乎，每天上千次的SSH爆破，还有裸露的后端接口，搞台WAF设备又不现实，只能自己谋划出路了</p>
+<p>首先是SSH爆破，强密码是少不了的，32位大写加数字你就爆破去吧，但是看着log里的ssh login failure还是烦</p>
+<p>自己写了个ssh fail2ban的脚本，还挺好用的</p>
+<p>至于WEB服务，一开始想拉个雷池WAF社区版下来用下，但是沟槽的信创CPU的指令集不支持，只好作罢</p>
+<p>随便找了个uuWAF，简单配置了下后端转发，调试了下WAF规则，效果看着还不错，甚至还DIY了个拦截页面</p>
+<p><img src="/images/01_waf.gif" alt="hajimiwaf" /></p>
+<p>但是问题又来了，没法做日志记录，准确来说是request body的监控缺失</p>
+<p>众所周知，nginx的access.log抓不到request body，所以需要改为用openresty，自己写lua脚本去抓request body</p>
+<p>抓到了之后又该怎么去日志分析？顺手docker pull了一个wazuh来干这活</p>
+<p>到这一步来说算是建立了一个针对应用服务器的比较完整的安全体系（0成本支出）</p>
+<p>期间也有很多比较沟槽的问题，比如说搭建的confluence放在openresty下面去转发就有问题，死活用不了，干了一个周末之后决定还是单独监听端口然后加Firewall白名单IP来解决</p>
+<p>还有uuWAF用的mysql数据库，在沟槽的麒麟V10 SP2上运行卡死，死活跑不起来，最后换了mariadb才能解决</p>
+<p>明明理论上来讲就不该出现这些问题，但是这些问题偏偏出现了</p>
+<p>是无可奈何，还是无能为力？</p>
+<p>自己过往的无数次经验在此环境下没法解释当下这些千奇百怪的错误，只能学会接受这种范式转移，推倒自己的既有经验与知识体系，从第一性原理出发来思考解决方案</p>
+<p>根据自己的一些经验来看，这才是找到特解的最快方法</p>
+<p>很多情况下的黑盒问题你根本没法去硬碰硬，反而曲线救国才是明智之举</p>
+<p>但是并不是完全没有问题，dify的docker网络优先级比firewall高，因为直接用的iptables，后来react2shell把dify的容器给RCE了被人拿去挖矿，搞了一上午干完了应急响应（处置+逆向+溯源+复现）</p>
+<p>系统没问题要安全工程师有什么用？系统出问题要安全工程师有什么用？这虽说是个段子但也值得思考</p>
+<p>安全，既是意识，也是技术能力</p>
+<p>技术能力既是平日里的安全底线建设能力，也是针对底线被突破的事故处置能力，两者缺一不可</p>
+<hr />
+<h1 id="技术与心理"><a class="markdownIt-Anchor" href="#技术与心理"></a> 技术与心理</h1>
+<p>每个人在刚接触新方向时，都会不自觉地走过那条著名的&quot;DK曲线&quot;</p>
+<p>我很庆幸，我在大学四年走完了它的&quot;愚者之峰&quot;和&quot;绝望之谷&quot;</p>
+<p><img src="/images/02_dk.jpg" alt="dk" /></p>
+<p>当自己刚入门时，觉得自己无所不能</p>
+<p>跑通了几个架构，写了几行脚本，那种短暂的全能感很容易让人迷失</p>
+<p>但现实的耳光总是来得很快，尤其是当碰壁在全新的技术栈和深不见底的黑盒问题上时</p>
+<p>真正的痛苦不在于&quot;不知道怎么做&quot;，而在于&quot;我以为我知道，但它偏偏跑不通&quot;</p>
+<p>这就引发了那个最折磨人的死循环：自我假设、自我质疑、自我否认</p>
+<p>这是一种极度反人性的折磨</p>
+<p>每一次范式偏移，都意味着要亲手打碎自己刚刚建立起来的知识体系和自信心</p>
+<p>在排错的过程中，不仅是在修系统，更是在跟自己的傲慢与固执搏斗——承认自己之前的思路全错，承认自己对底层的理解幼稚得可笑</p>
+<p>然后推翻一切，深吸一口气，再去重新假设，再去质疑，再去否认……</p>
+<p>而且，那个时代还没有AI 这玩意，没有捷径，没有喂饭式的解答</p>
+<p>只能花费大量的时间，去搜索互联网上某些角落的Blog、古早的论坛，或者是某个不起眼的YouTube视频</p>
+<p>在半夜一点，翻到Google的第十三页搜索结果，死磕某个可能相关的术语，只为寻求一丝飘渺的线索</p>
+<p>直到所有的不可能的情况都排除了，剩下的唯一可能性就是真相</p>
+<p>听起来可能很简单，但是很多时候，剩下的那个事实不仅反直觉，甚至反常识</p>
+<p>把配置文件检查了几十遍，日志被从头翻到尾，所有的技术经验都在心底咆哮着&quot;这样绝对没问题&quot;……</p>
+<p>但是现实的一次次报错，就像一个个耳光，无声地打在脸上</p>
+<p>这种时候，就和技术能力没多大关系了，考验的反而是心理能力</p>
+<p>是否敢于接受那个被自己的经验与潜意识认为最不可能的结论？是否敢于推翻一切官方文档的说法，从代码的层面去找寻问题的根本原因？</p>
+<p>技术能力教的是&quot;如何使用排除法&quot;，它是有尽头的</p>
+<p>不论是抓包还是探针，只要愿意学，总能掌握</p>
+<p>但心理能力决定了，当排除法走到尽头，面对那个荒谬绝伦、颠覆过往所有认知的真相时，敢不敢去直视它、接受它，并死死压抑住砸键盘的冲动，从零开始寻找特解</p>
+<p>技术能力与心理能力，谁更重要？谁更难？</p>
+<p>如果在初学者时期，我会毫不犹豫地说技术更重要</p>
+<p>但这两年的&quot;全栈背锅&quot;经历告诉我：心理能力远比技术能力重要，且培养难度呈指数级倍增</p>
+<p>技术是有说明书的，无论是配置yum源、写lua脚本抓request body，还是部署Wazuh，哪怕再难，它都有官方文档、有开源社区，到现在甚至有AI可以问</p>
+<p>技术的培养是线性的，只要愿意投入时间去Debug，总能找到那个true或false</p>
+<p>但心理是无字天书，心理能力的培养是非线性的，它只能在一次次高压、背锅、崩溃边缘的实战中被&quot;淬炼&quot;出来</p>
+<p>没有哪本书能教会：当公司核心业务停摆，老板站在身后盯着屏幕，而SSH 都连不上时，如何控制住颤抖的手指不敲错命令</p>
+<p>技术能力就像一把枪，而心理能力就像拿枪的手</p>
+<p>枪平时可以打得快、打得远、打得准</p>
+<p>但是面对火力压制、火炮覆盖、地毯式轰炸时，手又是否能够拿稳这把枪？</p>
+<p>这种临危不乱的定力，本身就是让技术敏锐度闪现的温床</p>
+<p>当过往的经验没法解释千奇百怪的错误时，只有心态稳住了，才能跳出经验主义的牢笼，去寻找那条曲线救国的路</p>
+<p>技术的瓶颈在于智力和时间</p>
+<p>而心理的瓶颈，在于能不能在一千次自我否认的废墟上，第一千零一次地重建世界观</p>
+<p>能熬过这个循环的人，技术早已不是问题，因为心性已经不可战胜</p>
+<p>正是应对了那句&quot;What doesn’t kill you makes you stronger&quot;</p>
+<p>一个道理</p>
+<hr />
+<h1 id="退步与妥协"><a class="markdownIt-Anchor" href="#退步与妥协"></a> 退步与妥协</h1>
+<p>除了在绝望之谷里死磕的抗压能力，心理修行的最后一道关卡，是学会退步</p>
+<p>这种退步不是摆烂，而是一种极高境界的妥协</p>
+<p>每一个搞技术的人，骨子里大概都住着一个极端的理想主义者</p>
+<p>希望架构绝对优雅、代码绝对规范、安全绝对无死角，甚至希望日志里连一个黄色的Warning都不出现</p>
+<p>这种技术上的强迫症和精神洁癖，在顺境和资源充足时，被称作工匠精神</p>
+<p>但身处开荒期，这就成了作茧自缚的业障</p>
+<p>现实是什么？现实是连一台像样的物理机都没有，是靠着同事凑的100块钱阿里云，和别人施舍的信创CPU服务器强行拉起业务的草台班子</p>
+<p>在这个真实得有些残酷的物理世界里，资源永远匮乏，需求永远畸形</p>
+<p>没有任何系统是按照教科书里的完美拓扑图生长出来的</p>
+<p>相反，所有真实的、承载着真金白银业务的系统，永远都是千疮百孔的，是用胶带、补丁、过期的开源组件和各种临时脚本强行缝合起来的&quot;科学怪人&quot;</p>
+<p>如果紧紧抱着那套&quot;绝对正确&quot;的技术规范不放，心理上无法接受这种&quot;不完美&quot;，每天都会活在&quot;为什么这么烂&quot;的内耗与怨气中</p>
+<p>这就叫&quot;执迷于相&quot;</p>
+<p>真正的运维参禅，是彻底承认现实的粗糙，并学会与这坨千疮百孔的系统和解</p>
+<p>当WAF在麒麟系统上跑不起来导致卡死时，不去为了所谓的&quot;安全架构规范&quot;死磕，而是果断换上MariaDB</p>
+<p>当买不起防护设备时，不用去抱怨公司不给预算，而是用一个简陋却管用的Fail2ban脚本先把SSH的命保住</p>
+<p>妥协，是在极度受限的泥沼里寻找最优解的智慧</p>
+<p>真正的技术功力，不是在无菌实验室里造火箭，而是身处破破烂烂的系统之中，依然能信手拈来一个简单的脚本、一个违背常规但能绕开Bug 的奇招，硬生生地维持住整个业务的齿轮继续流转</p>
+<p>必须残忍地杀死那个有&quot;技术洁癖&quot;的自己</p>
+<p>技术，终究是渡河的筏子，是用来解决现实生存问题的工具，而不是用来满足工程师个人审美和完美主义情结的艺术品</p>
+<p>只要河渡过去了，筏子再破再丑，也是好筏子</p>
+<p>若有一天，可以毫无心理障碍地在一个优雅的系统里打上一个粗暴的补丁</p>
+<p>不再为代码不够优美而心生烦恼，只为业务能够在风雨飘摇中平稳运行而会心一笑时，就真的悟了</p>
+<p>接受了残缺本身就是一种常态，此时，深夜机房里的风扇轰鸣便如梵音</p>
+<p>而你敲击键盘的声音，自然也就带上了一点木鱼的空灵</p>
+<hr />
+<h1 id="求不得"><a class="markdownIt-Anchor" href="#求不得"></a> 求不得</h1>
+<p>回想起来，那种&quot;心理上无法接受不完美，每天活在内耗中&quot;的状态，其实早在大学初接触CTF时就已经刻骨铭心</p>
+<p>当时的学校和学院对网络安全根本不上心，而其他学校都有对应的社团或者院队</p>
+<p>CTF这条路纯粹是靠自己在网上的野路子一点点从零开始摸索</p>
+<p>找资源、找靶场，像个无头苍蝇一样乱撞</p>
+<p>那时的我，可以说是一个标准的脚本小子</p>
+<p>眼光死死局限在表层的攻击手法上：去哪里找 Payload，怎么用现成的工具去扫，怎么套公式一样的去注入</p>
+<p>至于底层的应用代码逻辑是什么？内存里到底发生了什么？根本没去研究过</p>
+<p>结果是惨烈的</p>
+<p>大一大二参加了数次比赛，基本都是陪跑，拿不到任何成绩</p>
+<p>那是一段极度内耗的日子</p>
+<p>看着计分板上别人的分数，再看看自己手里打不出去的Payload，强烈的自我怀疑能把人吞噬</p>
+<p>在心里反复质问自己：是不是我不够聪明？是不是我没有天赋？为什么我投入了这么多时间，却依然是个连门槛都跨不过去的废物？</p>
+<p>在CTF这种拿到Flag就是1，拿不到就是0的绝对二元世界里，结果成了唯一的标尺</p>
+<p>得不到结果，所有的努力似乎都成了笑话</p>
+<p>真正的转折点，发生在疫情居家那半年</p>
+<p>既然在表层找不到答案，我决定向下走</p>
+<p>半年的闭关里，死磕了三十多台Vulnhub机器，强行把自己踹进了渗透测试的大门</p>
+<p>更重要的是，我开始自己动手写CTF靶场</p>
+<p>这是一个极其痛苦但又极其通透的范式转移</p>
+<p>不再以攻击者的视角去盲猜漏洞，而是以开发者的视角，从最底层的代码逻辑去审视一个系统时，一切都变了</p>
+<p>终于明白了一个漏洞为何而生，也清楚了在代码层面该如何去阻止</p>
+<p>也就是在那个时候，表层的迷雾散开了</p>
+<p>后来，找到了两个同样研究CTF的学弟，一个Web，一个Pwn</p>
+<p>为了弥补团队的技术短板，又开始学习Crypto和Reverse</p>
+<p>最后，迎来了那场对意义非凡的比赛</p>
+<p>比赛结束的时，距离冠军，只有一题之差</p>
+<p>按理说，对于一个曾经极度内耗、极度渴望证明自己的人来说，这是最残酷的剧本——倒在离顶点只有一步之遥的地方，这难道不是最应该感到惋惜和痛苦的时刻吗？</p>
+<p>但在那一瞬间，看着屏幕上的排名，内心竟然出奇地平静，连一丝惋惜都没有，内心只有与自己曾经的内耗和解</p>
+<p>因为我突然意识到，那个为了分数而内耗的自己已经死了</p>
+<p>在这几年的折腾里，我手搓了靶场，摸透了底层逻辑，补齐了逆向与密码学的短板，还拉起了一支队伍</p>
+<p>我非常清楚自己掌握了什么，也清楚自己能解决什么问题</p>
+<p>学有所成这四个字，在心里稳稳当当地扎下了根</p>
+<p>我不需要那个冠军的头衔来证明我行不行了</p>
+<p>从那一刻起，我真正走出了CTF带来的精神内耗</p>
+<p>这也为我后来面对工作中那些千疮百孔的破烂系统、面对千奇百怪的黑盒报错时，埋下了一颗定海神针</p>
+<p>不执着于表面的&quot;相&quot;（分数、报错、完美的架构），而是去探求底层的&quot;理&quot;（代码逻辑、第一性原理）</p>
+<p>当你不去强求那个虚无缥缈的完美结果，而是笃定地走在解决问题的因果链路中时，所有的焦虑与内耗，便会在这敲击键盘的木鱼声中，烟消云散</p>
+<hr />
+<h1 id="殊途同归"><a class="markdownIt-Anchor" href="#殊途同归"></a> 殊途同归</h1>
+<p>每次复盘曾经踩过的坑时，视线里总会不可避免地浮现出一条未曾设想的捷径</p>
+<p>伴随而来的，往往是对那条未择之路的过度美化，以及对当初决定的懊恼与遗憾</p>
+<p>站在事后的上帝视角回望，那条捷径清晰、笔直，仿佛在无声地嘲笑自己当初的迟钝</p>
+<p>但其实，那条所谓的捷径大多只是理论上的最优解</p>
+<p>它之所以看起来完美无瑕，仅仅是因为它没有被真正走过，没有机会在粗糙的现实环境里报错、卡死或是抛出异常</p>
+<p>当身处局内、面对千头万绪的复杂状况时，本就没有全知全能的视角</p>
+<p>你只能像个在迷雾中摸黑过河的人，依靠最原始的笨办法，用一次次的试错去排雷，用肉身一点点剥离干扰项</p>
+<p>仔细想想，为什么现在能一眼看出捷径所在？</p>
+<p>恰恰是因为亲自把那条最绕、最远的弯路走绝了</p>
+<p>那些看似无意义的死磕，帮你补齐了认知里的盲区，从底层构建起了对整个事件完整的逻辑拓扑图</p>
+<p>如果你没有真正走过那条弯路，根本连&quot;捷径&quot;的入口都看不见</p>
+<p>因此，把这种后知后觉视作遗憾，对当初那个在迷雾里死磕的自己并不公平</p>
+<p>走过的远路从来都不是浪费时间，那是为了破除黑盒、揭开信息迷雾而必须支付的成本</p>
+<p>那条你未曾踏足的捷径，根本不是错失的遗憾，而是你用漫长的远路，真刀真枪换来的战利品</p>
+<p>人生又何尝不是如此</p>
+<p>人生无需纠结标准答案，因为只有特定条件、特定状况、特定资源下的特解</p>
+<p>天时不可求，地利不可遇，只有自己脚下的路由自己做主</p>
+<hr />
+<h1 id="何为禅道"><a class="markdownIt-Anchor" href="#何为禅道"></a> 何为禅道</h1>
+<p>这篇文章的标题叫&quot;运维与参禅&quot;，但到底什么是&quot;禅&quot;，什么是&quot;道&quot;？</p>
+<p>心即为禅，物即为道。</p>
+<p>对于技术人来说，&quot;物&quot;就是那台冷冰冰的物理机、那段正在执行的代码、那个跑出未知异常的黑盒系统</p>
+<p>而&quot;心&quot;，就是我们脑海中固有的经验、既定的知识体系，以及那份&quot;事情理应如此&quot;的执念</p>
+<p>心随物动，即为禅道。</p>
+<p>当我们身处绝望之谷，被千奇百怪的Error逼到崩溃时，痛苦的根源其实都在于&quot;心与物&quot;的对抗</p>
+<p>我们总是习惯性地拿自己已有的知识体系，去死磕&quot;物&quot;的现实逻辑</p>
+<p>试图强迫现实的系统，去顺从自己脑海中那个完美的理论模型</p>
+<p>但&quot;物&quot;是客观的，它不以人的意志为转移</p>
+<p>所以，什么是真正的参禅？</p>
+<p>参禅，就是放下&quot;我执&quot;</p>
+<p>是不再拿既有的经验去死磕物体的逻辑，而是让自己的内心彻底沉静下来，顺从物体的逻辑去运转</p>
+<p>去顺着网卡的流量，顺着底层的系统调用，顺着日志的蛛丝马迹，去感受并理解这个系统在当下的特定环境中，究竟是如何活着的</p>
+<p>当你放弃了对抗，开始通过&quot;物&quot;的真实逻辑，来推翻并反写自己的知识体系时，参禅的动作便真正发生了</p>
+<p>在这个瞬间，个人的主观情绪被剥离了，偏见与傲慢消失了</p>
+<p>人与系统融为一体，代码的运转成为了你思维的延伸，系统的指令与人的呼吸同进退</p>
+<p>不再有因为未知而产生的恐慌，也不再有急于求成的焦虑，只有在一行行排查命令中流淌的极度专注</p>
+<p>这个物我两忘、顺应系统呼吸的过程，即是心流</p>
+<hr />
+<p>Bufferfly</p>
+<p>2026年 春末夏初某日 晴</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2026/05/01/Operations-Zen-Meditation/" title="Operations_&amp;_Zen_Meditation">https://yoloyolo.top/2026/05/01/Operations-Zen-Meditation/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2026/03/30/Pretext-demo-CXK/" rel="prev" title="Pretext_demo_CXK">
+      <i class="fa fa-chevron-left"></i> Pretext_demo_CXK
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E4%B8%8E%E5%BA%95%E7%BA%BF"><span class="nav-number">1.</span> <span class="nav-text"> 安全与底线</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BF%83%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text"> 技术与心理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%80%E6%AD%A5%E4%B8%8E%E5%A6%A5%E5%8D%8F"><span class="nav-number">3.</span> <span class="nav-text"> 退步与妥协</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B1%82%E4%B8%8D%E5%BE%97"><span class="nav-number">4.</span> <span class="nav-text"> 求不得</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AE%8A%E9%80%94%E5%90%8C%E5%BD%92"><span class="nav-number">5.</span> <span class="nav-text"> 殊途同归</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%95%E4%B8%BA%E7%A6%85%E9%81%93"><span class="nav-number">6.</span> <span class="nav-text"> 何为禅道</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">61</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
