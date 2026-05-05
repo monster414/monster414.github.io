@@ -6,7 +6,7 @@
   <link href="https://yoloyolo.top/atom.xml" rel="self"/>
   
   <link href="https://yoloyolo.top/"/>
-  <updated>2026-05-05T16:50:30.663Z</updated>
+  <updated>2026-05-05T17:12:13.944Z</updated>
   <id>https://yoloyolo.top/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Application of VIP</title>
+    <link href="https://yoloyolo.top/2026/05/06/Application-of-VIP/"/>
+    <id>https://yoloyolo.top/2026/05/06/Application-of-VIP/</id>
+    <published>2026-05-05T17:04:03.000Z</published>
+    <updated>2026-05-05T17:12:13.944Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="虚拟ip的应用"><a class="markdownIt-Anchor" href="#虚拟ip的应用"></a> 虚拟IP的应用</h1><p>以前的网络架构非常简单粗暴</p><p>Internet -&gt; Server</p><p>没错，就是互联网专线直连服务器</p><p>当时在这台机器上部署了一套业务系统</p><p>按照厂商当时的说法，这系统&quot;直接绑定了公网IP&quot;的，但我一直感觉不太像他们说的那么简单</p><p>后来网络架构进行了升级改造，变成了下面这样</p><p>Internet -&gt; FW -&gt; Server</p><p>架构变动后，服务器网卡上配置的IP自然就换成了内网IP</p><p>防火墙那边的DNAT配得没什么问题，外部流量也能正常打进服务器</p><p>但让人头疼的是，这套系统却因为本地找不到那个&quot;公网IP&quot;而直宕机了，最坑的是，这服务的配置文件还不允许修改</p><p>盲猜大概率是系统里的某个子进程是个“死脑筋”，非要去访问或者绑定原先的那个公网IP</p><p>在现有的架构下，外部进来的流量经过防火墙时，目的IP(Dst IP)已经被NAT转换成了内网的LAN IP</p><p>但在系统的应用层逻辑里，它依然强制要求Dst IP(或者它所认为的本机IP)必须是原来那个公网IP才能正常运行</p><p>既然非要这个公网IP，那我就在本地骗一下</p><p>直接在服务器内核里挂载一个虚拟网卡(dummy)，然后把原来的公网IP分配给它</p><p>完美解决了系统宕机的问题</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">modprobe dummy</span><br><span class="line">ip link add dummy0 type dummy</span><br><span class="line">ip addr add $IP&#x2F;32 dev dummy0</span><br><span class="line">ip link set dummy0 up</span><br></pre></td></tr></table></figure><p>你就说是不是这个IP吧</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;虚拟ip的应用&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#虚拟ip的应用&quot;&gt;&lt;/a&gt; 虚拟IP的应用&lt;/h1&gt;
+&lt;p&gt;以前的网络架构非常简单粗暴&lt;/p&gt;
+&lt;p&gt;Internet -&amp;gt; Server&lt;/p&gt;
+&lt;p&gt;没错，就是互联</summary>
+      
+    
+    
+    
+    <category term="Study" scheme="https://yoloyolo.top/categories/Study/"/>
+    
+    
+    <category term="Network" scheme="https://yoloyolo.top/tags/Network/"/>
+    
+  </entry>
   
   <entry>
     <title>Windows内核驱动漏洞复现两则</title>
@@ -462,29 +489,6 @@
     <category term="Pentest" scheme="https://yoloyolo.top/tags/Pentest/"/>
     
     <category term="HackTheBox" scheme="https://yoloyolo.top/tags/HackTheBox/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hash_Extend</title>
-    <link href="https://yoloyolo.top/2023/02/21/Hash-Extend/"/>
-    <id>https://yoloyolo.top/2023/02/21/Hash-Extend/</id>
-    <published>2023-02-20T22:21:17.000Z</published>
-    <updated>2023-06-03T03:09:57.209Z</updated>
-    
-    <content type="html"><![CDATA[<p>日常记录</p><a id="more"></a><blockquote><p>pip install hashpumpy</p></blockquote><p>MD5, SHA1, SHA256每轮加密块大小为64Byte(512Bits)，其中前56Byte(448Bits)用于存储加密数据，后8Byte(64Bits)用于存储数据Bit位数</p><p>SHA512每轮加密块大小为128Byte(1024Bits)，其中前112Byte(896Bits)用于存储加密数据，后16Byte(128Bits)用于存储数据Bit位数</p><p>MD5存储数据长度时使用小端排序，SHA1, SHA256, SHA512则使用大端排序</p><p>SHA384在使用hashpumpy.pump时会报错</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashpumpy.error: unsupported hash size</span><br></pre></td></tr></table></figure><p>以上Hash算法均基于Merkle-Damgård结构，抽象来看，可以类比于对称加密中的OFB模式，即上一轮的加密结果会作为下一轮加密的输入</p><p>以MD5为例</p><p>我们要加密明文admin，此时明文长度小于加密块数据长度，则会被填充<code>\x80\x00\x00\x00...</code></p><p>那么加密块为</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">admin\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x28\x00\x00\x00\x00\x00\x00\x00</span><br></pre></td></tr></table></figure><p>在完成第一轮加密之后我们会得到这一部分的Hash值，如有后续部分，则这部分Hash将作为输入对后一轮加密进行处理</p><p>假设存在一个认证方式，将以下内容作为Cookie<br />username+signature<br />且signature=MD5(secret+username)<br />且在校验方法为<br />MD5(secret+input_username) == signature</p><p>我们以Alice身份登入后得到这个Cookie，即</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MD5(secret+&quot;Alice&quot;)</span><br></pre></td></tr></table></figure><p>如果secret长度已知，假设为6</p><p>那么可以得到以下加密块，以及其MD5值</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">??????Alice\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x58\x00\x00\x00\x00\x00\x00\x00</span><br></pre></td></tr></table></figure><p>在加密块后续内容追加内容Bob，则可以将上一部分的MD5作为下一轮加密的输入</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">??????Alice\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x58\x00\x00\x00\x00\x00\x00\x00Bob</span><br></pre></td></tr></table></figure><p>即可得到这部分的MD5值</p><p>在进行认证时，可以使用以下用户名以及其相应的MD5</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username&#x3D;&quot;Alice\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x58\x00\x00\x00\x00\x00\x00\x00Bob&quot;</span><br></pre></td></tr></table></figure><p>服务器在验证身份</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MD5(secert+&quot;Alice\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x58\x00\x00\x00\x00\x00\x00\x00Bob&quot;) &#x3D;&#x3D; signature</span><br></pre></td></tr></table></figure><p>即完成了哈希扩展攻击，如果服务器对用户名的验证存在不安全的逻辑，那么就有可能越权漏洞</p>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;日常记录&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="Study" scheme="https://yoloyolo.top/categories/Study/"/>
-    
-    
-    <category term="Crypto" scheme="https://yoloyolo.top/tags/Crypto/"/>
-    
-    <category term="Hash" scheme="https://yoloyolo.top/tags/Hash/"/>
     
   </entry>
   
