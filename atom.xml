@@ -6,7 +6,7 @@
   <link href="https://yoloyolo.top/atom.xml" rel="self"/>
   
   <link href="https://yoloyolo.top/"/>
-  <updated>2026-05-05T17:16:32.144Z</updated>
+  <updated>2026-05-05T17:32:07.375Z</updated>
   <id>https://yoloyolo.top/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://yoloyolo.top/2026/05/06/Application-of-VIP/"/>
     <id>https://yoloyolo.top/2026/05/06/Application-of-VIP/</id>
     <published>2026-05-05T17:04:03.000Z</published>
-    <updated>2026-05-05T17:16:32.144Z</updated>
+    <updated>2026-05-05T17:32:07.375Z</updated>
     
-    <content type="html"><![CDATA[<p>运维工作主打一个兵来将挡水来土掩</p><a id="more"></a><p>以前的网络架构非常简单粗暴</p><p>Internet -&gt; Server</p><p>没错，就是互联网专线直连服务器</p><p>当时在这台机器上部署了一套业务系统</p><p>按照厂商当时的说法，这系统&quot;直接绑定了公网IP&quot;的，但我一直感觉不太像他们说的那么简单</p><p>后来网络架构进行了升级改造，变成了下面这样</p><p>Internet -&gt; FW -&gt; Server</p><p>架构变动后，服务器网卡上配置的IP自然就换成了内网IP</p><p>防火墙那边的DNAT配得没什么问题，外部流量也能正常打进服务器</p><p>但让人头疼的是，这套系统却因为本地找不到那个&quot;公网IP&quot;而直宕机了，最坑的是，这服务的配置文件还不允许修改</p><p>盲猜大概率是系统里的某个子进程是个“死脑筋”，非要去访问或者绑定原先的那个公网IP</p><p>在现有的架构下，外部进来的流量经过防火墙时，目的IP(Dst IP)已经被NAT转换成了内网的LAN IP</p><p>但在系统的应用层逻辑里，它依然强制要求Dst IP(或者它所认为的本机IP)必须是原来那个公网IP才能正常运行</p><p>既然非要这个公网IP，那我就在本地骗一下</p><p>直接在服务器内核里挂载一个虚拟网卡(dummy)，然后把原来的公网IP分配给它</p><p>完美解决了系统宕机的问题</p><p>具体操作如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">modprobe dummy</span><br><span class="line">ip link add dummy0 type dummy</span><br><span class="line">ip addr add $IP&#x2F;32 dev dummy0</span><br><span class="line">ip link set dummy0 up</span><br></pre></td></tr></table></figure><p>你就说是不是这个IP吧</p><p>EOF</p>]]></content>
+    <content type="html"><![CDATA[<p>运维工作主打一个兵来将挡水来土掩</p><a id="more"></a><p>以前的网络架构非常简单粗暴</p><p>Internet -&gt; Server</p><p>没错，就是互联网专线直连服务器</p><p>当时在这台机器上部署了一套业务系统</p><p>按照厂商当时的说法，这系统是&quot;直接绑定了公网IP&quot;的，但我一直感觉不太像他们说的那么简单</p><p>后来网络架构进行了升级改造，变成了下面这样</p><p>Internet -&gt; FW -&gt; Server</p><p>架构变动后，服务器网卡上配置的IP自然就换成了内网IP</p><p>其实分析下来，这台服务器现在承载了两方面的流量</p><p>第一部分是外网到系统，外部流量打到防火墙，被DNAT转换成内网IP后进入服务器，这部分正常</p><p>第二部分是系统组件内部通信，问题就出在这里</p><p>这套系统的配置文件写死了，且不允许修改，内部组件之间通信时，依然会去请求原来的公网IP</p><p>在现有的架构下，内部发往公网的请求经过网络栈后，Dst IP会被DNAT成内网IP</p><p>但系统里的某个子进程是个&quot;死脑筋&quot;，它的应用层逻辑强制要求内部通信时收到的Dst IP必须是原来的公网IP，否则直接宕机</p><p>既然非要这个公网IP，那就在本地骗一下</p><p>直接在服务器内核里挂载一个虚拟网卡(dummy)，然后把原来的公网IP分配给它</p><p>这样一来，系统内部向该公网IP发起的请求，直接在本地就被这块虚拟网卡接管了，Dst IP完美保持为公网IP，宕机的问题迎刃而解</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">modprobe dummy</span><br><span class="line">ip link add dummy0 type dummy</span><br><span class="line">ip addr add $IP&#x2F;32 dev dummy0</span><br><span class="line">ip link set dummy0 up</span><br></pre></td></tr></table></figure><p>你就说是不是这个IP吧</p><p>EOF</p>]]></content>
     
     
     <summary type="html">&lt;p&gt;运维工作主打一个兵来将挡水来土掩&lt;/p&gt;</summary>
