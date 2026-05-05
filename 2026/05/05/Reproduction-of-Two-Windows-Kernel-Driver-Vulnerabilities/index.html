@@ -34,7 +34,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://yoloyolo.top/images/windows_kernel_2026.05.05/hacked.png">
 <meta property="article:published_time" content="2026-05-05T15:02:52.000Z">
-<meta property="article:modified_time" content="2026-05-05T17:23:16.169Z">
+<meta property="article:modified_time" content="2026-05-05T18:26:21.332Z">
 <meta property="article:author" content="xXxYOLOxXx">
 <meta property="article:tag" content="Windows">
 <meta property="article:tag" content="Kernel">
@@ -214,7 +214,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2026-05-06 01:23:16" itemprop="dateModified" datetime="2026-05-06T01:23:16+08:00">2026-05-06</time>
+                <time title="Modified: 2026-05-06 02:26:21" itemprop="dateModified" datetime="2026-05-06T02:26:21+08:00">2026-05-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -352,34 +352,7 @@
 <p>自己做个假兔子，在代码里强行向注册表写入<code>360FsFlt\daboot = 1</code></p>
 <p>欺骗驱动进入保护模式，它才把<code>\Device\DsArk</code>暴露出来</p>
 <hr />
-<h2 id="wow6跨界深坑与注入死锁"><a class="markdownIt-Anchor" href="#wow6跨界深坑与注入死锁"></a> WOW6跨界深坑与注入死锁</h2>
-<p>由于宿主程序<code>360ceupdate.exe</code>是32位的，最初的设想是利用Heaven’s Gate技术，在32位环境下直接切到64位模式去执行原生的<code>NtLoadDriver</code>系统调用来拉起驱动</p>
-<p>但这引发了一个极其隐蔽的&quot;32位注入死锁&quot;</p>
-<p>当DsArk驱动在内核中加载并执行DriverEntry时，作为一款杀软驱动，它会检查当前是哪个进程拉起了它，并极有可能试图向调用进程挂钩子（Hook）或注入回调</p>
-<p>面对一个WOW64的32位进程，这个64位的安全驱动内部的注入逻辑直接发生了死锁</p>
-<p>这也是为什么用<code>NtLoadDriver</code>拉起驱动时，进程会无声无息地卡死崩溃</p>
-<p>既然在32位进程里调用<code>NtLoadDriver</code>会引发死锁，那我们就利用Windows的原生机制</p>
-<p>改用<code>StartServiceW</code></p>
-<p>调用<code>StartServiceW</code>会将驱动的加载任务通过RPC移交给<code>services.exe</code></p>
-<p>DsArk驱动看到是合法的64位系统进程拉起它，瞬间初始化完毕，完美避开了WOW64的所有历史遗留问题</p>
-<h2 id="内核竞态与死等阻塞"><a class="markdownIt-Anchor" href="#内核竞态与死等阻塞"></a> 内核竞态与死等阻塞</h2>
-<p>在解决了驱动加载和结构体对齐问题后，遇到了一个极度折磨人的玄学现象</p>
-<p>第一次运行EXP，加载线程必卡死，CreateFile等待超时后最终报Error 2(找不到设备)</p>
-<p>但只要把报错的进程关掉，紧接着跑第二次，就能瞬间提权成功拿到SYSTEM</p>
-<p>起初，这被误判为DsArk驱动在内核里死等360FsFlt依赖导致的超时机制，甚至一度试图在EXP里写个90秒的死循环去硬抗</p>
-<p>但复盘底层的调用链后发现，这根本不是什么驱动机制问题，完全是EXP代码自己挖下的坑</p>
-<p>为了绕过系统限制，最初的EXP在360ceupdate.exe这个32位进程里，直接使用了底层的NtLoadDriver系统调用去强行拉起驱动</p>
-<p>而DsArk64.sys作为一个重型安全驱动，它的DriverEntry并非仅仅创建设备，它还会去溯源、检查甚至尝试Hook拉起它的那个进程</p>
-<p>当一个原生的64位杀软驱动，试图在初始化阶段去注入并解析一个WOW64的32位进程时，底层的架构冲突直接引发了内核级的注入死锁</p>
-<p>为什么第二次能秒成？</p>
-<p>当第一次EXP因为超时报错而退出（32位进程被系统物理销毁）时，内核里那个死锁的条件被打破了——驱动发现目标进程没了，立刻放弃了挂钩拦截，顺畅地走完了后续的DriverEntry流程，把\Device\DsArk创建了出来</p>
-<p>所以第二次运行EXP时，因为驱动已经在后台就绪，自然一路绿灯</p>
-<p>既然32位进程调NtLoadDriver会引发注入死锁，那我们就回归大道至简</p>
-<p>抛弃花里胡哨的底层调用，直接在C++里改用标准的StartServiceW API</p>
-<p>调用StartServiceW后，Windows会把拉起驱动的任务交给services.exe</p>
-<p>这可是个原汁原味的64位原生系统进程</p>
-<p>DsArk驱动一检查，发现是个纯64位环境，瞬间初始化完毕。没有任何死锁，没有任何超时等待，EXP运行瞬间完美拿到设备句柄</p>
-<h2 id="终极死锁toctou与符号链接占坑"><a class="markdownIt-Anchor" href="#终极死锁toctou与符号链接占坑"></a> 终极死锁：TOCTOU与符号链接占坑</h2>
+<h2 id="toctou与符号链接占坑"><a class="markdownIt-Anchor" href="#toctou与符号链接占坑"></a> TOCTOU与符号链接占坑</h2>
 <p>拿到句柄后，IOCTL依然报Error 5 (拒绝访问)</p>
 <p>看处理IOCTL 0x80863028的分发函数，执行前强行调用了sub_1F5F0：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">bool sub_1F5F0() &#123;</span><br><span class="line">    RtlInitUnicodeString(&amp;ObjectName, L&quot;\\Device\\360SelfProtection&quot;);</span><br><span class="line">    if ( IoGetDeviceObjectPointer(&amp;ObjectName, ...) &lt; 0 ) return 0; &#x2F;&#x2F; 找不到 SP 设备直接拒绝</span><br><span class="line">    &#x2F;&#x2F; ... 找到了就发 IOCTL 0x222014 去做白名单验证 ...</span><br><span class="line">    v2 &#x3D; IofCallDriver(FileObject-&gt;DeviceObject, Irp);</span><br><span class="line">    return v2 !&#x3D; -1073741790; &#x2F;&#x2F; 返回 STATUS_ACCESS_DENIED 就拒绝</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -406,6 +379,25 @@
 <p>画蛇添足地拿着明文跑了一遍BCryptDecrypt，硬生生解密成了雪崩乱码</p>
 <p>删掉多余的解密逻辑，直接提取偏移16的DataBuffer</p>
 <p>乱码瞬间变成了期待的0xA</p>
+<hr />
+<h2 id="wow6跨界深坑与注入死锁"><a class="markdownIt-Anchor" href="#wow6跨界深坑与注入死锁"></a> WOW6跨界深坑与注入死锁</h2>
+<p>在解决了驱动加载和结构体对齐问题后，遇到了一个极度折磨人的玄学现象</p>
+<p>第一次运行EXP，加载线程必卡死，等待超时后最终报Error 2(找不到设备)</p>
+<p>但只要紧接着跑第二次，就能瞬间提权成功拿到SYSTEM</p>
+<p>起初，这被误判为DsArk驱动在内核里死等某些依赖（如360FsFlt）导致的超时机制，甚至一度试图在代码里写个90秒的死循环去硬抗</p>
+<p>但复盘底层的调用链后发现，这完全是架构冲突导致的32位注入死锁</p>
+<p>由于宿主程序360ceupdate.exe是32位的，最初的设想是利用Heaven’s Gate，在32位环境下直接切到64位模式，去执行原生的NtLoadDriver系统调用来强行拉起驱动</p>
+<p>DsArk64.sys作为一个安全驱动，它的DriverEntry并非仅仅创建设备</p>
+<p>它会溯源、检查当前是哪个进程拉起了它，并极有可能尝试向调用进程挂钩子或注入回调</p>
+<p>当一个原生的64位杀软驱动，试图在初始化阶段去注入并解析一个WOW64的32位进程时，底层的架构冲突直接引发了内核级的注入死锁</p>
+<p>这也是为什么第一次运行时进程会无声无息地卡死</p>
+<p>那为什么第二次能秒成？</p>
+<p>因为当第一次EXP因超时报错而退出（32位进程被系统物理销毁）时，内核里那个死锁的条件瞬间被打破了——驱动发现目标进程没了，立刻放弃了挂钩拦截，顺畅地走完了后续的DriverEntry流程并创建了\Device\DsArk</p>
+<p>所以第二次运行EXP时，驱动已经在后台就绪，自然一路绿灯</p>
+<p>既然在32位进程里直接调用NtLoadDriver会引发死锁，破局之道就是回归大道至简，利用Windows的原生机制：抛弃花里胡哨的底层调用，直接在C++里改用标准的StartServiceW API</p>
+<p>调用StartServiceW后，Windows会将拉起驱动的任务通过RPC移交给services.exe，一个64位原生系统进程</p>
+<p>DsArk驱动一检查，发现是个纯64位环境，瞬间初始化完毕</p>
+<p>没有任何死锁，没有任何超时等待，完美避开了WOW64的所有历史遗留问题</p>
 <hr />
 <h2 id="1231版本与1235版本的机制差异与占坑表现"><a class="markdownIt-Anchor" href="#1231版本与1235版本的机制差异与占坑表现"></a> 1231版本与1235版本的机制差异与占坑表现</h2>
 <p>最初分析的是24年1月的1231版本，也就是loldrivers.io上的</p>
@@ -564,7 +556,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#kdhacker64_evsys"><span class="nav-number">1.</span> <span class="nav-text"> kdhacker64_ev.sys</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dsark64sys"><span class="nav-number">2.</span> <span class="nav-text"> DsArk64.sys</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E9%94%99%E4%BD%8D%E4%B8%8E%E5%9F%BA%E5%9D%80%E7%A9%B7%E4%B8%BE"><span class="nav-number">2.1.</span> <span class="nav-text"> 结构体错位与基址穷举</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A9%B1%E5%8A%A8%E5%8A%A0%E8%BD%BD%E6%9C%9F%E7%9A%84%E6%9F%A5%E6%88%B7%E5%8F%A3"><span class="nav-number">2.2.</span> <span class="nav-text"> 驱动加载期的&quot;查户口&quot;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wow6%E8%B7%A8%E7%95%8C%E6%B7%B1%E5%9D%91%E4%B8%8E%E6%B3%A8%E5%85%A5%E6%AD%BB%E9%94%81"><span class="nav-number">2.3.</span> <span class="nav-text"> WOW6跨界深坑与注入死锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E6%A0%B8%E7%AB%9E%E6%80%81%E4%B8%8E%E6%AD%BB%E7%AD%89%E9%98%BB%E5%A1%9E"><span class="nav-number">2.4.</span> <span class="nav-text"> 内核竞态与死等阻塞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%88%E6%9E%81%E6%AD%BB%E9%94%81toctou%E4%B8%8E%E7%AC%A6%E5%8F%B7%E9%93%BE%E6%8E%A5%E5%8D%A0%E5%9D%91"><span class="nav-number">2.5.</span> <span class="nav-text"> 终极死锁：TOCTOU与符号链接占坑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A2%AB%E5%9D%91%E6%83%A8%E7%9A%84%E5%AF%86%E7%A0%81%E5%AD%A6"><span class="nav-number">2.6.</span> <span class="nav-text"> 被坑惨的密码学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1231%E7%89%88%E6%9C%AC%E4%B8%8E1235%E7%89%88%E6%9C%AC%E7%9A%84%E6%9C%BA%E5%88%B6%E5%B7%AE%E5%BC%82%E4%B8%8E%E5%8D%A0%E5%9D%91%E8%A1%A8%E7%8E%B0"><span class="nav-number">2.7.</span> <span class="nav-text"> 1231版本与1235版本的机制差异与占坑表现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#aar"><span class="nav-number">2.8.</span> <span class="nav-text"> AAR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#aaw"><span class="nav-number">2.9.</span> <span class="nav-text"> AAW</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exp"><span class="nav-number">2.10.</span> <span class="nav-text"> EXP</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#kdhacker64_evsys"><span class="nav-number">1.</span> <span class="nav-text"> kdhacker64_ev.sys</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dsark64sys"><span class="nav-number">2.</span> <span class="nav-text"> DsArk64.sys</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E9%94%99%E4%BD%8D%E4%B8%8E%E5%9F%BA%E5%9D%80%E7%A9%B7%E4%B8%BE"><span class="nav-number">2.1.</span> <span class="nav-text"> 结构体错位与基址穷举</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A9%B1%E5%8A%A8%E5%8A%A0%E8%BD%BD%E6%9C%9F%E7%9A%84%E6%9F%A5%E6%88%B7%E5%8F%A3"><span class="nav-number">2.2.</span> <span class="nav-text"> 驱动加载期的&quot;查户口&quot;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#toctou%E4%B8%8E%E7%AC%A6%E5%8F%B7%E9%93%BE%E6%8E%A5%E5%8D%A0%E5%9D%91"><span class="nav-number">2.3.</span> <span class="nav-text"> TOCTOU与符号链接占坑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A2%AB%E5%9D%91%E6%83%A8%E7%9A%84%E5%AF%86%E7%A0%81%E5%AD%A6"><span class="nav-number">2.4.</span> <span class="nav-text"> 被坑惨的密码学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wow6%E8%B7%A8%E7%95%8C%E6%B7%B1%E5%9D%91%E4%B8%8E%E6%B3%A8%E5%85%A5%E6%AD%BB%E9%94%81"><span class="nav-number">2.5.</span> <span class="nav-text"> WOW6跨界深坑与注入死锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1231%E7%89%88%E6%9C%AC%E4%B8%8E1235%E7%89%88%E6%9C%AC%E7%9A%84%E6%9C%BA%E5%88%B6%E5%B7%AE%E5%BC%82%E4%B8%8E%E5%8D%A0%E5%9D%91%E8%A1%A8%E7%8E%B0"><span class="nav-number">2.6.</span> <span class="nav-text"> 1231版本与1235版本的机制差异与占坑表现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#aar"><span class="nav-number">2.7.</span> <span class="nav-text"> AAR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#aaw"><span class="nav-number">2.8.</span> <span class="nav-text"> AAW</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exp"><span class="nav-number">2.9.</span> <span class="nav-text"> EXP</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
