@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<meta name="referrer" content="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon.svg">
+  <link rel="mask-icon" href="/images/logo_icon.svg" color="#222">
+  <link rel="manifest" href="/images/logo_icon.svg">
+  <meta name="msapplication-config" content="/images/logo_icon.svg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=consolas:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoloyolo.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="自己当初死活解不出来的题现在AI能秒解 令人感慨">
+<meta property="og:type" content="article">
+<meta property="og:title" content="密码学题解两则">
+<meta property="og:url" content="https://yoloyolo.top/2026/05/10/Diophantine-Equation/index.html">
+<meta property="og:site_name" content="xXxYOLOxXx">
+<meta property="og:description" content="自己当初死活解不出来的题现在AI能秒解 令人感慨">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://yoloyolo.top/images/diophantine/Diophantine_Fruits.jpg">
+<meta property="article:published_time" content="2026-05-10T10:12:04.000Z">
+<meta property="article:modified_time" content="2026-05-10T11:29:11.743Z">
+<meta property="article:author" content="xXxYOLOxXx">
+<meta property="article:tag" content="Crypto">
+<meta property="article:tag" content="RSA">
+<meta property="article:tag" content="Diophantine Equations">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yoloyolo.top/images/diophantine/Diophantine_Fruits.jpg">
+
+<link rel="canonical" href="https://yoloyolo.top/2026/05/10/Diophantine-Equation/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>密码学题解两则 | xXxYOLOxXx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xXxYOLOxXx" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xXxYOLOxXx</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">xXxYOLOxXx</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="links fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yoloyolo.top/2026/05/10/Diophantine-Equation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xXxYOLOxXx">
+      <meta itemprop="description" content="Explorer for unknown.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xXxYOLOxXx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          密码学题解两则
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2026-05-10 18:12:04 / Modified: 19:29:11" itemprop="dateCreated datePublished" datetime="2026-05-10T18:12:04+08:00">2026-05-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WriteUp/" itemprop="url" rel="index"><span itemprop="name">WriteUp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>自己当初死活解不出来的题现在AI能秒解</p>
+<p>令人感慨</p>
+<a id="more"></a>
+<h1 id="虎符杯-2021-crypto-cubic"><a class="markdownIt-Anchor" href="#虎符杯-2021-crypto-cubic"></a> 虎符杯 2021 Crypto – Cubic</h1>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env python3</span><br><span class="line">from math import gcd</span><br><span class="line">from functools import reduce</span><br><span class="line">from fractions import Fraction as Frac</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">N &#x3D; 6</span><br><span class="line"></span><br><span class="line">def read_num(prompt):</span><br><span class="line">    try:</span><br><span class="line">        num &#x3D; int(input(prompt))</span><br><span class="line">    except:</span><br><span class="line">        return 0</span><br><span class="line">    return num if num &gt; 0 else 0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">print(f&quot;Please give me &#123;N&#125; pairs of positive integers (x,y,z) &quot;</span><br><span class="line">      f&quot;satisfying the equation &#96;x&#x2F;(y+z) + y&#x2F;(z+x) + z&#x2F;(x+y) &#x3D; &#123;N&#125;&#96;\n&quot;)</span><br><span class="line"></span><br><span class="line">anss &#x3D; []</span><br><span class="line">mark &#x3D; 0</span><br><span class="line">for i in range(N):</span><br><span class="line">    x &#x3D; read_num(&quot;[&gt;] x: &quot;)</span><br><span class="line">    y &#x3D; read_num(&quot;[&gt;] y: &quot;)</span><br><span class="line">    z &#x3D; read_num(&quot;[&gt;] z: &quot;)</span><br><span class="line">    if x * y * z &#x3D;&#x3D; 0: # positive integer</span><br><span class="line">        mark &#x3D; 1</span><br><span class="line">        print(&quot;This is not what i want!\n&quot;)</span><br><span class="line">        break</span><br><span class="line">    if reduce(gcd, [x, y, z]) !&#x3D; 1: # (kx, ky, kz)</span><br><span class="line">        mark &#x3D; 1</span><br><span class="line">        print(&quot;This is not what i want!\n&quot;)</span><br><span class="line">        break</span><br><span class="line">    if Frac(x, y+z) + Frac(y, z+x) + Frac(z, x+y) !&#x3D; N:</span><br><span class="line">        mark &#x3D; 1</span><br><span class="line">        print(&quot;This is not what i want!\n&quot;)</span><br><span class="line">        break</span><br><span class="line">    ans &#x3D; tuple(sorted([x, y, z])) # (y, x, z)</span><br><span class="line">    if ans in anss:</span><br><span class="line">        mark &#x3D; 1</span><br><span class="line">        print(&quot;This is not what i want!\n&quot;)</span><br><span class="line">        break</span><br><span class="line">    else:</span><br><span class="line">        print(&quot;You are right!\n&quot;)</span><br><span class="line">        anss.append(ans)</span><br><span class="line">if mark &#x3D;&#x3D; 0:</span><br><span class="line">    flag &#x3D; open(&#39;&#x2F;flag&#39;, &#39;r&#39;).read()</span><br><span class="line">    print(&quot;flag is: &quot; + flag + &quot;\n&quot;)</span><br><span class="line">else:</span><br><span class="line">    print(&quot;Something wrong!\n&quot;)</span><br></pre></td></tr></table></figure>
+<p>丢番图方程</p>
+<p>简单翻译下就是下面这个图的意思</p>
+<p><img src="/images/diophantine/Diophantine_Fruits.jpg" alt="Diophantine_Fruits" /></p>
+<p>只不过是4改成了6</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"># 导入构建椭圆曲线所需的模块</span><br><span class="line">from sage.schemes.elliptic_curves.constructor import EllipticCurve_from_cubic</span><br><span class="line">from sage.arith.all import lcm, gcd</span><br><span class="line"></span><br><span class="line"># 1. 定义多项式环和目标值 n</span><br><span class="line">R.&lt;x,y,z&gt; &#x3D; QQ[]</span><br><span class="line">n &#x3D; 6</span><br><span class="line"></span><br><span class="line"># 2. 将原分式方程去分母，构造齐次三次方程</span><br><span class="line">f &#x3D; x*(x+y)*(x+z) + y*(y+x)*(y+z) + z*(z+x)*(z+y) - n*(x+y)*(y+z)*(z+x)</span><br><span class="line"></span><br><span class="line"># 3. 定义需要遍历的三个平凡点</span><br><span class="line">P0_list &#x3D; [</span><br><span class="line">    [1, -1, 0],</span><br><span class="line">    [1, 0, -1],</span><br><span class="line">    [0, 1, -1]</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">print(f&quot;目标方程: x&#x2F;(y+z) + y&#x2F;(x+z) + z&#x2F;(x+y) &#x3D; &#123;n&#125;&quot;)</span><br><span class="line">print(&quot;&#x3D;&quot; * 60)</span><br><span class="line"></span><br><span class="line"># 外层循环：遍历不同的基准点 P0</span><br><span class="line">for idx, P0 in enumerate(P0_list):</span><br><span class="line">    print(f&quot;\n&gt;&gt;&gt; 正在测试第 &#123;idx+1&#125; 个基准点 P0 &#x3D; &#123;P0&#125; &lt;&lt;&lt;&quot;)</span><br><span class="line"></span><br><span class="line">    # 4. 将三次曲线映射为 Weierstrass 标准型的椭圆曲线 E</span><br><span class="line">    try:</span><br><span class="line">        phi &#x3D; EllipticCurve_from_cubic(f, P0, morphism&#x3D;True)</span><br><span class="line">        E &#x3D; phi.codomain()</span><br><span class="line">        phi_inv &#x3D; phi.inverse()</span><br><span class="line">        print(f&quot;[*] 成功映射到椭圆曲线: &#123;E&#125;&quot;)</span><br><span class="line">    except Exception as e:</span><br><span class="line">        print(f&quot;[-] 映射失败，跳过: &#123;e&#125;&quot;)</span><br><span class="line">        continue</span><br><span class="line"></span><br><span class="line">    # 5. 使用 Simon 2-descent 算法快速抓取独立点</span><br><span class="line">    print(&quot;[*] 正在使用 Simon 2-descent 快速搜索无限阶点...&quot;)</span><br><span class="line">    descent_pts &#x3D; E.simon_two_descent()[2]</span><br><span class="line"></span><br><span class="line">    if len(descent_pts) &#x3D;&#x3D; 0:</span><br><span class="line">        print(&quot;[-] 快速下降法未能找到无限阶点，跳过。&quot;)</span><br><span class="line">        continue</span><br><span class="line">    </span><br><span class="line">    G &#x3D; descent_pts[0]</span><br><span class="line">    print(f&quot;[*] 成功抓取非扭点 G: &#123;G&#125;&quot;)</span><br><span class="line"></span><br><span class="line">    # 6. 遍历生成元的倍数 k*G，寻找 x, y, z 同号的解</span><br><span class="line">    found &#x3D; False</span><br><span class="line">    print(&quot;[*] 开始在 k &lt;&#x3D; 100 范围内搜索正整数解...&quot;)</span><br><span class="line"></span><br><span class="line">    for k in range(1, 101):  # 包含 100</span><br><span class="line">        # 计算椭圆曲线上的 k 倍点</span><br><span class="line">        P_E &#x3D; k * G</span><br><span class="line">        </span><br><span class="line">        # 将点逆映射回原三次曲线的齐次坐标 (x:y:z)</span><br><span class="line">        try:</span><br><span class="line">            P_cubic &#x3D; phi_inv(P_E)</span><br><span class="line">        except ValueError:</span><br><span class="line">            continue</span><br><span class="line">            </span><br><span class="line">        x_val, y_val, z_val &#x3D; P_cubic[0], P_cubic[1], P_cubic[2]</span><br><span class="line"></span><br><span class="line">        if x_val &#x3D;&#x3D; 0 or y_val &#x3D;&#x3D; 0 or z_val &#x3D;&#x3D; 0:</span><br><span class="line">            continue</span><br><span class="line"></span><br><span class="line">        # 检查是否同号</span><br><span class="line">        if (x_val &gt; 0 and y_val &gt; 0 and z_val &gt; 0) or (x_val &lt; 0 and y_val &lt; 0 and z_val &lt; 0):</span><br><span class="line">            print(f&quot;\n[+] 成功找到同号特解！发生在倍数 k &#x3D; &#123;k&#125;&quot;)</span><br><span class="line"></span><br><span class="line">            x_val, y_val, z_val &#x3D; abs(x_val), abs(y_val), abs(z_val)</span><br><span class="line"></span><br><span class="line">            # 通分化简</span><br><span class="line">            d1 &#x3D; x_val.denominator()</span><br><span class="line">            d2 &#x3D; y_val.denominator()</span><br><span class="line">            d3 &#x3D; z_val.denominator()</span><br><span class="line">            lcm_den &#x3D; lcm(d1, lcm(d2, d3))</span><br><span class="line"></span><br><span class="line">            n1 &#x3D; (x_val * lcm_den).numerator()</span><br><span class="line">            n2 &#x3D; (y_val * lcm_den).numerator()</span><br><span class="line">            n3 &#x3D; (z_val * lcm_den).numerator()</span><br><span class="line">            gcd_num &#x3D; gcd(n1, gcd(n2, n3))</span><br><span class="line"></span><br><span class="line">            x_final &#x3D; n1 &#x2F;&#x2F; gcd_num</span><br><span class="line">            y_final &#x3D; n2 &#x2F;&#x2F; gcd_num</span><br><span class="line">            z_final &#x3D; n3 &#x2F;&#x2F; gcd_num</span><br><span class="line"></span><br><span class="line">            print(f&quot;    解的数字长度约为: &#123;len(str(x_final))&#125; 位&quot;)</span><br><span class="line">            print(f&quot;    x &#x3D; &#123;x_final&#125;&quot;)</span><br><span class="line">            print(f&quot;    y &#x3D; &#123;y_final&#125;&quot;)</span><br><span class="line">            print(f&quot;    z &#x3D; &#123;z_final&#125;&quot;)</span><br><span class="line">            </span><br><span class="line">            found &#x3D; True</span><br><span class="line">            break  # 找到解后跳出当前的 k 循环，继续测试下一个 P0</span><br><span class="line"></span><br><span class="line">    if not found:</span><br><span class="line">        print(f&quot;[-] 在 k&lt;&#x3D;100 范围内，基准点 &#123;P0&#125; 未能找到全正解。&quot;)</span><br><span class="line"></span><br><span class="line">print(&quot;\n&quot; + &quot;&#x3D;&quot; * 60)</span><br><span class="line">print(&quot;所有基准点搜索完毕。&quot;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">目标方程: x&#x2F;(y+z) + y&#x2F;(x+z) + z&#x2F;(x+y) &#x3D; 6</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; 正在测试第 1 个基准点 P0 &#x3D; [1, -1, 0] &lt;&lt;&lt;</span><br><span class="line">[*] 成功映射到椭圆曲线: Elliptic Curve defined by y^2 + 8*x*y - 9792*y &#x3D; x^3 + 3176*x^2 - 362304*x - 11985408 over Rational Field</span><br><span class="line">[*] 正在使用 Simon 2-descent 快速搜索无限阶点...</span><br><span class="line">[*] 成功抓取非扭点 G: (-1224 : 68544 : 1)</span><br><span class="line">[*] 开始在 k &lt;&#x3D; 100 范围内搜索正整数解...</span><br><span class="line"></span><br><span class="line">[+] 成功找到同号特解！发生在倍数 k &#x3D; 27</span><br><span class="line">    解的数字长度约为: 800 位</span><br><span class="line">    x &#x3D; 91799790641290895978892693045989377201208936340103016031364426490498736597677568287986160691579377724785392328266339231530225121046175630599728096521939605350739358168216330513241983978233993998988991326492874516049720675702286872816333914372511669802712219058719713832528597339293054368816739355907136102655521941992018553301928493452434474447723992660186680549103802498214282230740469986200770650120969911569599029786866103349814407040007149745644301920170584323025348517461308692357116926947251792699428368596979150563731309323515129474727817938633113832298119162778959620065753052386380251973187273607723986357950763286173562416762837143991547957533832926711542607034850457520418701875848727202883029106928219366050792422975016449024940528092641753838563742427509959090708910325398150439211810947</span><br><span class="line">    y &#x3D; 2370844050733763168653056912182275089135481091989469895123144001232602797883560999259129655883146226759407799774039653583687248933666821013837626069498685816554714705323847460507235277382794614936098961850448835901703891332533224965178208112684042141294337624561114056386810429548483148842597664557193452726536721058295707545479924443144714770275921157720051829171825732745857876583623371634787429544606363093272415125412836762819303421993587964400942215536942030583066797232871335393211395326041484926097986775013694902283133471846514714506451260645208477576233622738192899871671383782415144282058906877965816336875417759881658992236986398952428086504437441217917041059825839022060700048544901256390446316992733932612136873399094430223469630954259137165426566293784012450269989381719756996048058089023</span><br><span class="line">    z &#x3D; 314292671062173921111292961964938688436708560003041812060682883475601482731858816422240383882944462620623567286587503750889103725755740006155575297673642764299712726683321335389717791541964719934510825511641995918205107276454661741769794334108514203164641911236712095598112837257748637990075283636106682003276751427529201991787105193934697041232800134525851852447109810170418723631301828242625191639180887760900486283796646822636577982415485834912490056678350793904299469556675190381984269650656661389359603438215672023664789997298532577361391479552727060752508401019647303083662666278442587228978720394609332929193655411546120631186405265728554188782640067849098497720941130508081137596382759145482661677081314713162009647103220488302296025402048431671351592354184472261402188368030157633491138250760</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; 正在测试第 2 个基准点 P0 &#x3D; [1, 0, -1] &lt;&lt;&lt;</span><br><span class="line">[*] 成功映射到椭圆曲线: Elliptic Curve defined by y^2 - x*y &#x3D; x^3 + 107*x^2 + 2907*x + 23409 over Rational Field</span><br><span class="line">[*] 正在使用 Simon 2-descent 快速搜索无限阶点...</span><br><span class="line">[*] 成功抓取非扭点 G: (-20 : 3 : 1)</span><br><span class="line">[*] 开始在 k &lt;&#x3D; 100 范围内搜索正整数解...</span><br><span class="line"></span><br><span class="line">[+] 成功找到同号特解！发生在倍数 k &#x3D; 11</span><br><span class="line">    解的数字长度约为: 133 位</span><br><span class="line">    x &#x3D; 1218343242702905855792264237868803223073090298310121297526752830558323845503910071851999217959704024280699759290559009162035102974023</span><br><span class="line">    y &#x3D; 2250324022012683866886426461942494811141200084921223218461967377588564477616220767789632257358521952443049813799712386367623925971447</span><br><span class="line">    z &#x3D; 20260869859883222379931520298326390700152988332214525711323500132179943287700005601210288797153868533207131302477269470450828233936557</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; 正在测试第 3 个基准点 P0 &#x3D; [0, 1, -1] &lt;&lt;&lt;</span><br><span class="line">[*] 成功映射到椭圆曲线: Elliptic Curve defined by y^2 + x*y &#x3D; x^3 + 107*x^2 + 2907*x + 23409 over Rational Field</span><br><span class="line">[*] 正在使用 Simon 2-descent 快速搜索无限阶点...</span><br><span class="line">[*] 成功抓取非扭点 G: (-20 : 23 : 1)</span><br><span class="line">[*] 开始在 k &lt;&#x3D; 100 范围内搜索正整数解...</span><br><span class="line"></span><br><span class="line">[+] 成功找到同号特解！发生在倍数 k &#x3D; 11</span><br><span class="line">    解的数字长度约为: 133 位</span><br><span class="line">    x &#x3D; 2250324022012683866886426461942494811141200084921223218461967377588564477616220767789632257358521952443049813799712386367623925971447</span><br><span class="line">    y &#x3D; 20260869859883222379931520298326390700152988332214525711323500132179943287700005601210288797153868533207131302477269470450828233936557</span><br><span class="line">    z &#x3D; 1218343242702905855792264237868803223073090298310121297526752830558323845503910071851999217959704024280699759290559009162035102974023</span><br><span class="line"></span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">所有基准点搜索完毕。</span><br></pre></td></tr></table></figure>
+<hr />
+<h1 id="techworld-2019-crypto-cipher"><a class="markdownIt-Anchor" href="#techworld-2019-crypto-cipher"></a> TechWorld 2019 Crypto – Cipher</h1>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">from Crypto.Util.number import *</span><br><span class="line">flag &#x3D; &quot;flag&#123;xxxxxxxxxxxxxxxxxxx&#125;&quot;</span><br><span class="line">m &#x3D; bytes_to_long(flag)</span><br><span class="line"></span><br><span class="line">p &#x3D; getPrime(512)</span><br><span class="line">q &#x3D; getPrime(512)</span><br><span class="line">n &#x3D; p*q</span><br><span class="line">e &#x3D; 65537</span><br><span class="line"></span><br><span class="line">c &#x3D; pow(m, e, n)</span><br><span class="line"></span><br><span class="line">print(n)</span><br><span class="line"></span><br><span class="line">print(c)</span><br><span class="line"></span><br><span class="line">print(pow(p+q, 2019, n))</span><br><span class="line"></span><br><span class="line">print(pow(p+2019, q, n))</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">96780461394033337689567108259893748486002236738582736851233917468787524740624888972342563373512353586255114495079107335758288612338495963159612655318462375582406898270689435326368556558777898332573467628654624176029376998056045209679733660069957700185941370295208768680659384859188808356284395145787167822039</span><br><span class="line">40902682922928025118571286152821100197674619815758133392785930170320910852655524737284528223471081642113214606615949067348943884072834222360537528813694188078856744138052033683982573167279077201980728210288846946841629237854328330529467598310598928680582754313029091620726738078049238979066396109902383779474</span><br><span class="line">1085028795352905556943262835596573622075429386738984173331064472484066570876869315098105988053006079365050850500671807631253369854693004975237940840141074816205938760953784453832187957129220977719685389206024588149832914477308077438518601216192362909946961689725801155118156088666938733672414905904034952121</span><br><span class="line">58990774595434377063777726247309387841479057068955206198202064573296964307379687905049181435740384194830759666167579369083224550401718886673825411413076522799129655186877044125596908766674290986472905901356969650876446443052520830234766043256136817920934130392728788803076056174028811029278351458894807475631</span><br></pre></td></tr></table></figure>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mo>≡</mo><mo stretchy="false">(</mo><mi>p</mi><mo>+</mo><mi>q</mi><msup><mo stretchy="false">)</mo><mn>2019</mn></msup><mspace></mspace><mspace width="0.4444444444444444em"/><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow><mspace width="0.3333333333333333em"/><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">a \equiv (p + q)^{2019} \pmod n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46375em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">p</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span><span class="mord mtight">1</span><span class="mord mtight">9</span></span></span></span></span></span></span></span></span><span class="mspace allowbreak"></span><span class="mspace" style="margin-right:0.4444444444444444em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord mathrm">m</span><span class="mord mathrm">o</span><span class="mord mathrm">d</span></span></span><span class="mspace" style="margin-right:0.3333333333333333em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mo>≡</mo><msup><mi>p</mi><mn>2019</mn></msup><mo>+</mo><msub><mi>c</mi><mn>1</mn></msub><msup><mi>p</mi><mn>2018</mn></msup><mi>q</mi><mo>+</mo><msub><mi>c</mi><mn>2</mn></msub><msup><mi>p</mi><mn>2017</mn></msup><msup><mi>q</mi><mn>2</mn></msup><mo>+</mo><mo>⋯</mo><mo>+</mo><msub><mi>c</mi><mn>2018</mn></msub><mi>p</mi><msup><mi>q</mi><mn>2018</mn></msup><mo>+</mo><msup><mi>q</mi><mn>2019</mn></msup><mspace></mspace><mspace width="0.4444444444444444em"/><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow><mspace width="0.3333333333333333em"/><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">a \equiv p^{2019} + c_{1}p^{2018}q + c_{2}p^{2017}q^{2} + \dots + c_{2018}pq^{2018} + q^{2019} \pmod n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46375em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.008548em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span><span class="mord mtight">1</span><span class="mord mtight">9</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.008548em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span><span class="mord mtight">1</span><span class="mord mtight">8</span></span></span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.008548em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span><span class="mord mtight">1</span><span class="mord mtight">7</span></span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.008548em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span><span class="mord mtight">1</span><span class="mord mtight">8</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">p</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span><span class="mord mtight">1</span><span class="mord mtight">8</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.008548em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span><span class="mord mtight">1</span><span class="mord mtight">9</span></span></span></span></span></span></span></span></span><span class="mspace allowbreak"></span><span class="mspace" style="margin-right:0.4444444444444444em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord mathrm">m</span><span class="mord mathrm">o</span><span class="mord mathrm">d</span></span></span><span class="mspace" style="margin-right:0.3333333333333333em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mo>≡</mo><msup><mi>p</mi><mn>2019</mn></msup><mo>+</mo><msub><mi>k</mi><mn>1</mn></msub><mi>n</mi><mo>+</mo><mo>⋯</mo><mo>+</mo><msub><mi>k</mi><mn>2018</mn></msub><mi>n</mi><mo>+</mo><msup><mi>q</mi><mn>2019</mn></msup><mspace></mspace><mspace width="0.4444444444444444em"/><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow><mspace width="0.3333333333333333em"/><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">a \equiv p^{2019} + k_{1}n + \dots + k_{2018}n + q^{2019} \pmod n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46375em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.008548em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span><span class="mord mtight">1</span><span class="mord mtight">9</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03148em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03148em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span><span class="mord mtight">1</span><span class="mord mtight">8</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.008548em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span><span class="mord mtight">1</span><span class="mord mtight">9</span></span></span></span></span></span></span></span></span><span class="mspace allowbreak"></span><span class="mspace" style="margin-right:0.4444444444444444em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord mathrm">m</span><span class="mord mathrm">o</span><span class="mord mathrm">d</span></span></span><span class="mspace" style="margin-right:0.3333333333333333em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mo>≡</mo><msup><mi>p</mi><mn>2019</mn></msup><mo>+</mo><msup><mi>q</mi><mn>2019</mn></msup><mspace></mspace><mspace width="0.4444444444444444em"/><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow><mspace width="0.3333333333333333em"/><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">a \equiv p^{2019} + q^{2019} \pmod n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46375em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.008548em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span><span class="mord mtight">1</span><span class="mord mtight">9</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.008548em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span><span class="mord mtight">1</span><span class="mord mtight">9</span></span></span></span></span></span></span></span></span><span class="mspace allowbreak"></span><span class="mspace" style="margin-right:0.4444444444444444em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord mathrm">m</span><span class="mord mathrm">o</span><span class="mord mathrm">d</span></span></span><span class="mspace" style="margin-right:0.3333333333333333em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mo>≡</mo><msup><mi>p</mi><mn>2019</mn></msup><mspace></mspace><mspace width="0.4444444444444444em"/><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow><mspace width="0.3333333333333333em"/><mi>q</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">a \equiv p^{2019} \pmod q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46375em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.008548em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span><span class="mord mtight">1</span><span class="mord mtight">9</span></span></span></span></span></span></span></span></span><span class="mspace allowbreak"></span><span class="mspace" style="margin-right:0.4444444444444444em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord mathrm">m</span><span class="mord mathrm">o</span><span class="mord mathrm">d</span></span></span><span class="mspace" style="margin-right:0.3333333333333333em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mclose">)</span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>b</mi><mo>≡</mo><mo stretchy="false">(</mo><mi>p</mi><mo>+</mo><mn>2019</mn><msup><mo stretchy="false">)</mo><mi>q</mi></msup><mspace></mspace><mspace width="0.4444444444444444em"/><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow><mspace width="0.3333333333333333em"/><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">b \equiv (p + 2019)^{q} \pmod n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">p</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mord">0</span><span class="mord">1</span><span class="mord">9</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">q</span></span></span></span></span></span></span></span></span><span class="mspace allowbreak"></span><span class="mspace" style="margin-right:0.4444444444444444em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord mathrm">m</span><span class="mord mathrm">o</span><span class="mord mathrm">d</span></span></span><span class="mspace" style="margin-right:0.3333333333333333em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>b</mi><mo>≡</mo><mo stretchy="false">(</mo><mi>p</mi><mo>+</mo><mn>2019</mn><msup><mo stretchy="false">)</mo><mi>q</mi></msup><mspace></mspace><mspace width="0.4444444444444444em"/><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow><mspace width="0.3333333333333333em"/><mi>q</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">b \equiv (p + 2019)^{q} \pmod q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">p</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mord">0</span><span class="mord">1</span><span class="mord">9</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">q</span></span></span></span></span></span></span></span></span><span class="mspace allowbreak"></span><span class="mspace" style="margin-right:0.4444444444444444em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord mathrm">m</span><span class="mord mathrm">o</span><span class="mord mathrm">d</span></span></span><span class="mspace" style="margin-right:0.3333333333333333em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mclose">)</span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>b</mi><mo>≡</mo><mi>p</mi><mo>+</mo><mn>2019</mn><mspace></mspace><mspace width="0.4444444444444444em"/><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow><mspace width="0.3333333333333333em"/><mi>q</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">b \equiv p + 2019 \pmod q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7777700000000001em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">p</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">0</span><span class="mord">1</span><span class="mord">9</span><span class="mspace allowbreak"></span><span class="mspace" style="margin-right:0.4444444444444444em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord mathrm">m</span><span class="mord mathrm">o</span><span class="mord mathrm">d</span></span></span><span class="mspace" style="margin-right:0.3333333333333333em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mclose">)</span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo stretchy="false">(</mo><mi>b</mi><mo>−</mo><mn>2019</mn><msup><mo stretchy="false">)</mo><mn>2019</mn></msup><mo>≡</mo><mi>a</mi><mspace></mspace><mspace width="0.4444444444444444em"/><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow><mspace width="0.3333333333333333em"/><mi>q</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(b - 2019)^{2019} \equiv a \pmod q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mord">0</span><span class="mord">1</span><span class="mord">9</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span><span class="mord mtight">1</span><span class="mord mtight">9</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mspace allowbreak"></span><span class="mspace" style="margin-right:0.4444444444444444em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord mathrm">m</span><span class="mord mathrm">o</span><span class="mord mathrm">d</span></span></span><span class="mspace" style="margin-right:0.3333333333333333em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mclose">)</span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo stretchy="false">(</mo><mi>b</mi><mo>−</mo><mn>2019</mn><msup><mo stretchy="false">)</mo><mn>2019</mn></msup><mo>−</mo><mi>a</mi><mo>≡</mo><mn>0</mn><mspace></mspace><mspace width="0.4444444444444444em"/><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow><mspace width="0.3333333333333333em"/><mi>q</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(b - 2019)^{2019} - a \equiv 0 \pmod q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mord">0</span><span class="mord">1</span><span class="mord">9</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span><span class="mord mtight">1</span><span class="mord mtight">9</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.46375em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mspace allowbreak"></span><span class="mspace" style="margin-right:0.4444444444444444em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord mathrm">m</span><span class="mord mathrm">o</span><span class="mord mathrm">d</span></span></span><span class="mspace" style="margin-right:0.3333333333333333em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mclose">)</span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo stretchy="false">(</mo><mi>b</mi><mo>−</mo><mn>2019</mn><msup><mo stretchy="false">)</mo><mn>2019</mn></msup><mo>−</mo><mi>a</mi><mo>=</mo><mi>k</mi><mi>q</mi></mrow><annotation encoding="application/x-tex">(b - 2019)^{2019} - a = kq</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mord">0</span><span class="mord">1</span><span class="mord">9</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span><span class="mord mtight">1</span><span class="mord mtight">9</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>q</mi><mo>=</mo><mi>gcd</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>k</mi><mi>q</mi><mo separator="true">,</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">q = \gcd(kq, n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop"><span style="margin-right:0.01389em;">g</span>cd</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import gmpy2</span><br><span class="line">from Crypto.Util.number import *</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">n &#x3D; 96780461394033337689567108259893748486002236738582736851233917468787524740624888972342563373512353586255114495079107335758288612338495963159612655318462375582406898270689435326368556558777898332573467628654624176029376998056045209679733660069957700185941370295208768680659384859188808356284395145787167822039</span><br><span class="line">c &#x3D; 40902682922928025118571286152821100197674619815758133392785930170320910852655524737284528223471081642113214606615949067348943884072834222360537528813694188078856744138052033683982573167279077201980728210288846946841629237854328330529467598310598928680582754313029091620726738078049238979066396109902383779474</span><br><span class="line">a &#x3D; 1085028795352905556943262835596573622075429386738984173331064472484066570876869315098105988053006079365050850500671807631253369854693004975237940840141074816205938760953784453832187957129220977719685389206024588149832914477308077438518601216192362909946961689725801155118156088666938733672414905904034952121</span><br><span class="line">b &#x3D; 58990774595434377063777726247309387841479057068955206198202064573296964307379687905049181435740384194830759666167579369083224550401718886673825411413076522799129655186877044125596908766674290986472905901356969650876446443052520830234766043256136817920934130392728788803076056174028811029278351458894807475631</span><br><span class="line">e &#x3D; 65537</span><br><span class="line"></span><br><span class="line">x &#x3D; pow(b - 2019, 2019, n)</span><br><span class="line">q &#x3D; gmpy2.gcd(a - x, n)</span><br><span class="line">p &#x3D; n &#x2F;&#x2F; q</span><br><span class="line">phi &#x3D; (p - 1) * (q - 1)</span><br><span class="line">d &#x3D; gmpy2.invert(e, phi)</span><br><span class="line">m &#x3D; pow(c, d, n)</span><br><span class="line">flag &#x3D; long_to_bytes(m)</span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
+<p>flag{binomial_exp4ns1on}</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>xXxYOLOxXx
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://yoloyolo.top/2026/05/10/Diophantine-Equation/" title="密码学题解两则">https://yoloyolo.top/2026/05/10/Diophantine-Equation/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Crypto/" rel="tag"># Crypto</a>
+              <a href="/tags/RSA/" rel="tag"># RSA</a>
+              <a href="/tags/Diophantine-Equations/" rel="tag"># Diophantine Equations</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2026/05/06/Application-of-VIP/" rel="prev" title="虚拟IP的应用">
+      <i class="fa fa-chevron-left"></i> 虚拟IP的应用
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%99%8E%E7%AC%A6%E6%9D%AF-2021-crypto-cubic"><span class="nav-number">1.</span> <span class="nav-text"> 虎符杯 2021 Crypto – Cubic</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#techworld-2019-crypto-cipher"><span class="nav-number">2.</span> <span class="nav-text"> TechWorld 2019 Crypto – Cipher</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xXxYOLOxXx</p>
+  <div class="site-description" itemprop="description">Explorer for unknown.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">65</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/monster414" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;monster414" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yolo-yolo@qq.com" title="E-Mail → mailto:yolo-yolo@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/Purple_Miracle/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;Purple_Miracle&#x2F;" rel="noopener" target="_blank"><i class=" fa-fw"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yoloyolo.top/atom.xml" title="RSS → https:&#x2F;&#x2F;yoloyolo.top&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xXxYOLOxXx</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
